@@ -1,0 +1,27 @@
+
+.#{$pluginName}-control-wrapper {
+	margin-top: 5px;
+
+	&.display-inline {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 10px;
+
+		.#{$pluginName}-control-wrapper-header {
+			margin-bottom: 0;
+		}
+	}
+	.#{$pluginName}-control-wrapper-header {
+		display: flex;
+		align-items: center;
+		margin-bottom: 10px;
+
+		span {
+			margin-right: 5px;
+		}
+	}
+	.#{$pluginName}-control-wrapper-content {
+		min-width: 50%;
+	}
+}

@@ -1,0 +1,33 @@
+
+.#{$pluginName}-group {
+	position: relative;
+
+	.#{$pluginName}-group-inner {
+		position: relative;
+
+		:first-child {
+			margin-top: 0;
+		}
+		:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+.#{$pluginName}-bg-video-wrap {
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+	overflow: hidden;
+	z-index: 0;
+}
+.#{$pluginName}-bg-video {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}

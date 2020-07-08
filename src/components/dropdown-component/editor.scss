@@ -1,0 +1,11 @@
+
+.#{$pluginName}-dropdown {
+	display: block;
+}
+.#{$pluginName}-dropdown-content .components-popover__content {
+	padding: 10px;
+}
+.#{$pluginName}-popover-content > div {
+	margin-bottom: 8px !important;
+}
+

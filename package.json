@@ -1,0 +1,46 @@
+{
+	"name": "scblocks",
+	"title": "ScBlocks",
+	"version": "1.0.0",
+	"private": true,
+	"description": "ScBlocks is a set of blocks that facilitate the creation of a page in the new editor.",
+	"author": "sc81",
+	"license": "GPL-2.0",
+	"keywords": [
+		"WordPress",
+		"ScBlocks",
+		"blocks"
+	],
+	"homepage": "https://github.com/sc81/scblocks#readme",
+	"repository": "git+https://github.com/sc81/scblocks.git",
+	"bugs": {
+		"url": "https://github.com/sc81/scblocks/issues"
+	},
+	"dependencies": {
+		"classnames": "2.2.6",
+		"immer": "^3.3.0"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^12.0.0",
+		"@wordpress/env": "^1.6.0",
+		"po2json": "^0.4.5"
+	},
+	"scripts": {
+		"setup": "composer install && npm install && npm run build && wp-env start",
+		"start": "wp-scripts start",
+		"build": "wp-scripts build",
+		"clean": "wp-env stop && rm -rf build dist node_modules vendor composer.lock package-lock.json",
+		"makepot": "composer wp -- i18n make-pot . ./languages/scblocks.pot --skip-audit --exclude=build,dist,node_modules,vendor,wordpress --headers='{\"Last-Translator\":\"sc81\",\"Report-Msgid-Bugs-To\":\"https://github.com/sc81/scblocks/issues\"}' --file-comment=\"Copyright (c) 2020 sc81, LLC. All Rights Reserved.\"",
+		"po2json": "po2json ./languages/scblocks.pot ./languages/scblocks.json --format=jed1.x --pretty --domain=scblocks",
+		"format-js": "wp-scripts format-js",
+		"lint-css": "wp-scripts lint-style",
+		"lint-css:fix": "npm run lint-css -- --fix",
+		"lint-js": "wp-scripts lint-js",
+		"lint-js:fix": "npm run lint-js -- --fix",
+		"lint-php": "composer phpcs",
+		"lint-php:fix": "composer phpcbf",
+		"lint-md-docs": "wp-scripts lint-md-docs",
+		"lint-md-js": "wp-scripts lint-md-js",
+		"wp-env": "wp-env"
+	}
+}

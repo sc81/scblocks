@@ -1,0 +1,13 @@
+
+.#{$pluginName}-number-control-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.#{$pluginName}-number-control-header-left {
+	display: flex;
+	align-items: center;
+}
+.#{$pluginName}-number-control-header-right {
+	padding-right: 5px;
+}

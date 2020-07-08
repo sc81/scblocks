@@ -1,0 +1,52 @@
+
+.components-color-picker__body.#{$pluginName}-color-picker-body {
+	padding: 0 16px;
+
+	.#{$pluginName}-color-picker-text {
+		margin-bottom: 4px;
+	}
+}
+.#{$pluginName}-color-picker-wrapper {
+	margin-bottom: 10px;
+	width: 100%;
+
+	.#{$pluginName}-inline-elements {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.#{$pluginName}-inline-buttons {
+		display: flex;
+		align-items: center;
+
+		& > button > svg {
+			height: 16px;
+			width: 16px;
+		}
+
+		.#{$pluginName}-color-picker-open-button {
+			width: 40px;
+			border-radius: 1px;
+			height: 24px;
+			background-color: #fff;
+			padding: 0;
+			text-align: center;
+			border: 1px solid #0073aa;
+			margin-left: 4px;
+			background-image: linear-gradient(45deg, #ddd 25%, transparent 0), linear-gradient(-45deg, #ddd 25%, transparent 0), linear-gradient(45deg, transparent 75%, #ddd 0), linear-gradient(-45deg, transparent 75%, #ddd 0);
+			background-size: 10px 10px;
+			background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			.#{$pluginName}-color-picker-indicator {
+				width: 33px;
+				height: 18px;
+				border-radius: 1px;
+				cursor: pointer;
+			}
+		}
+	}
+}
+

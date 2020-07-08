@@ -1,0 +1,14 @@
+
+
+.#{$pluginName}-select-control .components-base-control__field {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	.components-base-control__label {
+		flex-basis: 49%;
+	}
+	.components-select-control__input {
+		flex-basis: 48%;
+	}
+}
