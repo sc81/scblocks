@@ -4,7 +4,7 @@
  * Plugin Name: ScBlocks
  * Description: ScBlocks is a set of blocks that facilitate the creation of a page in the new editor.
  * Author: sc81
- * Version: 0.1
+ * Version: 0.1.0
  * Text Domain: scblocks
  * Domain Path: /languages
  * Tested up to: 5.4.0
@@ -14,9 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SCBLOCKS_VERSION', '0.1' );
+define( 'SCBLOCKS_VERSION', '0.1.0' );
 
-define( 'SCBLOCKS_CSS_VERSION', '0.1' );
+define( 'SCBLOCKS_CSS_VERSION', '0.1.0' );
 
 define( 'SCBLOCKS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -43,8 +43,6 @@ if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
  *
  * Warning when the site doesn't have the minimum required PHP version.
  *
- * @since 0.1
- *
  * @return void
  */
 function scblocks_fail_php_version() {
@@ -57,8 +55,7 @@ function scblocks_fail_php_version() {
  * ScBlocks admin notice for minimum WordPress version.
  *
  * Warning when the site doesn't have the minimum required WordPress version.
- *
- * @since 0.1
+ * 
  */
 function scblocks_pro_fail_wp_version() {
 	/* translators: %s: WordPress version */
