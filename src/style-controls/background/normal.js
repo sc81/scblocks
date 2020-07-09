@@ -30,6 +30,7 @@ import Filter from '../filter';
 import Opacity from '../opacity';
 import Color from '../color';
 import { getCssMemoValue } from '../../hooks/use-block-memo';
+import retriveUrl from './utils';
 
 function changeBgType( {
 	value,
@@ -37,7 +38,6 @@ function changeBgType( {
 	setBgType,
 	attributes,
 	setAttributes,
-	devices,
 	selector,
 } ) {
 	setBgType( value );
@@ -45,11 +45,10 @@ function changeBgType( {
 	if ( value === IMAGE_BACKGROUND_TYPE ) {
 		const { properties, settings } = getCssMemoValue(
 			blockMemo,
-			'css',
+			'dynamic',
 			getSelectorPropsSettingsForAllDevices,
 			{
 				selector,
-				devices,
 				props: [
 					names.image,
 					names.size,
@@ -78,7 +77,7 @@ function changeBgType( {
 	} else if ( value === GRADIENT_BACKGROUND_TYPE ) {
 		const backgroundImage = getCssMemoValue(
 			blockMemo,
-			'css',
+			'dynamic',
 			getPropValue,
 			{
 				selector,
@@ -112,7 +111,7 @@ function changeBgType( {
 	} else if ( value === VIDEO_BACKGROUND_TYPE ) {
 		const videoSettings = getCssMemoValue(
 			blockMemo,
-			'css',
+			'dynamic',
 			getSelectorSetting,
 			{
 				selector,
@@ -176,25 +175,26 @@ export default function Normal( props ) {
 		blockMemo,
 	} = props;
 	const [ bgType, setBgType ] = useState( () => {
-		const imageSettings = getSelectorSetting( {
+		const backgroundImage = getPropValue( {
 			attributes,
 			devices,
 			selector,
 			propName: names.image,
 		} );
-		const { url } = imageSettings || {};
-		if ( url ) {
+		if ( retriveUrl( backgroundImage ) ) {
 			return IMAGE_BACKGROUND_TYPE;
 		}
+
 		const gradient = getPropValue( {
 			attributes,
-			devices,
+			devices: ALL_DEVICES,
 			selector,
 			propName: names.image,
 		} );
-		if ( ! url && gradient ) {
+		if ( gradient ) {
 			return GRADIENT_BACKGROUND_TYPE;
 		}
+
 		const videoSettings = getSelectorSetting( {
 			attributes,
 			devices: ALL_DEVICES,
@@ -212,14 +212,13 @@ export default function Normal( props ) {
 			changeBgType( {
 				attributes,
 				setAttributes,
-				devices,
 				selector,
 				blockMemo,
 				value,
 				setBgType,
 			} );
 		},
-		[ attributes, setAttributes, selector, devices, blockMemo, setBgType ]
+		[ attributes, setAttributes, selector, blockMemo, setBgType ]
 	);
 	return (
 		<>

@@ -16,9 +16,9 @@ export function getCssMemoValue( blockMemo, type, callback, callbackProps ) {
 export function setCssMemoValue( blockMemo, callback, callbackProps ) {
 	callback( {
 		...callbackProps,
-		attributes: blockMemo.current.css,
+		attributes: blockMemo.current.dynamic,
 		setAttributes: ( css ) => {
-			blockMemo.current.css = css;
+			blockMemo.current.dynamic = css;
 		},
 	} );
 }
@@ -38,8 +38,8 @@ export function useBlockMemo( attributes, selectors ) {
 
 	if ( blockMemo.current === null ) {
 		blockMemo.current = {};
-		blockMemo.current.initialCss = { css: cloneDeep( attributes.css ) };
-		blockMemo.current.css = { css: {} };
+		blockMemo.current.initial = { css: cloneDeep( attributes.css ) };
+		blockMemo.current.dynamic = { css: cloneDeep( attributes.css ) };
 
 		const obj = {
 			tabPanel: 'main',

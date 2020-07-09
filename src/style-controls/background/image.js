@@ -8,45 +8,52 @@ import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 /**
  * Internal dependencies
  */
-import { setPropsAndSettings, getSelectorSetting } from '../../utils';
+import {
+	setPropsAndSettings,
+	getSelectorSetting,
+	getPropValue,
+} from '../../utils';
 import { PLUGIN_NAME } from '../../constants';
 import { names } from './constants';
-
 import Position from './position';
 import Size from './size';
 import Repeat from './repeat';
 import Attachment from './attachment';
 import ControlWrapper from '../../components/control-wrapper';
 import { setCssMemoValue } from '../../hooks/use-block-memo';
+import retriveUrl from './utils';
 
 const propName = names.image;
 
 export default function Image( props ) {
 	const { attributes, setAttributes, devices, selector, blockMemo } = props;
 
-	const imageSettings = getSelectorSetting( {
+	const id = getSelectorSetting( {
 		attributes,
 		devices,
 		selector,
 		propName,
 	} );
-	const { url, id } = imageSettings || {};
+	const backgroundImage = getPropValue( {
+		attributes,
+		devices,
+		selector,
+		propName,
+	} );
+	const url = retriveUrl( backgroundImage );
 
 	function onSelectMedia( media ) {
 		if ( ! media || ! media.url ) {
 			return;
 		}
-		const image = `url(${ media.url })`;
+		const nextUrl = `url(${ media.url })`;
 
 		setCssMemoValue( blockMemo, setPropsAndSettings, {
 			devices,
 			selector,
-			props: { [ propName ]: image },
+			props: { backgroundImage: nextUrl },
 			settings: {
-				[ propName ]: {
-					url: media.url,
-					id: media.id,
-				},
+				backgroundImage: media.id,
 			},
 		} );
 
@@ -56,13 +63,10 @@ export default function Image( props ) {
 			attributes,
 			setAttributes,
 			props: {
-				[ propName ]: image,
+				backgroundImage: nextUrl,
 			},
 			settings: {
-				[ propName ]: {
-					url: media.url,
-					id: media.id,
-				},
+				backgroundImage: media.id,
 			},
 		} );
 	}
@@ -119,7 +123,7 @@ export default function Image( props ) {
 									onClick={ open }
 								>
 									{ url
-										? __( 'Edit image' )
+										? __( 'Edit' )
 										: __( 'Media Library' ) }
 								</Button>
 							) }
@@ -131,7 +135,7 @@ export default function Image( props ) {
 							isSmall
 							onClick={ () => onRemoveImage() }
 						>
-							{ __( 'Remove image' ) }
+							{ __( 'Remove' ) }
 						</Button>
 					) }
 				</div>
