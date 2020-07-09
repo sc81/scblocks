@@ -1,7 +1,7 @@
 {
 	"name": "scblocks",
 	"title": "ScBlocks",
-	"version": "1.0.0",
+	"version": "0.1",
 	"private": true,
 	"description": "ScBlocks is a set of blocks that facilitate the creation of a page in the new editor.",
 	"author": "sc81",

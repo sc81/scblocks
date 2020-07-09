@@ -4,7 +4,7 @@
  * Plugin Name: ScBlocks
  * Description: ScBlocks is a set of blocks that facilitate the creation of a page in the new editor.
  * Author: sc81
- * Version: 1.0.0
+ * Version: 0.1
  * Text Domain: scblocks
  * Domain Path: /languages
  * Tested up to: 5.4.0
