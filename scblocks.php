@@ -43,7 +43,7 @@ if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
  *
  * Warning when the site doesn't have the minimum required PHP version.
  *
- * @since 1.0.0
+ * @since 0.1
  *
  * @return void
  */
@@ -58,7 +58,7 @@ function scblocks_fail_php_version() {
  *
  * Warning when the site doesn't have the minimum required WordPress version.
  *
- * @since 1.0.0
+ * @since 0.1
  */
 function scblocks_pro_fail_wp_version() {
 	/* translators: %s: WordPress version */
