@@ -2,7 +2,7 @@
 	"name": "sc81/scblocks",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-only",
-	"description": "ScBlocks is a set of blocks that facilitate the creation of a page in the new editor.",
+	"description": "Custom blocks for the new WordPress editor.",
 	"require-dev": {
 		"wp-coding-standards/wpcs": "^2.2.1",
     	"phpcompatibility/phpcompatibility-wp": "^2.1.0",

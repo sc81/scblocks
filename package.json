@@ -3,7 +3,7 @@
 	"title": "ScBlocks",
 	"version": "0.1",
 	"private": true,
-	"description": "ScBlocks is a set of blocks that facilitate the creation of a page in the new editor.",
+	"description": "Custom blocks for the new WordPress editor.",
 	"author": "sc81",
 	"license": "GPL-2.0",
 	"keywords": [
