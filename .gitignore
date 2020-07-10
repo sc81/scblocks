@@ -1,8 +1,6 @@
-dist
 build
 node_modules
 languages
 vendor
-wordpress
 .vscode
 .DS_Store
