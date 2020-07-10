@@ -8,7 +8,6 @@ import { useState, useCallback } from '@wordpress/element';
  */
 import {
 	setPropsAndSettings,
-	getSelectorSetting,
 	getPropValue,
 	getSelectorPropsSettings,
 	getPropertiesValue,
@@ -26,6 +25,7 @@ import Filter from '../filter';
 import Opacity from '../opacity';
 import Color from '../color';
 import { getCssMemoValue } from '../../hooks/use-block-memo';
+import retriveUrl from './utils';
 
 export default function Hover( props ) {
 	const {
@@ -38,26 +38,19 @@ export default function Hover( props ) {
 	} = props;
 
 	const [ bgType, setBgType ] = useState( () => {
-		const imageSettings = getSelectorSetting( {
+		const backgroundImage = getPropValue( {
 			attributes,
 			devices,
 			selector,
 			propName: names.image,
 		} );
-		const { url } = imageSettings || {};
-		if ( url ) {
+		if ( ! backgroundImage ) {
+			return '';
+		}
+		if ( retriveUrl( backgroundImage ) ) {
 			return IMAGE_BACKGROUND_TYPE;
 		}
-		const gradient = getPropValue( {
-			attributes,
-			devices,
-			selector,
-			propName: names.image,
-		} );
-		if ( ! url && gradient ) {
-			return GRADIENT_BACKGROUND_TYPE;
-		}
-		return '';
+		return GRADIENT_BACKGROUND_TYPE;
 	} );
 
 	const onChangeBgType = useCallback(
@@ -67,7 +60,7 @@ export default function Hover( props ) {
 			if ( value === IMAGE_BACKGROUND_TYPE ) {
 				const { properties, settings } = getCssMemoValue(
 					blockMemo,
-					'css',
+					'dynamic',
 					getSelectorPropsSettings,
 					{
 						selector,
@@ -96,7 +89,7 @@ export default function Hover( props ) {
 			} else if ( value === GRADIENT_BACKGROUND_TYPE ) {
 				const properties = getCssMemoValue(
 					blockMemo,
-					'css',
+					'dynamic',
 					getPropertiesValue,
 					{
 						selector,
