@@ -79,6 +79,7 @@ export default function NumberUnit( {
 	onChange,
 	isButtonClear,
 	onClear,
+	withoutSlider,
 	...rest
 } ) {
 	const number = getNumber( value );
@@ -155,14 +156,29 @@ export default function NumberUnit( {
 					) }
 				</div>
 			</div>
-			<RangeControl
-				value={ number }
-				onChange={ onChangeNumber }
-				min={ currentUnitRangeStep[ unit ].min }
-				max={ currentUnitRangeStep[ unit ].max }
-				step={ currentUnitRangeStep[ unit ].step }
-				{ ...rest }
-			/>
+			{ withoutSlider && (
+				<input
+					className="components-range-control__number"
+					type="number"
+					value={ number }
+					onChange={ ( event ) =>
+						onChangeNumber( event.target.value )
+					}
+					min={ currentUnitRangeStep[ unit ].min }
+					max={ currentUnitRangeStep[ unit ].max }
+					step={ currentUnitRangeStep[ unit ].step }
+				/>
+			) }
+			{ ! withoutSlider && (
+				<RangeControl
+					value={ number }
+					onChange={ onChangeNumber }
+					min={ currentUnitRangeStep[ unit ].min }
+					max={ currentUnitRangeStep[ unit ].max }
+					step={ currentUnitRangeStep[ unit ].step }
+					{ ...rest }
+				/>
+			) }
 		</div>
 	);
 }
