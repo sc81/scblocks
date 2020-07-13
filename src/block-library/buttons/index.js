@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { button as icon } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -9,7 +10,6 @@ import { __ } from '@wordpress/i18n';
 import { PLUGIN_NAME } from '../../constants';
 
 import save from './save';
-import icon from '../button/icon';
 import edit from './edit';
 
 export const name = `${ PLUGIN_NAME }/buttons`;
@@ -35,6 +35,7 @@ export const settings = {
 	supports: {
 		alignWide: false,
 		className: false,
+		lightBlockWrapper: true,
 	},
 	edit,
 	save,

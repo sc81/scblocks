@@ -3,7 +3,7 @@
  */
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { RichText } from '@wordpress/block-editor';
+import { RichText,__experimentalBlock as Block, } from '@wordpress/block-editor';
 /**
  * Internal dependencies
  */
@@ -66,7 +66,7 @@ export default function Edit( props ) {
 				blockMemo={ blockMemo }
 				onToggleOpenInNewTab={ onToggleOpenInNewTab }
 			/>
-			<div className={ `${ BUTTON_CLASS } ${ uidClass }` }>
+			<Block.div className={ `${ BUTTON_CLASS } ${ uidClass }` }>
 				<div
 					className={ `${ BUTTON_LINK_CLASS } ${ getIconPositionClass(
 						iconPosition
@@ -96,7 +96,7 @@ export default function Edit( props ) {
 					opensInNewTab={ linkTarget === '_blank' }
 					onToggleOpenInNewTab={ onToggleOpenInNewTab }
 				/>
-			</div>
+			</Block.div>
 		</>
 	);
 }

@@ -2,6 +2,8 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { button as icon } from '@wordpress/icons';
+
 /**
  * Internal dependencies
  */
@@ -14,7 +16,6 @@ import {
 import { PLUGIN_NAME } from '../../constants';
 
 import save from './save';
-import icon from './icon';
 import edit from './edit';
 
 export const name = `${ PLUGIN_NAME }/button`;
@@ -80,6 +81,7 @@ export const settings = {
 		className: false,
 		html: false,
 		reusable: false,
+		lightBlockWrapper: true,
 	},
 	parent: [ `${ PLUGIN_NAME }/buttons` ],
 	edit,

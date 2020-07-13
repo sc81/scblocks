@@ -3,13 +3,12 @@
  */
 import {
 	PLUGIN_NAME,
-	BG_OVERLAY_SELECTOR,
-	BG_OVERLAY_HOVER_SELECTOR,
 } from '../../constants';
 
 export const BUTTONS_CLASS = `${ PLUGIN_NAME }-buttons`;
 export const BUTTONS_SELECTOR = 'selector';
 export const BUTTONS_HOVER_SELECTOR = 'selector:hover';
+
 
 export const selectors = [
 	{
@@ -25,10 +24,5 @@ export const selectors = [
 				padding: true,
 			},
 		},
-		blockMemoRelatedSelectors: [
-			BUTTONS_HOVER_SELECTOR,
-			BG_OVERLAY_SELECTOR,
-			BG_OVERLAY_HOVER_SELECTOR,
-		],
 	},
 ];

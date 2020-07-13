@@ -2,7 +2,11 @@
  * WordPress dependencies
  */
 import { useSelect } from '@wordpress/data';
-import { InnerBlocks, InspectorControls } from '@wordpress/block-editor';
+import { 
+	InnerBlocks, 
+	InspectorControls,
+	__experimentalBlock as Block,
+} from '@wordpress/block-editor';
 
 /**
  * Internal dependencies
@@ -23,7 +27,7 @@ export default function Edit( props ) {
 		[]
 	);
 	const blockMemo = useBlockMemo( attributes, selectors );
-	useDynamicCss( props, selectors, devices );
+	useDynamicCss( props, devices );
 
 	return (
 		<>
@@ -36,12 +40,14 @@ export default function Edit( props ) {
 					blockMemo={ blockMemo }
 				/>
 			</InspectorControls>
-			<div className={ `${ BUTTONS_CLASS } ${ attributes.uidClass }` }>
+			<Block.div className={ `${ BUTTONS_CLASS } ${ attributes.uidClass }` }>
 				<InnerBlocks
 					allowedBlocks={ ALLOWED_BLOCKS }
 					template={ BUTTONS_TEMPLATE }
+					orientation="horizontal"
+					renderAppender={false}
 				/>
-			</div>
+			</Block.div>
 		</>
 	);
 }

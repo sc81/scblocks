@@ -1,1 +1,42 @@
-@import "./common.scss";
+.#{$pluginName}-buttons {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.#{$pluginName}-button {
+	display: flex;
+	margin-right: 5px;
+	flex-grow: 0;
+}
+.#{$pluginName}-button-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 20px;
+	line-height: 1.5;
+	border: 2px solid;
+	color: rgb(30, 30, 30);
+	text-decoration: none;
+
+	&.#{$pluginName}-icon-before {
+		flex-direction: row-reverse;
+
+		.#{$pluginName}-button-icon {
+			margin-right: 5px;
+		}
+	}
+	&.#{$pluginName}-icon-after {
+		.#{$pluginName}-button-icon {
+			margin-left: 5px;
+		}
+	}
+}
+.#{$pluginName}-button-icon {
+	display: inline-flex;
+	width: 20px;
+
+	& > svg {
+		width: inherit;
+		fill: currentColor;
+	}
+}
