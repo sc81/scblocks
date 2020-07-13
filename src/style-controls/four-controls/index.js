@@ -11,8 +11,8 @@ import ControlWrapper from '../../components/control-wrapper';
 import NumberUnit from '../../components/number-unit';
 import { getPropValue, setPropsAndSettings } from '../../utils';
 import BindControlsSwitch from '../../components/bind-controls-switch';
+import { PLUGIN_NAME } from '../../constants';
 
-const controlsNames = [ 'top', 'right', 'bottom', 'left' ];
 const labels = {
 	top: __( 'top' ),
 	right: __( 'right' ),
@@ -52,9 +52,40 @@ function propLongName( propName, position ) {
 		);
 	}
 }
+function getLabel( position, propName ) {
+	return propName === 'borderRadius'
+		? radiusLabels[ position ]
+		: labels[ position ];
+}
+function getUnitRangeStep( propName, min, max ) {
+	if ( min === undefined ) {
+		min = propName === 'margin' ? -100 : 0;
+	}
+	if ( max === undefined ) {
+		max = 1000;
+	}
+	return {
+		px: {
+			min,
+			max,
+		},
+		'%': {
+			min,
+			max,
+		},
+	};
+}
 
 export default function FourControls( props ) {
-	const { attributes, setAttributes, selector, devices, propName } = props;
+	const {
+		attributes,
+		setAttributes,
+		selector,
+		devices,
+		propName,
+		min,
+		max,
+	} = props;
 	const [ switcheState, setSwitcheState ] = useState( 'one' );
 
 	const short = getPropValue( { attributes, devices, selector, propName } );
@@ -143,48 +174,42 @@ export default function FourControls( props ) {
 	}
 
 	function setValue( next ) {
+		let nextShort = '',
+			nextTop = '',
+			nextRight = '',
+			nextBottom = '',
+			nextLeft = '';
 		if ( next.top && next.right && next.bottom && next.left ) {
-			let value;
 			if (
 				next.top === next.right &&
 				next.right === next.bottom &&
 				next.bottom === next.left
 			) {
-				value = next.top;
+				nextShort = next.top;
 			} else if ( next.top === next.bottom && next.right === next.left ) {
-				value = next.top + ' ' + next.right;
+				nextShort = next.top + ' ' + next.right;
 			} else {
-				value = `${ next.top } ${ next.right } ${ next.bottom } ${ next.left }`;
+				nextShort = `${ next.top } ${ next.right } ${ next.bottom } ${ next.left }`;
 			}
-
-			setPropsAndSettings( {
-				attributes,
-				setAttributes,
-				devices,
-				selector,
-				props: {
-					[ propName ]: value,
-					[ propLongName( propName, 'top' ) ]: '',
-					[ propLongName( propName, 'right' ) ]: '',
-					[ propLongName( propName, 'bottom' ) ]: '',
-					[ propLongName( propName, 'left' ) ]: '',
-				},
-			} );
 		} else {
-			setPropsAndSettings( {
-				attributes,
-				setAttributes,
-				devices,
-				selector,
-				props: {
-					[ propName ]: '',
-					[ propLongName( propName, 'top' ) ]: next.top,
-					[ propLongName( propName, 'right' ) ]: next.right,
-					[ propLongName( propName, 'bottom' ) ]: next.bottom,
-					[ propLongName( propName, 'left' ) ]: next.left,
-				},
-			} );
+			nextTop = next.top;
+			nextRight = next.right;
+			nextBottom = next.bottom;
+			nextLeft = next.left;
 		}
+		setPropsAndSettings( {
+			attributes,
+			setAttributes,
+			devices,
+			selector,
+			props: {
+				[ propName ]: nextShort,
+				[ propLongName( propName, 'top' ) ]: nextTop,
+				[ propLongName( propName, 'right' ) ]: nextRight,
+				[ propLongName( propName, 'bottom' ) ]: nextBottom,
+				[ propLongName( propName, 'left' ) ]: nextLeft,
+			},
+		} );
 	}
 	function onClear() {
 		setPropsAndSettings( {
@@ -201,49 +226,6 @@ export default function FourControls( props ) {
 			},
 		} );
 	}
-	function controls() {
-		const min = propName === 'margin' ? -100 : 0;
-		const unitRangeStep = {
-			px: {
-				min,
-			},
-			'%': {
-				min,
-			},
-		};
-		return controlsNames.map( ( pos ) => {
-			const label =
-				propName === 'borderRadius'
-					? radiusLabels[ pos ]
-					: labels[ pos ];
-			let value;
-			switch ( pos ) {
-				case 'top':
-					value = top;
-					break;
-				case 'right':
-					value = right;
-					break;
-				case 'bottom':
-					value = bottom;
-					break;
-				case 'left':
-					value = left;
-					break;
-			}
-			return (
-				<NumberUnit
-					key={ pos }
-					label={ label }
-					value={ value }
-					units={ [ 'px', '%' ] }
-					onChange={ ( val ) => onChange( val, pos ) }
-					unitRangeStep={ unitRangeStep }
-					noSelectDevices
-				/>
-			);
-		} );
-	}
 
 	return (
 		<ControlWrapper
@@ -256,7 +238,48 @@ export default function FourControls( props ) {
 				value={ switcheState }
 				onChange={ setSwitcheState }
 			/>
-			{ controls() }
+			<div className={ `${ PLUGIN_NAME }-four-controls-top` }>
+				<NumberUnit
+					label={ getLabel( 'top', propName ) }
+					value={ top }
+					units={ [ 'px', '%' ] }
+					onChange={ ( value ) => onChange( value, 'top' ) }
+					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
+					noSelectDevices
+					withoutSlider
+				/>
+			</div>
+			<div className={ `${ PLUGIN_NAME }-four-controls-left-right` }>
+				<NumberUnit
+					label={ getLabel( 'left', propName ) }
+					value={ left }
+					units={ [ 'px', '%' ] }
+					onChange={ ( value ) => onChange( value, 'left' ) }
+					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
+					noSelectDevices
+					withoutSlider
+				/>
+				<NumberUnit
+					label={ getLabel( 'right', propName ) }
+					value={ right }
+					units={ [ 'px', '%' ] }
+					onChange={ ( value ) => onChange( value, 'right' ) }
+					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
+					noSelectDevices
+					withoutSlider
+				/>
+			</div>
+			<div className={ `${ PLUGIN_NAME }-four-controls-bottom` }>
+				<NumberUnit
+					label={ getLabel( 'bottom', propName ) }
+					value={ bottom }
+					units={ [ 'px', '%' ] }
+					onChange={ ( value ) => onChange( value, 'bottom' ) }
+					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
+					noSelectDevices
+					withoutSlider
+				/>
+			</div>
 		</ControlWrapper>
 	);
 }
