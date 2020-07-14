@@ -33,11 +33,9 @@
 		width: 75px;
 		margin: 0 1px 20px;
 		display: flex;
-		flex-wrap: wrap;
 		padding: 15px 0;
 		border: 1px solid #c5c5c5;
 		flex-direction: column;
-		align-content: center;
 
 		& > svg {
 			width: 32px;
@@ -67,7 +65,7 @@
 	align-items: center;
 }
 .#{$pluginName}-icon-picker-button {
-	margin-left: 10px;
+	margin: 0 10px;
 
 	& > span {
 		display: inline-flex;

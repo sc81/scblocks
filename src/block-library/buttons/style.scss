@@ -6,7 +6,6 @@
 .#{$pluginName}-button {
 	display: flex;
 	margin-right: 5px;
-	flex-grow: 0;
 }
 .#{$pluginName}-button-link {
 	display: flex;
@@ -17,6 +16,7 @@
 	border: 2px solid;
 	color: rgb(30, 30, 30);
 	text-decoration: none;
+	width: 100%;
 
 	&.#{$pluginName}-icon-before {
 		flex-direction: row-reverse;

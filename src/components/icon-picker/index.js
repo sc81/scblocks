@@ -12,7 +12,7 @@ import IconLibrary from './icon-library';
 import { PLUGIN_NAME } from '../../constants';
 import ButtonClear from '../button-clear';
 
-const buttonLabel = __( 'Open Icon Library' );
+const buttonLabel = __( 'Icon Library' );
 const defaultLabel = __( 'Icon' );
 
 export default function IconPicker( {
@@ -36,7 +36,6 @@ export default function IconPicker( {
 			<BaseControl.VisualLabel>{ label }</BaseControl.VisualLabel>
 			<Button
 				isSecondary
-				isLarge
 				className={ `${ PLUGIN_NAME }-icon-picker-button` }
 				onClick={ () => setIsOpen( true ) }
 				label={ !! icon && buttonLabel }

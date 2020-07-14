@@ -11,7 +11,7 @@ import { getPropertiesValue, setPropsAndSettings } from '../../utils';
 import ControlWrapper from '../../components/control-wrapper';
 
 export default function Border( props ) {
-	const { attributes, devices, selector, setAttributes, isHover } = props;
+	const { attributes, devices, selector, setAttributes } = props;
 
 	const border = getPropertiesValue( {
 		attributes,
@@ -58,7 +58,7 @@ export default function Border( props ) {
 	return (
 		<ControlWrapper
 			label={ __( 'Border' ) }
-			noSelectDevices={ isHover }
+			noSelectDevices
 			isButtonClear={
 				border.borderColor ||
 				border.borderStyle ||

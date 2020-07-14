@@ -3,7 +3,10 @@
  */
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { RichText,__experimentalBlock as Block, } from '@wordpress/block-editor';
+import {
+	RichText,
+	__experimentalBlock as Block,
+} from '@wordpress/block-editor';
 /**
  * Internal dependencies
  */
@@ -40,7 +43,7 @@ export default function Edit( props ) {
 		[]
 	);
 	const blockMemo = useBlockMemo( attributes, selectors );
-	useDynamicCss( props, selectors, devices );
+	useDynamicCss( props, devices );
 
 	function onToggleOpenInNewTab( value ) {
 		const newLinkTarget = value ? '_blank' : undefined;

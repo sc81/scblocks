@@ -15,7 +15,9 @@ export default function NumberControl( {
 	max = 100,
 	unit,
 	noSelectDevices = false,
-	...rest
+	step = 1,
+	onChange,
+	value,
 } ) {
 	return (
 		<div className={ `${ PLUGIN_NAME }-number-control` }>
@@ -32,7 +34,15 @@ export default function NumberControl( {
 					{ unit && <span>{ unit }</span> }
 				</div>
 			</div>
-			<RangeControl min={ min } max={ max } { ...rest } />
+			<input
+				className="components-range-control__number"
+				type="number"
+				min={ min }
+				max={ max }
+				step={ step }
+				value={ value }
+				onChange={ ( event ) => onChange( event.target.value ) }
+			/>
 		</div>
 	);
 }

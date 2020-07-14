@@ -23,7 +23,7 @@ export default function BoxShadow( props ) {
 		<DropdownComponent
 			label={ __( 'Box shadow' ) }
 			isValue={ !! propValue }
-			noSelectDevices={ props.isHover }
+			noSelectDevices
 			onClear={ ( onClose ) => {
 				onChange();
 				onClose();

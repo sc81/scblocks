@@ -35,7 +35,12 @@ function composePropValue( selectorProps ) {
 	return css;
 }
 
-function composeSelectors( selectors, blockName, uidClass ) {
+function composeSelectors(
+	selectors,
+	blockName,
+	uidClass,
+	editorBlockListSelector
+) {
 	let css = '',
 		finalSelector;
 	const leadingSelector = `.${ blockName.replace( '/', '-' ) }.${ uidClass }`;
@@ -46,8 +51,14 @@ function composeSelectors( selectors, blockName, uidClass ) {
 		}
 		if ( selector === 'selector' ) {
 			finalSelector = leadingSelector;
+			if ( editorBlockListSelector === selector ) {
+				finalSelector = `${ finalSelector } > .block-editor-inner-blocks > .block-editor-block-list__layout`;
+			}
 		} else if ( selector === 'selector:hover' ) {
 			finalSelector = leadingSelector + ':hover';
+			if ( editorBlockListSelector === `${ selector }:hover` ) {
+				finalSelector = `${ finalSelector } > .block-editor-inner-blocks > .block-editor-block-list__layout:hover`;
+			}
 		} else {
 			finalSelector = `${ leadingSelector } ${ selector }`;
 		}
@@ -63,6 +74,7 @@ export function composeCss( {
 	name: blockName,
 	uidClass,
 	devices: currentDevices,
+	editorBlockListSelector,
 } ) {
 	const css = {
 		[ ALL_DEVICES ]: '',
@@ -76,7 +88,8 @@ export function composeCss( {
 		css[ devices ] += composeSelectors(
 			cssState[ devices ],
 			blockName,
-			uidClass
+			uidClass,
+			editorBlockListSelector
 		);
 		if (
 			devices !== ALL_DEVICES &&

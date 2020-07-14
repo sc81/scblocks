@@ -34,7 +34,6 @@ let isLocked = false;
 export default class IconLibrary extends Component {
 	constructor( props ) {
 		super( props );
-
 		this.state = this.initState();
 	}
 	initState() {
@@ -73,6 +72,7 @@ export default class IconLibrary extends Component {
 		};
 	}
 	componentDidMount() {
+		this.componentExist = true;
 		if ( isLocked ) {
 			return;
 		}
@@ -89,21 +89,28 @@ export default class IconLibrary extends Component {
 					);
 
 					isLocked = false;
-					this.setState( {
-						isLoaded: true,
-					} );
+					if ( this.componentExist ) {
+						this.setState( {
+							isLoaded: true,
+						} );
+					}
 				} )
 				.catch( () => {
 					isLocked = false;
-					this.setState( {
-						isLoaded: true,
-					} );
+					if ( this.componentExist ) {
+						this.setState( {
+							isLoaded: true,
+						} );
+					}
 				} );
 		} else {
 			this.setState( {
 				isLoaded: true,
 			} );
 		}
+	}
+	componentWillUnmount() {
+		this.componentExist = false;
 	}
 	filterIconList( family, category, value ) {
 		const filterdList = [];

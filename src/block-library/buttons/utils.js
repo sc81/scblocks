@@ -1,14 +1,11 @@
 /**
  * Internal dependencies
  */
-import {
-	PLUGIN_NAME,
-} from '../../constants';
+import { PLUGIN_NAME } from '../../constants';
 
 export const BUTTONS_CLASS = `${ PLUGIN_NAME }-buttons`;
 export const BUTTONS_SELECTOR = 'selector';
 export const BUTTONS_HOVER_SELECTOR = 'selector:hover';
-
 
 export const selectors = [
 	{
@@ -24,5 +21,6 @@ export const selectors = [
 				padding: true,
 			},
 		},
+		useEditorBlockListSelector: true,
 	},
 ];

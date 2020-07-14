@@ -72,9 +72,6 @@ export const settings = {
 			type: 'string',
 			default: 'after',
 		},
-		alignment: {
-			type: 'string',
-		},
 	},
 	supports: {
 		alignWide: false,

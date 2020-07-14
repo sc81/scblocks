@@ -21,7 +21,7 @@ const labels = {
 };
 
 export default function BorderControl( { border, onChange } ) {
-	const [ switcheState, setSwitcheState ] = useState( 'one' );
+	const [ switchState, setSwitchState ] = useState( 'one' );
 
 	let {
 		borderTopWidth: top,
@@ -50,7 +50,7 @@ export default function BorderControl( { border, onChange } ) {
 
 	function onChangeWidth( position, value ) {
 		let nextState;
-		switch ( switcheState ) {
+		switch ( switchState ) {
 			case 'one':
 				nextState = {
 					style,
@@ -206,8 +206,8 @@ export default function BorderControl( { border, onChange } ) {
 			/>
 			<div>{ __( 'Border width' ) }</div>
 			<BindControlsSwitch
-				value={ switcheState }
-				onChange={ setSwitcheState }
+				value={ switchState }
+				onChange={ setSwitchState }
 			/>
 			{ controls() }
 		</>

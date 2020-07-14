@@ -18,14 +18,12 @@ import useRelatedSelectorProps from '../../hooks/use-related-selector-props';
 
 export default function BorderPanel( props ) {
 	const [ isHover, setIsHover ] = useState( false );
-	const { devices, selectorSettings } = props;
-	const propSelector = useRelatedSelectorProps( selectorSettings, [
+	const propSelector = useRelatedSelectorProps( props.selectorSettings, [
 		'border',
 	] );
 	const currentSelector = isHover
 		? propSelector.border + ':hover'
 		: propSelector.border;
-	const currentDevices = isHover ? ALL_DEVICES : devices;
 
 	return (
 		<ControlWrapper noHeader>
@@ -35,7 +33,7 @@ export default function BorderPanel( props ) {
 			/>
 			<Border
 				{ ...props }
-				devices={ currentDevices }
+				devices={ ALL_DEVICES }
 				selector={ currentSelector }
 				isHover={ isHover }
 			/>
@@ -43,14 +41,14 @@ export default function BorderPanel( props ) {
 			<FourControls
 				propName="borderRadius"
 				{ ...props }
-				devices={ currentDevices }
+				devices={ ALL_DEVICES }
 				selector={ currentSelector }
-				noSelectDevices={ isHover }
+				noSelectDevices
 			/>
 			<Separator />
 			<BoxShadow
 				{ ...props }
-				devices={ currentDevices }
+				devices={ ALL_DEVICES }
 				selector={ currentSelector }
 				isHover={ isHover }
 			/>
