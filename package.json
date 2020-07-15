@@ -17,6 +17,7 @@
 		"url": "https://github.com/sc81/scblocks/issues"
 	},
 	"dependencies": {
+		"@wordpress/icons": "^2.4.0",
 		"classnames": "2.2.6",
 		"immer": "^3.3.0"
 	},

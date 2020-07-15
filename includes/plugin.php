@@ -27,6 +27,8 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . '/includes/blocks.php';
 		include_once SCBLOCKS_PLUGIN_DIR . '/includes/fonts.php';
 		include_once SCBLOCKS_PLUGIN_DIR . '/includes/css-manager.php';
+		include_once SCBLOCKS_PLUGIN_DIR . '/includes/icons.php';
+		include_once SCBLOCKS_PLUGIN_DIR . '/includes/font-awesome.php';
 	}
 
 	private function __construct() {
@@ -35,6 +37,7 @@ class Plugin {
 			'ScBlocks\Blocks',
 			'ScBlocks\Fonts',
 			'ScBlocks\Css_Manager',
+			'ScBlocks\Icons',
 		);
 
 		foreach ( $classes as $class_name ) {

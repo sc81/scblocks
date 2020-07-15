@@ -1,0 +1,77 @@
+
+.#{$pluginName}-icon-library {
+	width: 80vw;
+	max-width: 1000px;
+	display: flex;
+}
+
+.#{$pluginName}-icon-library-main {
+	width: 75%;
+	padding-right: 25px;
+}
+.#{$pluginName}-icon-library-content {
+	overflow: scroll;
+	padding-right: 20px;
+	height: 500px;
+}
+.#{$pluginName}-icon-library-sidebar {
+	width: 25%;
+	padding-left: 25px;
+	padding-top: 24px;
+	border-left: 1px solid #dadde1;
+	margin: -24px 0;
+}
+.#{$pluginName}-icon-library-list {
+	display: flex;
+	margin-bottom: 20px;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+
+	& > button {
+		height: 100px;
+		width: 75px;
+		margin: 0 1px 20px;
+		display: flex;
+		padding: 15px 0;
+		border: 1px solid #c5c5c5;
+		flex-direction: column;
+
+		& > svg {
+			width: 32px;
+			height: 32px;
+			fill: #6d6d6d;
+		}
+		& > span {
+			padding: 10px 10px 0;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			max-width: 75px;
+			white-space: nowrap;
+		}
+	}
+}
+.#{$pluginName}-icon-library-spinner {
+	padding: 60px 0;
+	display: flex;
+	justify-content: center;
+}
+
+.#{$pluginName}-icon-library-categories .components-radio-control__option {
+	margin-bottom: 20px;
+}
+.#{$pluginName}-icon-picker .components-base-control__field {
+	display: flex;
+	align-items: center;
+}
+.#{$pluginName}-icon-picker-button {
+	margin: 0 10px;
+
+	& > span {
+		display: inline-flex;
+
+		& > svg {
+			width: 20px;
+		}
+	}
+}

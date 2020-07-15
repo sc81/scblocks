@@ -18,7 +18,7 @@ function createStyleElement() {
 	return style;
 }
 
-export default function useDynamicCss( props, devices ) {
+export default function useDynamicCss( props, devices, selectors ) {
 	const {
 		clientId,
 		attributes: { uidClass, css },
@@ -26,6 +26,17 @@ export default function useDynamicCss( props, devices ) {
 		name,
 	} = props;
 	const style = useRef();
+	const editorBlockListSelector = useRef( null );
+
+	// needed when the block has internal blocks
+	if ( selectors && editorBlockListSelector.current === null ) {
+		editorBlockListSelector.current = false;
+		selectors.forEach( ( element ) => {
+			if ( element.useEditorBlockListSelector ) {
+				editorBlockListSelector.current = element.selector;
+			}
+		} );
+	}
 
 	// mount
 	useEffect( () => {
@@ -75,6 +86,7 @@ export default function useDynamicCss( props, devices ) {
 			name,
 			uidClass: finalUidClass,
 			devices,
+			editorBlockListSelector: editorBlockListSelector.current,
 		} );
 	}, [] );
 	// update
@@ -85,9 +97,10 @@ export default function useDynamicCss( props, devices ) {
 				name,
 				uidClass,
 				devices,
+				editorBlockListSelector: editorBlockListSelector.current,
 			} );
 		}
-	}, [ style, css, name, uidClass, devices ] );
+	}, [ style, css, name, uidClass, devices, editorBlockListSelector ] );
 	// unmount
 	useEffect(
 		() => () => {
