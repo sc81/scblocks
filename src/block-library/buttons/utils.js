@@ -14,7 +14,6 @@ export const selectors = [
 		allowedPanels: {
 			typography: true,
 			background: true,
-			backgroundOverlay: true,
 			border: true,
 			space: {
 				margin: true,

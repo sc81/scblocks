@@ -28,7 +28,6 @@ export default function AlignItems( props ) {
 				{ label: __( 'Top' ), value: 'flex-start' },
 				{ label: __( 'Center' ), value: 'center' },
 				{ label: __( 'Bottom' ), value: 'flex-end' },
-				{ label: __( 'Stretch' ), value: 'stretch' },
 			] }
 			onChange={ onChange }
 		/>

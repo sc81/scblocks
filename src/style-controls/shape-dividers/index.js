@@ -11,7 +11,7 @@ import { useState } from '@wordpress/element';
 import { PLUGIN_NAME } from '../../constants';
 import { Divider } from './divider';
 
-export function ShapeDividers( props ) {
+export default function ShapeDividers( props ) {
 	const [ isTop, setIsTop ] = useState( true );
 
 	return (

@@ -7,8 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Blocks {
 
-	private $plugin_settings_name = 'scblocks_settings';
-
 	public function register_actions() {
 		add_filter( 'block_categories', array( $this, 'register_category' ), 10, 2 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );

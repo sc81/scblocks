@@ -16,10 +16,9 @@ import { __ } from '@wordpress/i18n';
  */
 import ControlsManager from '../../components/controls-manager';
 import IconPicker from '../../components/icon-picker';
-import { selectors, BUTTON_ICON_SELECTOR, BUTTON_SELECTOR } from './utils';
+import { selectors, BUTTON_ICON_SELECTOR } from './utils';
 import { getPropertiesValue, setPropsAndSettings } from '../../utils';
 import { ALL_DEVICES } from '../../constants';
-import NumberProperty from '../../style-controls/number-property';
 
 export default function Inspector( {
 	attributes,
@@ -97,17 +96,6 @@ export default function Inspector( {
 				blockMemo={ blockMemo }
 				mainControls={
 					<>
-						<PanelBody opened>
-							<NumberProperty
-								label={ __( 'Get extra space' ) }
-								propName="flexGrow"
-								setAttributes={ setAttributes }
-								attributes={ attributes }
-								devices={ ALL_DEVICES }
-								selector={ BUTTON_SELECTOR }
-								max={ 30 }
-							/>
-						</PanelBody>
 						<PanelBody title={ __( 'Link' ) } opened>
 							<ToggleControl
 								label={ __( 'Open in new tab' ) }

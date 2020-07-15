@@ -22,10 +22,13 @@ export const selectors = [
 				padding: true,
 				margin: true,
 			},
+			flex: {
+				flexGrow: true,
+			},
 		},
 		relatedSelectorProps: {
 			selector: BUTTON_SELECTOR,
-			props: [ 'margin' ],
+			props: [ 'margin', 'flexGrow' ],
 		},
 	},
 ];

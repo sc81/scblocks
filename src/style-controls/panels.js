@@ -12,15 +12,15 @@ import { PLUGIN_NAME } from '../constants';
 import Background from './background/index';
 import Typography from './typography/index';
 import Space from './space/index';
-import { ShapeDividers } from './shape-dividers/index';
+import ShapeDividers from './shape-dividers/index';
 import ColorSet from './color-set';
-import Others from './others';
 import BorderPanel from './border-panel';
 import Placement from './placement';
 import {
 	getLastActivePanel,
 	setLastActivePanel,
 } from '../hooks/use-block-memo';
+import Flex from './flex';
 
 function Panel( {
 	name,
@@ -191,6 +191,20 @@ export default function Panels( props ) {
 					/>
 				</Panel>
 			) }
+			{ isVisiblePanel.flex && (
+				<Panel
+					name="flex"
+					label={ __( 'Flex' ) }
+					onClickPanel={ onClickPanel }
+					openedPanel={ openedPanel }
+					panelCount={ panelCount }
+				>
+					<Flex
+						{ ...props }
+						selectorSettings={ selectors[ index ] }
+					/>
+				</Panel>
+			) }
 			{ isVisiblePanel.border && (
 				<Panel
 					name="border"
@@ -240,20 +254,6 @@ export default function Panels( props ) {
 					panelCount={ panelCount }
 				>
 					<Placement
-						{ ...props }
-						selectorSettings={ selectors[ index ] }
-					/>
-				</Panel>
-			) }
-			{ isVisiblePanel.others && (
-				<Panel
-					name="others"
-					label={ __( 'Others' ) }
-					onClickPanel={ onClickPanel }
-					openedPanel={ openedPanel }
-					panelCount={ panelCount }
-				>
-					<Others
 						{ ...props }
 						selectorSettings={ selectors[ index ] }
 					/>

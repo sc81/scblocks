@@ -1,13 +1,19 @@
-
+.#{$pluginName}-number-control {
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .#{$pluginName}-number-control-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-.#{$pluginName}-number-control-header-left {
+	margin-bottom: 5px;
 	display: flex;
 	align-items: center;
 }
-.#{$pluginName}-number-control-header-right {
-	padding-right: 5px;
+.#{$pluginName}-number-control-content {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+
+	input {
+		margin-right: 5px;
+	}
 }
