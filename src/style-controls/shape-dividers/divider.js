@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { ALL_DEVICES, MEDIUM_DEVICES, SMALL_DEVICES } from '../../constants';
+import { ALL_DEVICES, TABLET_DEVICES, MOBILE_DEVICES } from '../../constants';
 import NumberUnit from '../../components/number-unit';
 import OpenColorPicker from '../../components/open-color-picker';
 import {
@@ -130,10 +130,10 @@ export function Divider( {
 							height: '',
 						},
 					},
-					[ MEDIUM_DEVICES ]: {
+					[ TABLET_DEVICES ]: {
 						[ svgSelector ]: { width: '', height: '' },
 					},
-					[ SMALL_DEVICES ]: {
+					[ MOBILE_DEVICES ]: {
 						[ svgSelector ]: { height: '', width: '' },
 					},
 				},
@@ -177,8 +177,8 @@ export function Divider( {
 				setAttributes,
 				mediaProps: {
 					[ ALL_DEVICES ]: props,
-					[ MEDIUM_DEVICES ]: props,
-					[ SMALL_DEVICES ]: props,
+					[ TABLET_DEVICES ]: props,
+					[ MOBILE_DEVICES ]: props,
 				},
 			} );
 		}

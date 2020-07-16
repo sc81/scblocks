@@ -9,23 +9,29 @@ import { useSelect, useDispatch } from '@wordpress/data';
  * Internal dependencies
  */
 import {
-	STORE_NAME,
-	SMALL_DEVICES,
-	MEDIUM_DEVICES,
-	LARGE_DEVICES,
+	MOBILE_DEVICES,
+	TABLET_DEVICES,
+	DESKTOP_DEVICES,
+	CORE_EDIT_POST_STORE_NAME,
 } from '../../constants';
 
 const icons = [
-	{ name: 'desktop', title: __( 'Desktop' ), value: LARGE_DEVICES },
-	{ name: 'tablet', title: __( 'Tablet' ), value: MEDIUM_DEVICES },
-	{ name: 'smartphone', title: __( 'Smartphone' ), value: SMALL_DEVICES },
+	{ name: 'desktop', title: __( 'Desktop' ), value: DESKTOP_DEVICES },
+	{ name: 'tablet', title: __( 'Tablet' ), value: TABLET_DEVICES },
+	{ name: 'smartphone', title: __( 'Mobile' ), value: MOBILE_DEVICES },
 ];
 
 export default function SelectDevices() {
-	const devices = useSelect( ( select ) =>
-		select( STORE_NAME ).getCurrentDevices()
+	const devices = useSelect(
+		( select ) =>
+			select(
+				CORE_EDIT_POST_STORE_NAME
+			).__experimentalGetPreviewDeviceType(),
+		[]
 	);
-	const { setCurrentDevices } = useDispatch( STORE_NAME );
+	const {
+		__experimentalSetPreviewDeviceType: setPreviewDeviceType,
+	} = useDispatch( CORE_EDIT_POST_STORE_NAME );
 
 	const icon = icons.find( ( e ) => devices === e.value ).name;
 
@@ -33,29 +39,13 @@ export default function SelectDevices() {
 		<DropdownMenu
 			icon={ icon }
 			label={ __( 'Select devices' ) }
-			controls={ [
-				{
-					title: icons[ 0 ].title,
-					icon: icons[ 0 ].name,
-					onClick: () => {
-						setCurrentDevices( icons[ 0 ].value );
-					},
+			controls={ icons.map( ( element ) => ( {
+				title: element.title,
+				icon: element.name,
+				onClick: () => {
+					setPreviewDeviceType( element.value );
 				},
-				{
-					title: icons[ 1 ].title,
-					icon: icons[ 1 ].name,
-					onClick: () => {
-						setCurrentDevices( icons[ 1 ].value );
-					},
-				},
-				{
-					title: icons[ 2 ].title,
-					icon: icons[ 2 ].name,
-					onClick: () => {
-						setCurrentDevices( icons[ 2 ].value );
-					},
-				},
-			] }
+			} ) ) }
 		/>
 	);
 }

@@ -7,12 +7,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 // see https://github.com/tomusborne/generateblocks/blob/master/includes/class-enqueue-css.php
 
 class Css_Manager {
-	public $block_namespace              = 'scblocks';
-	public $post_settings_post_meta_name = '_scblocks_post_settings';
-	public $reusable_block_ids;
+	const DESKTOP_DEVICES = 'Desktop';
+	const TABLET_DEVICES  = 'Tablet';
+	const MOBILE_DEVICES  = 'Mobile';
+
+	const BLOCK_NAMESPACE              = 'scblocks';
+	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
+
+	public $tablet_devices_max_width = '1024px';
+	public $tablet_devices_min_width = '768px';
+	public $mobile_devices_max_width = '767px';
+
 
 	public function __construct() {
-		$this->reusable_block_ids = array();
 		add_option( 'scblocks_css_write_time', time() );
 	}
 	public function register_actions() {
@@ -186,16 +193,16 @@ class Css_Manager {
 		if ( ! empty( $post_settings ) ) {
 			update_post_meta(
 				$post_id,
-				$this->post_settings_post_meta_name,
+				self::POST_SETTINGS_POST_META_NAME,
 				wp_slash( wp_json_encode( $post_settings ) )
 			);
 		} else {
-			delete_post_meta( $post_id, $this->post_settings_post_meta_name );
+			delete_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME );
 		}
 	}
 
 	public function get_post_meta_post_settings( $post_id ) {
-		$value = get_post_meta( $post_id, $this->post_settings_post_meta_name, true );
+		$value = get_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, true );
 		if ( $value ) {
 			return json_decode( $value, true );
 		}
@@ -253,7 +260,7 @@ class Css_Manager {
 				$settings['old_update_time'] = $update_time;
 				$settings['update_time']     = $update_time;
 				$settings['css_version']     = SCBLOCKS_CSS_VERSION;
-				update_post_meta( $post_id, $this->post_settings_post_meta_name, wp_slash( wp_json_encode( $settings ) ) );
+				update_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, wp_slash( wp_json_encode( $settings ) ) );
 				update_option( 'scblocks_css_write_time', time() );
 
 				// Success!
@@ -276,7 +283,7 @@ class Css_Manager {
 		}
 
 		foreach ( $parsed_blocks as $block ) {
-			if ( strpos( $block['blockName'], $this->block_namespace ) === 0 &&
+			if ( strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 &&
 			isset( $block['attrs'] ) &&
 			! empty( $block['attrs']['css'] ) &&
 			! empty( $block['attrs']['uidClass'] ) ) {
@@ -290,13 +297,9 @@ class Css_Manager {
 
 				if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
 					$parsed_reusable_block = parse_blocks( $reusable_block->post_content );
-					$count_before          = count( $data );
-					$data                  = $this->get_blocks_attr( $parsed_reusable_block, $data );
-					$count_after           = count( $data );
 
-					if ( $count_before !== $count_after ) {
-						$this->reusable_block_ids[] = (int) $block['attrs']['ref'];
-					}
+					$data = $this->get_blocks_attr( $parsed_reusable_block, $data );
+
 				}
 			}
 			// inner blocks
@@ -308,11 +311,13 @@ class Css_Manager {
 	}
 	public function compose_css( $blocks ) {
 		$css = array(
-			'allDevices'    => '',
-			'smallDevices'  => '',
-			'mediumDevices' => '',
-			'largeDevices'  => '',
+			'allDevices' => '',
 		);
+
+		$css[ self::DESKTOP_DEVICES ] = '';
+		$css[ self::TABLET_DEVICES ]  = '';
+		$css[ self::MOBILE_DEVICES ]  = '';
+
 		foreach ( $blocks as $block_name => $block_css ) {
 			// prepare a leading selector
 			$block_name_parts = explode( ' ', $block_name );
@@ -322,17 +327,16 @@ class Css_Manager {
 				$css[ $devices ] .= $this->compose_selectors( $selectors, $block_selector );
 			}
 		}
-		foreach ( $css as $device => $device_css ) {
-			if (
-				'allDevices' !== $device &&
-				'largeDevices' !== $device &&
-				$device_css
-			) {
-				$width          = 'mediumDevices' === $device ? '1200' : '768';
-				$css[ $device ] = '@media(max-width:' . $width . 'px){' . $device_css . '}';
+		foreach ( $css as $device_type => $device_css ) {
+			if ( $device_css ) {
+				if ( self::TABLET_DEVICES === $device_type ) {
+					$css[ $device_type ] = '@media(min-width:' . $this->tablet_devices_min_width . ') and (max-width:' . $this->tablet_devices_max_width . '){' . $device_css . '}';
+				} elseif ( self::MOBILE_DEVICES === $device_type ) {
+					$css[ $device_type ] = '@media(max-width:' . $this->mobile_devices_max_width . '){' . $device_css . '}';
+				}
 			}
 		}
-		return $css['allDevices'] . $css['largeDevices'] . $css['mediumDevices'] . $css['smallDevices'];
+		return $css['allDevices'] . $css[ self::DESKTOP_DEVICES ] . $css[ self::TABLET_DEVICES ] . $css[ self::MOBILE_DEVICES ];
 	}
 	public function compose_selectors( $selectors, $block_selector ) {
 		$css = '';
@@ -359,11 +363,11 @@ class Css_Manager {
 			$colon_index = strpos( $prop, ':' );
 			$name        = substr( $prop, 0, $colon_index );
 			$value       = substr( $prop, $colon_index );
-			$css        .= $this->standarize_name( $name ) . $value . ';';
+			$css        .= $this->standarize_prop_name( $name ) . $value . ';';
 		}
 		return $css;
 	}
-	public function standarize_name( $name ) {
+	public function standarize_prop_name( $name ) {
 		if ( strpos( $name, 'Custom' ) !== false ) {
 			$n = str_replace( 'Custom', '', $name );
 			$n = preg_replace_callback(
@@ -373,7 +377,7 @@ class Css_Manager {
 				},
 				$n
 			);
-			return '--' . $this->block_namespace . '-' . $n;
+			return '--' . self::BLOCK_NAMESPACE . '-' . $n;
 		} else {
 			return preg_replace_callback(
 				'/[A-Z]/',

@@ -55,7 +55,7 @@ function scblocks_fail_php_version() {
  * ScBlocks admin notice for minimum WordPress version.
  *
  * Warning when the site doesn't have the minimum required WordPress version.
- * 
+ *
  */
 function scblocks_pro_fail_wp_version() {
 	/* translators: %s: WordPress version */
