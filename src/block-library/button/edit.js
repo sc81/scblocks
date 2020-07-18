@@ -19,7 +19,7 @@ import {
 	getIconPositionClass,
 } from './utils';
 import useDynamicCss from '../../hooks/use-dynamic-css';
-import { STORE_NAME } from '../../constants';
+import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import Inspector from './inspector';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import URLPicker from './url-picker';
@@ -39,7 +39,10 @@ export default function Edit( props ) {
 	} = attributes;
 
 	const devices = useSelect(
-		( store ) => store( STORE_NAME ).getCurrentDevices(),
+		( select ) =>
+			select(
+				CORE_EDIT_POST_STORE_NAME
+			).__experimentalGetPreviewDeviceType(),
 		[]
 	);
 	const blockMemo = useBlockMemo( attributes, selectors );

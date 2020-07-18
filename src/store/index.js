@@ -10,7 +10,6 @@ import apiFetch from '@wordpress/api-fetch';
 import {
 	STORE_NAME,
 	CORE_EDITOR_STORE_NAME,
-	LARGE_DEVICES,
 	PLUGIN_NAME,
 } from '../constants';
 
@@ -21,7 +20,6 @@ const defaultFonts = {
 };
 
 const DEFAULT_STATE = {
-	currentDevices: LARGE_DEVICES,
 	fonts: defaultFonts,
 	fontsCssVars: '',
 };
@@ -29,12 +27,6 @@ const DEFAULT_STATE = {
 const store = registerStore( STORE_NAME, {
 	reducer( state = DEFAULT_STATE, action ) {
 		switch ( action.type ) {
-			case 'SET_CURRENT_DEVICES': {
-				return {
-					...state,
-					currentDevices: action.value,
-				};
-			}
 			case 'SET_FONTS': {
 				return {
 					...state,
@@ -58,12 +50,6 @@ const store = registerStore( STORE_NAME, {
 		return state;
 	},
 	actions: {
-		setCurrentDevices( value ) {
-			return {
-				type: 'SET_CURRENT_DEVICES',
-				value,
-			};
-		},
 		setFonts( value ) {
 			return {
 				type: 'SET_FONTS',
@@ -78,9 +64,6 @@ const store = registerStore( STORE_NAME, {
 		},
 	},
 	selectors: {
-		getCurrentDevices( state ) {
-			return state.currentDevices;
-		},
 		getFonts( state ) {
 			return { ...state.fonts };
 		},

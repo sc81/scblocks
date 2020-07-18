@@ -9,14 +9,13 @@ export const PLUGIN_SETTINGS_NAME = `${ PLUGIN_NAME }_settings`;
 
 export const GOOGLE_FONTS_LINK_ID = PLUGIN_NAME + '-google-fonts';
 
-export const SMALL_DEVICES = 'smallDevices';
-export const MEDIUM_DEVICES = 'mediumDevices';
-export const LARGE_DEVICES = 'largeDevices';
+export const MOBILE_DEVICES = 'Mobile';
+export const TABLET_DEVICES = 'Tablet';
+export const DESKTOP_DEVICES = 'Desktop';
 export const ALL_DEVICES = 'allDevices';
 
-export const SMALL_DEVICES_MQ = '768'; //??
-export const MEDIUM_DEVICES_MQ = '1024'; //??
-export const LARGE_DEVICES_MQ = '1200'; //??
+export const MOBILE_DEVICES_MAX_WIDTH = '768'; //??
+export const TABLET_DEVICES_MAX_WIDTH = '1024'; //??
 
 export const PRIMARY_GOOGLE_FONT_VAR = `--${ PLUGIN_NAME }-primary-google-font`;
 export const SECONDARY_GOOGLE_FONT_VAR = `--${ PLUGIN_NAME }-secondary-google-font`;

@@ -11,7 +11,10 @@ import { useSelect } from '@wordpress/data';
  * Internal dependencies
  */
 import { selectors, GROUP_CLASS, GROUP_INNER_CLASS } from './utils';
-import { STORE_NAME, CORE_BLOCK_EDITOR_STORE_NAME } from '../../constants';
+import {
+	CORE_BLOCK_EDITOR_STORE_NAME,
+	CORE_EDIT_POST_STORE_NAME,
+} from '../../constants';
 import BackgroundVideo from './background-video';
 import ShapeDividers from '../../block/shape-dividers';
 import BackgroundOverlay from '../../block/background-overlay';
@@ -29,7 +32,9 @@ export default function Edit( props ) {
 			);
 			return {
 				hasInnerBlocks: !! ( block && block.innerBlocks.length ),
-				devices: select( STORE_NAME ).getCurrentDevices(),
+				devices: select(
+					CORE_EDIT_POST_STORE_NAME
+				).__experimentalGetPreviewDeviceType(),
 			};
 		},
 		[ clientId ]

@@ -2,13 +2,11 @@
  * Internal dependencies
  */
 import {
-	MEDIUM_DEVICES_MQ,
-	SMALL_DEVICES_MQ,
 	ALL_DEVICES,
-	MEDIUM_DEVICES,
-	SMALL_DEVICES,
+	TABLET_DEVICES,
+	MOBILE_DEVICES,
 	PLUGIN_NAME,
-	LARGE_DEVICES,
+	DESKTOP_DEVICES,
 } from '../constants';
 
 function standardizeName( name ) {
@@ -78,11 +76,10 @@ export function composeCss( {
 } ) {
 	const css = {
 		[ ALL_DEVICES ]: '',
-		[ LARGE_DEVICES ]: '',
-		[ MEDIUM_DEVICES ]: '',
-		[ SMALL_DEVICES ]: '',
+		[ DESKTOP_DEVICES ]: '',
+		[ TABLET_DEVICES ]: '',
+		[ MOBILE_DEVICES ]: '',
 	};
-	let width;
 
 	for ( const devices in cssState ) {
 		css[ devices ] += composeSelectors(
@@ -91,32 +88,19 @@ export function composeCss( {
 			uidClass,
 			editorBlockListSelector
 		);
-		if (
-			devices !== ALL_DEVICES &&
-			devices !== LARGE_DEVICES &&
-			css[ devices ]
-		) {
-			width =
-				devices === MEDIUM_DEVICES
-					? MEDIUM_DEVICES_MQ
-					: SMALL_DEVICES_MQ;
-			css[
-				devices
-			] = `@media(max-width:${ width }px){${ css[ devices ] }}`;
-		}
 	}
 
-	if ( currentDevices === LARGE_DEVICES ) {
-		return css[ ALL_DEVICES ] + css[ LARGE_DEVICES ];
-	} else if ( currentDevices === MEDIUM_DEVICES ) {
+	if ( currentDevices === DESKTOP_DEVICES ) {
+		return css[ ALL_DEVICES ] + css[ DESKTOP_DEVICES ];
+	} else if ( currentDevices === TABLET_DEVICES ) {
 		return (
-			css[ ALL_DEVICES ] + css[ LARGE_DEVICES ] + css[ MEDIUM_DEVICES ]
+			css[ ALL_DEVICES ] + css[ DESKTOP_DEVICES ] + css[ TABLET_DEVICES ]
 		);
 	}
 	return (
 		css[ ALL_DEVICES ] +
-		css[ LARGE_DEVICES ] +
-		css[ MEDIUM_DEVICES ] +
-		css[ SMALL_DEVICES ]
+		css[ DESKTOP_DEVICES ] +
+		css[ TABLET_DEVICES ] +
+		css[ MOBILE_DEVICES ]
 	);
 }
