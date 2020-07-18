@@ -13,9 +13,10 @@ import {
 	getLastActivePanel,
 	setLastActivePanel,
 } from '../hooks/use-block-memo';
+import { isActiveSelector } from '../hooks/use-selector-activity';
 
 export function StyleControls( props ) {
-	const { selectors, disabledSelectors, blockMemo } = props;
+	const { selectors, selectorsActivity, blockMemo } = props;
 	const [ openedPanel, setOpenedPanel ] = useState(
 		getLastActivePanel( blockMemo ).selectorPanel
 	);
@@ -29,7 +30,10 @@ export function StyleControls( props ) {
 	}
 
 	return selectors.map( ( element ) => {
-		if ( disabledSelectors && disabledSelectors[ element.selector ] ) {
+		if (
+			selectorsActivity &&
+			! isActiveSelector( selectorsActivity, element.selector )
+		) {
 			return null;
 		}
 		return (

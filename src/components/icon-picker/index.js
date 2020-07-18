@@ -19,7 +19,7 @@ export default function IconPicker( {
 	iconPath,
 	icon,
 	onChange,
-	allowClear,
+	onClear,
 	label = defaultLabel,
 } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
@@ -46,9 +46,7 @@ export default function IconPicker( {
 					<span dangerouslySetInnerHTML={ { __html: icon } } />
 				) }
 			</Button>
-			{ !! icon && allowClear && (
-				<ButtonClear onClear={ () => onSelectIcon( '', '' ) } />
-			) }
+			{ !! icon && <ButtonClear onClear={ onClear } /> }
 
 			{ isOpen && (
 				<IconLibrary

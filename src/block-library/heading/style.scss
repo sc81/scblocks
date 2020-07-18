@@ -1,0 +1,8 @@
+.#{$pluginName}-heading {
+    display: flex;
+    align-items: center;
+
+    .#{$pluginName}-heading-icon {
+        display: inline-flex;
+    }
+}
