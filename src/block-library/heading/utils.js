@@ -70,5 +70,6 @@ export const selectors = [
 			selector: `${ HEADING_ICON_SELECTOR } svg`,
 			props: [ 'width', 'height' ],
 		},
+		isActive: false,
 	},
 ];

@@ -29,7 +29,7 @@ export const settings = {
 		},
 		iconPath: {
 			type: 'string',
-			default: ''
+			default: '',
 		},
 		text: {
 			type: 'string',

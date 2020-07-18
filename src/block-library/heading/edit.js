@@ -22,7 +22,6 @@ import {
 	selectors,
 	HEADING_ICON_SELECTOR,
 } from './utils';
-import { STORE_NAME } from '../../constants';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import ControlsManager from '../../components/controls-manager';
@@ -32,13 +31,17 @@ import {
 	setSelectorActivity,
 } from '../../hooks/use-selector-activity';
 import { removeSelectors } from '../../utils';
+import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes } = props;
 	const { text, level, icon, iconPath, uidClass } = attributes;
 
 	const devices = useSelect(
-		( store ) => store( STORE_NAME ).getCurrentDevices(),
+		( select ) =>
+			select(
+				CORE_EDIT_POST_STORE_NAME
+			).__experimentalGetPreviewDeviceType(),
 		[]
 	);
 	const blockMemo = useBlockMemo( attributes, selectors );
