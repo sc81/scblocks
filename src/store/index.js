@@ -7,11 +7,7 @@ import apiFetch from '@wordpress/api-fetch';
 /**
  * Internal dependencies
  */
-import {
-	STORE_NAME,
-	CORE_EDITOR_STORE_NAME,
-	PLUGIN_NAME,
-} from '../constants';
+import { STORE_NAME, CORE_EDITOR_STORE_NAME, PLUGIN_NAME } from '../constants';
 
 const defaultFonts = {
 	primary: '',

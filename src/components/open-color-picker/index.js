@@ -9,6 +9,7 @@ import {
 	ColorPalette,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { useRef } from '@wordpress/element';
 /**
  * Internal dependencies
  */
@@ -29,12 +30,16 @@ export default function OpenColorPicker( {
 			.colors;
 		return [ ...themeColors, ...PLUGIN_COLORS ];
 	}, [] );
+
+	const pickerKey = useRef( 1 );
+
 	label = label || __( 'Text color' );
 
 	return (
 		<Dropdown
 			className={ `${ PLUGIN_NAME }-color-picker-wrapper` }
-			contentClassName="components-color-palette__picker"
+			contentClassName={ `components-color-palette__picker ${ PLUGIN_NAME }-color-picker-popover` }
+			position="top right"
 			renderToggle={ ( { isOpen, onToggle } ) => (
 				<div className={ `${ PLUGIN_NAME }-inline-elements` }>
 					<span>{ label }</span>
@@ -68,9 +73,10 @@ export default function OpenColorPicker( {
 					</div>
 				</div>
 			) }
-			renderContent={ ( { onToggle, onClose } ) => (
+			renderContent={ () => (
 				<div className="components-color-picker">
 					<ColorPicker
+						key={ pickerKey.current }
 						color={ value }
 						onChangeComplete={ ( color ) => {
 							let next;
@@ -98,8 +104,7 @@ export default function OpenColorPicker( {
 									value={ value }
 									onChange={ ( color ) => {
 										onChange( color );
-										onClose();
-										setTimeout( () => onToggle(), 2 );
+										pickerKey.current++;
 									} }
 									disableCustomColors={ true }
 									clearable={ false }
