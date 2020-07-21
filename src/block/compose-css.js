@@ -32,6 +32,13 @@ function composePropValue( selectorProps ) {
 	} );
 	return css;
 }
+function prepareLeadingSelector( blockName, uidClass ) {
+	let prefix = '';
+	if ( blockName === `${ PLUGIN_NAME }/column` ) {
+		prefix = `.${ PLUGIN_NAME }-columns `;
+	}
+	return `${ prefix }.${ blockName.replace( '/', '-' ) }.${ uidClass }`;
+}
 
 function composeSelectors(
 	selectors,
@@ -41,7 +48,7 @@ function composeSelectors(
 ) {
 	let css = '',
 		finalSelector;
-	const leadingSelector = `.${ blockName.replace( '/', '-' ) }.${ uidClass }`;
+	const leadingSelector = prepareLeadingSelector( blockName, uidClass );
 
 	for ( const selector in selectors ) {
 		if ( ! selectors[ selector ].props ) {

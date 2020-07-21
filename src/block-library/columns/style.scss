@@ -1,0 +1,22 @@
+
+.#{$pluginName}-columns {
+	display: flex;
+	flex-wrap: wrap;
+}
+.#{$pluginName}-column {
+	display: flex;
+	flex-basis: 100%;
+	position: relative;
+}
+.#{$pluginName}-column-inner {
+	width: 100%;
+	word-break: break-word;
+	overflow-wrap: break-word;
+
+	:first-child {
+		margin-top: 0;
+	}
+	:last-child {
+		margin-bottom: 0;
+	}
+}

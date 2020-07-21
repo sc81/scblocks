@@ -8,8 +8,10 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import * as button from './button';
 import * as buttons from './buttons';
+import * as column from './column';
+import * as columns from './columns';
 import * as group from './group';
 
-[ button, buttons, group ].forEach( ( { name, settings } ) => {
+[ button, buttons, column, columns, group ].forEach( ( { name, settings } ) => {
 	registerBlockType( name, settings );
 } );

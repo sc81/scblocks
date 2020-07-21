@@ -1,0 +1,21 @@
+@import "./style.scss";
+
+.#{$pluginName}-columns > .wp-block {
+	margin: 0;
+	max-width: unset;
+
+	.#{$pluginName}-column-inner {
+		:first-child {
+			margin-top: 0;
+		}
+		:last-child {
+			margin-bottom: 0;
+		}
+		> .wp-block {
+			margin-left: 0;
+			margin-right: 0;
+			max-width: unset;
+		}
+	}
+}
+

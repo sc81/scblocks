@@ -309,6 +309,17 @@ class Css_Manager {
 		}
 		return $data;
 	}
+
+	public function prepare_leading_selector( $block_name ) {
+		$block_name_parts = explode( ' ', $block_name );
+
+		$prefix = '';
+		if ( self::BLOCK_NAMESPACE . '/column' === $block_name_parts[0] ) {
+			$prefix = '.' . self::BLOCK_NAMESPACE . '-columns ';
+		}
+		return $prefix . '.' . str_replace( '/', '-', $block_name_parts[0] ) . '.' . $block_name_parts[1];
+	}
+
 	public function compose_css( $blocks ) {
 		$css = array(
 			'allDevices' => '',
@@ -319,9 +330,7 @@ class Css_Manager {
 		$css[ self::MOBILE_DEVICES ]  = '';
 
 		foreach ( $blocks as $block_name => $block_css ) {
-			// prepare a leading selector
-			$block_name_parts = explode( ' ', $block_name );
-			$block_selector   = '.' . str_replace( '/', '-', $block_name_parts[0] ) . '.' . $block_name_parts[1];
+			$block_selector = $this->prepare_leading_selector( $block_name );
 
 			foreach ( $block_css as $devices => $selectors ) {
 				$css[ $devices ] .= $this->compose_selectors( $selectors, $block_selector );
