@@ -9,7 +9,7 @@ import { useState } from '@wordpress/element';
  */
 import ControlWrapper from '../../components/control-wrapper';
 import NumberUnit from '../../components/number-unit';
-import { getPropValue, setPropsAndSettings } from '../../utils';
+import { getPropValue, setPropsSettings } from '../../utils';
 import BindControlsSwitch from '../../components/bind-controls-switch';
 import { PLUGIN_NAME } from '../../constants';
 
@@ -197,7 +197,7 @@ export default function FourControls( props ) {
 			nextBottom = next.bottom;
 			nextLeft = next.left;
 		}
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			devices,
@@ -212,7 +212,7 @@ export default function FourControls( props ) {
 		} );
 	}
 	function onClear() {
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			devices,

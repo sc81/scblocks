@@ -13,7 +13,7 @@ import OpenColorPicker from '../../components/open-color-picker';
 import {
 	setPropValue,
 	getPropertiesValue,
-	setPropsAndSettings,
+	setPropsSettings,
 	setPropsSettingsForVariousMedia,
 	setSelectorsPropsSettingsForVariousMedia,
 } from '../../utils';
@@ -85,7 +85,7 @@ export function Divider( {
 	function onChangeZindex( index ) {
 		index = index ? '2' : '';
 		const pointerEvents = index ? 'none' : '';
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			selector,
