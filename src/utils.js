@@ -395,7 +395,7 @@ export function setPropsSettingsForVariousMedia( {
 
 	setAttributes( { css } );
 }
-export function setPropsAndSettings( {
+export function setPropsSettings( {
 	selector,
 	devices,
 	attributes,

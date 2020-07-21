@@ -17,7 +17,7 @@ import { __ } from '@wordpress/i18n';
 import ControlsManager from '../../components/controls-manager';
 import IconPicker from '../../components/icon-picker';
 import { selectors, BUTTON_ICON_SELECTOR } from './utils';
-import { getPropertiesValue, setPropsAndSettings } from '../../utils';
+import { getPropertiesValue, setPropsSettings } from '../../utils';
 import { ALL_DEVICES } from '../../constants';
 
 export default function Inspector( {
@@ -55,7 +55,7 @@ export default function Inspector( {
 				nextMarginLeft = value + 'px';
 			}
 		}
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			devices: ALL_DEVICES,
@@ -74,7 +74,7 @@ export default function Inspector( {
 			nextMarginLeft = marginRight;
 		}
 		setAttributes( { iconPosition: value } );
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			devices: ALL_DEVICES,

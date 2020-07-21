@@ -7,7 +7,7 @@ import { useState, useCallback } from '@wordpress/element';
  * Internal dependencies
  */
 import {
-	setPropsAndSettings,
+	setPropsSettings,
 	getPropValue,
 	getSelectorPropsSettings,
 	getPropertiesValue,
@@ -76,7 +76,7 @@ export default function Hover( props ) {
 						settings: [ names.image ],
 					}
 				);
-				setPropsAndSettings( {
+				setPropsSettings( {
 					attributes,
 					setAttributes,
 					devices,
@@ -97,7 +97,7 @@ export default function Hover( props ) {
 						props: [ names.image, names.opacity ],
 					}
 				);
-				setPropsAndSettings( {
+				setPropsSettings( {
 					attributes,
 					setAttributes,
 					devices,
@@ -114,7 +114,7 @@ export default function Hover( props ) {
 					},
 				} );
 			} else {
-				setPropsAndSettings( {
+				setPropsSettings( {
 					attributes,
 					setAttributes,
 					devices,
