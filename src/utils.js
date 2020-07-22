@@ -216,106 +216,27 @@ export function removePropsAndSettings( {
 
 	setAttributes( { css } );
 }
-export function setSelectorsPropsSettingsForVariousMedia( {
+export function setSelectorsPropsForVariousDevices( {
 	attributes,
 	setAttributes,
-	mediaObj = null,
-	allMediaProps = null,
-	allMediaSettings = null,
+	props = null,
 } ) {
 	const css = produce( attributes.css, ( draft ) => {
-		if ( allMediaProps ) {
-			for ( const devices in draft ) {
-				for ( const selector in allMediaProps ) {
-					setSelectorInitialStateIfAny( draft, devices, selector );
-					for ( const prop in allMediaProps[ selector ] ) {
-						if ( allMediaProps[ selector ][ prop ] ) {
-							setProp(
-								draft[ devices ][ selector ],
-								prop,
-								allMediaProps[ selector ][ prop ]
-							);
-						} else {
-							removeProp( draft[ devices ][ selector ], prop );
-						}
+		for ( const devices in props ) {
+			for ( const selector in props[ devices ] ) {
+				setSelectorInitialStateIfAny( draft, devices, selector );
+				for ( const prop in props[ devices ][ selector ] ) {
+					if ( props[ devices ][ selector ][ prop ] ) {
+						setProp(
+							draft[ devices ][ selector ],
+							prop,
+							props[ devices ][ selector ][ prop ]
+						);
+					} else {
+						removeProp( draft[ devices ][ selector ], prop );
 					}
-					removeParentsIfAny( draft, devices, selector );
 				}
-			}
-		}
-		if ( allMediaSettings ) {
-			for ( const devices in draft ) {
-				for ( const selector in allMediaSettings ) {
-					setSelectorInitialStateIfAny(
-						draft,
-						devices,
-						selector,
-						true
-					);
-					for ( const setting in allMediaSettings[ selector ] ) {
-						if ( allMediaSettings[ selector ][ setting ] ) {
-							draft[ devices ][ selector ].settings[ setting ] =
-								allMediaSettings[ selector ][ setting ];
-						} else {
-							delete draft[ devices ][ selector ].settings[
-								setting
-							];
-						}
-					}
-					removeParentsIfAny( draft, devices, selector );
-				}
-			}
-		}
-		for ( const devices in mediaObj ) {
-			if ( devices.selectors ) {
-				for ( const selector in mediaObj[ devices ].selectors ) {
-					setSelectorInitialStateIfAny( draft, devices, selector );
-					for ( const prop in mediaObj[ devices ].selectors[
-						selector
-					] ) {
-						if (
-							mediaObj[ devices ].selectors[ selector ][ prop ]
-						) {
-							setProp(
-								draft[ devices ][ selector ],
-								prop,
-								mediaObj[ devices ].selectors[ selector ][
-									prop
-								]
-							);
-						} else {
-							removeProp( draft[ devices ][ selector ], prop );
-						}
-					}
-					removeParentsIfAny( draft, devices, selector );
-				}
-			}
-			if ( devices.settings ) {
-				for ( const selector in mediaObj[ devices ].settings ) {
-					setSelectorInitialStateIfAny(
-						draft,
-						devices,
-						selector,
-						true
-					);
-					for ( const setting in mediaObj[ devices ].settings[
-						selector
-					] ) {
-						if (
-							mediaObj[ devices ].settings[ selector ][ setting ]
-						) {
-							draft[ devices ][ selector ].settings[ setting ] =
-								mediaObj[ devices ].settings[ selector ][
-									setting
-								];
-						} else {
-							delete draft[ devices ][ selector ].settings[
-								setting
-							];
-						}
-					}
-					removeParentsIfAny( draft, devices, selector );
-				}
+				removeParentsIfAny( draft, devices, selector );
 			}
 		}
 	} );
