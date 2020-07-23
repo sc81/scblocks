@@ -7,15 +7,20 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { ALL_DEVICES, TABLET_DEVICES, MOBILE_DEVICES } from '../../constants';
+import {
+	ALL_DEVICES,
+	TABLET_DEVICES,
+	MOBILE_DEVICES,
+	DESKTOP_DEVICES,
+} from '../../constants';
 import NumberUnit from '../../components/number-unit';
 import OpenColorPicker from '../../components/open-color-picker';
 import {
 	setPropValue,
 	getPropertiesValue,
-	setPropsAndSettings,
+	setPropsSettings,
 	setPropsSettingsForVariousMedia,
-	setSelectorsPropsSettingsForVariousMedia,
+	setSelectorsPropsForVariousDevices,
 } from '../../utils';
 import shapes from './shapes';
 
@@ -85,7 +90,7 @@ export function Divider( {
 	function onChangeZindex( index ) {
 		index = index ? '2' : '';
 		const pointerEvents = index ? 'none' : '';
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			selector,
@@ -114,14 +119,14 @@ export function Divider( {
 	}
 	function onChangeType( value ) {
 		if ( ! value ) {
-			setSelectorsPropsSettingsForVariousMedia( {
-				selector: svgSelector,
+			setSelectorsPropsForVariousDevices( {
 				attributes,
 				setAttributes,
-				mediaProps: {
+				props: {
 					[ ALL_DEVICES ]: {
 						[ selector ]: {
 							zIndex: '',
+							pointerEvents: '',
 						},
 						[ svgSelector ]: {
 							fill: '',
@@ -129,6 +134,9 @@ export function Divider( {
 							width: '',
 							height: '',
 						},
+					},
+					[ DESKTOP_DEVICES ]: {
+						[ svgSelector ]: { width: '', height: '' },
 					},
 					[ TABLET_DEVICES ]: {
 						[ svgSelector ]: { width: '', height: '' },

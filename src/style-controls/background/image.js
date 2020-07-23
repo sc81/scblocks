@@ -9,7 +9,7 @@ import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
  * Internal dependencies
  */
 import {
-	setPropsAndSettings,
+	setPropsSettings,
 	getSelectorSetting,
 	getPropValue,
 } from '../../utils';
@@ -48,7 +48,7 @@ export default function Image( props ) {
 		}
 		const nextUrl = `url(${ media.url })`;
 
-		setCssMemoValue( blockMemo, setPropsAndSettings, {
+		setCssMemoValue( blockMemo, setPropsSettings, {
 			devices,
 			selector,
 			props: { backgroundImage: nextUrl },
@@ -57,7 +57,7 @@ export default function Image( props ) {
 			},
 		} );
 
-		setPropsAndSettings( {
+		setPropsSettings( {
 			selector,
 			devices,
 			attributes,
@@ -71,7 +71,7 @@ export default function Image( props ) {
 		} );
 	}
 	function onRemoveImage() {
-		setCssMemoValue( blockMemo, setPropsAndSettings, {
+		setCssMemoValue( blockMemo, setPropsSettings, {
 			devices,
 			selector,
 			props: {
@@ -87,7 +87,7 @@ export default function Image( props ) {
 			},
 		} );
 
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			devices,

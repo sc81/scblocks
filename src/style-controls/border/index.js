@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import BorderControl from '../border-control';
-import { getPropertiesValue, setPropsAndSettings } from '../../utils';
+import { getPropertiesValue, setPropsSettings } from '../../utils';
 import ControlWrapper from '../../components/control-wrapper';
 
 export default function Border( props ) {
@@ -29,7 +29,7 @@ export default function Border( props ) {
 	} );
 
 	function onChange( value ) {
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			devices,
@@ -38,7 +38,7 @@ export default function Border( props ) {
 		} );
 	}
 	function onClear() {
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			devices,

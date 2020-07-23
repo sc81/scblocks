@@ -1,5 +1,7 @@
 import { PLUGIN_NAME } from '../../constants';
 
+export const BUTTON_BLOCK_NAME = `${ PLUGIN_NAME }/button`;
+
 export const BUTTON_CLASS = `${ PLUGIN_NAME }-button`;
 export const BUTTON_LINK_CLASS = `${ PLUGIN_NAME }-button-link`;
 export const BUTTON_TEXT_CLASS = `${ PLUGIN_NAME }-button-text`;

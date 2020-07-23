@@ -1,15 +1,5 @@
 @import "./style.scss";
 
-.#{$pluginName}-buttons {
-	.block-editor-inner-blocks {
-		width: 100%;
-	}
-	.block-editor-block-list__layout {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-	}
-	[data-type="scblocks/button"] {
-		margin: 0 5px 0 0;
-	}
+.#{$pluginName}-buttons [data-type="scblocks/button"] {
+	margin: 0 5px 0 0;
 }

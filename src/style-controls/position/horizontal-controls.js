@@ -12,7 +12,7 @@ import { PLUGIN_NAME } from '../../constants';
 import {
 	getPropertiesValue,
 	setPropValue,
-	setPropsAndSettings,
+	setPropsSettings,
 } from '../../utils';
 import NumberUnit from '../../components/number-unit';
 
@@ -38,7 +38,7 @@ export function HorizontalControls( {
 
 	function onClickButton( value ) {
 		setStartingEdge( value );
-		setPropsAndSettings( {
+		setPropsSettings( {
 			attributes,
 			setAttributes,
 			devices,

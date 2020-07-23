@@ -12,13 +12,15 @@ import {
 	BUTTON_TEXT_SELECTOR,
 	BUTTON_LINK_SELECTOR,
 	BUTTON_ICON_SELECTOR,
+	BUTTON_BLOCK_NAME,
 } from './utils';
 import { PLUGIN_NAME } from '../../constants';
 
 import save from './save';
 import edit from './edit';
+import { BUTTONS_BLOCK_NAME } from '../buttons/utils';
 
-export const name = `${ PLUGIN_NAME }/button`;
+export const name = BUTTON_BLOCK_NAME;
 
 export const settings = {
 	title: __( 'Button' ),
@@ -80,7 +82,7 @@ export const settings = {
 		reusable: false,
 		lightBlockWrapper: true,
 	},
-	parent: [ `${ PLUGIN_NAME }/buttons` ],
+	parent: [ BUTTONS_BLOCK_NAME ],
 	edit,
 	save,
 };
