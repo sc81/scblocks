@@ -11,8 +11,10 @@ import { PLUGIN_NAME } from '../../constants';
 
 import save from './save';
 import edit from './edit';
+import variations from './variations';
+import { BUTTONS_BLOCK_NAME } from './utils';
 
-export const name = `${ PLUGIN_NAME }/buttons`;
+export const name = BUTTONS_BLOCK_NAME;
 
 export const settings = {
 	title: __( 'Buttons' ),
@@ -39,4 +41,5 @@ export const settings = {
 	},
 	edit,
 	save,
+	variations,
 };

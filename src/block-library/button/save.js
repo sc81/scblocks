@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { RichText } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -13,6 +14,8 @@ import {
 	BUTTON_TEXT_CLASS,
 	getIconPositionClass,
 } from './utils';
+
+const placeholder = __( 'Add text !!!' );
 
 export default function Save( { attributes } ) {
 	const {
@@ -38,7 +41,7 @@ export default function Save( { attributes } ) {
 				<RichText.Content
 					tagName="span"
 					className={ BUTTON_TEXT_CLASS }
-					value={ text }
+					value={ text || placeholder }
 				/>
 				{ !! icon && (
 					<span
