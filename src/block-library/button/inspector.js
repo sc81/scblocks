@@ -115,7 +115,12 @@ export default function Inspector( {
 								iconPath={ iconPath }
 								icon={ icon }
 								onChange={ ( value ) => setAttributes( value ) }
-								allowClear
+								onClear={ () => {
+									setAttributes( {
+										icon: '',
+										iconPath: '',
+									} );
+								} }
 							/>
 							<SelectControl
 								label={ __( 'Icon position' ) }

@@ -6,6 +6,7 @@ Custom blocks for the new WordPress editor.
 
 -  Group Block
 -  Buttons Block
+-  Heading Block
 
 ## Development
 

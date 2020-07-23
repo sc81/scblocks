@@ -9,7 +9,8 @@ import { registerBlockType } from '@wordpress/blocks';
 import * as button from './button';
 import * as buttons from './buttons';
 import * as group from './group';
+import * as heading from './heading';
 
-[ button, buttons, group ].forEach( ( { name, settings } ) => {
+[ button, buttons, group, heading ].forEach( ( { name, settings } ) => {
 	registerBlockType( name, settings );
 } );

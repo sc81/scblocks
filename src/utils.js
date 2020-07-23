@@ -437,44 +437,18 @@ function removeSelectorSettings( {
 
 	setAttributes( { css } );
 }
-export function removeSelector( {
-	selector,
-	devices,
-	attributes,
-	setAttributes,
-} ) {
-	const css = produce( attributes.css, ( draft ) => {
-		if ( devices ) {
-			delete draft[ devices ][ selector ];
-			if ( isEmpty( draft[ devices ] ) ) {
-				delete draft[ devices ];
-			}
-		} else {
-			for ( const d in draft ) {
-				delete draft[ d ][ selector ];
-				if ( isEmpty( draft[ d ] ) ) {
-					delete draft[ d ];
-				}
-			}
-		}
-	} );
 
-	setAttributes( { css } );
-}
 export function removeSelectors( {
 	selectors,
 	devices,
 	attributes,
 	setAttributes,
-	removeHoverSelector,
 } ) {
 	const css = produce( attributes.css, ( draft ) => {
 		if ( devices ) {
 			selectors.forEach( ( selector ) => {
 				delete draft[ devices ][ selector ];
-				if ( removeHoverSelector ) {
-					delete draft[ devices ][ selector + ':hover' ];
-				}
+				delete draft[ devices ][ selector + ':hover' ];
 			} );
 			if ( isEmpty( draft[ devices ] ) ) {
 				delete draft[ devices ];
@@ -483,9 +457,7 @@ export function removeSelectors( {
 			for ( const d in draft ) {
 				selectors.forEach( ( selector ) => {
 					delete draft[ d ][ selector ];
-					if ( removeHoverSelector ) {
-						delete draft[ d ][ selector + ':hover' ];
-					}
+					delete draft[ d ][ selector + ':hover' ];
 				} );
 				if ( isEmpty( draft[ d ] ) ) {
 					delete draft[ d ];
