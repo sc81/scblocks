@@ -36,7 +36,11 @@ export const selectors = [
 ];
 
 export function getIconPositionClass( iconPosition ) {
-	return iconPosition === 'after'
-		? `${ PLUGIN_NAME }-icon-after`
-		: `${ PLUGIN_NAME }-icon-before`;
+	switch ( iconPosition ) {
+		case 'after':
+			return ` ${ PLUGIN_NAME }-icon-after`;
+		case 'before':
+			return ` ${ PLUGIN_NAME }-icon-before`;
+	}
+	return '';
 }

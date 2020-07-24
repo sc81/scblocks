@@ -74,7 +74,7 @@ export default function Edit( props ) {
 			/>
 			<Block.div className={ `${ BUTTON_CLASS } ${ uidClass }` }>
 				<div
-					className={ `${ BUTTON_LINK_CLASS } ${ getIconPositionClass(
+					className={ `${ BUTTON_LINK_CLASS }${ getIconPositionClass(
 						iconPosition
 					) }` }
 				>
