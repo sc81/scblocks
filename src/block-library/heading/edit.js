@@ -56,7 +56,7 @@ export default function Edit( props ) {
 		);
 	}, [ selectorsActivity, icon ] );
 
-	function onChangeIcon( value ) {
+	function onSelectIcon( value ) {
 		setAttributes( {
 			icon: value.icon,
 			iconPath: value.iconPath,
@@ -107,7 +107,7 @@ export default function Edit( props ) {
 								label={ __( 'Icon' ) }
 								iconPath={ iconPath }
 								icon={ icon }
-								onChange={ onChangeIcon }
+								onSelect={ onSelectIcon }
 								onClear={ onClear }
 							/>
 						</PanelBody>

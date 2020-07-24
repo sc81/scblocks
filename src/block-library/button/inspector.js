@@ -20,6 +20,8 @@ import { selectors, BUTTON_ICON_SELECTOR } from './utils';
 import { getPropertiesValue, setPropsSettings } from '../../utils';
 import { ALL_DEVICES } from '../../constants';
 
+const DEFAULT_ICON_POSITION = 'before';
+
 export default function Inspector( {
 	attributes,
 	setAttributes,
@@ -85,6 +87,10 @@ export default function Inspector( {
 			},
 		} );
 	}
+	function onSelectIcon(value){
+		setAttributes( value );
+		setIconPosition(DEFAULT_ICON_POSITION);
+	}
 
 	return (
 		<InspectorControls>
@@ -114,11 +120,12 @@ export default function Inspector( {
 							<IconPicker
 								iconPath={ iconPath }
 								icon={ icon }
-								onChange={ ( value ) => setAttributes( value ) }
+								onSelect={ onSelectIcon }
 								onClear={ () => {
 									setAttributes( {
 										icon: '',
 										iconPath: '',
+										iconPosition: ''
 									} );
 								} }
 							/>
