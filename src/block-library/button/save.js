@@ -31,7 +31,7 @@ export default function Save( { attributes } ) {
 	return (
 		<div className={ `${ BUTTON_CLASS } ${ uidClass }` }>
 			<a
-				className={ `${ BUTTON_LINK_CLASS } ${ getIconPositionClass(
+				className={ `${ BUTTON_LINK_CLASS }${ getIconPositionClass(
 					iconPosition
 				) }` }
 				href={ url }

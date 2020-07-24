@@ -72,7 +72,7 @@ export const settings = {
 		},
 		iconPosition: {
 			type: 'string',
-			default: 'after',
+			default: '',
 		},
 	},
 	supports: {

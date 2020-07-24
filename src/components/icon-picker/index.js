@@ -18,14 +18,14 @@ const defaultLabel = __( 'Icon' );
 export default function IconPicker( {
 	iconPath,
 	icon,
-	onChange,
+	onSelect,
 	onClear,
 	label = defaultLabel,
 } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 
 	function onSelectIcon( path, nextIcon ) {
-		onChange( {
+		onSelect( {
 			iconPath: path,
 			icon: nextIcon,
 		} );
