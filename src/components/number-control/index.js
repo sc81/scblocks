@@ -9,7 +9,7 @@ export default function NumberControl( {
 	label,
 	min = 0,
 	max = 100,
-	noSelectDevices = false,
+	withoutSelectDevices = false,
 	step = 1,
 	onChange,
 	value,
@@ -18,7 +18,7 @@ export default function NumberControl( {
 		<div className={ `${ PLUGIN_NAME }-number-control` }>
 			<div className={ `${ PLUGIN_NAME }-number-control-header` }>
 				<span>{ label }</span>
-				{ ! noSelectDevices && <SelectDevices /> }
+				{ ! withoutSelectDevices && <SelectDevices /> }
 			</div>
 			<div className={ `${ PLUGIN_NAME }-number-control-content` }>
 				<input

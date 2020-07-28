@@ -231,7 +231,7 @@ export default function FourControls( props ) {
 		<ControlWrapper
 			{ ...props }
 			label={ title[ propName ] }
-			isButtonClear={ short || top || right || bottom || left }
+			displayClearButton={ short || top || right || bottom || left }
 			onClear={ onClear }
 		>
 			<BindControlsSwitch
@@ -245,7 +245,7 @@ export default function FourControls( props ) {
 					units={ [ 'px', '%' ] }
 					onChange={ ( value ) => onChange( value, 'top' ) }
 					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
-					noSelectDevices
+					withoutSelectDevices
 					withoutSlider
 				/>
 			</div>
@@ -256,7 +256,7 @@ export default function FourControls( props ) {
 					units={ [ 'px', '%' ] }
 					onChange={ ( value ) => onChange( value, 'left' ) }
 					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
-					noSelectDevices
+					withoutSelectDevices
 					withoutSlider
 				/>
 				<NumberUnit
@@ -265,7 +265,7 @@ export default function FourControls( props ) {
 					units={ [ 'px', '%' ] }
 					onChange={ ( value ) => onChange( value, 'right' ) }
 					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
-					noSelectDevices
+					withoutSelectDevices
 					withoutSlider
 				/>
 			</div>
@@ -276,7 +276,7 @@ export default function FourControls( props ) {
 					units={ [ 'px', '%' ] }
 					onChange={ ( value ) => onChange( value, 'bottom' ) }
 					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
-					noSelectDevices
+					withoutSelectDevices
 					withoutSlider
 				/>
 			</div>

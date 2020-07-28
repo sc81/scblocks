@@ -23,7 +23,7 @@ export default function Filter( props ) {
 		<DropdownComponent
 			label={ __( 'CSS filters' ) }
 			isValue={ !! propValue }
-			noSelectDevices
+			withoutSelectDevices
 			onClear={ ( onClose ) => {
 				onChange();
 				onClose();

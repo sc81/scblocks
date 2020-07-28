@@ -73,7 +73,7 @@ const propDefaults = {
 };
 
 export default function NumberUnitProperty( props ) {
-	const { propName, units, noSelectDevices, unitRangeStep } = props;
+	const { propName, units, withoutSelectDevices, unitRangeStep } = props;
 	const { propValue, onChange } = propertyService( props );
 
 	const mergedUnitRangeStep = useMemo( () => {
@@ -89,11 +89,12 @@ export default function NumberUnitProperty( props ) {
 			value={ propValue }
 			units={ units || propDefaults[ propName ].units }
 			onChange={ onChange }
-			noSelectDevices={
-				noSelectDevices || propDefaults[ propName ].noSelectDevices
+			withoutSelectDevices={
+				withoutSelectDevices ||
+				propDefaults[ propName ].withoutSelectDevices
 			}
 			unitRangeStep={ mergedUnitRangeStep }
-			isButtonClear={ !! propValue }
+			displayClearButton={ !! propValue }
 			onClear={ () => onChange() }
 		/>
 	);

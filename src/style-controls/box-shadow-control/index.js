@@ -110,7 +110,7 @@ export default function BoxShadowControl( { value, onChange } ) {
 						min: -10,
 					},
 				} }
-				noSelectDevices
+				withoutSelectDevices
 			/>
 			<NumberUnit
 				label={ __( 'Vertical' ) }
@@ -125,21 +125,21 @@ export default function BoxShadowControl( { value, onChange } ) {
 						min: -10,
 					},
 				} }
-				noSelectDevices
+				withoutSelectDevices
 			/>
 			<NumberUnit
 				label={ __( 'Blur' ) }
 				value={ blur }
 				units={ [ 'px', 'em' ] }
 				onChange={ ( v ) => onChangeValue( v, 'blur' ) }
-				noSelectDevices
+				withoutSelectDevices
 			/>
 			<NumberUnit
 				label={ __( 'Spread' ) }
 				value={ spread }
 				units={ [ 'px', 'em' ] }
 				onChange={ ( v ) => onChangeValue( v, 'spread' ) }
-				noSelectDevices
+				withoutSelectDevices
 			/>
 			<BaseControl>
 				<BaseControl.VisualLabel>

@@ -125,7 +125,7 @@ export default function Position( {
 		<>
 			<ControlWrapper
 				label={ controlLabel }
-				noSelectDevices={ isHover }
+				withoutSelectDevices={ isHover }
 				displayInline
 			>
 				<SelectControl

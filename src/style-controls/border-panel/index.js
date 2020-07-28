@@ -26,7 +26,7 @@ export default function BorderPanel( props ) {
 		: propSelector.border;
 
 	return (
-		<ControlWrapper noHeader>
+		<ControlWrapper withoutHeader>
 			<NormalHoverButtons
 				isHover={ isHover }
 				onChange={ ( value ) => setIsHover( value ) }
@@ -43,7 +43,7 @@ export default function BorderPanel( props ) {
 				{ ...props }
 				devices={ ALL_DEVICES }
 				selector={ currentSelector }
-				noSelectDevices
+				withoutSelectDevices
 			/>
 			<Separator />
 			<BoxShadow

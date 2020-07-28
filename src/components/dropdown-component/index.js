@@ -16,7 +16,7 @@ export default function DropdownComponent( {
 	onClear,
 	renderContent,
 	onOpen,
-	noSelectDevices,
+	withoutSelectDevices,
 } ) {
 	return (
 		<Dropdown
@@ -26,7 +26,7 @@ export default function DropdownComponent( {
 				<ControlWrapper
 					label={ label }
 					displayInline
-					noSelectDevices={ noSelectDevices }
+					withoutSelectDevices={ withoutSelectDevices }
 				>
 					<div className={ `${ PLUGIN_NAME }-inline-buttons` }>
 						{ isValue && (
