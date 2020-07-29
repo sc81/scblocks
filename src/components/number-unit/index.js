@@ -75,9 +75,9 @@ export default function NumberUnit( {
 	units,
 	unitRangeStep,
 	label = '',
-	noSelectDevices = false,
+	withoutSelectDevices = false,
 	onChange,
-	isButtonClear,
+	displayClearButton,
 	onClear,
 	withoutSlider,
 	...rest
@@ -112,8 +112,10 @@ export default function NumberUnit( {
 			<div className={ `${ PLUGIN_NAME }-number-unit-header` }>
 				<div className={ `${ PLUGIN_NAME }-number-unit-header-left` }>
 					<span>{ label }</span>
-					{ ! noSelectDevices && <SelectDevices /> }
-					{ isButtonClear && <ButtonClear onClear={ onClear } /> }
+					{ ! withoutSelectDevices && <SelectDevices /> }
+					{ displayClearButton && (
+						<ButtonClear onClear={ onClear } />
+					) }
 				</div>
 				<div className={ `${ PLUGIN_NAME }-number-unit-header-right` }>
 					{ units.length === 1 && <span>{ units[ 0 ] }</span> }

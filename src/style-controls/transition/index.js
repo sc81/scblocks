@@ -43,9 +43,9 @@ export default function Transition( props ) {
 	return (
 		<ControlWrapper
 			label={ __( 'Transition' ) }
-			isButtonClear={ isValue }
+			displayClearButton={ isValue }
 			onClear={ onClear }
-			noSelectDevices
+			withoutSelectDevices
 		>
 			<TransitionControl
 				value={ propValue }

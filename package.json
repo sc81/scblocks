@@ -22,8 +22,10 @@
 		"immer": "^3.3.0"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^12.0.0",
+		"@testing-library/react": "^10.4.7",
+		"@wordpress/components": "^10.0.3",
 		"@wordpress/env": "^1.6.0",
+		"@wordpress/scripts": "^12.1.1",
 		"po2json": "^0.4.5"
 	},
 	"scripts": {
@@ -42,6 +44,11 @@
 		"lint-php:fix": "composer phpcbf",
 		"lint-md-docs": "wp-scripts lint-md-docs",
 		"lint-md-js": "wp-scripts lint-md-js",
-		"wp-env": "wp-env"
+		"wp-env": "wp-env",
+		"test:unit": "wp-scripts test-unit-js",
+		"test:unit:help": "wp-scripts test-unit-js --help",
+		"test:unit:watch": "wp-scripts test-unit-js --watch",
+		"test:unit:debug": "wp-scripts --inspect-brk test-unit-js --runInBand --no-cache",
+		"packages-update": "wp-scripts packages-update"
 	}
 }

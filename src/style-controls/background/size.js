@@ -76,7 +76,7 @@ export default function Size( {
 	}
 
 	return (
-		<ControlWrapper label={ __( 'Size' ) } noSelectDevices={ isHover }>
+		<ControlWrapper label={ __( 'Size' ) } withoutSelectDevices={ isHover }>
 			<SelectControl
 				value={ selectValue }
 				options={ options }

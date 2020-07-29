@@ -178,7 +178,7 @@ export default function BorderControl( { border, onChange } ) {
 					units={ [ 'px' ] }
 					value={ value }
 					onChange={ ( val ) => onChangeWidth( pos, val ) }
-					noSelectDevices
+					withoutSelectDevices
 				/>
 			);
 		} );

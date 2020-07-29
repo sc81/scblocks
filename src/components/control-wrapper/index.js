@@ -8,10 +8,10 @@ import ButtonClear from '../button-clear';
 export default function ControlWrapper( {
 	label,
 	children,
-	noSelectDevices = false,
+	withoutSelectDevices = false,
 	displayInline = false,
-	noHeader = false,
-	isButtonClear = false,
+	withoutHeader = false,
+	displayClearButton = false,
 	onClear,
 } ) {
 	const additionalClass = displayInline ? ' display-inline' : '';
@@ -19,11 +19,13 @@ export default function ControlWrapper( {
 		<div
 			className={ `${ PLUGIN_NAME }-control-wrapper${ additionalClass }` }
 		>
-			{ ! noHeader && (
+			{ ! withoutHeader && (
 				<div className={ `${ PLUGIN_NAME }-control-wrapper-header` }>
 					<span>{ label }</span>
-					{ ! noSelectDevices && <SelectDevices /> }
-					{ isButtonClear && <ButtonClear onClear={ onClear } /> }
+					{ ! withoutSelectDevices && <SelectDevices /> }
+					{ displayClearButton && (
+						<ButtonClear onClear={ onClear } />
+					) }
 				</div>
 			) }
 			<div className={ `${ PLUGIN_NAME }-control-wrapper-content` }>
