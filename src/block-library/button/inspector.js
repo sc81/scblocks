@@ -87,9 +87,9 @@ export default function Inspector( {
 			},
 		} );
 	}
-	function onSelectIcon(value){
+	function onSelectIcon( value ) {
 		setAttributes( value );
-		setIconPosition(DEFAULT_ICON_POSITION);
+		setIconPosition( DEFAULT_ICON_POSITION );
 	}
 
 	return (
@@ -125,7 +125,7 @@ export default function Inspector( {
 									setAttributes( {
 										icon: '',
 										iconPath: '',
-										iconPosition: ''
+										iconPosition: '',
 									} );
 								} }
 							/>
