@@ -23,5 +23,5 @@ You'll need to install the Gutenberg plugin if you are not running WordPress 5.5
 
 ### More information
 
-- Collection of scripts used for development [@wordpress/env](https://www.npmjs.com/package/@wordpress/env)
+- Collection of scripts used for development [@wordpress/scripts](https://www.npmjs.com/package/@wordpress/scripts)
 - [Block Editor Handbook](https://developer.wordpress.org/block-editor/)
