@@ -8,12 +8,11 @@ import { __ } from '@wordpress/i18n';
  */
 import NumberUnit from '../../components/number-unit/index';
 
-export default function LetterSpacing( { value, onChange } ) {
+export default function LetterSpacing( props ) {
 	return (
 		<NumberUnit
+			{ ...props }
 			label={ __( 'Letter spacing' ) }
-			value={ value }
-			onChange={ onChange }
 			units={ [ 'px' ] }
 			unitRangeStep={ {
 				px: {
@@ -22,6 +21,7 @@ export default function LetterSpacing( { value, onChange } ) {
 					step: 0.1,
 				},
 			} }
+			displayClearButton
 		/>
 	);
 }

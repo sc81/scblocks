@@ -108,17 +108,30 @@ export default function Typography( props ) {
 				onChange={ ( value ) =>
 					onChange( { value, propName: 'fontSize', devices } )
 				}
+				onClear={ () =>
+					onChange( { value: '', propName: 'fontSize', devices } )
+				}
 			/>
 			<LineHeight
 				value={ lineHeight }
 				onChange={ ( value ) =>
 					onChange( { value, propName: 'lineHeight', devices } )
 				}
+				onClear={ () =>
+					onChange( { value: '', propName: 'lineHeight', devices } )
+				}
 			/>
 			<LetterSpacing
 				value={ letterSpacing }
 				onChange={ ( value ) =>
 					onChange( { value, propName: 'letterSpacing', devices } )
+				}
+				onClear={ () =>
+					onChange( {
+						value: '',
+						propName: 'letterSpacing',
+						devices,
+					} )
 				}
 			/>
 		</>
