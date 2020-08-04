@@ -5,7 +5,7 @@
 	<file>./includes</file>
 	<file>./scblocks.php</file>
 
-	<config name="testVersion" value="5.6-"/>
+	<config name="testVersion" value="7.0-"/>
 	<rule ref="PHPCompatibilityWP"/>
 
 	<rule ref="WordPress-Extra">

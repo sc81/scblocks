@@ -4,45 +4,73 @@ namespace ScBlocks;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// see https://github.com/tomusborne/generateblocks/blob/master/includes/class-enqueue-css.php
 
-class Css_Manager {
+/**
+ * Creates and manages CSS
+ */
+class Block_Css {
+
+	/** @var string DESKTOP_DEVICES */
 	const DESKTOP_DEVICES = 'Desktop';
-	const TABLET_DEVICES  = 'Tablet';
-	const MOBILE_DEVICES  = 'Mobile';
 
-	const BLOCK_NAMESPACE              = 'scblocks';
+	/** @var string TABLET_DEVICES */
+	const TABLET_DEVICES = 'Tablet';
+
+	/** @var string MOBILE_DEVICES */
+	const MOBILE_DEVICES = 'Mobile';
+
+	/** @var string BLOCK_NAMESPACE */
+	const BLOCK_NAMESPACE = 'scblocks';
+
+	/** @var string POST_SETTINGS_POST_META_NAME */
 	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
 
+	/** @var string $tablet_devices_max_width */
 	public $tablet_devices_max_width = '1024px';
+
+	/** @var string $tablet_devices_min_width */
 	public $tablet_devices_min_width = '768px';
+
+	/** @var string $mobile_devices_max_width */
 	public $mobile_devices_max_width = '767px';
 
 
 	public function __construct() {
 		add_option( 'scblocks_css_write_time', time() );
 	}
+
+	/**
+	 * Hooks a function on to a specific action.
+	 */
 	public function register_actions() {
-		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+		add_action( 'save_post', array( $this, 'update_post_settings' ), 10, 2 );
 		add_action( 'save_post_wp_block', array( $this, 'save_wp_block' ), 10, 2 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_css' ) );
 		add_action( 'wp_head', array( $this, 'print_inline_css' ) );
 	}
 	/**
 	 * Get the current page ID.
+	 *
+	 * @return int|bool
 	 */
 	public function get_post_id() {
 
 		global $post;
+		$id = false;
 
-		$id = isset( $post ) ? $post->ID : false;
-		$id = ( ! is_singular() ) ? false : $id;
-		$id = ( function_exists( 'is_shop' ) && is_shop() ) ? get_option( 'woocommerce_shop_page_id' ) : $id;
-		$id = ( is_home() ) ? get_option( 'page_for_posts' ) : $id;
+		if ( isset( $post ) && is_singular() ) {
+			$id = $post->ID;
+		}
+		if ( function_exists( 'is_shop' ) && is_shop() ) {
+			$id = get_option( 'woocommerce_shop_page_id' );
+		}
+		if ( is_home() ) {
+			$id = get_option( 'page_for_posts' );
+		}
 
 		return $id;
-
 	}
+
 	/**
 	 * Enqueue CSS from file.
 	 */
@@ -52,13 +80,13 @@ class Css_Manager {
 		if ( ! $post_id ) {
 			return;
 		}
-		$post_settings = $this->get_post_meta_post_settings( $post_id );
+		$post_settings = self::get_post_meta_post_settings( $post_id );
 
 		if ( empty( $post_settings ) || empty( $post_settings['css_version'] ) ) {
-			return false;
+			return;
 		}
 		if ( 'file' === $this->mode() ) {
-			wp_enqueue_style( 'scblocks', esc_url( $this->file( 'uri' ) ), array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			wp_enqueue_style( 'scblocks-blocks', esc_url( $this->file( 'uri' ) ), array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		}
 	}
 	/**
@@ -66,22 +94,23 @@ class Css_Manager {
 	 */
 	public function print_inline_css() {
 
-		if ( 'inline' === $this->mode() || ! wp_style_is( 'scblocks', 'enqueued' ) ) {
+		if ( 'inline' === $this->mode() || ! wp_style_is( 'scblocks-blocks', 'enqueued' ) ) {
 			$css = $this->compose_css( $this->get_blocks_attr( $this->get_parsed_content() ) );
-
-			if ( empty( $css ) ) {
-				return;
+			
+			if ( ! empty( $css ) ) {
+				printf(
+					'<style id="scblocks-blocks-css">%s</style>',
+					wp_strip_all_tags( $css ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				);
 			}
-			printf(
-				'<style id="scblocks-css">%s</style>',
-				wp_strip_all_tags( $css ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			);
 		}
 	}
 	/**
 	 * Determine if we're using file mode or inline mode.
+	 *
+	 * @return string
 	 */
-	public function mode() {
+	public function mode() : string {
 
 		// Check if we're using file mode or inline mode.
 		// Default to file mode and falback to inline if file mode is not possible.
@@ -110,7 +139,13 @@ class Css_Manager {
 		return $mode;
 
 	}
-	public function needs_update() {
+
+	/**
+	 * Checks if we need to update the css file.
+	 *
+	 * @return bool
+	 */
+	public function needs_update() : bool {
 		if ( ! file_exists( $this->file( 'path' ) ) ) {
 			return true;
 		}
@@ -118,35 +153,47 @@ class Css_Manager {
 		if ( ! $post_id ) {
 			return false;
 		}
-		$post_settings = $this->get_post_meta_post_settings( $post_id );
+		$post_settings = self::get_post_meta_post_settings( $post_id );
 
 		if ( empty( $post_settings ) ) {
 			return false;
 		}
+		// new css version
 		if ( isset( $post_settings['css_version'] ) &&
 		SCBLOCKS_CSS_VERSION !== $post_settings['css_version'] ) {
 			return true;
 		}
+		// post has been updated
 		if ( $post_settings['old_update_time'] !== $post_settings['update_time'] ) {
 			return true;
 		}
+		// check if any reusable block has been updated
 		if ( isset( $post_settings['reusable_blocks'] ) &&
 			$this->is_any_reusable_block_updated( $post_settings['reusable_blocks'], $post_settings['update_time'] ) ) {
 			return true;
 		}
 		return false;
 	}
-
-	public function is_any_reusable_block_updated( $reusable_blocks, $post_update_time ) {
+	/**
+	 * Checks if any reusable block has been updated after updating the post.
+	 *
+	 * @param array $reusable_blocks
+	 * @param int $post_update_time
+	 *
+	 * @return bool
+	 */
+	public function is_any_reusable_block_updated( array $reusable_blocks, int $post_update_time ) : bool {
 		foreach ( $reusable_blocks as $block_id ) {
-			$reusable_block_settings = $this->get_post_meta_post_settings( $block_id );
+			$reusable_block_settings = self::get_post_meta_post_settings( $block_id );
 			// post doesn't have our blocks
 			if ( empty( $reusable_block_settings ) ) {
 				continue;
 			}
+			//reusable block updated
 			if ( (int) $post_update_time <= (int) $reusable_block_settings['update_time'] ) {
 				return true;
 			}
+			// if the reusable block has a reusable block
 			if ( ! empty( $reusable_block_settings['reusable_blocks'] ) &&
 			$this->is_any_reusable_block_updated( $reusable_block_settings['reusable_blocks'], $post_update_time ) ) {
 				return true;
@@ -155,17 +202,23 @@ class Css_Manager {
 		return false;
 	}
 
-	public function save_post( $post_id, $post ) {
+	/**
+	 * Updates the _scblocks_post_settings post meta field when a post is saved.
+	 *
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post Post object.
+	 */
+	public function update_post_settings( int $post_id, \WP_Post $post ) {
 		if ( wp_is_post_autosave( $post_id ) ||
 			wp_is_post_revision( $post_id ) ||
 			! current_user_can( 'edit_post', $post_id ) ||
 			'attachment' === $post->post_type ||
-			! isset( $post->post_content ) ||
 			'' === $post->post_content ) {
 			return $post_id;
 		}
 
-		$post_settings = $this->get_post_meta_post_settings( $post_id );
+		$old_settings  = self::get_post_meta_post_settings( $post_id );
+		$next_settings = array();
 
 		$reusable_blocks        = preg_match_all( '/wp:block {"ref":([^}]*)}/', $post->post_content, $matches );
 		$stored_reusable_blocks = array();
@@ -176,32 +229,43 @@ class Css_Manager {
 			}
 		}
 
-		if ( isset( $post->post_content ) && strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
-			if ( empty( $post_settings ) ) {
-				$post_settings['old_update_time'] = '0';
+		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
+			if ( empty( $old_settings ) ) {
+				$next_settings['old_update_time'] = '0';
+			} else {
+				$next_settings['old_update_time'] = $old_settings['update_time'];
 			}
-			$post_settings['css_version'] = SCBLOCKS_CSS_VERSION;
-			$post_settings['update_time'] = time();
+			$next_settings['css_version'] = SCBLOCKS_CSS_VERSION;
+			$next_settings['update_time'] = time();
 		}
 		if ( ! empty( $stored_reusable_blocks ) ) {
-			if ( empty( $post_settings ) ) {
-				$post_settings['old_update_time'] = '0';
+			if ( empty( $old_settings ) ) {
+				$next_settings['old_update_time'] = '0';
+			} else {
+				$next_settings['old_update_time'] = $old_settings['update_time'];
 			}
-			$post_settings['update_time']     = time();
-			$post_settings['reusable_blocks'] = $stored_reusable_blocks;
+			$next_settings['update_time']     = time();
+			$next_settings['reusable_blocks'] = $stored_reusable_blocks;
 		}
-		if ( ! empty( $post_settings ) ) {
+		if ( ! empty( $next_settings ) ) {
 			update_post_meta(
 				$post_id,
 				self::POST_SETTINGS_POST_META_NAME,
-				wp_slash( wp_json_encode( $post_settings ) )
+				wp_slash( wp_json_encode( $next_settings ) )
 			);
 		} else {
 			delete_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME );
 		}
 	}
 
-	public function get_post_meta_post_settings( $post_id ) {
+	/**
+	 * Gets and decodes the _scblocks_post_settings post meta field.
+	 *
+	 * @param int $post_id Post ID.
+	 *
+	 * @return array
+	 */
+	public static function get_post_meta_post_settings( int $post_id ) : array {
 		$value = get_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, true );
 		if ( $value ) {
 			return json_decode( $value, true );
@@ -209,15 +273,22 @@ class Css_Manager {
 		return array();
 	}
 
-	public function get_parsed_content() {
+	/**
+	 * Gets the blocks parsed.
+	 *
+	 * @return array
+	 */
+	public function get_parsed_content() : array {
 		$post   = get_post();
 		$blocks = parse_blocks( $post->post_content );
 		return $blocks;
 	}
 	/**
-	 * Make our CSS.
+	 * Creates a css and tries to save to the file.
+	 *
+	 * @return bool True on success, false on failure.
 	 */
-	public function make_css() {
+	public function make_css() : bool {
 		$post_id = $this->get_post_id();
 		if ( ! $post_id ) {
 			return false;
@@ -256,7 +327,7 @@ class Css_Manager {
 
 			} else {
 				$update_time                 = time();
-				$settings                    = $this->get_post_meta_post_settings( $post_id );
+				$settings                    = self::get_post_meta_post_settings( $post_id );
 				$settings['old_update_time'] = $update_time;
 				$settings['update_time']     = $update_time;
 				$settings['css_version']     = SCBLOCKS_CSS_VERSION;
@@ -277,7 +348,7 @@ class Css_Manager {
 	 *
 	 * @return array
 	 */
-	public function get_blocks_attr( $parsed_blocks, $data = array() ) {
+	public function get_blocks_attr( array $parsed_blocks, array $data = array() ) : array {
 		if ( empty( $parsed_blocks ) ) {
 			return $data;
 		}
@@ -309,7 +380,15 @@ class Css_Manager {
 		}
 		return $data;
 	}
-	public function compose_css( $blocks ) {
+
+	/**
+	 * Composes css.
+	 *
+	 * @param array $blocks An array of blocks with their attributes.
+	 *
+	 * @return string
+	 */
+	public function compose_css( array $blocks ) : string {
 		$css = array(
 			'allDevices' => '',
 		);
@@ -338,7 +417,16 @@ class Css_Manager {
 		}
 		return $css['allDevices'] . $css[ self::DESKTOP_DEVICES ] . $css[ self::TABLET_DEVICES ] . $css[ self::MOBILE_DEVICES ];
 	}
-	public function compose_selectors( $selectors, $block_selector ) {
+
+	/**
+	 * Composes selectors.
+	 *
+	 * @param array $selectors Array of selectors.
+	 * @param string $block_selector Block leading selector.
+	 *
+	 * @return string
+	 */
+	public function compose_selectors( array $selectors, string $block_selector ) : string {
 		$css = '';
 
 		foreach ( $selectors as $selector => $selector_state ) {
@@ -356,7 +444,15 @@ class Css_Manager {
 		}
 		return $css;
 	}
-	public function compose_props( $props ) {
+
+	/**
+	 * Composes properties.
+	 *
+	 * @param $props
+	 *
+	 * @return string
+	 */
+	public function compose_props( array $props ) : string {
 		$css = '';
 
 		foreach ( $props as $prop ) {
@@ -367,7 +463,15 @@ class Css_Manager {
 		}
 		return $css;
 	}
-	public function standarize_prop_name( $name ) {
+
+	/**
+	 * Converts the property to the valid css property.
+	 *
+	 * @param $name
+	 *
+	 * @return string
+	 */
+	public function standarize_prop_name( string $name ) : string {
 		if ( strpos( $name, 'Custom' ) !== false ) {
 			$n = str_replace( 'Custom', '', $name );
 			$n = preg_replace_callback(
@@ -392,8 +496,10 @@ class Css_Manager {
 	 * Gets the css path or url to the stylesheet
 	 *
 	 * @param string $target path/url.
+	 *
+	 * @return string
 	 */
-	public function file( $target = 'path' ) {
+	public function file( string $target = 'path' ) : string {
 
 		global $blog_id;
 
@@ -431,8 +537,10 @@ class Css_Manager {
 
 	/**
 	 * Determines if the CSS file is writable.
+	 *
+	 * @return bool
 	 */
-	public function can_write() {
+	public function can_write() : bool {
 
 		global $blog_id;
 
