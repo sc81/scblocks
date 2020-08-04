@@ -5,12 +5,7 @@ import { merge } from 'lodash';
 /**
  * WordPress dependencies
  */
-import {
-	Button,
-	NavigableMenu,
-	Dropdown,
-	RangeControl,
-} from '@wordpress/components';
+import { Button, NavigableMenu, Dropdown } from '@wordpress/components';
 import { useMemo, useState } from '@wordpress/element';
 
 /**
@@ -80,7 +75,6 @@ export default function NumberUnit( {
 	displayClearButton,
 	onClear,
 	withoutSlider,
-	...rest
 } ) {
 	const number = getNumber( value );
 	const [ unitState, setUnit ] = useState( () =>
@@ -113,7 +107,7 @@ export default function NumberUnit( {
 				<div className={ `${ PLUGIN_NAME }-number-unit-header-left` }>
 					<span>{ label }</span>
 					{ ! withoutSelectDevices && <SelectDevices /> }
-					{ displayClearButton && (
+					{ displayClearButton && isNumber( number ) && (
 						<ButtonClear onClear={ onClear } />
 					) }
 				</div>
@@ -158,7 +152,19 @@ export default function NumberUnit( {
 					) }
 				</div>
 			</div>
-			{ withoutSlider && (
+			<div className={ `${ PLUGIN_NAME }-number-unit-content` }>
+				{ ! withoutSlider && (
+					<input
+						type="range"
+						value={ number }
+						onChange={ ( event ) =>
+							onChangeNumber( event.target.value )
+						}
+						min={ currentUnitRangeStep[ unit ].min }
+						max={ currentUnitRangeStep[ unit ].max }
+						step={ currentUnitRangeStep[ unit ].step }
+					/>
+				) }
 				<input
 					className="components-range-control__number"
 					type="number"
@@ -170,17 +176,7 @@ export default function NumberUnit( {
 					max={ currentUnitRangeStep[ unit ].max }
 					step={ currentUnitRangeStep[ unit ].step }
 				/>
-			) }
-			{ ! withoutSlider && (
-				<RangeControl
-					value={ number }
-					onChange={ onChangeNumber }
-					min={ currentUnitRangeStep[ unit ].min }
-					max={ currentUnitRangeStep[ unit ].max }
-					step={ currentUnitRangeStep[ unit ].step }
-					{ ...rest }
-				/>
-			) }
+			</div>
 		</div>
 	);
 }

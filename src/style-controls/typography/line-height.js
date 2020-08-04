@@ -8,13 +8,13 @@ import { __ } from '@wordpress/i18n';
  */
 import NumberUnit from '../../components/number-unit';
 
-export default function LineHeight( { value, onChange } ) {
+export default function LineHeight( props ) {
 	return (
 		<NumberUnit
+			{ ...props }
 			label={ __( 'Line height' ) }
-			value={ value }
-			onChange={ onChange }
 			units={ [ 'px', 'em' ] }
+			displayClearButton
 		/>
 	);
 }

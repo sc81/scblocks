@@ -10,5 +10,6 @@
 	}
 	.components-select-control__input {
 		flex-basis: 48%;
+		overflow: hidden; // for stupid firefox
 	}
 }
