@@ -21,6 +21,7 @@ export default function NumberControl( {
 				{ ! withoutSelectDevices && <SelectDevices /> }
 			</div>
 			<div className={ `${ PLUGIN_NAME }-number-control-content` }>
+				{ !! value && <ButtonClear onClear={ () => onChange( '' ) } /> }
 				<input
 					className="components-range-control__number"
 					type="number"
@@ -30,7 +31,6 @@ export default function NumberControl( {
 					value={ value }
 					onChange={ ( event ) => onChange( event.target.value ) }
 				/>
-				{ !! value && <ButtonClear onClear={ () => onChange( '' ) } /> }
 			</div>
 		</div>
 	);

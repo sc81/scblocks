@@ -2,6 +2,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	margin-bottom: 24px;
+
+	&:last-child {
+		margin-bottom: 8px;
+	}
 }
 .#{$pluginName}-number-control-header {
 	margin-bottom: 5px;

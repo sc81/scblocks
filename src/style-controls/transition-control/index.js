@@ -1,9 +1,13 @@
 /**
  * WordPress dependencies
  */
-import { RangeControl, SelectControl } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
+/**
+ * Internal dependencies
+ */
+import NumberControl from '../../components/number-control';
 
 export default function TransitionControl( {
 	value,
@@ -101,13 +105,23 @@ export default function TransitionControl( {
 
 	return (
 		<>
-			<RangeControl
+			<NumberControl
 				label={ __( 'Transition duration' ) }
 				value={ state.duration }
 				onChange={ ( v ) => onChangeValue( 'duration', v ) }
 				min={ 0 }
 				max={ 3 }
 				step={ 0.1 }
+				withoutSelectDevices
+			/>
+			<NumberControl
+				label={ __( 'Transition delay' ) }
+				value={ state.delay }
+				onChange={ ( v ) => onChangeValue( 'delay', v ) }
+				min={ 0 }
+				max={ 3 }
+				step={ 0.1 }
+				withoutSelectDevices
 			/>
 			<SelectControl
 				label={ __( 'Transition timing function' ) }
@@ -120,14 +134,6 @@ export default function TransitionControl( {
 					{ label: 'linear', value: 'linear' },
 				] }
 				onChange={ ( v ) => onChangeValue( 'timingFunction', v ) }
-			/>
-			<RangeControl
-				label={ __( 'Transition delay' ) }
-				value={ state.delay }
-				onChange={ ( v ) => onChangeValue( 'delay', v ) }
-				min={ 0 }
-				max={ 3 }
-				step={ 0.1 }
 			/>
 		</>
 	);
