@@ -51,12 +51,11 @@ class Block_Css {
 	/**
 	 * Get the current page ID.
 	 *
-	 * @return int|bool
+	 * @return int
 	 */
-	public function get_post_id() {
-
+	public static function get_post_id() : int {
 		global $post;
-		$id = false;
+		$id = 0;
 
 		if ( isset( $post ) && is_singular() ) {
 			$id = $post->ID;
@@ -68,14 +67,14 @@ class Block_Css {
 			$id = get_option( 'page_for_posts' );
 		}
 
-		return $id;
+		return (int) $id;
 	}
 
 	/**
 	 * Enqueue CSS from file.
 	 */
 	public function enqueue_css() {
-		$post_id = $this->get_post_id();
+		$post_id = self::get_post_id();
 
 		if ( ! $post_id ) {
 			return;
@@ -96,7 +95,7 @@ class Block_Css {
 
 		if ( 'inline' === $this->mode() || ! wp_style_is( 'scblocks-blocks', 'enqueued' ) ) {
 			$css = $this->compose_css( $this->get_blocks_attr( $this->get_parsed_content() ) );
-			
+
 			if ( ! empty( $css ) ) {
 				printf(
 					'<style id="scblocks-blocks-css">%s</style>',
@@ -149,7 +148,7 @@ class Block_Css {
 		if ( ! file_exists( $this->file( 'path' ) ) ) {
 			return true;
 		}
-		$post_id = $this->get_post_id();
+		$post_id = self::get_post_id();
 		if ( ! $post_id ) {
 			return false;
 		}
@@ -279,7 +278,11 @@ class Block_Css {
 	 * @return array
 	 */
 	public function get_parsed_content() : array {
-		$post   = get_post();
+		$post_id = self::get_post_id();
+		if ( ! $post_id ) {
+			return array();
+		}
+		$post   = get_post( $post_id );
 		$blocks = parse_blocks( $post->post_content );
 		return $blocks;
 	}
@@ -289,7 +292,7 @@ class Block_Css {
 	 * @return bool True on success, false on failure.
 	 */
 	public function make_css() : bool {
-		$post_id = $this->get_post_id();
+		$post_id = self::get_post_id();
 		if ( ! $post_id ) {
 			return false;
 		}
@@ -510,7 +513,7 @@ class Block_Css {
 		if ( is_multisite() && $blog_id > 1 ) {
 			$css_blog_id = '_blog-' . $blog_id;
 		}
-		$post_id = $this->get_post_id();
+		$post_id = self::get_post_id();
 
 		$file_name = 'style' . $css_blog_id . '-' . $post_id . '.css';
 
@@ -549,7 +552,7 @@ class Block_Css {
 
 		// If this is a multisite installation, append the blogid to the filename.
 		$css_blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
-		$post_id     = $this->get_post_id();
+		$post_id     = self::get_post_id();
 
 		if ( ! $post_id ) {
 			return false;
