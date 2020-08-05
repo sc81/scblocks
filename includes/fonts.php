@@ -50,7 +50,7 @@ class Fonts {
 		);
 	}
 	public function get_google_fonts() {
-		include_once SCBLOCKS_PLUGIN_DIR . '/includes/google-fonts.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/google-fonts.php';
 		return rest_ensure_response( GOOGLE_FONTS );
 	}
 	public function get_fonts() {

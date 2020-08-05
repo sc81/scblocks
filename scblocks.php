@@ -31,7 +31,7 @@ function scblocks_pro_load_textdomain() {
 	load_plugin_textdomain( 'scblocks', false, dirname( plugin_basename( SCBLOCKS_PLUGIN_DIR ) ) . '/languages/' );
 }
 
-if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
+if ( ! version_compare( PHP_VERSION, '7.0', '>=' ) ) {
 	add_action( 'admin_notices', 'scblocks_fail_php_version' );
 } elseif ( ! version_compare( get_bloginfo( 'version' ), '5.4', '>=' ) ) {
 	add_action( 'admin_notices', 'scblocks_fail_wp_version' );
@@ -47,7 +47,7 @@ if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
  */
 function scblocks_fail_php_version() {
 	/* translators: %s: PHP version */
-	$message      = sprintf( esc_html__( 'ScBlocks requires PHP version %s+, plugin is currently NOT RUNNING.', 'scblocks' ), '5.6' );
+	$message      = sprintf( esc_html__( 'ScBlocks requires PHP version %s+, plugin is currently NOT RUNNING.', 'scblocks' ), '7.0' );
 	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
 	echo wp_kses_post( $html_message );
 }

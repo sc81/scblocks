@@ -15,28 +15,26 @@ class Plugin {
 		return self::$instance;
 	}
 	public function __clone() {
-		// Cloning instances of the class is forbidden.
 		_doing_it_wrong( __FUNCTION__, esc_html__( 'Something went wrong.', 'scblocks' ), '1.0.0' );
 	}
 	public function __wakeup() {
-		// Unserializing instances of the class is forbidden.
 		_doing_it_wrong( __FUNCTION__, esc_html__( 'Something went wrong.', 'scblocks' ), '1.0.0' );
 	}
 
 	public function load_files() {
-		include_once SCBLOCKS_PLUGIN_DIR . '/includes/blocks.php';
-		include_once SCBLOCKS_PLUGIN_DIR . '/includes/fonts.php';
-		include_once SCBLOCKS_PLUGIN_DIR . '/includes/css-manager.php';
-		include_once SCBLOCKS_PLUGIN_DIR . '/includes/icons.php';
-		include_once SCBLOCKS_PLUGIN_DIR . '/includes/font-awesome.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-assets.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/fonts.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-css.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/icons.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/font-awesome.php';
 	}
 
 	private function __construct() {
 		$this->load_files();
 		$classes = array(
-			'ScBlocks\Blocks',
+			'ScBlocks\Block_Assets',
 			'ScBlocks\Fonts',
-			'ScBlocks\Css_Manager',
+			'ScBlocks\Block_Css',
 			'ScBlocks\Icons',
 		);
 

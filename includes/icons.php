@@ -30,7 +30,7 @@ class Icons {
 
 		switch ( $data['id'] ) {
 			case 1:
-				include_once SCBLOCKS_PLUGIN_DIR . '/includes/font-awesome.php';
+				include_once SCBLOCKS_PLUGIN_DIR . 'includes/font-awesome.php';
 
 				return rest_ensure_response( wp_json_encode( get_font_awesome_icons() ) );
 
