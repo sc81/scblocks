@@ -9,6 +9,7 @@ import LetterSpacing from './letter-spacing';
 import { setPropValue, getPropertiesValue } from '../../utils';
 import { ALL_DEVICES } from '../../constants';
 import useRelatedSelectorProps from '../../hooks/use-related-selector-props';
+import TextColor from './text-color';
 
 export default function Typography( props ) {
 	const { devices, attributes, setAttributes, selectorSettings } = props;
@@ -52,6 +53,7 @@ export default function Typography( props ) {
 
 	return (
 		<>
+			<TextColor { ...props } />
 			<FontFamily
 				value={ fontFamily }
 				onChange={ ( value ) =>
@@ -62,7 +64,6 @@ export default function Typography( props ) {
 					} )
 				}
 			/>
-
 			<TextTransform
 				value={ textTransform }
 				onChange={ ( value ) =>
