@@ -1,3 +1,11 @@
+/**
+ * WordPress dependencies
+ */
+import { __ } from '@wordpress/i18n';
+
+/**
+ * Internal dependencies
+ */
 import { PLUGIN_NAME } from '../../constants';
 
 export const BUTTON_BLOCK_NAME = `${ PLUGIN_NAME }/button`;
@@ -14,7 +22,7 @@ export const BUTTON_ICON_SELECTOR = `.${ BUTTON_ICON_CLASS }`;
 
 export const selectors = [
 	{
-		label: 'Button',
+		label: __( 'Button' ),
 		selector: BUTTON_LINK_SELECTOR,
 		allowedPanels: {
 			background: true,
@@ -26,6 +34,7 @@ export const selectors = [
 			},
 			flex: {
 				flexGrow: true,
+				flexDirection: true,
 			},
 		},
 		relatedSelectorProps: {
@@ -33,14 +42,32 @@ export const selectors = [
 			props: [ 'margin', 'flexGrow' ],
 		},
 	},
+	{
+		label: __( 'Icon' ),
+		selector: BUTTON_ICON_SELECTOR,
+		allowedPanels: {
+			colors: true,
+			space: {
+				padding: true,
+				margin: true,
+				width: {
+					units: {
+						px: {
+							min: 10,
+							max: 100,
+						},
+					},
+				},
+				height: {
+					units: {
+						px: {
+							min: 10,
+							max: 100,
+						},
+					},
+				},
+			},
+		},
+		isActive: false,
+	},
 ];
-
-export function getIconPositionClass( iconPosition ) {
-	switch ( iconPosition ) {
-		case 'after':
-			return ` ${ PLUGIN_NAME }-icon-after`;
-		case 'before':
-			return ` ${ PLUGIN_NAME }-icon-before`;
-	}
-	return '';
-}

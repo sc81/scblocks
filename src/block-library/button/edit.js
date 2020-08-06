@@ -7,6 +7,7 @@ import {
 	RichText,
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
+import { useEffect } from '@wordpress/element';
 /**
  * Internal dependencies
  */
@@ -16,27 +17,23 @@ import {
 	BUTTON_TEXT_CLASS,
 	BUTTON_ICON_CLASS,
 	selectors,
-	getIconPositionClass,
+	BUTTON_ICON_SELECTOR,
 } from './utils';
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import Inspector from './inspector';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import URLPicker from './url-picker';
+import {
+	setSelectorActivity,
+	useSelectorsActivity,
+} from '../../hooks/use-selector-activity';
 
 const NEW_TAB_REL = 'noreferrer noopener';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, isSelected } = props;
-	const {
-		url,
-		linkTarget,
-		rel,
-		text,
-		icon,
-		uidClass,
-		iconPosition,
-	} = attributes;
+	const { url, linkTarget, rel, text, icon, uidClass } = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -47,6 +44,12 @@ export default function Edit( props ) {
 	);
 	const blockMemo = useBlockMemo( attributes, selectors );
 	useDynamicCss( props, devices );
+
+	const selectorsActivity = useSelectorsActivity( selectors );
+
+	useEffect( () => {
+		setSelectorActivity( selectorsActivity, BUTTON_ICON_SELECTOR, !! icon );
+	}, [ selectorsActivity, icon ] );
 
 	function onToggleOpenInNewTab( value ) {
 		const newLinkTarget = value ? '_blank' : undefined;
@@ -71,13 +74,16 @@ export default function Edit( props ) {
 				devices={ devices }
 				blockMemo={ blockMemo }
 				onToggleOpenInNewTab={ onToggleOpenInNewTab }
+				selectorsActivity={ selectorsActivity }
 			/>
 			<Block.div className={ `${ BUTTON_CLASS } ${ uidClass }` }>
-				<div
-					className={ `${ BUTTON_LINK_CLASS }${ getIconPositionClass(
-						iconPosition
-					) }` }
-				>
+				<div className={ BUTTON_LINK_CLASS }>
+					{ icon && (
+						<span
+							className={ BUTTON_ICON_CLASS }
+							dangerouslySetInnerHTML={ { __html: icon } }
+						/>
+					) }
 					<RichText
 						tagName="span"
 						className={ BUTTON_TEXT_CLASS }
@@ -88,12 +94,6 @@ export default function Edit( props ) {
 						placeholder={ __( 'Add text…' ) }
 						withoutInteractiveFormatting
 					/>
-					{ icon && (
-						<span
-							className={ BUTTON_ICON_CLASS }
-							dangerouslySetInnerHTML={ { __html: icon } }
-						/>
-					) }
 				</div>
 				<URLPicker
 					url={ url }

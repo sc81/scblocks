@@ -69,9 +69,6 @@ export const settings = {
 		},
 		iconPath: {
 			type: 'string',
-		},
-		iconPosition: {
-			type: 'string',
 			default: '',
 		},
 	},
