@@ -29,10 +29,12 @@ export default function TextColor( props ) {
 	} );
 	return (
 		<>
-			<NormalHoverButtons
-				isHover={ isHover }
-				onChange={ ( value ) => setIsHover( value ) }
-			/>
+			<div>
+				<NormalHoverButtons
+					isHover={ isHover }
+					onChange={ ( value ) => setIsHover( value ) }
+				/>
+			</div>
 			<OpenColorPicker
 				lable={ __( 'Text color' ) }
 				value={ color }
