@@ -15,7 +15,7 @@ export default function BindControlsSwitch( { value, onChange } ) {
 			<Button
 				type="button"
 				isSmall
-				isSecondary={ value === 'all' }
+				isPrimary={ value === 'all' }
 				aria-pressed={ value === 'all' }
 				onClick={ () => onChange( 'all' ) }
 			>
@@ -24,7 +24,7 @@ export default function BindControlsSwitch( { value, onChange } ) {
 			<Button
 				type="button"
 				isSmall
-				isSecondary={ value === 'one' }
+				isPrimary={ value === 'one' }
 				aria-pressed={ value === 'one' }
 				onClick={ () => onChange( 'one' ) }
 			>
@@ -33,7 +33,7 @@ export default function BindControlsSwitch( { value, onChange } ) {
 			<Button
 				type="button"
 				isSmall
-				isSecondary={ value === 'opposite' }
+				isPrimary={ value === 'opposite' }
 				aria-pressed={ value === 'opposite' }
 				onClick={ () => onChange( 'opposite' ) }
 			>
