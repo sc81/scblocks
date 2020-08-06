@@ -14,7 +14,7 @@ export default function NormalHoverButtons( { isHover, onChange } ) {
 		<ButtonGroup className={ `${ PLUGIN_NAME }-button-group two` }>
 			<Button
 				isSmall
-				isSecondary={ ! isHover }
+				isPrimary={ ! isHover }
 				aria-pressed={ ! isHover }
 				onClick={ () => onChange( false ) }
 			>
@@ -22,7 +22,7 @@ export default function NormalHoverButtons( { isHover, onChange } ) {
 			</Button>
 			<Button
 				isSmall
-				isSecondary={ isHover }
+				isPrimary={ isHover }
 				aria-pressed={ isHover }
 				onClick={ () => onChange( true ) }
 			>
