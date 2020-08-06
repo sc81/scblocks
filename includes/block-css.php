@@ -51,6 +51,8 @@ class Block_Css {
 	/**
 	 * Get the current page ID.
 	 *
+	 * @static
+	 *
 	 * @return int
 	 */
 	public static function get_post_id() : int {
@@ -60,14 +62,34 @@ class Block_Css {
 		if ( isset( $post ) && is_singular() ) {
 			$id = $post->ID;
 		}
-		if ( function_exists( 'is_shop' ) && is_shop() ) {
-			$id = get_option( 'woocommerce_shop_page_id' );
+		if ( self::is_woo_shop() ) {
+			$id = self::get_woo_shop_page_id();
 		}
 		if ( is_home() ) {
 			$id = get_option( 'page_for_posts' );
 		}
 
 		return (int) $id;
+	}
+	/**
+	 * Checks if there is a woocommerce shop page.
+	 *
+	 * @static
+	 *
+	 * @return bool
+	 */
+	public static function is_woo_shop() : bool {
+		return function_exists( 'is_shop' ) && is_shop();
+	}
+	/**
+	 * Gets a woocommerce shop page id.
+	 *
+	 * @static
+	 *
+	 * @return int
+	 */
+	public static function get_woo_shop_page_id() : int {
+		return get_option( 'woocommerce_shop_page_id' );
 	}
 
 	/**
@@ -260,6 +282,8 @@ class Block_Css {
 	/**
 	 * Gets and decodes the _scblocks_post_settings post meta field.
 	 *
+	 * @static
+	 *
 	 * @param int $post_id Post ID.
 	 *
 	 * @return array
@@ -282,7 +306,11 @@ class Block_Css {
 		if ( ! $post_id ) {
 			return array();
 		}
-		$post   = get_post( $post_id );
+		if ( self::is_woo_shop() ) {
+			$post = get_post( self::get_woo_shop_page_id() );
+		} else {
+			$post = get_post();
+		}
 		$blocks = parse_blocks( $post->post_content );
 		return $blocks;
 	}

@@ -58,8 +58,12 @@ class Block_Assets {
 	 */
 	public function frontend_assets() {
 		$post_id = Block_Css::get_post_id();
-		// if 0 we are on a blog page, otherwise we are on a single post/page
-		$has_block = 0 === $post_id ? true : $this->has_post_settings( $post_id );
+		// ! singular || preview
+		if ( ! $post_id || is_preview() ) {
+			$has_block = true;
+		} else {
+			$has_block = $this->has_post_settings( $post_id );
+		}
 
 		if ( $has_block ) {
 			wp_enqueue_style(
