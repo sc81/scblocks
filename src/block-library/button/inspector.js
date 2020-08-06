@@ -1,13 +1,7 @@
 /**
  * WordPress dependencies
  */
-import {
-	PanelBody,
-	TextControl,
-	ToggleControl,
-	SelectControl,
-	RangeControl,
-} from '@wordpress/components';
+import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
@@ -17,10 +11,7 @@ import { __ } from '@wordpress/i18n';
 import ControlsManager from '../../components/controls-manager';
 import IconPicker from '../../components/icon-picker';
 import { selectors, BUTTON_ICON_SELECTOR } from './utils';
-import { getPropertiesValue, setPropsSettings } from '../../utils';
-import { ALL_DEVICES } from '../../constants';
-
-const DEFAULT_ICON_POSITION = 'before';
+import { removeSelectors } from '../../utils';
 
 export default function Inspector( {
 	attributes,
@@ -28,68 +19,20 @@ export default function Inspector( {
 	onToggleOpenInNewTab,
 	devices,
 	blockMemo,
+	selectorsActivity,
 } ) {
-	const { linkTarget, rel, icon, iconPath, iconPosition } = attributes;
+	const { linkTarget, rel, icon, iconPath } = attributes;
 
-	const { marginRight, marginLeft } = getPropertiesValue( {
-		attributes,
-		devices: ALL_DEVICES,
-		selector: BUTTON_ICON_SELECTOR,
-		props: [ 'marginRight', 'marginLeft' ],
-	} );
-	let iconSpacing;
-	if ( iconPosition === 'after' ) {
-		iconSpacing = marginLeft;
-	} else {
-		iconSpacing = marginRight;
-	}
-	if ( iconSpacing ) {
-		iconSpacing = parseFloat( iconSpacing );
-	}
-
-	function setIconSpacing( value ) {
-		let nextMarginRight = '',
-			nextMarginLeft = '';
-		if ( value || value === 0 ) {
-			if ( iconPosition === 'before' ) {
-				nextMarginRight = value + 'px';
-			} else {
-				nextMarginLeft = value + 'px';
-			}
-		}
-		setPropsSettings( {
+	function onClearIcon() {
+		setAttributes( {
+			icon: '',
+			iconPath: '',
+		} );
+		removeSelectors( {
 			attributes,
 			setAttributes,
-			devices: ALL_DEVICES,
-			selector: BUTTON_ICON_SELECTOR,
-			props: {
-				marginRight: nextMarginRight,
-				marginLeft: nextMarginLeft,
-			},
+			selectors: [ BUTTON_ICON_SELECTOR ],
 		} );
-	}
-	function setIconPosition( value ) {
-		let nextMarginRight, nextMarginLeft;
-		if ( value === 'before' ) {
-			nextMarginRight = marginLeft;
-		} else {
-			nextMarginLeft = marginRight;
-		}
-		setAttributes( { iconPosition: value } );
-		setPropsSettings( {
-			attributes,
-			setAttributes,
-			devices: ALL_DEVICES,
-			selector: BUTTON_ICON_SELECTOR,
-			props: {
-				marginRight: nextMarginRight,
-				marginLeft: nextMarginLeft,
-			},
-		} );
-	}
-	function onSelectIcon( value ) {
-		setAttributes( value );
-		setIconPosition( DEFAULT_ICON_POSITION );
 	}
 
 	return (
@@ -100,6 +43,7 @@ export default function Inspector( {
 				attributes={ attributes }
 				devices={ devices }
 				blockMemo={ blockMemo }
+				selectorsActivity={ selectorsActivity }
 				mainControls={
 					<>
 						<PanelBody title={ __( 'Link' ) } opened>
@@ -120,31 +64,10 @@ export default function Inspector( {
 							<IconPicker
 								iconPath={ iconPath }
 								icon={ icon }
-								onSelect={ onSelectIcon }
-								onClear={ () => {
-									setAttributes( {
-										icon: '',
-										iconPath: '',
-										iconPosition: '',
-									} );
+								onSelect={ ( value ) => {
+									setAttributes( value );
 								} }
-							/>
-							<SelectControl
-								label={ __( 'Icon position' ) }
-								value={ iconPosition }
-								options={ [
-									{ label: __( 'Before' ), value: 'before' },
-									{ label: __( 'After' ), value: 'after' },
-								] }
-								onChange={ setIconPosition }
-							/>
-							<RangeControl
-								label={ __( 'Icon spacing' ) }
-								value={ iconSpacing }
-								onChange={ setIconSpacing }
-								min={ 0 }
-								max={ 50 }
-								allowReset
+								onClear={ onClearIcon }
 							/>
 						</PanelBody>
 					</>
