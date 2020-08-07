@@ -2,11 +2,10 @@
 
 /**
  * Plugin Name: ScBlocks
- * Description: ScBlocks is a set of blocks that facilitate the creation of a page in the new editor.
+ * Description: Custom blocks for the new WordPress editor.
  * Author: sc81
  * Version: 0.1.0
  * Text Domain: scblocks
- * Domain Path: /languages
  * Tested up to: 5.4.0
  */
 
@@ -22,13 +21,15 @@ define( 'SCBLOCKS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 define( 'SCBLOCKS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-add_action( 'plugins_loaded', 'scblocks_pro_load_textdomain' );
+add_action( 'plugins_loaded', 'scblocks_load_plugin_textdomain' );
 
 /**
- * Load ScBlocks translated strings.
+ * Load ScBlocks textdomain.
+ *
+ * @return void
  */
-function scblocks_pro_load_textdomain() {
-	load_plugin_textdomain( 'scblocks', false, dirname( plugin_basename( SCBLOCKS_PLUGIN_DIR ) ) . '/languages/' );
+function scblocks_load_plugin_textdomain() {
+	load_plugin_textdomain( 'scblocks' );
 }
 
 if ( ! version_compare( PHP_VERSION, '7.0', '>=' ) ) {
@@ -56,8 +57,9 @@ function scblocks_fail_php_version() {
  *
  * Warning when the site doesn't have the minimum required WordPress version.
  *
+ * @return void
  */
-function scblocks_pro_fail_wp_version() {
+function scblocks_fail_wp_version() {
 	/* translators: %s: WordPress version */
 	$message      = sprintf( esc_html__( 'ScBlocks requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING.', 'scblocks' ), '5.4' );
 	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );

@@ -10,6 +10,7 @@ import { PanelBody, SelectControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { useEffect } from '@wordpress/element';
+import { createBlock } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
@@ -32,9 +33,10 @@ import {
 } from '../../hooks/use-selector-activity';
 import { removeSelectors } from '../../utils';
 import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
+import { name as blockName } from '.';
 
 export default function Edit( props ) {
-	const { attributes, setAttributes } = props;
+	const { attributes, setAttributes, onReplace } = props;
 	const { text, level, icon, iconPath, uidClass } = attributes;
 
 	const devices = useSelect(
@@ -125,6 +127,17 @@ export default function Edit( props ) {
 					value={ text }
 					onChange={ ( value ) => setAttributes( { text: value } ) }
 					placeholder={ __( 'Title' ) }
+					onSplit={ ( value ) => {
+						if ( ! value ) {
+							return createBlock( 'core/paragraph' );
+						}
+
+						return createBlock( blockName, {
+							...attributes,
+							text: value,
+						} );
+					} }
+					onReplace={ onReplace }
 				/>
 			</BlockWrapper>
 		</>

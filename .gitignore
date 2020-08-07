@@ -1,6 +1,5 @@
 build
 node_modules
-languages
 vendor
 .vscode
 .DS_Store
