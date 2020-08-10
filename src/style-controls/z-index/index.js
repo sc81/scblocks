@@ -19,7 +19,7 @@ export default function Zindex( props ) {
 
 	return (
 		<TextControl
-			label={ __( 'Z-index' ) }
+			label={ __( 'Z-index', 'scblocks' ) }
 			value={ propValue }
 			onChange={ onChange }
 			type="number"

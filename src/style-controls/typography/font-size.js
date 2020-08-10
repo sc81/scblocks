@@ -12,7 +12,7 @@ export default function FontSize( props ) {
 	return (
 		<NumberUnit
 			{ ...props }
-			label={ __( 'Size' ) }
+			label={ __( 'Size', 'scblocks' ) }
 			units={ [ 'px', 'em', 'rem', 'vw' ] }
 			displayClearButton
 			unitRangeStep={ {

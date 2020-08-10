@@ -37,7 +37,7 @@ export default function Flex( props ) {
 			{ flexGrow && (
 				<NumberProperty
 					{ ...props }
-					label={ __( 'Flex grow' ) }
+					label={ __( 'Flex grow', 'scblocks' ) }
 					propName="flexGrow"
 					devices={ ALL_DEVICES }
 					selector={ propSelector.flexGrow }

@@ -17,7 +17,7 @@ import propertyService from '../property-service';
 
 const propDefaults = {
 	height: {
-		label: __( 'Height' ),
+		label: __( 'Height', 'scblocks' ),
 		units: [ 'px', '%', 'vw', 'vh' ],
 		unitRangeStep: {
 			px: {
@@ -26,7 +26,7 @@ const propDefaults = {
 		},
 	},
 	maxHeight: {
-		label: __( 'Max-height' ),
+		label: __( 'Max-height', 'scblocks' ),
 		units: [ 'px', '%', 'vw', 'vh' ],
 		unitRangeStep: {
 			px: {
@@ -35,7 +35,7 @@ const propDefaults = {
 		},
 	},
 	minHeight: {
-		label: __( 'Min-height' ),
+		label: __( 'Min-height', 'scblocks' ),
 		units: [ 'px', '%', 'vw', 'vh' ],
 		unitRangeStep: {
 			px: {
@@ -44,7 +44,7 @@ const propDefaults = {
 		},
 	},
 	width: {
-		label: __( 'Width' ),
+		label: __( 'Width', 'scblocks' ),
 		units: [ 'px', '%', 'vw', 'vh' ],
 		unitRangeStep: {
 			px: {
@@ -53,7 +53,7 @@ const propDefaults = {
 		},
 	},
 	minWidth: {
-		label: __( 'Min-width' ),
+		label: __( 'Min-width', 'scblocks' ),
 		units: [ 'px', '%', 'vw', 'vh' ],
 		unitRangeStep: {
 			px: {
@@ -62,7 +62,7 @@ const propDefaults = {
 		},
 	},
 	maxWidth: {
-		label: __( 'Max-width' ),
+		label: __( 'Max-width', 'scblocks' ),
 		units: [ 'px', '%', 'vw', 'vh' ],
 		unitRangeStep: {
 			px: {

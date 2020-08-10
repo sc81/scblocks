@@ -14,21 +14,21 @@ import BindControlsSwitch from '../../components/bind-controls-switch';
 import { PLUGIN_NAME } from '../../constants';
 
 const labels = {
-	top: __( 'top' ),
-	right: __( 'right' ),
-	bottom: __( 'bottom' ),
-	left: __( 'left' ),
+	top: __( 'top', 'scblocks' ),
+	right: __( 'right', 'scblocks' ),
+	bottom: __( 'bottom', 'scblocks' ),
+	left: __( 'left', 'scblocks' ),
 };
 const radiusLabels = {
-	top: __( 'top-left' ),
-	right: __( 'top-right' ),
-	bottom: __( 'bottom-right' ),
-	left: __( 'bottom-left' ),
+	top: __( 'top-left', 'scblocks' ),
+	right: __( 'top-right', 'scblocks' ),
+	bottom: __( 'bottom-right', 'scblocks' ),
+	left: __( 'bottom-left', 'scblocks' ),
 };
 const title = {
-	margin: __( 'Margin' ),
-	padding: __( 'Padding' ),
-	borderRadius: __( 'Border radius' ),
+	margin: __( 'Margin', 'scblocks' ),
+	padding: __( 'Padding', 'scblocks' ),
+	borderRadius: __( 'Border radius', 'scblocks' ),
 };
 function propLongName( propName, position ) {
 	if ( propName === 'borderRadius' ) {

@@ -19,7 +19,7 @@ export default function BindControlsSwitch( { value, onChange } ) {
 				aria-pressed={ value === 'all' }
 				onClick={ () => onChange( 'all' ) }
 			>
-				{ __( 'all' ) }
+				{ __( 'all', 'scblocks' ) }
 			</Button>
 			<Button
 				type="button"
@@ -28,7 +28,7 @@ export default function BindControlsSwitch( { value, onChange } ) {
 				aria-pressed={ value === 'one' }
 				onClick={ () => onChange( 'one' ) }
 			>
-				{ __( 'one' ) }
+				{ __( 'one', 'scblocks' ) }
 			</Button>
 			<Button
 				type="button"
@@ -37,7 +37,7 @@ export default function BindControlsSwitch( { value, onChange } ) {
 				aria-pressed={ value === 'opposite' }
 				onClick={ () => onChange( 'opposite' ) }
 			>
-				{ __( 'opposite' ) }
+				{ __( 'opposite', 'scblocks' ) }
 			</Button>
 		</ButtonGroup>
 	);

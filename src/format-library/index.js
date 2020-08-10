@@ -13,7 +13,7 @@ import { PLUGIN_NAME } from '../constants';
 const icon = <Dashicon icon="edit" />;
 
 const name = `${ PLUGIN_NAME }/mark`;
-const title = __( 'Highlight' );
+const title = __( 'Highlight', 'scblocks' );
 
 const mark = {
 	name,

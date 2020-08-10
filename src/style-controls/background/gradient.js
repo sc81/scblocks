@@ -59,7 +59,7 @@ export default function Gradient( {
 	return (
 		<BaseControl>
 			<BaseControl.VisualLabel>
-				{ __( 'Gradient' ) }
+				{ __( 'Gradient', 'scblocks' ) }
 			</BaseControl.VisualLabel>
 			<GradientPicker
 				gradients={ gradients }

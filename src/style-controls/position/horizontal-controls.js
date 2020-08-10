@@ -71,7 +71,7 @@ export function HorizontalControls( {
 	return (
 		<>
 			<div className={ `${ PLUGIN_NAME }-label-with-inline-buttons` }>
-				<div>{ __( 'Start from' ) }</div>
+				<div>{ __( 'Start from', 'scblocks' ) }</div>
 				<ButtonGroup>
 					<Button
 						type="button"
@@ -80,7 +80,7 @@ export function HorizontalControls( {
 						aria-pressed={ startingEdge === 'left' }
 						onClick={ () => onClickButton( 'left' ) }
 					>
-						{ __( 'Left' ) }
+						{ __( 'Left', 'scblocks' ) }
 					</Button>
 					<Button
 						type="button"
@@ -89,12 +89,12 @@ export function HorizontalControls( {
 						aria-pressed={ startingEdge === 'right' }
 						onClick={ () => onClickButton( 'right' ) }
 					>
-						{ __( 'Right' ) }
+						{ __( 'Right', 'scblocks' ) }
 					</Button>
 				</ButtonGroup>
 			</div>
 			<NumberUnit
-				label={ __( 'Move' ) }
+				label={ __( 'Move', 'scblocks' ) }
 				value={ startingEdge === 'right' ? right : left }
 				units={ [ 'px', 'vh', 'vw', '%' ] }
 				onChange={ onChange }

@@ -93,12 +93,12 @@ export default function BoxShadowControl( { value, onChange } ) {
 	return (
 		<>
 			<OpenColorPicker
-				label={ __( 'Color' ) }
+				label={ __( 'Color', 'scblocks' ) }
 				value={ color }
 				onChange={ ( v ) => onChangeValue( v, 'color' ) }
 			/>
 			<NumberUnit
-				label={ __( 'Horizontal' ) }
+				label={ __( 'Horizontal', 'scblocks' ) }
 				value={ offsetX }
 				units={ [ 'px', 'em' ] }
 				onChange={ ( v ) => onChangeValue( v, 'offsetX' ) }
@@ -113,7 +113,7 @@ export default function BoxShadowControl( { value, onChange } ) {
 				withoutSelectDevices
 			/>
 			<NumberUnit
-				label={ __( 'Vertical' ) }
+				label={ __( 'Vertical', 'scblocks' ) }
 				value={ offsetY }
 				units={ [ 'px', 'em' ] }
 				onChange={ ( v ) => onChangeValue( v, 'offsetY' ) }
@@ -128,14 +128,14 @@ export default function BoxShadowControl( { value, onChange } ) {
 				withoutSelectDevices
 			/>
 			<NumberUnit
-				label={ __( 'Blur' ) }
+				label={ __( 'Blur', 'scblocks' ) }
 				value={ blur }
 				units={ [ 'px', 'em' ] }
 				onChange={ ( v ) => onChangeValue( v, 'blur' ) }
 				withoutSelectDevices
 			/>
 			<NumberUnit
-				label={ __( 'Spread' ) }
+				label={ __( 'Spread', 'scblocks' ) }
 				value={ spread }
 				units={ [ 'px', 'em' ] }
 				onChange={ ( v ) => onChangeValue( v, 'spread' ) }
@@ -143,7 +143,7 @@ export default function BoxShadowControl( { value, onChange } ) {
 			/>
 			<BaseControl>
 				<BaseControl.VisualLabel>
-					{ __( 'Position' ) }
+					{ __( 'Position', 'scblocks' ) }
 				</BaseControl.VisualLabel>
 				<ButtonGroup>
 					<Button
@@ -152,7 +152,7 @@ export default function BoxShadowControl( { value, onChange } ) {
 						aria-pressed={ inset === 'inset' }
 						onClick={ () => onChangeValue( 'inset', 'inset' ) }
 					>
-						{ __( 'Inner' ) }
+						{ __( 'Inner', 'scblocks' ) }
 					</Button>
 					<Button
 						isSmall
@@ -160,7 +160,7 @@ export default function BoxShadowControl( { value, onChange } ) {
 						aria-pressed={ inset === '' }
 						onClick={ () => onChangeValue( '', 'inset' ) }
 					>
-						{ __( 'Outer' ) }
+						{ __( 'Outer', 'scblocks' ) }
 					</Button>
 				</ButtonGroup>
 			</BaseControl>

@@ -13,19 +13,19 @@ export default function FontWeight( { value, onChange } ) {
 	return (
 		<SelectControl
 			className={ selectControlClass }
-			label={ __( 'Font weight' ) }
+			label={ __( 'Font weight', 'scblocks' ) }
 			value={ value }
 			options={ [
-				{ label: __( 'Default' ), value: '' },
-				{ label: __( 'Thin (100)' ), value: '100' },
-				{ label: __( 'Extra Light (200)' ), value: '200' },
-				{ label: __( 'Light (300)' ), value: '300' },
-				{ label: __( 'Normal (400)' ), value: '400' },
-				{ label: __( 'Medium (500)' ), value: '500' },
-				{ label: __( 'Semi Bold (600)' ), value: '600' },
-				{ label: __( 'Bold (700)' ), value: '700' },
-				{ label: __( 'Extra Bold (800)' ), value: '800' },
-				{ label: __( 'Black (900)' ), value: '900' },
+				{ label: __( 'Default', 'scblocks' ), value: '' },
+				{ label: __( 'Thin (100)', 'scblocks' ), value: '100' },
+				{ label: __( 'Extra Light (200)', 'scblocks' ), value: '200' },
+				{ label: __( 'Light (300)', 'scblocks' ), value: '300' },
+				{ label: __( 'Normal (400)', 'scblocks' ), value: '400' },
+				{ label: __( 'Medium (500)', 'scblocks' ), value: '500' },
+				{ label: __( 'Semi Bold (600)', 'scblocks' ), value: '600' },
+				{ label: __( 'Bold (700)', 'scblocks' ), value: '700' },
+				{ label: __( 'Extra Bold (800)', 'scblocks' ), value: '800' },
+				{ label: __( 'Black (900)', 'scblocks' ), value: '900' },
 			] }
 			onChange={ onChange }
 		/>

@@ -21,7 +21,7 @@ export default function Filter( props ) {
 
 	return (
 		<DropdownComponent
-			label={ __( 'CSS filters' ) }
+			label={ __( 'CSS filters', 'scblocks' ) }
 			isValue={ !! propValue }
 			withoutSelectDevices
 			onClear={ ( onClose ) => {

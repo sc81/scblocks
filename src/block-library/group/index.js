@@ -15,15 +15,15 @@ import icon from './icon';
 export const name = `${ PLUGIN_NAME }/group`;
 
 export const settings = {
-	title: __( 'Group' ),
+	title: __( 'Group', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
-	description: __( 'A block that groups other blocks.' ),
+	description: __( 'A block that groups other blocks.', 'scblocks' ),
 	keywords: [
-		__( 'container' ),
-		__( 'wrapper' ),
-		__( 'row' ),
-		__( 'section' ),
+		__( 'container', 'scblocks' ),
+		__( 'wrapper', 'scblocks' ),
+		__( 'row', 'scblocks' ),
+		__( 'section', 'scblocks' ),
 	],
 	attributes: {
 		section: {

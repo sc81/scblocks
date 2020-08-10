@@ -14,10 +14,10 @@ import { PLUGIN_NAME } from '../../constants';
 import BindControlsSwitch from '../../components/bind-controls-switch';
 
 const labels = {
-	top: __( 'Top' ),
-	right: __( 'Right' ),
-	bottom: __( 'Bottom' ),
-	left: __( 'Left' ),
+	top: __( 'Top', 'scblocks' ),
+	right: __( 'Right', 'scblocks' ),
+	bottom: __( 'Bottom', 'scblocks' ),
+	left: __( 'Left', 'scblocks' ),
 };
 
 export default function BorderControl( { border, onChange } ) {
@@ -188,23 +188,23 @@ export default function BorderControl( { border, onChange } ) {
 		<>
 			<SelectControl
 				className={ `${ PLUGIN_NAME }-select-control-inline` }
-				label={ __( 'Border style' ) }
+				label={ __( 'Border style', 'scblocks' ) }
 				value={ style }
 				options={ [
-					{ label: __( 'Default' ), value: '' },
-					{ label: __( 'Solid' ), value: 'solid' },
-					{ label: __( 'Dotted' ), value: 'dotted' },
-					{ label: __( 'Dashed' ), value: 'dashed' },
-					{ label: __( 'Double' ), value: 'double' },
+					{ label: __( 'Default', 'scblocks' ), value: '' },
+					{ label: __( 'Solid', 'scblocks' ), value: 'solid' },
+					{ label: __( 'Dotted', 'scblocks' ), value: 'dotted' },
+					{ label: __( 'Dashed', 'scblocks' ), value: 'dashed' },
+					{ label: __( 'Double', 'scblocks' ), value: 'double' },
 				] }
 				onChange={ onChangeStyle }
 			/>
 			<OpenColorPicker
-				label={ __( 'Border color' ) }
+				label={ __( 'Border color', 'scblocks' ) }
 				value={ color }
 				onChange={ onChangeColor }
 			/>
-			<div>{ __( 'Border width' ) }</div>
+			<div>{ __( 'Border width', 'scblocks' ) }</div>
 			<BindControlsSwitch
 				value={ switchState }
 				onChange={ setSwitchState }

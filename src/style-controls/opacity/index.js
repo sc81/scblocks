@@ -21,7 +21,7 @@ export default function Opacity( props ) {
 
 	return (
 		<RangeControl
-			label={ __( 'Opacity' ) }
+			label={ __( 'Opacity', 'scblocks' ) }
 			value={ value }
 			onChange={ onChange }
 			min={ 0 }

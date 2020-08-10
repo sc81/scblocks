@@ -18,7 +18,7 @@ import { BUTTON_BLOCK_NAME } from '../button/utils';
 const variations = [
 	{
 		name: 'one-button',
-		title: __( 'One button' ),
+		title: __( 'One button', 'scblocks' ),
 		isDefault: true,
 		innerBlocks: [ [ BUTTON_BLOCK_NAME ] ],
 		scope: [ 'block' ],
@@ -49,7 +49,7 @@ const variations = [
 	},
 	{
 		name: 'two-buttons',
-		title: __( 'Two buttons' ),
+		title: __( 'Two buttons', 'scblocks' ),
 		innerBlocks: [ [ BUTTON_BLOCK_NAME ], [ BUTTON_BLOCK_NAME ] ],
 		scope: [ 'block' ],
 		icon: (
@@ -89,7 +89,7 @@ const variations = [
 	},
 	{
 		name: 'three-buttons',
-		title: __( 'Three buttons' ),
+		title: __( 'Three buttons', 'scblocks' ),
 		innerBlocks: [
 			[ BUTTON_BLOCK_NAME ],
 			[ BUTTON_BLOCK_NAME ],

@@ -27,9 +27,13 @@ export default function Visibility( props ) {
 	}
 
 	return (
-		<ControlWrapper label={ __( 'Hide element' ) }>
+		<ControlWrapper label={ __( 'Hide element', 'scblocks' ) }>
 			<ToggleControl
-				help={ propValue ? __( 'Hidden' ) : __( 'Visible' ) }
+				help={
+					propValue
+						? __( 'Hidden', 'scblocks' )
+						: __( 'Visible', 'scblocks' )
+				}
 				checked={ !! propValue }
 				onChange={ onChangeToggle }
 			/>

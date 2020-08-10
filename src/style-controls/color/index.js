@@ -14,7 +14,7 @@ export default function Color( props ) {
 
 	return (
 		<OpenColorPicker
-			label={ props.label || __( 'Color' ) }
+			label={ props.label || __( 'Color', 'scblocks' ) }
 			value={ propValue }
 			onChange={ onChange }
 		/>

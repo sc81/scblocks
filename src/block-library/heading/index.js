@@ -14,7 +14,7 @@ import { HEADING_TEXT_SELECTOR, HEADING_ICON_SELECTOR } from './utils';
 export const name = PLUGIN_NAME + '/heading';
 
 export const settings = {
-	title: __( 'Heading' ),
+	title: __( 'Heading', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
 	attributes: {

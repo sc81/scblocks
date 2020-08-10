@@ -108,7 +108,7 @@ export default function Image( props ) {
 
 	return (
 		<>
-			<ControlWrapper label={ __( 'Image' ) } displayInline>
+			<ControlWrapper label={ __( 'Image', 'scblocks' ) } displayInline>
 				<div className={ `${ PLUGIN_NAME }-inline-buttons` }>
 					<MediaUploadCheck>
 						<MediaUpload
@@ -123,8 +123,8 @@ export default function Image( props ) {
 									onClick={ open }
 								>
 									{ url
-										? __( 'Edit' )
-										: __( 'Media Library' ) }
+										? __( 'Edit', 'scblocks' )
+										: __( 'Media Library', 'scblocks' ) }
 								</Button>
 							) }
 						/>
@@ -135,7 +135,7 @@ export default function Image( props ) {
 							isSmall
 							onClick={ () => onRemoveImage() }
 						>
-							{ __( 'Remove' ) }
+							{ __( 'Remove', 'scblocks' ) }
 						</Button>
 					) }
 				</div>

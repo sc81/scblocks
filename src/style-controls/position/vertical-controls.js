@@ -71,7 +71,7 @@ export function VerticalControls( {
 	return (
 		<>
 			<div className={ `${ PLUGIN_NAME }-label-with-inline-buttons` }>
-				<div>{ __( 'Start from' ) }</div>
+				<div>{ __( 'Start from', 'scblocks' ) }</div>
 				<ButtonGroup>
 					<Button
 						type="button"
@@ -80,7 +80,7 @@ export function VerticalControls( {
 						aria-pressed={ startingEdge === 'top' }
 						onClick={ () => onClickButton( 'top' ) }
 					>
-						{ __( 'Top' ) }
+						{ __( 'Top', 'scblocks' ) }
 					</Button>
 					<Button
 						type="button"
@@ -89,12 +89,12 @@ export function VerticalControls( {
 						aria-pressed={ startingEdge === 'bottom' }
 						onClick={ () => onClickButton( 'bottom' ) }
 					>
-						{ __( 'Bottom' ) }
+						{ __( 'Bottom', 'scblocks' ) }
 					</Button>
 				</ButtonGroup>
 			</div>
 			<NumberUnit
-				label={ __( 'Move' ) }
+				label={ __( 'Move', 'scblocks' ) }
 				value={ startingEdge === 'top' ? top : bottom }
 				units={ [ 'px', 'vh', 'vw', '%' ] }
 				onChange={ onChange }

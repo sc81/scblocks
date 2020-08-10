@@ -32,11 +32,11 @@ export default function ControlsManager( { mainControls, ...rest } ) {
 			tabs={ [
 				{
 					name: 'main',
-					title: __( 'Main' ),
+					title: __( 'Main', 'scblocks' ),
 				},
 				{
 					name: 'style',
-					title: __( 'Style' ),
+					title: __( 'Style', 'scblocks' ),
 				},
 			] }
 		>

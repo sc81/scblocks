@@ -18,7 +18,7 @@ export default function NormalHoverButtons( { isHover, onChange } ) {
 				aria-pressed={ ! isHover }
 				onClick={ () => onChange( false ) }
 			>
-				<span>{ __( 'Normal' ) }</span>
+				<span>{ __( 'Normal', 'scblocks' ) }</span>
 			</Button>
 			<Button
 				isSmall
@@ -26,7 +26,7 @@ export default function NormalHoverButtons( { isHover, onChange } ) {
 				aria-pressed={ isHover }
 				onClick={ () => onChange( true ) }
 			>
-				<span>{ __( 'On hover' ) }</span>
+				<span>{ __( 'On hover', 'scblocks' ) }</span>
 			</Button>
 		</ButtonGroup>
 	);

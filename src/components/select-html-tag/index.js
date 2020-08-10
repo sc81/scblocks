@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
 export default function SelectHtmlTag( { value, onChange } ) {
 	return (
 		<SelectControl
-			label={ __( 'HTML Tag' ) }
+			label={ __( 'HTML Tag', 'scblocks' ) }
 			value={ value }
 			onChange={ onChange }
 			options={ [

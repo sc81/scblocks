@@ -46,21 +46,21 @@ export default function Inspector( {
 				selectorsActivity={ selectorsActivity }
 				mainControls={
 					<>
-						<PanelBody title={ __( 'Link' ) } opened>
+						<PanelBody title={ __( 'Link', 'scblocks' ) } opened>
 							<ToggleControl
-								label={ __( 'Open in new tab' ) }
+								label={ __( 'Open in new tab', 'scblocks' ) }
 								onChange={ onToggleOpenInNewTab }
 								checked={ linkTarget === '_blank' }
 							/>
 							<TextControl
-								label={ __( 'Link rel' ) }
+								label={ __( 'Link rel', 'scblocks' ) }
 								value={ rel || '' }
 								onChange={ ( value ) =>
 									setAttributes( { rel: value } )
 								}
 							/>
 						</PanelBody>
-						<PanelBody title={ __( 'Icon' ) } opened>
+						<PanelBody title={ __( 'Icon', 'scblocks' ) } opened>
 							<IconPicker
 								iconPath={ iconPath }
 								icon={ icon }

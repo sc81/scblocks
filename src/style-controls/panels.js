@@ -138,7 +138,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.colors && (
 				<Panel
 					name="colors"
-					label={ __( 'Colors' ) }
+					label={ __( 'Colors', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
@@ -149,7 +149,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.typography && (
 				<Panel
 					name="typography"
-					label={ __( 'Typography' ) }
+					label={ __( 'Typography', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
@@ -163,7 +163,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.background && (
 				<Panel
 					name="background"
-					label={ __( 'Background' ) }
+					label={ __( 'Background', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
@@ -180,7 +180,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.space && (
 				<Panel
 					name="space"
-					label={ __( 'Space' ) }
+					label={ __( 'Space', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
@@ -194,7 +194,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.flex && (
 				<Panel
 					name="flex"
-					label={ __( 'Flex' ) }
+					label={ __( 'Flex', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
@@ -208,7 +208,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.border && (
 				<Panel
 					name="border"
-					label={ __( 'Border' ) }
+					label={ __( 'Border', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
@@ -222,7 +222,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.backgroundOverlay && (
 				<Panel
 					name="backgroundOverlay"
-					label={ __( 'Background overlay' ) }
+					label={ __( 'Background overlay', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
@@ -237,7 +237,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.shapeDividers && (
 				<Panel
 					name="shapeDividers"
-					label={ __( 'Shape dividers' ) }
+					label={ __( 'Shape dividers', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
@@ -248,7 +248,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.placement && (
 				<Panel
 					name="placement"
-					label={ __( 'Placement' ) }
+					label={ __( 'Placement', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }

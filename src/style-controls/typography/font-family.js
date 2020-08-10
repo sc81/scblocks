@@ -16,7 +16,7 @@ import {
 import SelectWithOptgroup from '../../components/select-with-optgroup';
 
 const systemOptions = [
-	{ label: __( 'Default' ), value: '' },
+	{ label: __( 'Default', 'scblocks' ), value: '' },
 	{ label: 'Arial', value: "'Arial',sans-serif" },
 	{ label: 'Georgia', value: "'Georgia',sans-serif" },
 	{ label: 'Helvetica', value: "'Helvetica',sans-serif" },
@@ -60,16 +60,16 @@ function FontFamily( { value, onChange, fonts } ) {
 
 	return (
 		<SelectWithOptgroup
-			label={ __( 'Font family' ) }
+			label={ __( 'Font family', 'scblocks' ) }
 			value={ currentFont }
 			onChange={ onChangeFamily }
 			optgroups={ [
 				{
-					label: __( 'System' ),
+					label: __( 'System', 'scblocks' ),
 					options: systemOptions,
 				},
 				{
-					label: __( 'Google' ),
+					label: __( 'Google', 'scblocks' ),
 					options: googleFonts.map( ( font ) => ( {
 						label: font,
 						value: font,

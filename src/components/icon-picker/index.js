@@ -12,8 +12,8 @@ import IconLibrary from './icon-library';
 import { PLUGIN_NAME } from '../../constants';
 import ButtonClear from '../button-clear';
 
-const buttonLabel = __( 'Icon Library' );
-const defaultLabel = __( 'Icon' );
+const buttonLabel = __( 'Icon Library', 'scblocks' );
+const defaultLabel = __( 'Icon', 'scblocks' );
 
 export default function IconPicker( {
 	iconPath,

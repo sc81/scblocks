@@ -29,20 +29,20 @@ function retriveFocalPoint( value ) {
 }
 
 const options = [
-	{ label: __( 'Default' ), value: '' },
-	{ label: __( 'Custom' ), value: 'custom' },
-	{ label: __( 'Center' ), value: 'center' },
-	{ label: __( 'Top' ), value: 'top' },
-	{ label: __( 'Right' ), value: 'right' },
-	{ label: __( 'Bottom' ), value: 'bottom' },
-	{ label: __( 'Left' ), value: 'left' },
-	{ label: __( 'Top left' ), value: 'top left' },
-	{ label: __( 'Top right' ), value: 'top right' },
-	{ label: __( 'Bottom right' ), value: 'bottom right' },
-	{ label: __( 'Bottom left' ), value: 'bottom left' },
+	{ label: __( 'Default', 'scblocks' ), value: '' },
+	{ label: __( 'Custom', 'scblocks' ), value: 'custom' },
+	{ label: __( 'Center', 'scblocks' ), value: 'center' },
+	{ label: __( 'Top', 'scblocks' ), value: 'top' },
+	{ label: __( 'Right', 'scblocks' ), value: 'right' },
+	{ label: __( 'Bottom', 'scblocks' ), value: 'bottom' },
+	{ label: __( 'Left', 'scblocks' ), value: 'left' },
+	{ label: __( 'Top left', 'scblocks' ), value: 'top left' },
+	{ label: __( 'Top right', 'scblocks' ), value: 'top right' },
+	{ label: __( 'Bottom right', 'scblocks' ), value: 'bottom right' },
+	{ label: __( 'Bottom left', 'scblocks' ), value: 'bottom left' },
 ];
 
-const controlLabel = __( 'Position' );
+const controlLabel = __( 'Position', 'scblocks' );
 
 const propName = names.position;
 

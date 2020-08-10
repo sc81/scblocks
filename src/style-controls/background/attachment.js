@@ -23,13 +23,13 @@ export default function Attachment( props ) {
 	);
 
 	return (
-		<ControlWrapper label={ __( 'Attachment' ) } displayInline>
+		<ControlWrapper label={ __( 'Attachment', 'scblocks' ) } displayInline>
 			<SelectControl
 				value={ propValue }
 				options={ [
-					{ label: __( 'Default' ), value: '' },
-					{ label: __( 'Scroll' ), value: 'scroll' },
-					{ label: __( 'Fixed' ), value: 'fixed' },
+					{ label: __( 'Default', 'scblocks' ), value: '' },
+					{ label: __( 'Scroll', 'scblocks' ), value: 'scroll' },
+					{ label: __( 'Fixed', 'scblocks' ), value: 'fixed' },
 				] }
 				onChange={ onChange }
 			/>

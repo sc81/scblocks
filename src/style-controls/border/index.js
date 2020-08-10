@@ -57,7 +57,7 @@ export default function Border( props ) {
 
 	return (
 		<ControlWrapper
-			label={ __( 'Border' ) }
+			label={ __( 'Border', 'scblocks' ) }
 			withoutSelectDevices
 			displayClearButton={
 				border.borderColor ||

@@ -195,7 +195,7 @@ export function Divider( {
 	return (
 		<>
 			<SelectControl
-				label={ __( 'Type' ) }
+				label={ __( 'Type', 'scblocks' ) }
 				value={ shapeName }
 				options={ [
 					{ label: 'None', value: '' },
@@ -218,7 +218,7 @@ export function Divider( {
 			{ shapeName && (
 				<>
 					<OpenColorPicker
-						label={ __( 'Color' ) }
+						label={ __( 'Color', 'scblocks' ) }
 						value={ fill }
 						onChange={ ( value ) =>
 							onChangeSvgProps( names.fill, value )
@@ -226,7 +226,7 @@ export function Divider( {
 					/>
 					{ shapes[ shapeName ].controls.width && (
 						<NumberUnit
-							label={ __( 'Width' ) }
+							label={ __( 'Width', 'scblocks' ) }
 							value={ width }
 							units={ [ '%' ] }
 							onChange={ ( value ) =>
@@ -242,7 +242,7 @@ export function Divider( {
 						/>
 					) }
 					<NumberUnit
-						label={ __( 'Height' ) }
+						label={ __( 'Height', 'scblocks' ) }
 						value={ height }
 						units={ [ 'px' ] }
 						onChange={ ( value ) =>
@@ -257,20 +257,20 @@ export function Divider( {
 					/>
 					{ shapes[ shapeName ].controls.flip && (
 						<ToggleControl
-							label={ __( 'Flip' ) }
+							label={ __( 'Flip', 'scblocks' ) }
 							checked={ !! flip }
 							onChange={ onChangeFlip }
 						/>
 					) }
 					{ shapes[ shapeName ].controls.invert && (
 						<ToggleControl
-							label={ __( 'Invert' ) }
+							label={ __( 'Invert', 'scblocks' ) }
 							checked={ isTop ? isNegativeTop : isNegativeBottom }
 							onChange={ onChangeInvert }
 						/>
 					) }
 					<ToggleControl
-						label={ __( 'Bring to front' ) }
+						label={ __( 'Bring to front', 'scblocks' ) }
 						checked={ !! zIndex }
 						onChange={ onChangeZindex }
 					/>

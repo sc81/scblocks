@@ -67,12 +67,12 @@ export default function Position( props ) {
 		<>
 			<SelectControl
 				className={ `${ PLUGIN_NAME }-select-control` }
-				label={ __( 'Position' ) }
+				label={ __( 'Position', 'scblocks' ) }
 				value={ position }
 				options={ [
-					{ label: __( 'Default' ), value: '' },
-					{ label: __( 'Absolute' ), value: 'absolute' },
-					{ label: __( 'Fixed' ), value: 'fixed' },
+					{ label: __( 'Default', 'scblocks' ), value: '' },
+					{ label: __( 'Absolute', 'scblocks' ), value: 'absolute' },
+					{ label: __( 'Fixed', 'scblocks' ), value: 'fixed' },
 				] }
 				onChange={ onChangeSelect }
 			/>

@@ -14,7 +14,7 @@ import {
 	BUTTON_TEXT_CLASS,
 } from './utils';
 
-const placeholder = __( 'Add text !!!' );
+const placeholder = __( 'Add text !!!', 'scblocks' );
 
 export default function Save( { attributes } ) {
 	const { url, linkTarget, rel, text, icon, uidClass } = attributes;

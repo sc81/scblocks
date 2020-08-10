@@ -127,7 +127,7 @@ export default function FilterControl( { value, onChange } ) {
 	return (
 		<>
 			<RangeControl
-				label={ __( 'Blur' ) }
+				label={ __( 'Blur', 'scblocks' ) }
 				value={ blur }
 				onChange={ ( v ) => onChangeValue( 'blur', v ) }
 				min={ 0 }
@@ -136,7 +136,7 @@ export default function FilterControl( { value, onChange } ) {
 				initialPosition={ 0 }
 			/>
 			<RangeControl
-				label={ __( 'Brightness' ) }
+				label={ __( 'Brightness', 'scblocks' ) }
 				value={ brightness }
 				onChange={ ( v ) => onChangeValue( 'brightness', v ) }
 				min={ 0 }
@@ -145,7 +145,7 @@ export default function FilterControl( { value, onChange } ) {
 				initialPosition={ 1 }
 			/>
 			<RangeControl
-				label={ __( 'Contrast' ) }
+				label={ __( 'Contrast', 'scblocks' ) }
 				value={ contrast }
 				onChange={ ( v ) => onChangeValue( 'contrast', v ) }
 				min={ 0 }
@@ -154,7 +154,7 @@ export default function FilterControl( { value, onChange } ) {
 				initialPosition={ 1 }
 			/>
 			<RangeControl
-				label={ __( 'Grayscale' ) }
+				label={ __( 'Grayscale', 'scblocks' ) }
 				value={ grayscale }
 				onChange={ ( v ) => onChangeValue( 'grayscale', v ) }
 				min={ 0 }
@@ -163,7 +163,7 @@ export default function FilterControl( { value, onChange } ) {
 				initialPosition={ 0.01 }
 			/>
 			<RangeControl
-				label={ __( 'Invert' ) }
+				label={ __( 'Invert', 'scblocks' ) }
 				value={ invert }
 				onChange={ ( v ) => onChangeValue( 'invert', v ) }
 				min={ 0 }
@@ -172,7 +172,7 @@ export default function FilterControl( { value, onChange } ) {
 				initialPosition={ 0.01 }
 			/>
 			<RangeControl
-				label={ __( 'Saturate' ) }
+				label={ __( 'Saturate', 'scblocks' ) }
 				value={ saturate }
 				onChange={ ( v ) => onChangeValue( 'saturate', v ) }
 				min={ 0 }
@@ -181,7 +181,7 @@ export default function FilterControl( { value, onChange } ) {
 				initialPosition={ 1 }
 			/>
 			<RangeControl
-				label={ __( 'Sepia' ) }
+				label={ __( 'Sepia', 'scblocks' ) }
 				value={ sepia }
 				onChange={ ( v ) => onChangeValue( 'sepia', v ) }
 				min={ 0 }
@@ -190,7 +190,7 @@ export default function FilterControl( { value, onChange } ) {
 				initialPosition={ 0.01 }
 			/>
 			<RangeControl
-				label={ __( 'Hue' ) }
+				label={ __( 'Hue', 'scblocks' ) }
 				value={ hue }
 				onChange={ ( v ) => onChangeValue( 'hue', v ) }
 				min={ 0 }

@@ -15,7 +15,7 @@ export default function ButtonClear( { onClear } ) {
 				}
 			} }
 		>
-			{ __( 'Clear' ) }
+			{ __( 'Clear', 'scblocks' ) }
 		</Button>
 	);
 }

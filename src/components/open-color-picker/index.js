@@ -33,7 +33,7 @@ export default function OpenColorPicker( {
 
 	const pickerKey = useRef( 1 );
 
-	label = label || __( 'Text color' );
+	label = label || __( 'Text color', 'scblocks' );
 
 	return (
 		<Dropdown
@@ -50,7 +50,7 @@ export default function OpenColorPicker( {
 								isSecondary
 								onClick={ () => onChange( '' ) }
 							>
-								{ __( 'Clear' ) }
+								{ __( 'Clear', 'scblocks' ) }
 							</Button>
 						) }
 						<button
@@ -96,7 +96,7 @@ export default function OpenColorPicker( {
 							<div
 								className={ `${ PLUGIN_NAME }-color-picker-text` }
 							>
-								{ __( 'Editor colors' ) }
+								{ __( 'Editor colors', 'scblocks' ) }
 							</div>
 							<div>
 								<ColorPalette

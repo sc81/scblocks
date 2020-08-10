@@ -42,7 +42,7 @@ export default function Transition( props ) {
 
 	return (
 		<ControlWrapper
-			label={ __( 'Transition' ) }
+			label={ __( 'Transition', 'scblocks' ) }
 			displayClearButton={ isValue }
 			onClear={ onClear }
 			withoutSelectDevices

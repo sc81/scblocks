@@ -21,13 +21,13 @@ export default function AlignItems( props ) {
 	return (
 		<SelectControl
 			className={ `${ PLUGIN_NAME }-select-control-inline` }
-			label={ __( 'Vertical position' ) }
+			label={ __( 'Vertical position', 'scblocks' ) }
 			value={ propValue }
 			options={ [
-				{ label: __( 'Default' ), value: '' },
-				{ label: __( 'Top' ), value: 'flex-start' },
-				{ label: __( 'Center' ), value: 'center' },
-				{ label: __( 'Bottom' ), value: 'flex-end' },
+				{ label: __( 'Default', 'scblocks' ), value: '' },
+				{ label: __( 'Top', 'scblocks' ), value: 'flex-start' },
+				{ label: __( 'Center', 'scblocks' ), value: 'center' },
+				{ label: __( 'Bottom', 'scblocks' ), value: 'flex-end' },
 			] }
 			onChange={ onChange }
 		/>

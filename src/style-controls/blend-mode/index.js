@@ -20,7 +20,7 @@ export default function BlendMode( props ) {
 	return (
 		<SelectControl
 			className={ `${ PLUGIN_NAME }-select-control-inline` }
-			label={ __( 'Blend mode' ) }
+			label={ __( 'Blend mode', 'scblocks' ) }
 			value={ propValue }
 			options={ [
 				{ label: 'Normal', value: '' },

@@ -10,11 +10,11 @@ import Color from '../color';
 
 const baseControls = [
 	{
-		label: __( 'Text color' ),
+		label: __( 'Text color', 'scblocks' ),
 		propName: 'color',
 	},
 	{
-		label: __( 'Background color' ),
+		label: __( 'Background color', 'scblocks' ),
 		propName: 'backgroundColor',
 	},
 ];

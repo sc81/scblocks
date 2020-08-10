@@ -22,7 +22,7 @@ export const BUTTON_ICON_SELECTOR = `.${ BUTTON_ICON_CLASS }`;
 
 export const selectors = [
 	{
-		label: __( 'Button' ),
+		label: __( 'Button', 'scblocks' ),
 		selector: BUTTON_LINK_SELECTOR,
 		allowedPanels: {
 			background: true,
@@ -43,7 +43,7 @@ export const selectors = [
 		},
 	},
 	{
-		label: __( 'Icon' ),
+		label: __( 'Icon', 'scblocks' ),
 		selector: BUTTON_ICON_SELECTOR,
 		allowedPanels: {
 			colors: true,

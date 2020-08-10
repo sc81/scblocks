@@ -23,13 +23,13 @@ import { BUTTONS_BLOCK_NAME } from '../buttons/utils';
 export const name = BUTTON_BLOCK_NAME;
 
 export const settings = {
-	title: __( 'Button' ),
+	title: __( 'Button', 'scblocks' ),
 	description: __(
 		'Prompt visitors to take action with a button-style link.'
 	),
 	icon,
 	category: PLUGIN_NAME,
-	keywords: [ __( 'link' ) ],
+	keywords: [ __( 'link', 'scblocks' ) ],
 	attributes: {
 		css: {
 			type: 'object',

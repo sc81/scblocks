@@ -21,17 +21,26 @@ export default function JustifyContent( props ) {
 	} );
 	const options = useMemo( () => {
 		const opt = [
-			{ label: __( 'Default' ), value: '' },
-			{ label: __( 'Start' ), value: 'flex-start' },
-			{ label: __( 'Center' ), value: 'center' },
-			{ label: __( 'End' ), value: 'flex-end' },
+			{ label: __( 'Default', 'scblocks' ), value: '' },
+			{ label: __( 'Start', 'scblocks' ), value: 'flex-start' },
+			{ label: __( 'Center', 'scblocks' ), value: 'center' },
+			{ label: __( 'End', 'scblocks' ), value: 'flex-end' },
 		];
 		if ( extendedOptions ) {
 			opt.push(
 				...[
-					{ label: __( 'Space-between' ), value: 'space-between' },
-					{ label: __( 'Space-around' ), value: 'space-around' },
-					{ label: __( 'Space-evenly' ), value: 'space-evenly' },
+					{
+						label: __( 'Space-between', 'scblocks' ),
+						value: 'space-between',
+					},
+					{
+						label: __( 'Space-around', 'scblocks' ),
+						value: 'space-around',
+					},
+					{
+						label: __( 'Space-evenly', 'scblocks' ),
+						value: 'space-evenly',
+					},
 				]
 			);
 		}
@@ -40,7 +49,7 @@ export default function JustifyContent( props ) {
 
 	return (
 		<ControlWrapper
-			label={ label || __( 'Horizontal position' ) }
+			label={ label || __( 'Horizontal position', 'scblocks' ) }
 			displayInline={ displayInline }
 		>
 			<SelectControl

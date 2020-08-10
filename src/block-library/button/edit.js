@@ -91,7 +91,7 @@ export default function Edit( props ) {
 						onChange={ ( value ) =>
 							setAttributes( { text: value } )
 						}
-						placeholder={ __( 'Add text…' ) }
+						placeholder={ __( 'Add text…', 'scblocks' ) }
 						withoutInteractiveFormatting
 					/>
 				</div>

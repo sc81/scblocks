@@ -12,7 +12,7 @@ export default function LineHeight( props ) {
 	return (
 		<NumberUnit
 			{ ...props }
-			label={ __( 'Line height' ) }
+			label={ __( 'Line height', 'scblocks' ) }
 			units={ [ 'px', 'em' ] }
 			displayClearButton
 		/>

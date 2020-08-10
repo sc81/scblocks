@@ -12,11 +12,11 @@ import { names } from './constants';
 import propertyService from '../property-service';
 
 const options = [
-	{ label: __( 'Default' ), value: '' },
-	{ label: __( 'No repeat' ), value: 'no-repeat' },
-	{ label: __( 'Repeat' ), value: 'repeat' },
-	{ label: __( 'Repeat X' ), value: 'repeat-x' },
-	{ label: __( 'Repeat Y' ), value: 'repeat-y' },
+	{ label: __( 'Default', 'scblocks' ), value: '' },
+	{ label: __( 'No repeat', 'scblocks' ), value: 'no-repeat' },
+	{ label: __( 'Repeat', 'scblocks' ), value: 'repeat' },
+	{ label: __( 'Repeat X', 'scblocks' ), value: 'repeat-x' },
+	{ label: __( 'Repeat Y', 'scblocks' ), value: 'repeat-y' },
 ];
 
 const propName = names.repeat;
@@ -31,7 +31,7 @@ export default function Repeat( props ) {
 	);
 
 	return (
-		<ControlWrapper label={ __( 'Repeat' ) } displayInline>
+		<ControlWrapper label={ __( 'Repeat', 'scblocks' ) } displayInline>
 			<SelectControl
 				value={ propValue }
 				options={ options }

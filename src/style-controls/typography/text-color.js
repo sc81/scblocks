@@ -36,7 +36,7 @@ export default function TextColor( props ) {
 				/>
 			</div>
 			<OpenColorPicker
-				lable={ __( 'Text color' ) }
+				lable={ __( 'Text color', 'scblocks' ) }
 				value={ color }
 				onChange={ onChange }
 			/>

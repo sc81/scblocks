@@ -13,14 +13,14 @@ export default function TextTransform( { value, onChange } ) {
 	return (
 		<SelectControl
 			className={ selectControlClass }
-			label={ __( 'Transform' ) }
+			label={ __( 'Transform', 'scblocks' ) }
 			value={ value }
 			options={ [
-				{ label: __( 'Default' ), value: '' },
-				{ label: __( 'Uppercase' ), value: 'uppercase' },
-				{ label: __( 'Lowercase' ), value: 'lowercase' },
-				{ label: __( 'Capitalize' ), value: 'capitalize' },
-				{ label: __( 'Normal' ), value: 'normal' },
+				{ label: __( 'Default', 'scblocks' ), value: '' },
+				{ label: __( 'Uppercase', 'scblocks' ), value: 'uppercase' },
+				{ label: __( 'Lowercase', 'scblocks' ), value: 'lowercase' },
+				{ label: __( 'Capitalize', 'scblocks' ), value: 'capitalize' },
+				{ label: __( 'Normal', 'scblocks' ), value: 'normal' },
 			] }
 			onChange={ onChange }
 		/>

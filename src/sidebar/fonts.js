@@ -109,9 +109,9 @@ function Fonts( { fonts, onChangeFonts, onChangeFontsCssVars } ) {
 		return <Spinner />;
 	}
 	return (
-		<PanelBody title={ __( 'Fonts' ) } opened={ true }>
+		<PanelBody title={ __( 'Fonts', 'scblocks' ) } opened={ true }>
 			<SelectControl
-				label={ __( 'Primary font' ) }
+				label={ __( 'Primary font', 'scblocks' ) }
 				value={ fonts.primary }
 				options={ googleFonts.map( ( font ) => ( {
 					label: font,
@@ -120,7 +120,7 @@ function Fonts( { fonts, onChangeFonts, onChangeFontsCssVars } ) {
 				onChange={ ( value ) => onChange( 'primary', value ) }
 			/>
 			<SelectControl
-				label={ __( 'Secondary font' ) }
+				label={ __( 'Secondary font', 'scblocks' ) }
 				value={ fonts.secondary }
 				options={ googleFonts.map( ( font ) => ( {
 					label: font,
@@ -129,7 +129,7 @@ function Fonts( { fonts, onChangeFonts, onChangeFontsCssVars } ) {
 				onChange={ ( value ) => onChange( 'secondary', value ) }
 			/>
 			<SelectControl
-				label={ __( 'Tertiary font' ) }
+				label={ __( 'Tertiary font', 'scblocks' ) }
 				value={ fonts.tertiary }
 				options={ googleFonts.map( ( font ) => ( {
 					label: font,

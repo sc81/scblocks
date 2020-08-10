@@ -35,14 +35,14 @@ export default function DropdownComponent( {
 								isSecondary
 								onClick={ () => onClear( onClose ) }
 							>
-								{ __( 'Clear' ) }
+								{ __( 'Clear', 'scblocks' ) }
 							</Button>
 						) }
 						<Button
 							icon="edit"
 							isSmall
 							isSecondary
-							label={ __( 'Show settings' ) }
+							label={ __( 'Show settings', 'scblocks' ) }
 							onClick={ () => {
 								onToggle();
 								if (

@@ -19,7 +19,7 @@ export const GROUP_INNER_SELECTOR = `.${ GROUP_INNER_CLASS }`;
 
 export const selectors = [
 	{
-		label: __( 'Group container' ),
+		label: __( 'Group container', 'scblocks' ),
 		selector: 'selector',
 		allowedPanels: {
 			typography: true,

@@ -18,14 +18,14 @@ export default function SelectBackgroundType( {
 	return (
 		<SelectControl
 			className={ `${ PLUGIN_NAME }-select-control-inline` }
-			label={ __( 'Background type' ) }
+			label={ __( 'Background type', 'scblocks' ) }
 			value={ backgroundType }
 			options={ [
-				{ label: __( 'Deafult' ), value: '' },
-				{ label: __( 'Image' ), value: 'image' },
-				{ label: __( 'Gradient' ), value: 'gradient' },
+				{ label: __( 'Deafult', 'scblocks' ), value: '' },
+				{ label: __( 'Image', 'scblocks' ), value: 'image' },
+				{ label: __( 'Gradient', 'scblocks' ), value: 'gradient' },
 				{
-					label: __( 'Video' ),
+					label: __( 'Video', 'scblocks' ),
 					value: 'video',
 					disabled: ! canShowBackgroundVideo || isHover,
 				},

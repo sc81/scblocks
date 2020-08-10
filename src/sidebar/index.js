@@ -16,13 +16,13 @@ function Sidebar() {
 		<>
 			<PluginSidebar
 				name={ PLUGIN_NAME }
-				title={ __( 'ScBlocks controls' ) }
+				title={ __( 'ScBlocks controls', 'scblocks' ) }
 				icon="admin-settings"
 			>
 				<Fonts />
 			</PluginSidebar>
 			<PluginSidebarMoreMenuItem target={ PLUGIN_NAME }>
-				{ __( 'ScBlocks controls' ) }
+				{ __( 'ScBlocks controls', 'scblocks' ) }
 			</PluginSidebarMoreMenuItem>
 		</>
 	);

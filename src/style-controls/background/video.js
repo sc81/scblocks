@@ -79,7 +79,7 @@ export default function Video( {
 	}
 
 	return (
-		<ControlWrapper label={ __( 'Video' ) } displayInline>
+		<ControlWrapper label={ __( 'Video', 'scblocks' ) } displayInline>
 			<div className={ `${ PLUGIN_NAME }-inline-buttons` }>
 				<MediaUploadCheck>
 					<MediaUpload
@@ -94,8 +94,8 @@ export default function Video( {
 								onClick={ open }
 							>
 								{ url
-									? __( 'Edit video' )
-									: __( 'Media Library' ) }
+									? __( 'Edit video', 'scblocks' )
+									: __( 'Media Library', 'scblocks' ) }
 							</Button>
 						) }
 					/>
@@ -106,7 +106,7 @@ export default function Video( {
 						isSmall
 						onClick={ () => onRemoveVideo() }
 					>
-						{ __( 'Remove video' ) }
+						{ __( 'Remove video', 'scblocks' ) }
 					</Button>
 				) }
 			</div>

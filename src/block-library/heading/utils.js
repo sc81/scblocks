@@ -18,7 +18,7 @@ export const HEADING_ICON_SELECTOR = `.${ HEADING_ICON_CLASS }`;
 
 export const selectors = [
 	{
-		label: __( 'Heading' ),
+		label: __( 'Heading', 'scblocks' ),
 		selector: HEADING_SELECTOR,
 		allowedPanels: {
 			colors: true,
@@ -34,14 +34,14 @@ export const selectors = [
 		},
 	},
 	{
-		label: __( 'Text' ),
+		label: __( 'Text', 'scblocks' ),
 		selector: HEADING_TEXT_SELECTOR,
 		allowedPanels: {
 			colors: true,
 		},
 	},
 	{
-		label: __( 'Icon' ),
+		label: __( 'Icon', 'scblocks' ),
 		selector: HEADING_ICON_SELECTOR,
 		allowedPanels: {
 			colors: true,

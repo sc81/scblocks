@@ -16,9 +16,21 @@ import {
 } from '../../constants';
 
 const icons = [
-	{ name: 'desktop', title: __( 'Desktop' ), value: DESKTOP_DEVICES },
-	{ name: 'tablet', title: __( 'Tablet' ), value: TABLET_DEVICES },
-	{ name: 'smartphone', title: __( 'Mobile' ), value: MOBILE_DEVICES },
+	{
+		name: 'desktop',
+		title: __( 'Desktop', 'scblocks' ),
+		value: DESKTOP_DEVICES,
+	},
+	{
+		name: 'tablet',
+		title: __( 'Tablet', 'scblocks' ),
+		value: TABLET_DEVICES,
+	},
+	{
+		name: 'smartphone',
+		title: __( 'Mobile', 'scblocks' ),
+		value: MOBILE_DEVICES,
+	},
 ];
 
 export default function SelectDevices() {
@@ -38,7 +50,7 @@ export default function SelectDevices() {
 	return (
 		<DropdownMenu
 			icon={ icon }
-			label={ __( 'Select devices' ) }
+			label={ __( 'Select devices', 'scblocks' ) }
 			controls={ icons.map( ( element ) => ( {
 				title: element.title,
 				icon: element.name,

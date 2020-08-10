@@ -13,13 +13,13 @@ export default function FontStyle( { value, onChange } ) {
 	return (
 		<SelectControl
 			className={ selectControlClass }
-			label={ __( 'Style' ) }
+			label={ __( 'Style', 'scblocks' ) }
 			value={ value }
 			options={ [
-				{ label: __( 'Default' ), value: '' },
-				{ label: __( 'Normal' ), value: 'normal' },
-				{ label: __( 'Italic' ), value: 'italic' },
-				{ label: __( 'Oblique' ), value: 'oblique' },
+				{ label: __( 'Default', 'scblocks' ), value: '' },
+				{ label: __( 'Normal', 'scblocks' ), value: 'normal' },
+				{ label: __( 'Italic', 'scblocks' ), value: 'italic' },
+				{ label: __( 'Oblique', 'scblocks' ), value: 'oblique' },
 			] }
 			onChange={ onChange }
 		/>

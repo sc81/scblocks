@@ -47,16 +47,25 @@ export default function Inspector( {
 				mainControls={
 					<PanelBody opened>
 						<SelectControl
-							label={ __( 'Buttons alignment' ) }
+							label={ __( 'Buttons alignment', 'scblocks' ) }
 							value={ justifyContent }
 							options={ [
-								{ label: __( 'Default' ), value: '' },
 								{
-									label: __( 'Left' ),
+									label: __( 'Default', 'scblocks' ),
+									value: '',
+								},
+								{
+									label: __( 'Left', 'scblocks' ),
 									value: 'flex-start',
 								},
-								{ label: __( 'Center' ), value: 'center' },
-								{ label: __( 'Right' ), value: 'flex-end' },
+								{
+									label: __( 'Center', 'scblocks' ),
+									value: 'center',
+								},
+								{
+									label: __( 'Right', 'scblocks' ),
+									value: 'flex-end',
+								},
 							] }
 							onChange={ setAlignment }
 						/>

@@ -67,7 +67,7 @@ export default function URLPicker( {
 						<ToolbarButton
 							name="link"
 							icon={ link }
-							title={ __( 'Link' ) }
+							title={ __( 'Link', 'scblocks' ) }
 							shortcut={ displayShortcut.primary( 'k' ) }
 							onClick={ openLinkControl }
 						/>
@@ -76,7 +76,7 @@ export default function URLPicker( {
 						<ToolbarButton
 							name="link"
 							icon={ linkOff }
-							title={ __( 'Unlink' ) }
+							title={ __( 'Unlink', 'scblocks' ) }
 							shortcut={ displayShortcut.primaryShift( 'k' ) }
 							onClick={ unlinkButton }
 							isActive={ true }

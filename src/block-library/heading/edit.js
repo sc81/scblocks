@@ -91,22 +91,40 @@ export default function Edit( props ) {
 					mainControls={
 						<PanelBody opened>
 							<SelectControl
-								label={ __( 'Heading level' ) }
+								label={ __( 'Heading level', 'scblocks' ) }
 								value={ level }
 								options={ [
-									{ label: __( 'H1' ), value: 'h1' },
-									{ label: __( 'H2' ), value: 'h2' },
-									{ label: __( 'H3' ), value: 'h3' },
-									{ label: __( 'H4' ), value: 'h4' },
-									{ label: __( 'H5' ), value: 'h5' },
-									{ label: __( 'H6' ), value: 'h6' },
+									{
+										label: __( 'H1', 'scblocks' ),
+										value: 'h1',
+									},
+									{
+										label: __( 'H2', 'scblocks' ),
+										value: 'h2',
+									},
+									{
+										label: __( 'H3', 'scblocks' ),
+										value: 'h3',
+									},
+									{
+										label: __( 'H4', 'scblocks' ),
+										value: 'h4',
+									},
+									{
+										label: __( 'H5', 'scblocks' ),
+										value: 'h5',
+									},
+									{
+										label: __( 'H6', 'scblocks' ),
+										value: 'h6',
+									},
 								] }
 								onChange={ ( value ) =>
 									setAttributes( { level: value } )
 								}
 							/>
 							<IconPicker
-								label={ __( 'Icon' ) }
+								label={ __( 'Icon', 'scblocks' ) }
 								iconPath={ iconPath }
 								icon={ icon }
 								onSelect={ onSelectIcon }
@@ -126,7 +144,7 @@ export default function Edit( props ) {
 					tagName="span"
 					value={ text }
 					onChange={ ( value ) => setAttributes( { text: value } ) }
-					placeholder={ __( 'Title' ) }
+					placeholder={ __( 'Title', 'scblocks' ) }
 					onSplit={ ( value ) => {
 						if ( ! value ) {
 							return createBlock( 'core/paragraph' );

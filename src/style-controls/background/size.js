@@ -15,11 +15,11 @@ import { setCssMemoValue } from '../../hooks/use-block-memo';
 const propName = names.size;
 
 const options = [
-	{ label: __( 'Default' ), value: '' },
-	{ label: __( 'Auto' ), value: 'auto' },
-	{ label: __( 'Contain' ), value: 'contain' },
-	{ label: __( 'Cover' ), value: 'cover' },
-	{ label: __( 'Custom' ), value: 'custom' },
+	{ label: __( 'Default', 'scblocks' ), value: '' },
+	{ label: __( 'Auto', 'scblocks' ), value: 'auto' },
+	{ label: __( 'Contain', 'scblocks' ), value: 'contain' },
+	{ label: __( 'Cover', 'scblocks' ), value: 'cover' },
+	{ label: __( 'Custom', 'scblocks' ), value: 'custom' },
 ];
 
 export default function Size( {
@@ -76,7 +76,10 @@ export default function Size( {
 	}
 
 	return (
-		<ControlWrapper label={ __( 'Size' ) } withoutSelectDevices={ isHover }>
+		<ControlWrapper
+			label={ __( 'Size', 'scblocks' ) }
+			withoutSelectDevices={ isHover }
+		>
 			<SelectControl
 				value={ selectValue }
 				options={ options }

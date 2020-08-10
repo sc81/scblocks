@@ -17,15 +17,21 @@ export default function FlexDirection( props ) {
 
 	return (
 		<SelectControl
-			label={ __( 'Flex direction' ) }
+			label={ __( 'Flex direction', 'scblocks' ) }
 			value={ propValue }
 			onChange={ onChange }
 			options={ [
-				{ label: __( 'Default' ), value: '' },
-				{ label: __( 'Column' ), value: 'column' },
-				{ label: __( 'Column-reverse' ), value: 'column-reverse' },
-				{ label: __( 'Row' ), value: 'row' },
-				{ label: __( 'Row-reverse' ), value: 'row-reverse' },
+				{ label: __( 'Default', 'scblocks' ), value: '' },
+				{ label: __( 'Column', 'scblocks' ), value: 'column' },
+				{
+					label: __( 'Column-reverse', 'scblocks' ),
+					value: 'column-reverse',
+				},
+				{ label: __( 'Row', 'scblocks' ), value: 'row' },
+				{
+					label: __( 'Row-reverse', 'scblocks' ),
+					value: 'row-reverse',
+				},
 			] }
 		/>
 	);

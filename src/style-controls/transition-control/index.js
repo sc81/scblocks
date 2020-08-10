@@ -106,7 +106,7 @@ export default function TransitionControl( {
 	return (
 		<>
 			<NumberControl
-				label={ __( 'Transition duration' ) }
+				label={ __( 'Transition duration', 'scblocks' ) }
 				value={ state.duration }
 				onChange={ ( v ) => onChangeValue( 'duration', v ) }
 				min={ 0 }
@@ -115,7 +115,7 @@ export default function TransitionControl( {
 				withoutSelectDevices
 			/>
 			<NumberControl
-				label={ __( 'Transition delay' ) }
+				label={ __( 'Transition delay', 'scblocks' ) }
 				value={ state.delay }
 				onChange={ ( v ) => onChangeValue( 'delay', v ) }
 				min={ 0 }
@@ -124,7 +124,7 @@ export default function TransitionControl( {
 				withoutSelectDevices
 			/>
 			<SelectControl
-				label={ __( 'Transition timing function' ) }
+				label={ __( 'Transition timing function', 'scblocks' ) }
 				value={ state.timingFunction }
 				options={ [
 					{ label: 'ease', value: '' },

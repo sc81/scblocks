@@ -12,7 +12,7 @@ export default function LetterSpacing( props ) {
 	return (
 		<NumberUnit
 			{ ...props }
-			label={ __( 'Letter spacing' ) }
+			label={ __( 'Letter spacing', 'scblocks' ) }
 			units={ [ 'px' ] }
 			unitRangeStep={ {
 				px: {

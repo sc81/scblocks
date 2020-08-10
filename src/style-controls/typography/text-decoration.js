@@ -13,14 +13,17 @@ export default function TextDecoration( { value, onChange } ) {
 	return (
 		<SelectControl
 			className={ selectControlClass }
-			label={ __( 'Decoration' ) }
+			label={ __( 'Decoration', 'scblocks' ) }
 			value={ value }
 			options={ [
-				{ label: __( 'Default' ), value: '' },
-				{ label: __( 'Underline' ), value: 'underline' },
-				{ label: __( 'Overline' ), value: 'overline' },
-				{ label: __( 'Line-through' ), value: 'line-through' },
-				{ label: __( 'None' ), value: 'none' },
+				{ label: __( 'Default', 'scblocks' ), value: '' },
+				{ label: __( 'Underline', 'scblocks' ), value: 'underline' },
+				{ label: __( 'Overline', 'scblocks' ), value: 'overline' },
+				{
+					label: __( 'Line-through', 'scblocks' ),
+					value: 'line-through',
+				},
+				{ label: __( 'None', 'scblocks' ), value: 'none' },
 			] }
 			onChange={ onChange }
 		/>

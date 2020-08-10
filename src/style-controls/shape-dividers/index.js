@@ -24,7 +24,7 @@ export default function ShapeDividers( props ) {
 						aria-pressed={ isTop }
 						onClick={ () => setIsTop( true ) }
 					>
-						<span>{ __( 'Top' ) }</span>
+						<span>{ __( 'Top', 'scblocks' ) }</span>
 					</Button>
 					<Button
 						isSmall
@@ -32,7 +32,7 @@ export default function ShapeDividers( props ) {
 						aria-pressed={ ! isTop }
 						onClick={ () => setIsTop( false ) }
 					>
-						<span>{ __( 'Bottom' ) }</span>
+						<span>{ __( 'Bottom', 'scblocks' ) }</span>
 					</Button>
 				</ButtonGroup>
 			</div>

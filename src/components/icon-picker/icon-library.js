@@ -194,7 +194,7 @@ export default class IconLibrary extends Component {
 				);
 			} )
 		) : (
-			<p>{ __( 'No results found.' ) }</p>
+			<p>{ __( 'No results found.', 'scblocks' ) }</p>
 		);
 	}
 
@@ -218,7 +218,7 @@ export default class IconLibrary extends Component {
 
 		return (
 			<Modal
-				title={ __( 'Icon Library' ) }
+				title={ __( 'Icon Library', 'scblocks' ) }
 				onRequestClose={ onRequestClose }
 			>
 				<div className={ `${ PLUGIN_NAME }-icon-library` }>
@@ -274,23 +274,35 @@ export default class IconLibrary extends Component {
 								selected={ `${ currentFamily }|${ currentCategory }` }
 								options={ [
 									{
-										label: __( 'Dashicons' ),
+										label: __( 'Dashicons', 'scblocks' ),
 										value: `${ DASHICON_NAME }|all`,
 									},
 									{
-										label: __( 'Font Awesome - All' ),
+										label: __(
+											'Font Awesome - All',
+											'scblocks'
+										),
 										value: `${ FONT_AWESOME_NAME }|all`,
 									},
 									{
-										label: __( 'Font Awesome - Regular' ),
+										label: __(
+											'Font Awesome - Regular',
+											'scblocks'
+										),
 										value: `${ FONT_AWESOME_NAME }|regular`,
 									},
 									{
-										label: __( 'Font Awesome - Solid' ),
+										label: __(
+											'Font Awesome - Solid',
+											'scblocks'
+										),
 										value: `${ FONT_AWESOME_NAME }|solid`,
 									},
 									{
-										label: __( 'Font Awesome - Brand' ),
+										label: __(
+											'Font Awesome - Brand',
+											'scblocks'
+										),
 										value: `${ FONT_AWESOME_NAME }|brand`,
 									},
 								] }
