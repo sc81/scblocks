@@ -42,38 +42,6 @@ export const settings = {
 			type: 'string',
 			default: '',
 		},
-		shapeTop: {
-			type: 'string',
-			source: 'html',
-			selector: `.${ PLUGIN_NAME }-shape-top`,
-		},
-		shapeTopName: {
-			type: 'string',
-			default: '',
-		},
-		isNegativeTop: {
-			type: 'string',
-			source: 'attribute',
-			selector: `.${ PLUGIN_NAME }-shape-top`,
-			attribute: 'data-negative',
-			default: 'false',
-		},
-		shapeBottom: {
-			type: 'string',
-			source: 'html',
-			selector: `.${ PLUGIN_NAME }-shape-bottom`,
-		},
-		shapeBottomName: {
-			type: 'string',
-			default: '',
-		},
-		isNegativeBottom: {
-			type: 'string',
-			source: 'attribute',
-			selector: `.${ PLUGIN_NAME }-shape-bottom`,
-			attribute: 'data-negative',
-			default: 'false',
-		},
 		...isBackgroundOverlay,
 	},
 

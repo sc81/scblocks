@@ -25,7 +25,6 @@ export const selectors = [
 			typography: true,
 			background: true,
 			border: true,
-			shapeDividers: true,
 			backgroundOverlay: true,
 			backgroundVideo: true,
 			space: {

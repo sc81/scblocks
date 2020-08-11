@@ -16,7 +16,6 @@ import {
 	CORE_EDIT_POST_STORE_NAME,
 } from '../../constants';
 import BackgroundVideo from './background-video';
-import ShapeDividers from '../../block/shape-dividers';
 import BackgroundOverlay from '../../block/background-overlay';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import useDynamicCss from '../../hooks/use-dynamic-css';
@@ -56,7 +55,6 @@ export default function Edit( props ) {
 			<BlockWrapper className={ `${ GROUP_CLASS } ${ uidClass }` }>
 				<BackgroundVideo attributes={ attributes } />
 				<BackgroundOverlay attributes={ attributes } isEditMode />
-				<ShapeDividers attributes={ attributes } isEditMode />
 				<InnerBlocks
 					templateLock={ false }
 					renderAppender={

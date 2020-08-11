@@ -12,7 +12,6 @@ import { PLUGIN_NAME, BG_OVERLAY_SELECTOR } from '../constants';
 import Background from './background/index';
 import Typography from './typography/index';
 import Space from './space/index';
-import ShapeDividers from './shape-dividers/index';
 import ColorSet from './color-set';
 import BorderPanel from './border-panel';
 import Placement from './placement';
@@ -234,17 +233,6 @@ export default function Panels( props ) {
 						{ ...props }
 						selectorSettings={ selectors[ index ] }
 					/>
-				</Panel>
-			) }
-			{ isVisiblePanel.shapeDividers && (
-				<Panel
-					name="shapeDividers"
-					label={ __( 'Shape dividers', 'scblocks' ) }
-					onClickPanel={ onClickPanel }
-					openedPanel={ openedPanel }
-					panelCount={ panelCount }
-				>
-					<ShapeDividers { ...props } />
 				</Panel>
 			) }
 			{ isVisiblePanel.placement && (
