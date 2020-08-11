@@ -26,6 +26,5 @@ export const FONTS_VARS_STYLE_ID = `${ PLUGIN_NAME }-fonts-vars-style`;
 
 export const PLUGIN_COLORS = [ { name: 'orange', color: '#e43b04' } ];
 
-export const BG_OVERLAY_CLASS = `${ PLUGIN_NAME }-bg-overlay`;
+export const BG_OVERLAY_CLASS = `${ PLUGIN_NAME }-background-overlay`;
 export const BG_OVERLAY_SELECTOR = `.${ BG_OVERLAY_CLASS }`;
-export const BG_OVERLAY_HOVER_SELECTOR = `.${ BG_OVERLAY_CLASS }:hover`;

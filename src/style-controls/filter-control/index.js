@@ -1,9 +1,12 @@
 /**
  * WordPress dependencies
  */
-import { RangeControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
+/**
+ * Internal dependencies
+ */
+import NumberControl from '../../components/number-control';
 
 function prepareValue( value ) {
 	if ( isNotEmpty( value ) ) {
@@ -126,77 +129,77 @@ export default function FilterControl( { value, onChange } ) {
 
 	return (
 		<>
-			<RangeControl
+			<NumberControl
 				label={ __( 'Blur', 'scblocks' ) }
 				value={ blur }
 				onChange={ ( v ) => onChangeValue( 'blur', v ) }
 				min={ 0 }
 				max={ 10 }
 				step={ 0.1 }
-				initialPosition={ 0 }
+				withoutSelectDevices
 			/>
-			<RangeControl
+			<NumberControl
 				label={ __( 'Brightness', 'scblocks' ) }
 				value={ brightness }
 				onChange={ ( v ) => onChangeValue( 'brightness', v ) }
 				min={ 0 }
 				max={ 5 }
 				step={ 0.1 }
-				initialPosition={ 1 }
+				withoutSelectDevices
 			/>
-			<RangeControl
+			<NumberControl
 				label={ __( 'Contrast', 'scblocks' ) }
 				value={ contrast }
 				onChange={ ( v ) => onChangeValue( 'contrast', v ) }
 				min={ 0 }
 				max={ 10 }
 				step={ 0.1 }
-				initialPosition={ 1 }
+				withoutSelectDevices
 			/>
-			<RangeControl
+			<NumberControl
 				label={ __( 'Grayscale', 'scblocks' ) }
 				value={ grayscale }
 				onChange={ ( v ) => onChangeValue( 'grayscale', v ) }
 				min={ 0 }
 				max={ 1 }
 				step={ 0.01 }
-				initialPosition={ 0.01 }
+				withoutSelectDevices
 			/>
-			<RangeControl
+			<NumberControl
 				label={ __( 'Invert', 'scblocks' ) }
 				value={ invert }
 				onChange={ ( v ) => onChangeValue( 'invert', v ) }
 				min={ 0 }
 				max={ 1 }
 				step={ 0.01 }
-				initialPosition={ 0.01 }
+				withoutSelectDevices
 			/>
-			<RangeControl
+			<NumberControl
 				label={ __( 'Saturate', 'scblocks' ) }
 				value={ saturate }
 				onChange={ ( v ) => onChangeValue( 'saturate', v ) }
 				min={ 0 }
 				max={ 10 }
 				step={ 0.1 }
-				initialPosition={ 1 }
+				withoutSelectDevices
 			/>
-			<RangeControl
+			<NumberControl
 				label={ __( 'Sepia', 'scblocks' ) }
 				value={ sepia }
 				onChange={ ( v ) => onChangeValue( 'sepia', v ) }
 				min={ 0 }
 				max={ 1 }
 				step={ 0.01 }
-				initialPosition={ 0.01 }
+				withoutSelectDevices
 			/>
-			<RangeControl
+			<NumberControl
 				label={ __( 'Hue', 'scblocks' ) }
 				value={ hue }
 				onChange={ ( v ) => onChangeValue( 'hue', v ) }
 				min={ 0 }
 				max={ 360 }
 				step={ 1 }
-				initialPosition={ 0 }
+				withoutSelectDevices
 			/>
 		</>
 	);

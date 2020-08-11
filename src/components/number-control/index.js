@@ -13,15 +13,26 @@ export default function NumberControl( {
 	step = 1,
 	onChange,
 	value,
+	hasSlider = true,
 } ) {
 	return (
 		<div className={ `${ PLUGIN_NAME }-number-control` }>
 			<div className={ `${ PLUGIN_NAME }-number-control-header` }>
 				<span>{ label }</span>
 				{ ! withoutSelectDevices && <SelectDevices /> }
+				{ !! value && <ButtonClear onClear={ () => onChange( '' ) } /> }
 			</div>
 			<div className={ `${ PLUGIN_NAME }-number-control-content` }>
-				{ !! value && <ButtonClear onClear={ () => onChange( '' ) } /> }
+				{ hasSlider && (
+					<input
+						type="range"
+						value={ value }
+						onChange={ ( event ) => onChange( event.target.value ) }
+						min={ min }
+						max={ max }
+						step={ step }
+					/>
+				) }
 				<input
 					className="components-range-control__number"
 					type="number"

@@ -11,6 +11,7 @@ import { PLUGIN_NAME } from '../../constants';
 import edit from './edit';
 import save from './save';
 import icon from './icon';
+import isBackgroundOverlay from '../../block/common-attributes';
 
 export const name = `${ PLUGIN_NAME }/group`;
 
@@ -73,6 +74,7 @@ export const settings = {
 			attribute: 'data-negative',
 			default: 'false',
 		},
+		...isBackgroundOverlay,
 	},
 
 	supports: {

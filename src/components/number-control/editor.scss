@@ -1,7 +1,4 @@
 .#{$pluginName}-number-control {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
 	margin-bottom: 24px;
 
 	&:last-child {
@@ -10,16 +7,21 @@
 }
 .#{$pluginName}-number-control-header {
 	margin-bottom: 5px;
-	display: flex;
-	align-items: center;
+
+	span {
+		margin-right: 8px;
+	}
 }
 .#{$pluginName}-number-control-content {
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
+	justify-content: space-between;
 
-	input {
-		margin-right: 5px;
-		max-width: 80px;
+	input[type="number"] {
+		margin-left: 5px;
+		width: 80px;
+	}
+	input[type="range"] {
+		max-width: 150px;
 	}
 }

@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../constants';
+import { PLUGIN_NAME, BG_OVERLAY_SELECTOR } from '../constants';
 import Background from './background/index';
 import Typography from './typography/index';
 import Space from './space/index';
@@ -21,6 +21,7 @@ import {
 	setLastActivePanel,
 } from '../hooks/use-block-memo';
 import Flex from './flex';
+import BackgroundOverlaySwitch from './background-overlay-switch';
 
 function Panel( {
 	name,
@@ -97,7 +98,7 @@ function Panel( {
 }
 
 export default function Panels( props ) {
-	const { selector, selectors, blockMemo } = props;
+	const { selector, selectors, blockMemo, attributes } = props;
 
 	const index = useMemo( () => {
 		return selectors.findIndex(
@@ -175,6 +176,22 @@ export default function Panels( props ) {
 							isVisiblePanel.backgroundVideo
 						}
 					/>
+					<BackgroundOverlaySwitch { ...props } />
+				</Panel>
+			) }
+			{ attributes.isBackgroundOverlay && (
+				<Panel
+					name="backgroundOverlay"
+					label={ __( 'Background overlay', 'scblocks' ) }
+					onClickPanel={ onClickPanel }
+					openedPanel={ openedPanel }
+					panelCount={ panelCount }
+				>
+					<Background
+						{ ...props }
+						isBgOverlay={ true }
+						selector={ BG_OVERLAY_SELECTOR }
+					/>
 				</Panel>
 			) }
 			{ isVisiblePanel.space && (
@@ -216,21 +233,6 @@ export default function Panels( props ) {
 					<BorderPanel
 						{ ...props }
 						selectorSettings={ selectors[ index ] }
-					/>
-				</Panel>
-			) }
-			{ isVisiblePanel.backgroundOverlay && (
-				<Panel
-					name="backgroundOverlay"
-					label={ __( 'Background overlay', 'scblocks' ) }
-					onClickPanel={ onClickPanel }
-					openedPanel={ openedPanel }
-					panelCount={ panelCount }
-				>
-					<Background
-						{ ...props }
-						isBgOverlay={ true }
-						selector={ `.${ PLUGIN_NAME }-bg-overlay` }
 					/>
 				</Panel>
 			) }
