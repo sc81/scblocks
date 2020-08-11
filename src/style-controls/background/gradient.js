@@ -51,7 +51,7 @@ export default function Gradient( {
 		setCssMemoValue( blockMemo, setPropValue, {
 			selector,
 			devices,
-			propName: names.gradient,
+			propName,
 			value,
 		} );
 	}

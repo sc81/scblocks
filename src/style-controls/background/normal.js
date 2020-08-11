@@ -60,6 +60,10 @@ function changeBgType( {
 				settings: [ names.image ],
 			}
 		);
+		// don't set a gradient
+		if ( properties[ ALL_DEVICES ] ) {
+			properties[ ALL_DEVICES ][ names.image ] = '';
+		}
 		setPropsSettingsForVariousMedia( {
 			attributes,
 			setAttributes,
@@ -82,7 +86,7 @@ function changeBgType( {
 			{
 				selector,
 				devices: ALL_DEVICES,
-				propName: names.gradient,
+				propName: names.image,
 			}
 		);
 

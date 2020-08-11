@@ -14,5 +14,4 @@ export const names = {
 	filter: 'filter',
 	video: 'bgVideo',
 	transition: 'transition',
-	gradient: 'backgroundGradient',
 };
