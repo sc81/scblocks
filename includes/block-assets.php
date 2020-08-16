@@ -65,6 +65,7 @@ class Block_Assets {
 		// ! singular || preview
 		if ( ! $post_id || is_preview() ) {
 			$has_block = true;
+			$inline_css = $css_handler->get_inline_css();
 		} else {
 			$css_file_uri = $css_handler->css_file_uri();
 			if ( ! $css_file_uri ) {
