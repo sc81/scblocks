@@ -57,12 +57,21 @@ class Block_Assets {
 	 * Frontend assets.
 	 */
 	public function frontend_assets() {
-		$post_id = Block_Css::get_post_id();
+		$css_file_uri = '';
+		$inline_css   = '';
+		$css_handler  = new Block_Css();
+
+		$post_id = $css_handler->get_post_id();
 		// ! singular || preview
 		if ( ! $post_id || is_preview() ) {
 			$has_block = true;
 		} else {
-			$has_block = $this->has_post_settings( $post_id );
+			$css_file_uri = $css_handler->css_file_uri();
+			if ( ! $css_file_uri ) {
+				$inline_css = $css_handler->get_inline_css();
+			}
+			$has_block = ! ! $css_file_uri || ! ! $inline_css;
+
 		}
 
 		if ( $has_block ) {
@@ -72,32 +81,12 @@ class Block_Assets {
 				array(),
 				SCBLOCKS_CSS_VERSION
 			);
-		}
-	}
-
-	/**
-	 * Checks if the post has _scblocks_post_settings post meta field.
-	 *
-	 * @param int $post_id Post ID
-	 *
-	 * @return bool
-	 */
-	public function has_post_settings( int $post_id ) : bool {
-		$post_settings = Block_Css::get_post_meta_post_settings( $post_id );
-
-		if ( empty( $post_settings ) ) {
-			return false;
-		}
-		if ( ! empty( $post_settings['update_time'] ) ) {
-			return true;
-		}
-		if ( ! empty( $post_settings['reusable_blocks'] ) ) {
-			foreach ( $post_settings['reusable_blocks'] as $block_id ) {
-				if ( $this->has_post_settings( $block_id ) ) {
-					return true;
-				}
+			if ( $css_file_uri ) {
+				wp_enqueue_style( 'scblocks-blocks', esc_url( $css_file_uri ), array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			}
+			if ( $inline_css ) {
+				wp_add_inline_style( 'scblocks', $inline_css );
 			}
 		}
-		return false;
 	}
 }

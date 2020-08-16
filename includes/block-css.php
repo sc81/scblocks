@@ -10,28 +10,28 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Block_Css {
 
-	/** @var string DESKTOP_DEVICES */
+	/** @var string */
 	const DESKTOP_DEVICES = 'Desktop';
 
-	/** @var string TABLET_DEVICES */
+	/** @var string */
 	const TABLET_DEVICES = 'Tablet';
 
-	/** @var string MOBILE_DEVICES */
+	/** @var string */
 	const MOBILE_DEVICES = 'Mobile';
 
-	/** @var string BLOCK_NAMESPACE */
+	/** @var string */
 	const BLOCK_NAMESPACE = 'scblocks';
 
-	/** @var string POST_SETTINGS_POST_META_NAME */
+	/** @var string */
 	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
 
-	/** @var string $tablet_devices_max_width */
+	/** @var string */
 	public $tablet_devices_max_width = '1024px';
 
-	/** @var string $tablet_devices_min_width */
+	/** @var string */
 	public $tablet_devices_min_width = '768px';
 
-	/** @var string $mobile_devices_max_width */
+	/** @var string */
 	public $mobile_devices_max_width = '767px';
 
 
@@ -44,26 +44,22 @@ class Block_Css {
 	 */
 	public function register_actions() {
 		add_action( 'save_post', array( $this, 'update_post_settings' ), 10, 2 );
-		add_action( 'save_post_wp_block', array( $this, 'save_wp_block' ), 10, 2 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_css' ) );
-		add_action( 'wp_head', array( $this, 'print_inline_css' ) );
+		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ), 10, 2 );
 	}
 	/**
 	 * Get the current page ID.
 	 *
-	 * @static
-	 *
 	 * @return int
 	 */
-	public static function get_post_id() : int {
+	public function get_post_id() : int {
 		global $post;
 		$id = 0;
 
 		if ( isset( $post ) && is_singular() ) {
 			$id = $post->ID;
 		}
-		if ( self::is_woo_shop() ) {
-			$id = self::get_woo_shop_page_id();
+		if ( $this->is_woo_shop() ) {
+			$id = $this->get_woo_shop_page_id();
 		}
 		if ( is_home() ) {
 			$id = get_option( 'page_for_posts' );
@@ -74,57 +70,47 @@ class Block_Css {
 	/**
 	 * Checks if there is a woocommerce shop page.
 	 *
-	 * @static
-	 *
 	 * @return bool
 	 */
-	public static function is_woo_shop() : bool {
+	public function is_woo_shop() : bool {
 		return function_exists( 'is_shop' ) && is_shop();
 	}
 	/**
 	 * Gets a woocommerce shop page id.
 	 *
-	 * @static
-	 *
 	 * @return int
 	 */
-	public static function get_woo_shop_page_id() : int {
+	public function get_woo_shop_page_id() : int {
 		return get_option( 'woocommerce_shop_page_id' );
 	}
 
 	/**
-	 * Enqueue CSS from file.
+	 * Checks if css file exists, if yes returns url.
+	 *
+	 * @return string
 	 */
-	public function enqueue_css() {
-		$post_id = self::get_post_id();
+	public function css_file_uri() : string {
+		$post_id = $this->get_post_id();
 
 		if ( ! $post_id ) {
-			return;
+			return '';
 		}
-		$post_settings = self::get_post_meta_post_settings( $post_id );
+		$post_settings = $this->get_post_meta_post_settings( $post_id );
 
 		if ( empty( $post_settings ) || empty( $post_settings['css_version'] ) ) {
-			return;
+			return '';
 		}
 		if ( 'file' === $this->mode() ) {
-			wp_enqueue_style( 'scblocks-blocks', esc_url( $this->file( 'uri' ) ), array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			return $this->file( 'uri' );
+
 		}
+		return '';
 	}
 	/**
-	 * Print an inline CSS.
+	 * Gets an inline CSS.
 	 */
-	public function print_inline_css() {
-
-		if ( 'inline' === $this->mode() || ! wp_style_is( 'scblocks-blocks', 'enqueued' ) ) {
-			$css = $this->compose_css( $this->get_blocks_attr( $this->get_parsed_content() ) );
-
-			if ( ! empty( $css ) ) {
-				printf(
-					'<style id="scblocks-blocks-css">%s</style>',
-					wp_strip_all_tags( $css ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
-		}
+	public function get_inline_css() {
+		return $this->compose_css( $this->get_blocks_attr( $this->get_parsed_content() ) );
 	}
 	/**
 	 * Determine if we're using file mode or inline mode.
@@ -160,6 +146,90 @@ class Block_Css {
 		return $mode;
 
 	}
+	/**
+	 * Determines if the CSS file is writable.
+	 *
+	 * @return bool
+	 */
+	public function can_write() : bool {
+		global $blog_id;
+		global $wp_filesystem;
+
+		$this->initialize_wp_filesystem();
+
+		$wp_upload_dir = wp_upload_dir();
+
+		if ( ! $wp_filesystem->is_writable( $wp_upload_dir['basedir'] ) ) {
+			return false;
+		}
+
+		$file_name   = $this->css_file_name();
+		$folder_path = $wp_upload_dir['basedir'] . '/scblocks';
+
+		// folder does not exists, create it
+		if ( ! $wp_filesystem->is_dir( $folder_path ) ) {
+			$is_folder = wp_mkdir_p( $folder_path );
+			// failed while creating
+			if ( ! $is_folder ) {
+				return false;
+			}
+		}
+		// folder exists, but is it writable
+		if ( ! $wp_filesystem->is_writable( $folder_path ) ) {
+			return false;
+		}
+		// file exists, but is it writable
+		if ( $wp_filesystem->is_file( $file_name ) &&
+		! $wp_filesystem->is_writable( $file_name ) ) {
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * Creates a css and tries to save to the file.
+	 *
+	 * @return bool True on success, false on failure.
+	 */
+	public function make_css() : bool {
+		$post_id = $this->get_post_id();
+
+		$css = $this->compose_css( $this->get_blocks_attr( $this->get_parsed_content() ) );
+
+		if ( ! $css ) {
+			return false;
+		}
+
+		// If we only have a little CSS, we should inline it.
+		$css_size = strlen( $css );
+
+		if ( $css_size < (int) apply_filters( 'scblocks_max_inline_css', 500 ) ) {
+			return false;
+		}
+
+		global $wp_filesystem;
+		$this->initialize_wp_filesystem();
+
+		// Strip protocols.
+		$css = str_replace( array( 'https://', 'http://' ), '//', $css );
+
+		$is_saved = $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $css ), FS_CHMOD_FILE );
+		if ( $is_saved ) {
+			$update_time                 = time();
+			$settings                    = $this->get_post_meta_post_settings( $post_id );
+			$settings['old_update_time'] = $update_time;
+			$settings['update_time']     = $update_time;
+			$settings['css_version']     = SCBLOCKS_CSS_VERSION;
+			update_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, wp_slash( wp_json_encode( $settings ) ) );
+			update_option( 'scblocks_css_write_time', time() );
+
+			// Success!
+			return true;
+
+		} else {
+			// Fail!
+			return false;
+		}
+	}
 
 	/**
 	 * Checks if we need to update the css file.
@@ -170,11 +240,11 @@ class Block_Css {
 		if ( ! file_exists( $this->file( 'path' ) ) ) {
 			return true;
 		}
-		$post_id = self::get_post_id();
+		$post_id = $this->get_post_id();
 		if ( ! $post_id ) {
 			return false;
 		}
-		$post_settings = self::get_post_meta_post_settings( $post_id );
+		$post_settings = $this->get_post_meta_post_settings( $post_id );
 
 		if ( empty( $post_settings ) ) {
 			return false;
@@ -188,9 +258,10 @@ class Block_Css {
 		if ( $post_settings['old_update_time'] !== $post_settings['update_time'] ) {
 			return true;
 		}
+		$options = get_option( Plugin::OPTION_NAME, array() );
 		// check if any reusable block has been updated
-		if ( isset( $post_settings['reusable_blocks'] ) &&
-			$this->is_any_reusable_block_updated( $post_settings['reusable_blocks'], $post_settings['update_time'] ) ) {
+		if ( ! empty( $post_settings['reusable_blocks'] ) &&
+			$this->is_any_reusable_block_updated( $post_settings['reusable_blocks'], $post_settings['update_time'], $options ) ) {
 			return true;
 		}
 		return false;
@@ -203,24 +274,49 @@ class Block_Css {
 	 *
 	 * @return bool
 	 */
-	public function is_any_reusable_block_updated( array $reusable_blocks, int $post_update_time ) : bool {
+	public function is_any_reusable_block_updated( array $reusable_blocks, int $post_update_time, $options ) : bool {
+
 		foreach ( $reusable_blocks as $block_id ) {
-			$reusable_block_settings = self::get_post_meta_post_settings( $block_id );
-			// post doesn't have our blocks
-			if ( empty( $reusable_block_settings ) ) {
-				continue;
-			}
 			//reusable block updated
-			if ( (int) $post_update_time <= (int) $reusable_block_settings['update_time'] ) {
+			if ( isset( $options[ $block_id ] ) && (int) $post_update_time <= (int) $options[ $block_id ] ) {
 				return true;
 			}
 			// if the reusable block has a reusable block
-			if ( ! empty( $reusable_block_settings['reusable_blocks'] ) &&
-			$this->is_any_reusable_block_updated( $reusable_block_settings['reusable_blocks'], $post_update_time ) ) {
+			$reusable_block_post = get_post( $block_id );
+			if ( ! $reusable_block_post || ! isset( $reusable_block_post->post_content ) ) {
+				continue;
+			}
+			$reusable_reusable_blocks = $this->get_reusable_blocks_ids( $reusable_block_post->post_content );
+			if ( $this->is_any_reusable_block_updated(
+				$reusable_reusable_blocks,
+				$post_update_time,
+				$options
+			) ) {
 				return true;
 			}
 		}
 		return false;
+	}
+	/**
+	 * Gets the reusable blocks ids.
+	 *
+	 * @param string $post_content wp block content
+	 *
+	 * @return array An array of reusable block id
+	 */
+	public function get_reusable_blocks_ids( $post_content ) {
+		if ( '' === $post_content ) {
+			return array();
+		}
+		$reusable_blocks        = preg_match_all( '/wp:block {"ref":([^}]*)}/', $post_content, $matches );
+		$stored_reusable_blocks = array();
+
+		foreach ( $matches[1] as $match ) {
+			if ( ! in_array( $match, $stored_reusable_blocks, true ) ) {
+				$stored_reusable_blocks[] = $match;
+			}
+		}
+		return $stored_reusable_blocks;
 	}
 
 	/**
@@ -234,21 +330,14 @@ class Block_Css {
 			wp_is_post_revision( $post_id ) ||
 			! current_user_can( 'edit_post', $post_id ) ||
 			'attachment' === $post->post_type ||
-			'' === $post->post_content ) {
+			'wp_block' === $post->post_type ) {
 			return $post_id;
 		}
 
-		$old_settings  = self::get_post_meta_post_settings( $post_id );
+		$old_settings  = $this->get_post_meta_post_settings( $post_id );
 		$next_settings = array();
 
-		$reusable_blocks        = preg_match_all( '/wp:block {"ref":([^}]*)}/', $post->post_content, $matches );
-		$stored_reusable_blocks = array();
-
-		foreach ( $matches[1] as $match ) {
-			if ( ! in_array( $match, $stored_reusable_blocks, true ) ) {
-				$stored_reusable_blocks[] = $match;
-			}
-		}
+		$stored_reusable_blocks = $this->get_reusable_blocks_ids( $post->post_content );
 
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
 			if ( empty( $old_settings ) ) {
@@ -282,13 +371,11 @@ class Block_Css {
 	/**
 	 * Gets and decodes the _scblocks_post_settings post meta field.
 	 *
-	 * @static
-	 *
 	 * @param int $post_id Post ID.
 	 *
 	 * @return array
 	 */
-	public static function get_post_meta_post_settings( int $post_id ) : array {
+	public function get_post_meta_post_settings( int $post_id ) : array {
 		$value = get_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, true );
 		if ( $value ) {
 			return json_decode( $value, true );
@@ -302,73 +389,17 @@ class Block_Css {
 	 * @return array
 	 */
 	public function get_parsed_content() : array {
-		$post_id = self::get_post_id();
+		$post_id = $this->get_post_id();
 		if ( ! $post_id ) {
 			return array();
 		}
-		if ( self::is_woo_shop() ) {
-			$post = get_post( self::get_woo_shop_page_id() );
+		if ( $this->is_woo_shop() ) {
+			$post = get_post( $this->get_woo_shop_page_id() );
 		} else {
 			$post = get_post();
 		}
 		$blocks = parse_blocks( $post->post_content );
 		return $blocks;
-	}
-	/**
-	 * Creates a css and tries to save to the file.
-	 *
-	 * @return bool True on success, false on failure.
-	 */
-	public function make_css() : bool {
-		$post_id = self::get_post_id();
-		if ( ! $post_id ) {
-			return false;
-		}
-		$css = $this->compose_css( $this->get_blocks_attr( $this->get_parsed_content() ) );
-
-		if ( ! $css ) {
-			return false;
-		}
-
-		// If we only have a little CSS, we should inline it.
-		$css_size = strlen( $css );
-
-		if ( $css_size < (int) apply_filters( 'scblocks_max_inline_css', 500 ) ) {
-			return false;
-		}
-
-		global $wp_filesystem;
-
-		// Initialize the WordPress filesystem.
-		if ( empty( $wp_filesystem ) ) {
-			require_once ABSPATH . '/wp-admin/includes/file.php';
-			WP_Filesystem();
-		}
-
-		// Strip protocols.
-		$css = str_replace( 'https://', '//', $css );
-		$css = str_replace( 'http://', '//', $css );
-
-		if ( is_writable( $this->file( 'path' ) ) ||
-		( ! file_exists( $this->file( 'path' ) ) && is_writable( dirname( $this->file( 'path' ) ) ) ) ) {
-
-			if ( ! $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $css ), FS_CHMOD_FILE ) ) {
-				// Fail!
-				return false;
-
-			} else {
-				$update_time                 = time();
-				$settings                    = self::get_post_meta_post_settings( $post_id );
-				$settings['old_update_time'] = $update_time;
-				$settings['update_time']     = $update_time;
-				$settings['css_version']     = SCBLOCKS_CSS_VERSION;
-				update_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, wp_slash( wp_json_encode( $settings ) ) );
-				update_option( 'scblocks_css_write_time', time() );
-
-				// Success!
-				return true;
-			}
-		}
 	}
 
 	/**
@@ -524,7 +555,26 @@ class Block_Css {
 		}
 	}
 	/**
-	 * Gets the css path or url to the stylesheet
+	 * Gets the css file name
+	 *
+	 * @param $post_id Optional. Post ID.
+	 *
+	 * @return string
+	 */
+	public function css_file_name( int $post_id = -1 ): string {
+		// If this is a multisite installation, append the blogid to the filename.
+		$css_blog_id = '';
+		if ( is_multisite() && $blog_id > 1 ) {
+			$css_blog_id = '_blog-' . $blog_id;
+		}
+		if ( -1 === $post_id ) {
+			$post_id = $this->get_post_id();
+		}
+
+		return 'style' . $css_blog_id . '-' . $post_id . '.css';
+	}
+	/**
+	 * Gets the path or url to the stylesheet
 	 *
 	 * @param string $target path/url.
 	 *
@@ -532,101 +582,60 @@ class Block_Css {
 	 */
 	public function file( string $target = 'path' ) : string {
 
-		global $blog_id;
-
 		$upload_dir = wp_upload_dir();
 
-		// If this is a multisite installation, append the blogid to the filename.
-		$css_blog_id = '';
-		if ( is_multisite() && $blog_id > 1 ) {
-			$css_blog_id = '_blog-' . $blog_id;
-		}
-		$post_id = self::get_post_id();
+		$file_name = $this->css_file_name();
 
-		$file_name = 'style' . $css_blog_id . '-' . $post_id . '.css';
-
-		$file_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'scblocks' . DIRECTORY_SEPARATOR . $file_name;
-
-		$css_uri = trailingslashit( $upload_dir['baseurl'] ) . 'scblocks/' . $file_name;
-
-		// Strip protocols.
-		$css_uri = str_replace( 'https://', '//', $css_uri );
-		$css_uri = str_replace( 'http://', '//', $css_uri );
+		$file_path = $upload_dir['basedir'] . '/scblocks/' . $file_name;
 
 		if ( 'path' === $target ) {
 			return $file_path;
 		} elseif ( 'url' === $target || 'uri' === $target ) {
 			$timestamp = '';
 
-			if ( file_exists( $file_path ) ) {
+			if ( is_file( $file_path ) ) {
 				$timestamp = '?ver=' . filemtime( $file_path );
 			}
+			$css_uri = trailingslashit( $upload_dir['baseurl'] ) . 'scblocks/' . $file_name;
+			// Strip protocols.
+			$css_uri = str_replace( array( 'https://', 'http://' ), '//', $css_uri );
+
 			return $css_uri . $timestamp;
 		}
 
 	}
 
 	/**
-	 * Determines if the CSS file is writable.
+	 * Initialize the WordPress filesystem.
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function can_write() : bool {
-
-		global $blog_id;
-
-		// Get the upload directory for this site.
-		$upload_dir = wp_upload_dir();
-
-		// If this is a multisite installation, append the blogid to the filename.
-		$css_blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
-		$post_id     = self::get_post_id();
-
-		if ( ! $post_id ) {
-			return false;
+	public function initialize_wp_filesystem() {
+		global $wp_filesystem;
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . '/wp-admin/includes/file.php';
+			WP_Filesystem();
 		}
+	}
+	/**
+	 * Updates the update time of a reusable block
+	 *
+	 * @param int    $post_id The current post ID.
+	 * @param WP_Post $post Post object.
+	 */
 
-		$file_name   = '/style' . $css_blog_id . '-' . $post_id . '.css';
-		$folder_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'scblocks';
-
-		// Does the folder exist?
-		if ( file_exists( $folder_path ) ) {
-			// Folder exists, but is the folder writable?
-			if ( ! is_writable( $folder_path ) ) {
-				// Folder is not writable.
-				// Does the file exist?
-				if ( ! file_exists( $folder_path . $file_name ) ) {
-					// File does not exist, therefore it can't be created
-					// since the parent folder is not writable.
-					return false;
-				} else {
-					// File exists, but is it writable?
-					if ( ! is_writable( $folder_path . $file_name ) ) {
-						// Nope, it's not writable.
-						return false;
-					}
-				}
-			} else {
-				// The folder is writable.
-				// Does the file exist?
-				if ( file_exists( $folder_path . $file_name ) ) {
-					// File exists.
-					// Is it writable?
-					if ( ! is_writable( $folder_path . $file_name ) ) {
-						// Nope, it's not writable.
-						return false;
-					}
-				}
-			}
+	public function wp_block_update( $post_id, $post ) {
+		if ( wp_is_post_autosave( $post_id ) ||
+			wp_is_post_revision( $post_id ) ||
+			! current_user_can( 'edit_post', $post_id ) ) {
+			return $post_id;
+		}
+		$options = get_option( Plugin::OPTION_NAME, array() );
+		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
+			$options[ $post_id ] = time();
 		} else {
-			// Can we create the folder?
-			// returns true if yes and false if not.
-			return wp_mkdir_p( $folder_path );
+			unset( $options[ $post_id ] );
 		}
-
-		// all is well!
-		return true;
-
+		update_option( Plugin::OPTION_NAME, $options );
 	}
 }
-

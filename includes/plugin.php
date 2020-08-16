@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Plugin {
+	/** @var string */
+	const OPTION_NAME = 'scblocks_settings';
+
 	private static $instance;
 
 	public static function instance() {
