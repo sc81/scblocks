@@ -1,0 +1,19 @@
+@import "./style.scss";
+
+.#{$pluginAlias}-columns > .wp-block {
+	max-width: unset;
+	margin: 0;
+}
+
+.#{$pluginAlias}-column-content > {
+	.wp-block {
+		margin-left: 0;
+		margin-right: 0;
+		max-width: unset;
+	}
+	:not([data-type="core/paragraph"]),
+	:not([data-type="core/heading"]) {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}

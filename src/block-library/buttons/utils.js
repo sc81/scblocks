@@ -2,17 +2,14 @@
  * Internal dependencies
  */
 import { PLUGIN_NAME } from '../../constants';
+import { SELECTORS } from '../../block/constants';
 
 export const BUTTONS_BLOCK_NAME = `${ PLUGIN_NAME }/buttons`;
 
-export const BUTTONS_CLASS = `${ PLUGIN_NAME }-buttons`;
-export const BUTTONS_SELECTOR = 'selector';
-export const BUTTONS_HOVER_SELECTOR = 'selector:hover';
-
-export const selectors = [
+export const selectorsSettings = [
 	{
 		label: 'Buttons',
-		selector: BUTTONS_SELECTOR,
+		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {
 			typography: true,
 			background: true,

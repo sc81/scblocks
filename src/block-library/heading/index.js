@@ -9,7 +9,7 @@ import { heading as icon } from '@wordpress/icons';
 import { PLUGIN_NAME } from '../../constants';
 import edit from './edit';
 import save from './save';
-import { HEADING_TEXT_SELECTOR, HEADING_ICON_SELECTOR } from './utils';
+import { SELECTORS } from '../../block/constants';
 
 export const name = PLUGIN_NAME + '/heading';
 
@@ -25,7 +25,7 @@ export const settings = {
 		icon: {
 			type: 'string',
 			source: 'html',
-			selector: HEADING_ICON_SELECTOR,
+			selector: SELECTORS.heading.icon.selector,
 		},
 		iconPath: {
 			type: 'string',
@@ -34,7 +34,7 @@ export const settings = {
 		text: {
 			type: 'string',
 			source: 'html',
-			selector: HEADING_TEXT_SELECTOR,
+			selector: SELECTORS.heading.text.selector,
 		},
 		css: {
 			type: 'object',

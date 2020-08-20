@@ -6,6 +6,7 @@ import {
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
+import { useRef } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -15,60 +16,56 @@ import {
 	CORE_BLOCK_EDITOR_STORE_NAME,
 	CORE_EDIT_POST_STORE_NAME,
 } from '../../constants';
-import BackgroundVideo from './background-video';
-import BackgroundOverlay from '../../block/background-overlay';
-import { useBlockMemo } from '../../hooks/use-block-memo';
 import useDynamicCss from '../../hooks/use-dynamic-css';
+import { useBlockMemo } from '../../hooks/use-block-memo';
 import Inspector from './inspector';
 import { BLOCK_CLASSES } from '../../block/constants';
 
 export default function Edit( props ) {
 	const { attributes, clientId } = props;
-	const { uidClass, tag } = attributes;
-	const { devices, hasInnerBlocks } = useSelect(
-		( select ) => {
-			const block = select( CORE_BLOCK_EDITOR_STORE_NAME ).getBlock(
-				clientId
-			);
+
+	const columnRef = useRef();
+
+	const { devices, hasChildBlocks } = useSelect(
+		( store ) => {
 			return {
-				hasInnerBlocks: !! ( block && block.innerBlocks.length ),
-				devices: select(
+				devices: store(
 					CORE_EDIT_POST_STORE_NAME
 				).__experimentalGetPreviewDeviceType(),
+				hasChildBlocks: store(
+					CORE_BLOCK_EDITOR_STORE_NAME
+				).getBlockCount( clientId ),
 			};
 		},
 		[ clientId ]
 	);
-
-	useDynamicCss( props, devices );
-
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
-
-	const BlockWrapper = Block[ tag ];
+	useDynamicCss( props, devices );
 
 	return (
 		<>
 			<Inspector
 				{ ...props }
-				devices={ devices }
 				blockMemo={ blockMemo }
+				devices={ devices }
 			/>
-			<BlockWrapper
-				className={ `${ BLOCK_CLASSES.group.main } ${ uidClass }` }
+			<Block.div
+				className={ `${ BLOCK_CLASSES.column.main } ${ attributes.uidClass } ${ BLOCK_CLASSES.column.col }` }
+				ref={ columnRef }
 			>
-				<BackgroundVideo attributes={ attributes } />
-				<BackgroundOverlay attributes={ attributes } isEditMode />
 				<InnerBlocks
 					templateLock={ false }
 					renderAppender={
-						! hasInnerBlocks && InnerBlocks.ButtonBlockAppender
+						hasChildBlocks
+							? undefined
+							: () => <InnerBlocks.ButtonBlockAppender />
 					}
-					__experimentalTagName="div"
 					__experimentalPassedProps={ {
-						className: BLOCK_CLASSES.group.content,
+						className: BLOCK_CLASSES.column.content,
 					} }
+					__experimentalTagName="div"
 				/>
-			</BlockWrapper>
+			</Block.div>
 		</>
 	);
 }

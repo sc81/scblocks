@@ -11,14 +11,7 @@ import { useEffect } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import {
-	BUTTON_CLASS,
-	BUTTON_LINK_CLASS,
-	BUTTON_TEXT_CLASS,
-	BUTTON_ICON_CLASS,
-	selectors,
-	BUTTON_ICON_SELECTOR,
-} from './utils';
+import { selectorsSettings } from './utils';
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import Inspector from './inspector';
@@ -28,6 +21,7 @@ import {
 	setSelectorActivity,
 	useSelectorsActivity,
 } from '../../hooks/use-selector-activity';
+import { BLOCK_CLASSES, SELECTORS } from '../../block/constants';
 
 const NEW_TAB_REL = 'noreferrer noopener';
 
@@ -42,13 +36,17 @@ export default function Edit( props ) {
 			).__experimentalGetPreviewDeviceType(),
 		[]
 	);
-	const blockMemo = useBlockMemo( attributes, selectors );
+	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	useDynamicCss( props, devices );
 
-	const selectorsActivity = useSelectorsActivity( selectors );
+	const selectorsActivity = useSelectorsActivity( selectorsSettings );
 
 	useEffect( () => {
-		setSelectorActivity( selectorsActivity, BUTTON_ICON_SELECTOR, !! icon );
+		setSelectorActivity(
+			selectorsActivity,
+			SELECTORS.button.icon.alias,
+			!! icon
+		);
 	}, [ selectorsActivity, icon ] );
 
 	function onToggleOpenInNewTab( value ) {
@@ -76,22 +74,24 @@ export default function Edit( props ) {
 				onToggleOpenInNewTab={ onToggleOpenInNewTab }
 				selectorsActivity={ selectorsActivity }
 			/>
-			<Block.div className={ `${ BUTTON_CLASS } ${ uidClass }` }>
-				<div className={ BUTTON_LINK_CLASS }>
+			<Block.div
+				className={ `${ BLOCK_CLASSES.button.main } ${ uidClass }` }
+			>
+				<div className={ BLOCK_CLASSES.button.link }>
 					{ icon && (
 						<span
-							className={ BUTTON_ICON_CLASS }
+							className={ BLOCK_CLASSES.button.icon }
 							dangerouslySetInnerHTML={ { __html: icon } }
 						/>
 					) }
 					<RichText
 						tagName="span"
-						className={ BUTTON_TEXT_CLASS }
+						className={ BLOCK_CLASSES.button.text }
 						value={ text }
 						onChange={ ( value ) =>
 							setAttributes( { text: value } )
 						}
-						placeholder={ __( 'Add text…', 'scblocks' ) }
+						placeholder={ __( 'Button', 'scblocks' ) }
 						withoutInteractiveFormatting
 					/>
 				</div>

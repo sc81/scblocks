@@ -7,23 +7,14 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import { PLUGIN_NAME } from '../../constants';
+import { SELECTORS } from '../../block/constants';
 
 export const BUTTON_BLOCK_NAME = `${ PLUGIN_NAME }/button`;
 
-export const BUTTON_CLASS = `${ PLUGIN_NAME }-button`;
-export const BUTTON_LINK_CLASS = `${ PLUGIN_NAME }-button-link`;
-export const BUTTON_TEXT_CLASS = `${ PLUGIN_NAME }-button-text`;
-export const BUTTON_ICON_CLASS = `${ PLUGIN_NAME }-button-icon`;
-
-export const BUTTON_SELECTOR = 'selector';
-export const BUTTON_LINK_SELECTOR = `.${ BUTTON_LINK_CLASS }`;
-export const BUTTON_TEXT_SELECTOR = `.${ BUTTON_TEXT_CLASS }`;
-export const BUTTON_ICON_SELECTOR = `.${ BUTTON_ICON_CLASS }`;
-
-export const selectors = [
+export const selectorsSettings = [
 	{
 		label: __( 'Button', 'scblocks' ),
-		selector: BUTTON_LINK_SELECTOR,
+		selector: SELECTORS.button.link.alias,
 		allowedPanels: {
 			background: true,
 			typography: true,
@@ -38,13 +29,13 @@ export const selectors = [
 			},
 		},
 		relatedSelectorProps: {
-			selector: BUTTON_SELECTOR,
+			selector: SELECTORS.blockMainSelectorAlias,
 			props: [ 'margin', 'flexGrow' ],
 		},
 	},
 	{
 		label: __( 'Icon', 'scblocks' ),
-		selector: BUTTON_ICON_SELECTOR,
+		selector: SELECTORS.button.icon.alias,
 		allowedPanels: {
 			colors: true,
 			space: {

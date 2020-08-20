@@ -1,19 +1,8 @@
-
-.#{$pluginName}-group {
-	position: relative;
-
-	.#{$pluginName}-group-inner {
-		position: relative;
-
-		:first-child {
-			margin-top: 0;
-		}
-		:last-child {
-			margin-bottom: 0;
-		}
-	}
+.#{$pluginAlias}-group-content {
+	margin-left: auto;
+	margin-right: auto;
 }
-.#{$pluginName}-bg-video-wrap {
+.#{$pluginAlias}-bg-video-wrap {
 	height: 100%;
 	width: 100%;
 	top: 0;
@@ -22,7 +11,7 @@
 	overflow: hidden;
 	z-index: 0;
 }
-.#{$pluginName}-bg-video {
+.#{$pluginAlias}-bg-video {
 	position: absolute;
 	top: 50%;
 	left: 50%;

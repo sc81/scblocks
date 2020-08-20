@@ -8,10 +8,10 @@ import { InnerBlocks } from '@wordpress/block-editor';
  */
 import { BLOCK_CLASSES } from '../../block/constants';
 
-export default function Save( { attributes } ) {
+export default function save( { attributes } ) {
 	return (
 		<div
-			className={ `${ BLOCK_CLASSES.buttons.main } ${ attributes.uidClass }` }
+			className={ `${ BLOCK_CLASSES.columns.main } ${ attributes.uidClass }` }
 		>
 			<InnerBlocks.Content />
 		</div>

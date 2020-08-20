@@ -7,35 +7,30 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import {
-	BUTTON_CLASS,
-	BUTTON_LINK_CLASS,
-	BUTTON_ICON_CLASS,
-	BUTTON_TEXT_CLASS,
-} from './utils';
+import { BLOCK_CLASSES } from '../../block/constants';
 
-const placeholder = __( 'Add text !!!', 'scblocks' );
+const placeholder = __( 'Button', 'scblocks' );
 
 export default function Save( { attributes } ) {
 	const { url, linkTarget, rel, text, icon, uidClass } = attributes;
 
 	return (
-		<div className={ `${ BUTTON_CLASS } ${ uidClass }` }>
+		<div className={ `${ BLOCK_CLASSES.button.main } ${ uidClass }` }>
 			<a
-				className={ BUTTON_LINK_CLASS }
+				className={ BLOCK_CLASSES.button.link }
 				href={ url }
 				target={ linkTarget }
 				rel={ rel }
 			>
 				{ !! icon && (
 					<span
-						className={ BUTTON_ICON_CLASS }
+						className={ BLOCK_CLASSES.button.icon }
 						dangerouslySetInnerHTML={ { __html: icon } }
 					/>
 				) }
 				<RichText.Content
 					tagName="span"
-					className={ BUTTON_TEXT_CLASS }
+					className={ BLOCK_CLASSES.button.text }
 					value={ text || placeholder }
 				/>
 			</a>

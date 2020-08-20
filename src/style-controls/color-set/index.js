@@ -8,28 +8,49 @@ import { __ } from '@wordpress/i18n';
  */
 import Color from '../color';
 
-const baseControls = [
+const controls = [
 	{
-		label: __( 'Text color', 'scblocks' ),
+		alias: 'textColor',
+		label: __( 'Text Color', 'scblocks' ),
 		propName: 'color',
 	},
 	{
-		label: __( 'Background color', 'scblocks' ),
+		alias: 'backgroundColor',
+		label: __( 'Background Color', 'scblocks' ),
 		propName: 'backgroundColor',
+	},
+	{
+		alias: 'linkColor',
+		label: __( 'Link Color', 'scblocks' ),
+		propName: 'color',
+	},
+	{
+		alias: 'linkColorHover',
+		label: __( 'Link Color Hover', 'scblocks' ),
+		propName: 'color',
+	},
+	{
+		alias: 'highlightText',
+		label: __( 'Highlight Text', 'scblocks' ),
+		propName: 'color',
 	},
 ];
 
 export default function ColorSet( props ) {
-	const colors = props.colors || [];
-	const controls = [ ...baseControls, ...colors ];
+	const colors = props.selectorSettings.allowedPanels.colors;
 
-	return controls.map( ( control ) => (
-		<Color
-			{ ...props }
-			key={ control.propName }
-			label={ control.label }
-			propName={ control.propName }
-			selector={ props.selector }
-		/>
-	) );
+	return controls.map( ( control ) => {
+		if ( ! colors[ control.alias ] ) {
+			return null;
+		}
+		return (
+			<Color
+				{ ...props }
+				key={ control.alias }
+				label={ control.label }
+				propName={ control.propName }
+				selector={ colors[ control.alias ].selector }
+			/>
+		);
+	} );
 }

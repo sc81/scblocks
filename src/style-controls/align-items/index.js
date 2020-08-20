@@ -21,7 +21,7 @@ export default function AlignItems( props ) {
 	return (
 		<SelectControl
 			className={ `${ PLUGIN_NAME }-select-control-inline` }
-			label={ __( 'Vertical position', 'scblocks' ) }
+			label={ __( 'Align-items', 'scblocks' ) }
 			value={ propValue }
 			options={ [
 				{ label: __( 'Default', 'scblocks' ), value: '' },

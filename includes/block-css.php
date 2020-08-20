@@ -460,12 +460,15 @@ class Block_Css {
 		$css[ self::MOBILE_DEVICES ]  = '';
 
 		foreach ( $blocks as $block_name => $block_css ) {
-			// prepare a leading selector
+
 			$block_name_parts = explode( ' ', $block_name );
-			$block_selector   = '.' . str_replace( '/', '-', $block_name_parts[0] ) . '.' . $block_name_parts[1];
+
+			$uid_selector = '.' . $block_name_parts[1];
+
+			$block_name_without_namespace = explode( '/', $block_name_parts[0] )[1];
 
 			foreach ( $block_css as $devices => $selectors ) {
-				$css[ $devices ] .= $this->compose_selectors( $selectors, $block_selector );
+				$css[ $devices ] .= $this->compose_selectors( $selectors, $block_name_without_namespace, $uid_selector );
 			}
 		}
 		foreach ( $css as $device_type => $device_css ) {
@@ -484,23 +487,37 @@ class Block_Css {
 	 * Composes selectors.
 	 *
 	 * @param array $selectors Array of selectors.
-	 * @param string $block_selector Block leading selector.
+	 * @param string $block_name Block name.
+	 * @param string $uid_selector
 	 *
 	 * @return string
 	 */
-	public function compose_selectors( array $selectors, string $block_selector ) : string {
+	public function compose_selectors( array $selectors, string $block_name, string $uid_selector ) : string {
 		$css = '';
 
-		foreach ( $selectors as $selector => $selector_state ) {
+		// specificity plus 1
+		$additional_selector = '';
+		if ( 'column' === $block_name ) {
+			$additional_selector = BLOCK_SELECTORS['column']['col'];
+		}
+
+		$block_selector = '.scb-' . $block_name . $uid_selector . $additional_selector;
+
+		foreach ( $selectors as $selector_alias => $selector_state ) {
 			if ( empty( $selector_state['props'] ) ) {
 				continue;
 			}
-			if ( 'selector' === $selector ) {
+			if ( 'selector' === $selector_alias ) {
 				$final_selector = $block_selector;
-			} elseif ( 'selector:hover' === $selector ) {
+			} elseif ( 'selector:hover' === $selector_alias ) {
 				$final_selector = $block_selector . ':hover';
 			} else {
-				$final_selector = $block_selector . ' ' . $selector;
+				$next_selector = BLOCK_SELECTORS[ $block_name ][ $selector_alias ];
+				if ( preg_match( '/^uidSelector/', $next_selector ) ) {
+					$final_selector = $uid_selector . preg_replace( '/^uidSelector/', '', $next_selector );
+				} else {
+					$final_selector = $block_selector . ' ' . $next_selector;
+				}
 			}
 			$css .= $final_selector . '{' . $this->compose_props( $selector_state['props'] ) . '}';
 		}

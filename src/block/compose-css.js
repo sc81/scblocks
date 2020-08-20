@@ -8,6 +8,7 @@ import {
 	PLUGIN_NAME,
 	DESKTOP_DEVICES,
 } from '../constants';
+import { SELECTORS } from './constants';
 
 function standardizeName( name ) {
 	if ( name.includes( 'Custom' ) ) {
@@ -35,23 +36,41 @@ function composePropValue( selectorProps ) {
 
 function composeSelectors( selectors, blockName, uidClass ) {
 	let css = '',
-		finalSelector;
-	const leadingSelector = `.${ blockName.replace( '/', '-' ) }.${ uidClass }`;
+		finalSelector,
+		additionalSelector = '';
+	const blockNameParts = blockName.split( '/' );
+	const blockNameWithoutNamespace = blockNameParts[ 1 ];
 
-	for ( const selector in selectors ) {
-		if ( ! selectors[ selector ].props ) {
+	// specificity plus 1
+	if ( blockNameWithoutNamespace === 'column' ) {
+		additionalSelector = SELECTORS.column.col.selector;
+	}
+	const leadingSelector = `.scb-${ blockNameWithoutNamespace }.${ uidClass }${ additionalSelector }`;
+
+	for ( const selectorAlias in selectors ) {
+		if ( ! selectors[ selectorAlias ].props ) {
 			continue;
 		}
-		if ( selector === 'selector' ) {
+		if ( selectorAlias === 'selector' ) {
 			finalSelector = leadingSelector;
-		} else if ( selector === 'selector:hover' ) {
+		} else if ( selectorAlias === 'selector:hover' ) {
 			finalSelector = leadingSelector + ':hover';
 		} else {
-			finalSelector = `${ leadingSelector } ${ selector }`;
+			const nextSelector =
+				SELECTORS[ blockNameWithoutNamespace ][ selectorAlias ]
+					.selector;
+			if ( /^uidSelector/.test( nextSelector ) ) {
+				finalSelector = `.${ uidClass }${ nextSelector.replace(
+					/^uidSelector/,
+					''
+				) }`;
+			} else {
+				finalSelector = `${ leadingSelector } ${ nextSelector }`;
+			}
 		}
 
 		css += `${ finalSelector }{${ composePropValue(
-			selectors[ selector ].props
+			selectors[ selectorAlias ].props
 		) }}`;
 	}
 	return css;

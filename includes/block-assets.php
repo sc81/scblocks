@@ -64,7 +64,7 @@ class Block_Assets {
 		$post_id = $css_handler->get_post_id();
 		// ! singular || preview
 		if ( ! $post_id || is_preview() ) {
-			$has_block = true;
+			$has_block  = true;
 			$inline_css = $css_handler->get_inline_css();
 		} else {
 			$css_file_uri = $css_handler->css_file_uri();

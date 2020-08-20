@@ -1,44 +1,48 @@
 /**
  * WordPress dependencies
  */
-import { useSelect } from '@wordpress/data';
 import {
 	InnerBlocks,
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
  */
-import { selectorsSettings } from './utils';
 import {
-	CORE_EDIT_POST_STORE_NAME,
 	CORE_BLOCK_EDITOR_STORE_NAME,
+	CORE_EDIT_POST_STORE_NAME,
 } from '../../constants';
+import { selectorsSettings } from './utils';
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import { useBlockMemo } from '../../hooks/use-block-memo';
-import Inspector from './inspector';
 import VariationsPicker from '../../block/variations-picker';
-import { BUTTON_BLOCK_NAME } from '../button/utils';
+import { COLUMN_NAME } from '../column/utils';
+import Inspector from './inspector';
 import { BLOCK_CLASSES } from '../../block/constants';
 
-const ALLOWED_BLOCKS = [ BUTTON_BLOCK_NAME ];
+const ALLOWED_BLOCKS = [ COLUMN_NAME ];
 
 export default function Edit( props ) {
-	const { devices, buttonCount } = useSelect(
+	const { attributes, clientId } = props;
+	const { uidClass } = attributes;
+
+	const { devices, columnCount } = useSelect(
 		( select ) => {
 			return {
 				devices: select(
 					CORE_EDIT_POST_STORE_NAME
 				).__experimentalGetPreviewDeviceType(),
-				buttonCount: select(
+				columnCount: select(
 					CORE_BLOCK_EDITOR_STORE_NAME
-				).getBlockCount( props.clientId ),
+				).getBlockCount( clientId ),
 			};
 		},
-		[ props.clientId ]
+		[ clientId ]
 	);
-	const blockMemo = useBlockMemo( props.attributes, selectorsSettings );
+
+	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	useDynamicCss( props, devices );
 
 	return (
@@ -48,18 +52,18 @@ export default function Edit( props ) {
 				blockMemo={ blockMemo }
 				devices={ devices }
 			/>
-			{ buttonCount > 0 && (
+			{ columnCount > 0 && (
 				<InnerBlocks
 					allowedBlocks={ ALLOWED_BLOCKS }
-					orientation="horizontal"
+					__experimentalMoverDirection="horizontal"
 					__experimentalTagName={ Block.div }
 					__experimentalPassedProps={ {
-						className: `${ BLOCK_CLASSES.buttons.main } ${ props.attributes.uidClass }`,
+						className: `${ BLOCK_CLASSES.columns.main } ${ uidClass }`,
 					} }
 					renderAppender={ false }
 				/>
 			) }
-			{ buttonCount === 0 && <VariationsPicker { ...props } /> }
+			{ columnCount === 0 && <VariationsPicker { ...props } /> }
 		</>
 	);
 }

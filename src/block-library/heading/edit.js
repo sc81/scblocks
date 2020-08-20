@@ -16,13 +16,7 @@ import { createBlock } from '@wordpress/blocks';
  * Internal dependencies
  */
 import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
-import {
-	HEADING_CLASS,
-	HEADING_ICON_CLASS,
-	HEADING_TEXT_CLASS,
-	selectors,
-	HEADING_ICON_SELECTOR,
-} from './utils';
+import { selectorsSettings } from './utils';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import ControlsManager from '../../components/controls-manager';
@@ -34,6 +28,7 @@ import {
 import { removeSelectors } from '../../utils';
 import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import { name as blockName } from '.';
+import { SELECTORS, BLOCK_CLASSES } from '../../block/constants';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace } = props;
@@ -46,14 +41,14 @@ export default function Edit( props ) {
 			).__experimentalGetPreviewDeviceType(),
 		[]
 	);
-	const blockMemo = useBlockMemo( attributes, selectors );
-	useDynamicCss( props, devices, selectors );
-	const selectorsActivity = useSelectorsActivity( selectors );
+	const blockMemo = useBlockMemo( attributes, selectorsSettings );
+	useDynamicCss( props, devices );
+	const selectorsActivity = useSelectorsActivity( selectorsSettings );
 
 	useEffect( () => {
 		setSelectorActivity(
 			selectorsActivity,
-			HEADING_ICON_SELECTOR,
+			SELECTORS.heading.icon.alias,
 			!! icon
 		);
 	}, [ selectorsActivity, icon ] );
@@ -72,7 +67,7 @@ export default function Edit( props ) {
 		removeSelectors( {
 			attributes,
 			setAttributes,
-			selectors: [ HEADING_ICON_SELECTOR ],
+			selectors: [ SELECTORS.heading.icon.alias ],
 		} );
 	}
 
@@ -82,7 +77,7 @@ export default function Edit( props ) {
 		<>
 			<InspectorControls>
 				<ControlsManager
-					selectors={ selectors }
+					selectorsSettings={ selectorsSettings }
 					setAttributes={ setAttributes }
 					attributes={ attributes }
 					devices={ devices }
@@ -134,13 +129,15 @@ export default function Edit( props ) {
 					}
 				/>
 			</InspectorControls>
-			<BlockWrapper className={ `${ HEADING_CLASS } ${ uidClass }` }>
+			<BlockWrapper
+				className={ `${ BLOCK_CLASSES.heading.main } ${ uidClass }` }
+			>
 				<DangerouslyPasteIcon
 					icon={ icon }
-					className={ HEADING_ICON_CLASS }
+					className={ BLOCK_CLASSES.heading.icon }
 				/>
 				<RichText
-					className={ HEADING_TEXT_CLASS }
+					className={ BLOCK_CLASSES.heading.text }
 					tagName="span"
 					value={ text }
 					onChange={ ( value ) => setAttributes( { text: value } ) }

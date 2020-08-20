@@ -10,9 +10,9 @@ import { __ } from '@wordpress/i18n';
  */
 import ControlsManager from '../../components/controls-manager';
 import { setPropValue, getPropValue } from '../../utils';
-import { selectors } from './utils';
+import { selectorsSettings } from './utils';
 import { ALL_DEVICES } from '../../constants';
-import { BUTTON_SELECTOR } from '../button/utils';
+import { SELECTORS } from '../../block/constants';
 
 export default function Inspector( {
 	attributes,
@@ -23,7 +23,7 @@ export default function Inspector( {
 	const justifyContent = getPropValue( {
 		attributes,
 		devices: ALL_DEVICES,
-		selector: BUTTON_SELECTOR,
+		selector: SELECTORS.blockMainSelectorAlias,
 		propName: 'justifyContent',
 	} );
 	function setAlignment( value ) {
@@ -31,7 +31,7 @@ export default function Inspector( {
 			attributes,
 			setAttributes,
 			devices: ALL_DEVICES,
-			selector: BUTTON_SELECTOR,
+			selector: SELECTORS.blockMainSelectorAlias,
 			propName: 'justifyContent',
 			value: value + '',
 		} );
@@ -39,7 +39,7 @@ export default function Inspector( {
 	return (
 		<InspectorControls>
 			<ControlsManager
-				selectors={ selectors }
+				selectorsSettings={ selectorsSettings }
 				setAttributes={ setAttributes }
 				attributes={ attributes }
 				devices={ devices }

@@ -1,8 +1,8 @@
-.#{$pluginName}-heading {
+.#{$pluginAlias}-heading {
 	display: flex;
 	align-items: center;
 
-	.#{$pluginName}-heading-icon {
+	.#{$pluginAlias}-heading-icon {
 		display: inline-flex;
 	}
 }

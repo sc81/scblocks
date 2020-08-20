@@ -8,7 +8,7 @@ import { PanelBody } from '@wordpress/components';
  */
 import ControlsManager from '../../components/controls-manager';
 import SelectHtmlTag from '../../components/select-html-tag';
-import { selectors } from './utils';
+import { selectorsSettings } from './utils';
 
 export default function Inspector( props ) {
 	const {
@@ -22,7 +22,7 @@ export default function Inspector( props ) {
 		<InspectorControls>
 			<ControlsManager
 				{ ...props }
-				selectors={ selectors }
+				selectorsSettings={ selectorsSettings }
 				mainControls={
 					<PanelBody opened>
 						<SelectHtmlTag value={ tag } onChange={ setTag } />

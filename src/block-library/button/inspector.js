@@ -10,8 +10,9 @@ import { __ } from '@wordpress/i18n';
  */
 import ControlsManager from '../../components/controls-manager';
 import IconPicker from '../../components/icon-picker';
-import { selectors, BUTTON_ICON_SELECTOR } from './utils';
+import { selectorsSettings } from './utils';
 import { removeSelectors } from '../../utils';
+import { SELECTORS } from '../../block/constants';
 
 export default function Inspector( {
 	attributes,
@@ -31,14 +32,14 @@ export default function Inspector( {
 		removeSelectors( {
 			attributes,
 			setAttributes,
-			selectors: [ BUTTON_ICON_SELECTOR ],
+			selectors: [ SELECTORS.button.icon.alias ],
 		} );
 	}
 
 	return (
 		<InspectorControls>
 			<ControlsManager
-				selectors={ selectors }
+				selectorsSettings={ selectorsSettings }
 				setAttributes={ setAttributes }
 				attributes={ attributes }
 				devices={ devices }

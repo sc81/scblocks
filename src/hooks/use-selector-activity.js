@@ -10,11 +10,11 @@ export function setSelectorActivity( activityState, selector, value ) {
 	activityState.current[ selector ] = value;
 }
 
-export function useSelectorsActivity( selectors ) {
+export function useSelectorsActivity( selectorsSettings ) {
 	const activity = useRef( null );
 	if ( activity.current === null ) {
 		activity.current = {};
-		selectors.forEach( ( elm ) => {
+		selectorsSettings.forEach( ( elm ) => {
 			if ( elm.isActive === false ) {
 				activity.current[ elm.selector ] = elm.isActive;
 			} else {

@@ -1,12 +1,5 @@
 @import "./group/style.scss";
 @import "./buttons/style.scss";
 @import "./heading/style.scss";
+@import "./columns/style.scss";
 
-
-.#{$pluginName}-bg-overlay {
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-}

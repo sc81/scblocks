@@ -8,17 +8,13 @@ import { button as icon } from '@wordpress/icons';
  * Internal dependencies
  */
 
-import {
-	BUTTON_TEXT_SELECTOR,
-	BUTTON_LINK_SELECTOR,
-	BUTTON_ICON_SELECTOR,
-	BUTTON_BLOCK_NAME,
-} from './utils';
+import { BUTTON_BLOCK_NAME } from './utils';
 import { PLUGIN_NAME } from '../../constants';
 
 import save from './save';
 import edit from './edit';
 import { BUTTONS_BLOCK_NAME } from '../buttons/utils';
+import { SELECTORS } from '../../block/constants';
 
 export const name = BUTTON_BLOCK_NAME;
 
@@ -42,30 +38,30 @@ export const settings = {
 		url: {
 			type: 'string',
 			source: 'attribute',
-			selector: BUTTON_LINK_SELECTOR,
+			selector: SELECTORS.button.link.selector,
 			attribute: 'href',
 		},
 		text: {
 			type: 'string',
 			source: 'html',
-			selector: BUTTON_TEXT_SELECTOR,
+			selector: SELECTORS.button.text.selector,
 		},
 		linkTarget: {
 			type: 'string',
 			source: 'attribute',
-			selector: BUTTON_LINK_SELECTOR,
+			selector: SELECTORS.button.link.selector,
 			attribute: 'target',
 		},
 		rel: {
 			type: 'string',
 			source: 'attribute',
-			selector: BUTTON_LINK_SELECTOR,
+			selector: SELECTORS.button.link.selector,
 			attribute: 'rel',
 		},
 		icon: {
 			type: 'string',
 			source: 'html',
-			selector: BUTTON_ICON_SELECTOR,
+			selector: SELECTORS.button.icon.selector,
 		},
 		iconPath: {
 			type: 'string',

@@ -33,7 +33,7 @@ export function setLastActivePanel( blockMemo, panelName, value ) {
 	};
 }
 
-export function useBlockMemo( attributes, selectors ) {
+export function useBlockMemo( attributes, selectorsSettings ) {
 	const blockMemo = useRef( null );
 
 	if ( blockMemo.current === null ) {
@@ -43,10 +43,10 @@ export function useBlockMemo( attributes, selectors ) {
 
 		const obj = {
 			tabPanel: 'main',
-			selectorPanel: selectors[ 0 ].selector,
+			selectorPanel: selectorsSettings[ 0 ].selector,
 			controlsPanel: {},
 		};
-		selectors.forEach( ( elm ) => {
+		selectorsSettings.forEach( ( elm ) => {
 			obj.controlsPanel[ elm.selector ] = {};
 		} );
 		blockMemo.current.lastActivePanel = obj;

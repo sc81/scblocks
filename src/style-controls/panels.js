@@ -97,29 +97,37 @@ function Panel( {
 }
 
 export default function Panels( props ) {
-	const { selector, selectors, blockMemo, attributes } = props;
+	const {
+		selector,
+		selectorsSettings,
+		blockMemo,
+		attributes,
+		spacePanelAdditionalControls = null,
+	} = props;
 
 	const index = useMemo( () => {
-		return selectors.findIndex(
+		return selectorsSettings.findIndex(
 			( element ) => element.selector === selector
 		);
-	}, [ selector, selectors ] );
+	}, [ selector, selectorsSettings ] );
 
 	const [ isVisiblePanel, panelCount ] = useMemo( () => {
 		const state = {};
 		let count = 0;
-		Object.keys( selectors[ index ].allowedPanels ).forEach( ( name ) => {
-			state[ name ] = true;
-			count++;
-		} );
+		Object.keys( selectorsSettings[ index ].allowedPanels ).forEach(
+			( name ) => {
+				state[ name ] = true;
+				count++;
+			}
+		);
 
 		return [ state, count ];
-	}, [ selectors, index ] );
+	}, [ selectorsSettings, index ] );
 
 	const [ openedPanel, setOpenedPanel ] = useState( () => {
 		return (
 			getLastActivePanel( blockMemo ).controlsPanel[ selector ] ||
-			Object.keys( selectors[ index ].allowedPanels )[ 0 ]
+			Object.keys( selectorsSettings[ index ].allowedPanels )[ 0 ]
 		);
 	} );
 
@@ -143,7 +151,10 @@ export default function Panels( props ) {
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
 				>
-					<ColorSet { ...props } />
+					<ColorSet
+						{ ...props }
+						selectorSettings={ selectorsSettings[ index ] }
+					/>
 				</Panel>
 			) }
 			{ isVisiblePanel.typography && (
@@ -156,7 +167,7 @@ export default function Panels( props ) {
 				>
 					<Typography
 						{ ...props }
-						selectorSettings={ selectors[ index ] }
+						selectorSettings={ selectorsSettings[ index ] }
 					/>
 				</Panel>
 			) }
@@ -201,10 +212,13 @@ export default function Panels( props ) {
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
 				>
-					<Space
-						{ ...props }
-						selectorSettings={ selectors[ index ] }
-					/>
+					<>
+						{ spacePanelAdditionalControls }
+						<Space
+							{ ...props }
+							selectorSettings={ selectorsSettings[ index ] }
+						/>
+					</>
 				</Panel>
 			) }
 			{ isVisiblePanel.flex && (
@@ -217,7 +231,7 @@ export default function Panels( props ) {
 				>
 					<Flex
 						{ ...props }
-						selectorSettings={ selectors[ index ] }
+						selectorSettings={ selectorsSettings[ index ] }
 					/>
 				</Panel>
 			) }
@@ -231,7 +245,7 @@ export default function Panels( props ) {
 				>
 					<BorderPanel
 						{ ...props }
-						selectorSettings={ selectors[ index ] }
+						selectorSettings={ selectorsSettings[ index ] }
 					/>
 				</Panel>
 			) }
@@ -245,7 +259,7 @@ export default function Panels( props ) {
 				>
 					<Placement
 						{ ...props }
-						selectorSettings={ selectors[ index ] }
+						selectorSettings={ selectorsSettings[ index ] }
 					/>
 				</Panel>
 			) }

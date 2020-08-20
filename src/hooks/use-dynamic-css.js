@@ -8,7 +8,7 @@ import { select } from '@wordpress/data';
  * Internal dependencies
  */
 import { composeCss } from '../block/compose-css';
-import { PLUGIN_NAME, CORE_BLOCK_EDITOR_STORE_NAME } from '../constants';
+import { CORE_BLOCK_EDITOR_STORE_NAME } from '../constants';
 
 const memoizedUidClasses = [];
 
@@ -29,7 +29,7 @@ export default function useDynamicCss( props, devices ) {
 
 	// mount
 	useEffect( () => {
-		const nextUidClass = `${ PLUGIN_NAME }-${ clientId
+		const nextUidClass = `scb-${ clientId
 			.substr( 2, 9 )
 			.replace( '-', '' ) }`;
 

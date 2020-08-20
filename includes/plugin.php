@@ -25,6 +25,7 @@ class Plugin {
 	}
 
 	public function load_files() {
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-selectors.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-assets.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/fonts.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-css.php';

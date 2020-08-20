@@ -6,21 +6,12 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
+import { SELECTORS } from '../../block/constants';
 
-export const GROUP_CLASS = `${ PLUGIN_NAME }-group`;
-export const GROUP_INNER_CLASS = `${ PLUGIN_NAME }-group-inner`;
-export const GROUP_BG_VIDEO_WRAP_CLASS = `${ PLUGIN_NAME }-bg-video-wrap`;
-export const GROUP_BG_VIDEO_CLASS = `${ PLUGIN_NAME }-bg-video`;
-
-export const GROUP_SELECTOR = 'selector';
-export const GROUP_HOVER_SELECTOR = GROUP_SELECTOR + ':hover';
-export const GROUP_INNER_SELECTOR = `.${ GROUP_INNER_CLASS }`;
-
-export const selectors = [
+export const selectorsSettings = [
 	{
 		label: __( 'Group container', 'scblocks' ),
-		selector: 'selector',
+		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {
 			typography: true,
 			background: true,
@@ -47,7 +38,7 @@ export const selectors = [
 			},
 		},
 		relatedSelectorProps: {
-			selector: GROUP_INNER_SELECTOR,
+			selector: SELECTORS.group.content.alias,
 			props: [ 'maxWidth', 'alignItems' ],
 		},
 	},

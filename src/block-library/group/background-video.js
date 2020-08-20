@@ -2,11 +2,9 @@
  * Internal dependencies
  */
 import { ALL_DEVICES } from '../../constants';
-import {
-	GROUP_BG_VIDEO_WRAP_CLASS,
-	GROUP_BG_VIDEO_CLASS,
-	GROUP_SELECTOR,
-} from './utils';
+import { BLOCK_CLASSES, SELECTORS } from '../../block/constants';
+
+const GROUP_SELECTOR = SELECTORS.blockMainSelectorAlias;
 
 export default function BackgroundVideo( { attributes } ) {
 	const { css } = attributes;
@@ -25,9 +23,9 @@ export default function BackgroundVideo( { attributes } ) {
 	const { url, loop } = css[ ALL_DEVICES ][ GROUP_SELECTOR ].settings.bgVideo;
 
 	return (
-		<div className={ GROUP_BG_VIDEO_WRAP_CLASS }>
+		<div className={ BLOCK_CLASSES.group.videoWrapper }>
 			<video
-				className={ GROUP_BG_VIDEO_CLASS }
+				className={ BLOCK_CLASSES.group.video }
 				autoPlay
 				muted
 				loop={ !! loop }

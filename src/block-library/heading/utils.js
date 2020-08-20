@@ -6,20 +6,12 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
+import { SELECTORS } from '../../block/constants';
 
-export const HEADING_CLASS = `${ PLUGIN_NAME }-heading`;
-export const HEADING_ICON_CLASS = `${ PLUGIN_NAME }-heading-icon`;
-export const HEADING_TEXT_CLASS = `${ PLUGIN_NAME }-heading-text`;
-
-export const HEADING_SELECTOR = 'selector';
-export const HEADING_TEXT_SELECTOR = `.${ HEADING_TEXT_CLASS }`;
-export const HEADING_ICON_SELECTOR = `.${ HEADING_ICON_CLASS }`;
-
-export const selectors = [
+export const selectorsSettings = [
 	{
 		label: __( 'Heading', 'scblocks' ),
-		selector: HEADING_SELECTOR,
+		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {
 			colors: true,
 			typography: true,
@@ -35,14 +27,14 @@ export const selectors = [
 	},
 	{
 		label: __( 'Text', 'scblocks' ),
-		selector: HEADING_TEXT_SELECTOR,
+		selector: SELECTORS.heading.text.alias,
 		allowedPanels: {
 			colors: true,
 		},
 	},
 	{
 		label: __( 'Icon', 'scblocks' ),
-		selector: HEADING_ICON_SELECTOR,
+		selector: SELECTORS.heading.icon.alias,
 		allowedPanels: {
 			colors: true,
 			space: {
@@ -67,7 +59,7 @@ export const selectors = [
 			},
 		},
 		relatedSelectorProps: {
-			selector: `${ HEADING_ICON_SELECTOR } svg`,
+			selector: SELECTORS.heading.svg.alias,
 			props: [ 'width', 'height' ],
 		},
 		isActive: false,
