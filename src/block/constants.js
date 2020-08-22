@@ -16,11 +16,12 @@ export const BLOCK_CLASSES = {
 	columns: {
 		main: 'scb-columns',
 	},
-	group: {
-		main: 'scb-group',
-		content: 'scb-group-content',
+	container: {
+		main: 'scb-container',
+		content: 'scb-container-content',
 		videoWrapper: 'scb-bg-video-wrapper',
 		video: 'scb-bg-video',
+		rootContainer: 'scb-root-container',
 	},
 	heading: {
 		main: 'scb-heading',
@@ -71,9 +72,9 @@ export const SELECTORS = {
 			alias: 'allColumnsContent',
 		},
 	},
-	group: {
+	container: {
 		content: {
-			selector: '> .scb-group-content',
+			selector: '> .scb-container-content',
 			alias: 'content',
 		},
 	},

@@ -10,7 +10,7 @@ import { SELECTORS } from '../../block/constants';
 
 export const selectorsSettings = [
 	{
-		label: __( 'Group container', 'scblocks' ),
+		label: __( 'Container', 'scblocks' ),
 		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {
 			typography: true,
@@ -24,7 +24,7 @@ export const selectorsSettings = [
 				maxWidth: {
 					units: {
 						px: {
-							min: 500,
+							min: 50,
 							max: 1600,
 						},
 						'%': {
@@ -38,8 +38,8 @@ export const selectorsSettings = [
 			},
 		},
 		relatedSelectorProps: {
-			selector: SELECTORS.group.content.alias,
-			props: [ 'maxWidth', 'alignItems' ],
+			selector: SELECTORS.container.content.alias,
+			props: [ 'maxWidth', 'padding' ],
 		},
 	},
 ];

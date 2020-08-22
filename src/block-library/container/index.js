@@ -11,25 +11,23 @@ import { PLUGIN_NAME } from '../../constants';
 import edit from './edit';
 import save from './save';
 import icon from './icon';
-import isBackgroundOverlay from '../../block/common-attributes';
+import { variations } from './variations';
 
-export const name = `${ PLUGIN_NAME }/group`;
+export const name = `${ PLUGIN_NAME }/container`;
 
 export const settings = {
-	title: __( 'Group', 'scblocks' ),
+	title: __( 'Container', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
-	description: __( 'A block that groups other blocks.', 'scblocks' ),
+	description: __( 'Space for other blocks.', 'scblocks' ),
 	keywords: [
 		__( 'container', 'scblocks' ),
 		__( 'wrapper', 'scblocks' ),
 		__( 'row', 'scblocks' ),
 		__( 'section', 'scblocks' ),
+		__( 'group', 'scblocks' ),
 	],
 	attributes: {
-		section: {
-			type: 'string',
-		},
 		css: {
 			type: 'object',
 			default: {},
@@ -42,17 +40,18 @@ export const settings = {
 			type: 'string',
 			default: '',
 		},
-		...isBackgroundOverlay,
+		isRootContainer: {
+			type: 'boolean',
+			default: false,
+		},
 	},
 
 	supports: {
 		className: false,
-		align: [ 'wide', 'full' ],
 		html: false,
 		lightBlockWrapper: true,
 	},
-
 	edit,
-
 	save,
+	variations,
 };

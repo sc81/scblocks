@@ -3,6 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { SELECTORS } from '../../block/constants';
+import { PLUGIN_NAME } from '../../constants';
+
+export const COLUMNS_NAME = `${ PLUGIN_NAME }/columns`;
 
 export const selectorsSettings = [
 	{

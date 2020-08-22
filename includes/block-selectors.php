@@ -6,25 +6,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 const BLOCK_SELECTORS = array(
-	'button'  => array(
+	'button'    => array(
 		'link' => '.scb-button-link',
 		'text' => '.scb-button-text',
 		'icon' => '.scb-button-icon',
 	),
-	'column'  => array(
+	'column'    => array(
 		'content'   => '> .scb-column-content',
 		'col'       => '.scb-col',
 		'link'      => 'uidSelector a',
 		'linkHover' => 'uidSelector a:hover',
 	),
-	'columns' => array(
+	'columns'   => array(
 		'allColumns'        => 'uidSelector > .scb-column',
 		'allColumnsContent' => 'uidSelector > .scb-column > .scb-column-content',
 	),
-	'group'   => array(
-		'content' => '> .scb-group-content',
+	'container' => array(
+		'content' => '> .scb-container-content',
 	),
-	'heading' => array(
+	'heading'   => array(
 		'text' => '.scb-heading-text',
 		'icon' => '.scb-heading-icon',
 		'svg'  => '.scb-heading-icon svg',

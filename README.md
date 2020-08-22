@@ -4,7 +4,7 @@ Custom blocks for the new WordPress editor.
 
 ## Blocks
 
--  Group Block
+-  Container Block
 -  Buttons Block
 -  Heading Block
 -  Columns Block

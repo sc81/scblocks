@@ -27,7 +27,6 @@ export default function Size( {
 	setAttributes,
 	devices,
 	selector,
-	isHover,
 	blockMemo,
 } ) {
 	const backgroundSize = getPropValue( {
@@ -76,10 +75,7 @@ export default function Size( {
 	}
 
 	return (
-		<ControlWrapper
-			label={ __( 'Size', 'scblocks' ) }
-			withoutSelectDevices={ isHover }
-		>
+		<ControlWrapper label={ __( 'Size', 'scblocks' ) }>
 			<SelectControl
 				value={ selectValue }
 				options={ options }

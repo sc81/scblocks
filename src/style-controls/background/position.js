@@ -52,7 +52,6 @@ export default function Position( {
 	devices,
 	selector,
 	url,
-	isHover,
 	blockMemo,
 } ) {
 	const position = getPropValue( {
@@ -123,11 +122,7 @@ export default function Position( {
 
 	return (
 		<>
-			<ControlWrapper
-				label={ controlLabel }
-				withoutSelectDevices={ isHover }
-				displayInline
-			>
+			<ControlWrapper label={ controlLabel } displayInline>
 				<SelectControl
 					label={ controlLabel }
 					hideLabelFromVision
