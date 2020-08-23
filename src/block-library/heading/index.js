@@ -9,32 +9,24 @@ import { heading as icon } from '@wordpress/icons';
 import { PLUGIN_NAME } from '../../constants';
 import edit from './edit';
 import save from './save';
-import { SELECTORS } from '../../block/constants';
+import { HEADING_BLOCK_NAME } from './utils';
 
-export const name = PLUGIN_NAME + '/heading';
+export const name = HEADING_BLOCK_NAME;
 
 export const settings = {
 	title: __( 'Heading', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
 	attributes: {
-		level: {
+		tagName: {
 			type: 'string',
 			default: 'h2',
-		},
-		icon: {
-			type: 'string',
-			source: 'html',
-			selector: SELECTORS.heading.icon.selector,
-		},
-		iconPath: {
-			type: 'string',
-			default: '',
 		},
 		text: {
 			type: 'string',
 			source: 'html',
-			selector: SELECTORS.heading.text.selector,
+			selector: 'p,h1,h2,h3,h4,h5,h6',
+			default: '',
 		},
 		css: {
 			type: 'object',

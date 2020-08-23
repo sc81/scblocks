@@ -9,30 +9,22 @@ import {
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { useEffect } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
  */
-import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
 import { selectorsSettings } from './utils';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import ControlsManager from '../../components/controls-manager';
-import IconPicker from '../../components/icon-picker';
-import {
-	useSelectorsActivity,
-	setSelectorActivity,
-} from '../../hooks/use-selector-activity';
-import { removeSelectors } from '../../utils';
 import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import { name as blockName } from '.';
-import { SELECTORS, BLOCK_CLASSES } from '../../block/constants';
+import { BLOCK_CLASSES } from '../../block/constants';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace } = props;
-	const { text, level, icon, iconPath, uidClass } = attributes;
+	const { text, tagName, uidClass } = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -43,35 +35,6 @@ export default function Edit( props ) {
 	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	useDynamicCss( props, devices );
-	const selectorsActivity = useSelectorsActivity( selectorsSettings );
-
-	useEffect( () => {
-		setSelectorActivity(
-			selectorsActivity,
-			SELECTORS.heading.icon.alias,
-			!! icon
-		);
-	}, [ selectorsActivity, icon ] );
-
-	function onSelectIcon( value ) {
-		setAttributes( {
-			icon: value.icon,
-			iconPath: value.iconPath,
-		} );
-	}
-	function onClear() {
-		setAttributes( {
-			icon: '',
-			iconPath: '',
-		} );
-		removeSelectors( {
-			attributes,
-			setAttributes,
-			selectors: [ SELECTORS.heading.icon.alias ],
-		} );
-	}
-
-	const BlockWrapper = Block[ level ];
 
 	return (
 		<>
@@ -82,12 +45,11 @@ export default function Edit( props ) {
 					attributes={ attributes }
 					devices={ devices }
 					blockMemo={ blockMemo }
-					selectorsActivity={ selectorsActivity }
 					mainControls={
 						<PanelBody opened>
 							<SelectControl
 								label={ __( 'Heading level', 'scblocks' ) }
-								value={ level }
+								value={ tagName }
 								options={ [
 									{
 										label: __( 'H1', 'scblocks' ),
@@ -113,48 +75,37 @@ export default function Edit( props ) {
 										label: __( 'H6', 'scblocks' ),
 										value: 'h6',
 									},
+									{
+										label: __( 'p', 'scblocks' ),
+										value: 'p',
+									},
 								] }
 								onChange={ ( value ) =>
-									setAttributes( { level: value } )
+									setAttributes( { tagName: value } )
 								}
-							/>
-							<IconPicker
-								label={ __( 'Icon', 'scblocks' ) }
-								iconPath={ iconPath }
-								icon={ icon }
-								onSelect={ onSelectIcon }
-								onClear={ onClear }
 							/>
 						</PanelBody>
 					}
 				/>
 			</InspectorControls>
-			<BlockWrapper
+			<RichText
+				tagName={ Block[ tagName ] }
 				className={ `${ BLOCK_CLASSES.heading.main } ${ uidClass }` }
-			>
-				<DangerouslyPasteIcon
-					icon={ icon }
-					className={ BLOCK_CLASSES.heading.icon }
-				/>
-				<RichText
-					className={ BLOCK_CLASSES.heading.text }
-					tagName="span"
-					value={ text }
-					onChange={ ( value ) => setAttributes( { text: value } ) }
-					placeholder={ __( 'Title', 'scblocks' ) }
-					onSplit={ ( value ) => {
-						if ( ! value ) {
-							return createBlock( 'core/paragraph' );
-						}
+				value={ text }
+				onChange={ ( value ) => setAttributes( { text: value } ) }
+				placeholder={ __( 'Heading', 'scblocks' ) }
+				onSplit={ ( value ) => {
+					if ( ! value ) {
+						return createBlock( 'core/paragraph' );
+					}
 
-						return createBlock( blockName, {
-							...attributes,
-							text: value,
-						} );
-					} }
-					onReplace={ onReplace }
-				/>
-			</BlockWrapper>
+					return createBlock( blockName, {
+						...attributes,
+						text: value,
+					} );
+				} }
+				onReplace={ onReplace }
+			/>
 		</>
 	);
 }

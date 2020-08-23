@@ -7,6 +7,7 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import Color from '../color';
+import { ALL_DEVICES } from '../../constants';
 
 const controls = [
 	{
@@ -46,6 +47,7 @@ export default function ColorSet( props ) {
 		return (
 			<Color
 				{ ...props }
+				devices={ ALL_DEVICES }
 				key={ control.alias }
 				label={ control.label }
 				propName={ control.propName }

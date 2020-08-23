@@ -25,8 +25,6 @@ export const BLOCK_CLASSES = {
 	},
 	heading: {
 		main: 'scb-heading',
-		text: 'scb-heading-text',
-		icon: 'scb-heading-icon',
 	},
 };
 export const SELECTORS = {
@@ -79,17 +77,17 @@ export const SELECTORS = {
 		},
 	},
 	heading: {
-		text: {
-			selector: '.scb-heading-text',
-			alias: 'text',
+		link: {
+			selector: 'a',
+			alias: 'link',
 		},
-		icon: {
-			selector: '.scb-heading-icon',
-			alias: 'icon',
+		linkHover: {
+			selector: 'a:hover',
+			alias: 'linkHover',
 		},
-		svg: {
-			selector: '.scb-heading-icon svg',
-			alias: 'svg',
+		highlightText: {
+			selector: 'mark',
+			alias: 'highlightText',
 		},
 	},
 };

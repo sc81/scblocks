@@ -25,8 +25,8 @@ const BLOCK_SELECTORS = array(
 		'content' => '> .scb-container-content',
 	),
 	'heading'   => array(
-		'text' => '.scb-heading-text',
-		'icon' => '.scb-heading-icon',
-		'svg'  => '.scb-heading-icon svg',
+		'link'          => 'a',
+		'linkHover'     => 'a:hover',
+		'highlightText' => 'mark',
 	),
 );
