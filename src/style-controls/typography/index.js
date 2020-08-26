@@ -8,18 +8,13 @@ import LineHeight from './line-height';
 import LetterSpacing from './letter-spacing';
 import { setPropValue, getPropertiesValue } from '../../utils';
 import { ALL_DEVICES } from '../../constants';
-import useRelatedSelectorProps from '../../hooks/use-related-selector-props';
-import TextColor from './text-color';
 
 export default function Typography( props ) {
-	const { devices, attributes, setAttributes, selectorSettings } = props;
-	const propSelector = useRelatedSelectorProps( selectorSettings, [
-		'typography',
-	] );
+	const { devices, attributes, setAttributes, selector } = props;
 
 	function onChange( obj ) {
 		setPropValue( {
-			selector: propSelector.typography,
+			selector,
 			attributes,
 			setAttributes,
 			...obj,
@@ -35,7 +30,7 @@ export default function Typography( props ) {
 	} = getPropertiesValue( {
 		attributes,
 		devices: ALL_DEVICES,
-		selector: propSelector.typography,
+		selector,
 		props: [
 			'fontFamily',
 			'textTransform',
@@ -47,13 +42,12 @@ export default function Typography( props ) {
 	const { fontSize, lineHeight, letterSpacing } = getPropertiesValue( {
 		attributes,
 		devices,
-		selector: propSelector.typography,
+		selector,
 		props: [ 'fontSize', 'lineHeight', 'letterSpacing' ],
 	} );
 
 	return (
 		<>
-			<TextColor { ...props } />
 			<FontFamily
 				value={ fontFamily }
 				onChange={ ( value ) =>

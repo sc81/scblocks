@@ -22,12 +22,22 @@ import {
 	useSelectorsActivity,
 } from '../../hooks/use-selector-activity';
 import { BLOCK_CLASSES, SELECTORS } from '../../block/constants';
+import { getPropValue } from '../../utils';
 
 const NEW_TAB_REL = 'noreferrer noopener';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, isSelected } = props;
-	const { url, linkTarget, rel, text, icon, uidClass } = attributes;
+	const {
+		url,
+		linkTarget,
+		rel,
+		text,
+		icon,
+		uidClass,
+		href,
+		withoutText,
+	} = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -65,6 +75,14 @@ export default function Edit( props ) {
 		} );
 	}
 
+	const flexGrow = getPropValue( {
+		attributes,
+		devices,
+		selector: SELECTORS.blockMainSelectorAlias,
+		propName: 'flexGrow',
+	} );
+	const anchorHref = !! href ? '#' : undefined;
+
 	return (
 		<>
 			<Inspector
@@ -74,27 +92,30 @@ export default function Edit( props ) {
 				onToggleOpenInNewTab={ onToggleOpenInNewTab }
 				selectorsActivity={ selectorsActivity }
 			/>
-			<Block.div
-				className={ `${ BLOCK_CLASSES.button.main } ${ uidClass }` }
-			>
-				<div className={ BLOCK_CLASSES.button.link }>
+			<Block.div style={ { flexGrow } }>
+				<a
+					className={ `${ BLOCK_CLASSES.button.main } ${ uidClass }` }
+					href={ anchorHref }
+				>
 					{ icon && (
 						<span
 							className={ BLOCK_CLASSES.button.icon }
 							dangerouslySetInnerHTML={ { __html: icon } }
 						/>
 					) }
-					<RichText
-						tagName="span"
-						className={ BLOCK_CLASSES.button.text }
-						value={ text }
-						onChange={ ( value ) =>
-							setAttributes( { text: value } )
-						}
-						placeholder={ __( 'Button', 'scblocks' ) }
-						withoutInteractiveFormatting
-					/>
-				</div>
+					{ ! withoutText && (
+						<RichText
+							tagName="span"
+							className={ BLOCK_CLASSES.button.text }
+							value={ text }
+							onChange={ ( value ) =>
+								setAttributes( { text: value } )
+							}
+							placeholder={ __( 'Button', 'scblocks' ) }
+							withoutInteractiveFormatting
+						/>
+					) }
+				</a>
 				<URLPicker
 					url={ url }
 					setAttributes={ setAttributes }

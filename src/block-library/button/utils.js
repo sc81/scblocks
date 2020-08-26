@@ -13,12 +13,25 @@ export const BUTTON_BLOCK_NAME = `${ PLUGIN_NAME }/button`;
 
 export const selectorsSettings = [
 	{
-		label: __( 'Button', 'scblocks' ),
-		selector: SELECTORS.button.link.alias,
+		label: __( 'Button style', 'scblocks' ),
+		selector: SELECTORS.blockMainSelectorAlias,
+		hoverSelector: SELECTORS.blockMainSelectorHoverAlias,
 		allowedPanels: {
-			background: true,
+			colors: {
+				textColor: {
+					hasHoverControls: true,
+				},
+				backgroundColor: {
+					hasHoverControls: true,
+				},
+				borderColor: {
+					hasHoverControls: true,
+				},
+			},
 			typography: true,
-			border: true,
+			border: {
+				hasHoverControls: true,
+			},
 			space: {
 				padding: true,
 				margin: true,
@@ -28,35 +41,14 @@ export const selectorsSettings = [
 				flexDirection: true,
 			},
 		},
-		relatedSelectorProps: {
-			selector: SELECTORS.blockMainSelectorAlias,
-			props: [ 'margin', 'flexGrow' ],
-		},
 	},
 	{
-		label: __( 'Icon', 'scblocks' ),
+		label: __( 'Icon style', 'scblocks' ),
 		selector: SELECTORS.button.icon.alias,
 		allowedPanels: {
-			colors: true,
 			space: {
 				padding: true,
-				margin: true,
-				width: {
-					units: {
-						px: {
-							min: 10,
-							max: 100,
-						},
-					},
-				},
-				height: {
-					units: {
-						px: {
-							min: 10,
-							max: 100,
-						},
-					},
-				},
+				fontSize: true, // icon size
 			},
 		},
 		isActive: false,

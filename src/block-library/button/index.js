@@ -38,7 +38,7 @@ export const settings = {
 		url: {
 			type: 'string',
 			source: 'attribute',
-			selector: SELECTORS.button.link.selector,
+			selector: 'a',
 			attribute: 'href',
 		},
 		text: {
@@ -49,23 +49,24 @@ export const settings = {
 		linkTarget: {
 			type: 'string',
 			source: 'attribute',
-			selector: SELECTORS.button.link.selector,
+			selector: 'a',
 			attribute: 'target',
 		},
 		rel: {
 			type: 'string',
 			source: 'attribute',
-			selector: SELECTORS.button.link.selector,
+			selector: 'a',
 			attribute: 'rel',
 		},
 		icon: {
 			type: 'string',
 			source: 'html',
 			selector: SELECTORS.button.icon.selector,
-		},
-		iconPath: {
-			type: 'string',
 			default: '',
+		},
+		withoutText: {
+			type: 'boolean',
+			default: false,
 		},
 	},
 	supports: {

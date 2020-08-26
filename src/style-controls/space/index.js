@@ -6,11 +6,11 @@ import { useMemo } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import useRelatedSelectorProps from '../../hooks/use-related-selector-props';
 import usePanelActiveControl from '../../hooks/use-panel-active-control';
 import NumberUnitProperty from '../number-unit-property';
 import FourControls from '../four-controls';
 import Separator from '../../components/separator';
+import { getControlSelector } from '../utils';
 
 const spaceProps = [
 	'margin',
@@ -21,6 +21,7 @@ const spaceProps = [
 	'height',
 	'minHeight',
 	'maxHeight',
+	'fontSize', // icon size
 ];
 
 export default function Space( props ) {
@@ -34,12 +35,20 @@ export default function Space( props ) {
 		height,
 		minHeight,
 		maxHeight,
+		fontSize,
 	} = usePanelActiveControl( selectorSettings, spaceProps, 'space' );
 
-	const propSelector = useRelatedSelectorProps(
-		selectorSettings,
-		spaceProps
-	);
+	const propSelector = useMemo( () => {
+		const state = {};
+		spaceProps.forEach( ( prop ) => {
+			state[ prop ] = getControlSelector(
+				'space',
+				prop,
+				selectorSettings
+			);
+		} );
+		return state;
+	} );
 
 	const unitRangeStep = useMemo( () => {
 		const state = {};
@@ -68,6 +77,16 @@ export default function Space( props ) {
 
 	return (
 		<>
+			{ fontSize && ( //icon size
+				<>
+					<NumberUnitProperty
+						{ ...props }
+						selector={ propSelector.fontSize }
+						propName="fontSize"
+					/>
+					<Separator />
+				</>
+			) }
 			{ margin && (
 				<>
 					<FourControls

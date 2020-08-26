@@ -16,7 +16,6 @@ const buttonLabel = __( 'Icon Library', 'scblocks' );
 const defaultLabel = __( 'Icon', 'scblocks' );
 
 export default function IconPicker( {
-	iconPath,
 	icon,
 	onSelect,
 	onClear,
@@ -24,11 +23,8 @@ export default function IconPicker( {
 } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 
-	function onSelectIcon( path, nextIcon ) {
-		onSelect( {
-			iconPath: path,
-			icon: nextIcon,
-		} );
+	function onSelectIcon( nextIcon ) {
+		onSelect( nextIcon );
 		setIsOpen( false );
 	}
 	return (
@@ -50,7 +46,6 @@ export default function IconPicker( {
 
 			{ isOpen && (
 				<IconLibrary
-					iconPath={ iconPath }
 					onSelectIcon={ onSelectIcon }
 					onRequestClose={ () => setIsOpen( false ) }
 				/>

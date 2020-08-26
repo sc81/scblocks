@@ -7,9 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 const BLOCK_SELECTORS = array(
 	'button'    => array(
-		'link' => '.scb-button-link',
 		'text' => '.scb-button-text',
-		'icon' => '.scb-button-icon',
+		'icon' => '.scb-icon',
 	),
 	'column'    => array(
 		'content'   => '> .scb-column-content',

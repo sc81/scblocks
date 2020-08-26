@@ -8,7 +8,7 @@ export default function NumberProperty( props ) {
 			label={ props.label }
 			value={ propValue }
 			onChange={ onChange }
-			withoutSelectDevices
+			withoutSelectDevices={ props.withoutSelectDevices }
 			min={ props.min }
 			max={ props.max }
 			step={ props.step }

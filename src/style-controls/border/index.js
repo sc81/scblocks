@@ -7,19 +7,22 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import BorderControl from '../border-control';
-import { getPropertiesValue, setPropsSettings } from '../../utils';
+import {
+	getPropertiesValue,
+	setPropsSettingsForVariousDevices,
+} from '../../utils';
 import ControlWrapper from '../../components/control-wrapper';
+import { ALL_DEVICES } from '../../constants';
 
 export default function Border( props ) {
-	const { attributes, devices, selector, setAttributes } = props;
+	const { attributes, devices, selector, setAttributes, isHover } = props;
+	const currentDevice = isHover ? ALL_DEVICES : devices;
 
-	const border = getPropertiesValue( {
+	const widths = getPropertiesValue( {
 		attributes,
-		devices,
+		devices: currentDevice,
 		selector,
 		props: [
-			'borderColor',
-			'borderStyle',
 			'borderWidth',
 			'borderTopWidth',
 			'borderRightWidth',
@@ -27,30 +30,51 @@ export default function Border( props ) {
 			'borderLeftWidth',
 		],
 	} );
+	const colorStyle = getPropertiesValue( {
+		attributes,
+		devices: ALL_DEVICES,
+		selector,
+		props: [ 'borderColor', 'borderStyle' ],
+	} );
+	const border = { ...widths, ...colorStyle };
 
 	function onChange( value ) {
-		setPropsSettings( {
+		setPropsSettingsForVariousDevices( {
 			attributes,
 			setAttributes,
-			devices,
 			selector,
-			props: value,
+			devicesProps: {
+				[ ALL_DEVICES ]: {
+					borderColor: value.borderColor,
+					borderStyle: value.borderStyle,
+				},
+				[ currentDevice ]: {
+					borderWidth: value.borderWidth,
+					borderTopWidth: value.borderTopWidth,
+					borderRightWidth: value.borderRightWidth,
+					borderBottomWidth: value.borderBottomWidth,
+					borderLeftWidth: value.borderLeftWidth,
+				},
+			},
 		} );
 	}
 	function onClear() {
-		setPropsSettings( {
+		setPropsSettingsForVariousDevices( {
 			attributes,
 			setAttributes,
-			devices,
 			selector,
-			props: {
-				borderColor: '',
-				borderStyle: '',
-				borderWidth: '',
-				borderTopWidth: '',
-				borderRightWidth: '',
-				borderBottomWidth: '',
-				borderLeftWidth: '',
+			devicesProps: {
+				[ ALL_DEVICES ]: {
+					borderColor: '',
+					borderStyle: '',
+				},
+				[ currentDevice ]: {
+					borderWidth: '',
+					borderTopWidth: '',
+					borderRightWidth: '',
+					borderBottomWidth: '',
+					borderLeftWidth: '',
+				},
 			},
 		} );
 	}
@@ -58,7 +82,6 @@ export default function Border( props ) {
 	return (
 		<ControlWrapper
 			label={ __( 'Border', 'scblocks' ) }
-			withoutSelectDevices
 			displayClearButton={
 				border.borderColor ||
 				border.borderStyle ||

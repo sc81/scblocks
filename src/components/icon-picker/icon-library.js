@@ -171,7 +171,7 @@ export default class IconLibrary extends Component {
 	}
 	onSelectIcon( path ) {
 		const icon = renderToString( this.icon( path.split( '/' ) ) );
-		this.props.onSelectIcon( path, icon );
+		this.props.onSelectIcon( icon );
 	}
 
 	iconList() {

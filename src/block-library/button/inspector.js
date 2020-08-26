@@ -22,12 +22,12 @@ export default function Inspector( {
 	blockMemo,
 	selectorsActivity,
 } ) {
-	const { linkTarget, rel, icon, iconPath } = attributes;
+	const { linkTarget, rel, icon, withoutText } = attributes;
 
 	function onClearIcon() {
 		setAttributes( {
 			icon: '',
-			iconPath: '',
+			withoutText: false,
 		} );
 		removeSelectors( {
 			attributes,
@@ -63,13 +63,21 @@ export default function Inspector( {
 						</PanelBody>
 						<PanelBody title={ __( 'Icon', 'scblocks' ) } opened>
 							<IconPicker
-								iconPath={ iconPath }
 								icon={ icon }
 								onSelect={ ( value ) => {
-									setAttributes( value );
+									setAttributes( { icon: value } );
 								} }
 								onClear={ onClearIcon }
 							/>
+							{ !! icon && (
+								<ToggleControl
+									label={ __( 'Without text', 'scblocks' ) }
+									checked={ withoutText }
+									onChange={ ( value ) =>
+										setAttributes( { withoutText: value } )
+									}
+								/>
+							) }
 						</PanelBody>
 					</>
 				}

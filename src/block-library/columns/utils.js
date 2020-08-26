@@ -9,21 +9,23 @@ export const COLUMNS_NAME = `${ PLUGIN_NAME }/columns`;
 
 export const selectorsSettings = [
 	{
-		label: __( 'Columns', 'scblocks' ),
+		label: __( 'Columns style', 'scblocks' ),
 		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {
-			border: true,
+			border: {
+				border: {
+					selector: SELECTORS.columns.allColumnsContent.alias,
+				},
+			},
 			space: {
-				padding: true,
+				padding: {
+					selector: SELECTORS.columns.allColumnsContent.alias,
+				},
 			},
 			flex: {
 				alignItems: true,
 				flexDirection: true,
 			},
-		},
-		relatedSelectorProps: {
-			selector: SELECTORS.columns.allColumnsContent.alias,
-			props: [ 'padding', 'border' ],
 		},
 	},
 ];

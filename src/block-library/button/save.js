@@ -12,28 +12,36 @@ import { BLOCK_CLASSES } from '../../block/constants';
 const placeholder = __( 'Button', 'scblocks' );
 
 export default function Save( { attributes } ) {
-	const { url, linkTarget, rel, text, icon, uidClass } = attributes;
+	const {
+		url,
+		linkTarget,
+		rel,
+		text,
+		icon,
+		uidClass,
+		withoutText,
+	} = attributes;
 
 	return (
-		<div className={ `${ BLOCK_CLASSES.button.main } ${ uidClass }` }>
-			<a
-				className={ BLOCK_CLASSES.button.link }
-				href={ url }
-				target={ linkTarget }
-				rel={ rel }
-			>
-				{ !! icon && (
-					<span
-						className={ BLOCK_CLASSES.button.icon }
-						dangerouslySetInnerHTML={ { __html: icon } }
-					/>
-				) }
+		<a
+			className={ `${ BLOCK_CLASSES.button.main } ${ uidClass }` }
+			href={ url }
+			target={ linkTarget }
+			rel={ rel }
+		>
+			{ !! icon && (
+				<span
+					className={ BLOCK_CLASSES.button.icon }
+					dangerouslySetInnerHTML={ { __html: icon } }
+				/>
+			) }
+			{ ! withoutText && (
 				<RichText.Content
 					tagName="span"
 					className={ BLOCK_CLASSES.button.text }
 					value={ text || placeholder }
 				/>
-			</a>
-		</div>
+			) }
+		</a>
 	);
 }

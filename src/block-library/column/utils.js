@@ -13,19 +13,18 @@ export const COLUMN_NAME = `${ PLUGIN_NAME }/column`;
 
 export const selectorsSettings = [
 	{
-		label: __( 'Column', 'scblocks' ),
+		label: __( 'Column style', 'scblocks' ),
 		selector: SELECTORS.column.content.alias,
 		allowedPanels: {
 			colors: {
-				textColor: {
-					selector: SELECTORS.column.content.alias,
-				},
+				textColor: true,
 				linkColor: {
+					hasHoverControls: true,
 					selector: SELECTORS.column.link.alias,
+					hoverSelector: SELECTORS.column.linkHover.alias,
 				},
-				linkColorHover: {
-					selector: SELECTORS.column.linkHover.alias,
-				},
+				backgroundColor: true,
+				borderColor: true,
 			},
 			background: true,
 			border: true,
@@ -39,6 +38,7 @@ export const selectorsSettings = [
 							max: 100,
 						},
 					},
+					selector: SELECTORS.blockMainSelectorAlias,
 				},
 				minHeight: true,
 			},
@@ -47,10 +47,6 @@ export const selectorsSettings = [
 				flexDirection: true,
 				justifyContent: true,
 			},
-		},
-		relatedSelectorProps: {
-			selector: SELECTORS.blockMainSelectorAlias,
-			props: [ 'width' ],
 		},
 	},
 ];

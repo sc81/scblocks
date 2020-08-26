@@ -10,17 +10,17 @@ import { SELECTORS } from '../../block/constants';
 
 export const selectorsSettings = [
 	{
-		label: __( 'Container', 'scblocks' ),
+		label: __( 'Container style', 'scblocks' ),
 		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {
 			typography: true,
 			background: true,
 			border: true,
-			backgroundOverlay: true,
-			backgroundVideo: true,
 			space: {
 				margin: true,
-				padding: true,
+				padding: {
+					selector: SELECTORS.container.content.alias,
+				},
 				maxWidth: {
 					units: {
 						px: {
@@ -33,13 +33,10 @@ export const selectorsSettings = [
 						vh: true,
 						vw: true,
 					},
+					selector: SELECTORS.container.content.alias,
 				},
 				minHeight: true,
 			},
-		},
-		relatedSelectorProps: {
-			selector: SELECTORS.container.content.alias,
-			props: [ 'maxWidth', 'padding' ],
 		},
 	},
 ];

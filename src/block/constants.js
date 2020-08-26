@@ -1,9 +1,8 @@
 export const BLOCK_CLASSES = {
 	button: {
 		main: 'scb-button',
-		link: 'scb-button-link',
 		text: 'scb-button-text',
-		icon: 'scb-button-icon',
+		icon: 'scb-icon',
 	},
 	buttons: {
 		main: 'scb-buttons',
@@ -29,17 +28,14 @@ export const BLOCK_CLASSES = {
 };
 export const SELECTORS = {
 	blockMainSelectorAlias: 'selector',
+	blockMainSelectorHoverAlias: 'selector:hover',
 	button: {
-		link: {
-			selector: '.scb-button-link',
-			alias: 'link',
-		},
 		text: {
 			selector: '.scb-button-text',
 			alias: 'text',
 		},
 		icon: {
-			selector: '.scb-button-icon',
+			selector: '.scb-icon',
 			alias: 'icon',
 		},
 	},

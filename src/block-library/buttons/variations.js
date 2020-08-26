@@ -7,6 +7,28 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import { BUTTON_BLOCK_NAME } from '../button/utils';
+import { SELECTORS } from '../../block/constants';
+import { DESKTOP_DEVICES, ALL_DEVICES } from '../../constants';
+
+function getButton() {
+	return [
+		BUTTON_BLOCK_NAME,
+		{
+			css: {
+				[ ALL_DEVICES ]: {
+					[ SELECTORS.blockMainSelectorAlias ]: {
+						props: [ 'color:#ffffff', 'backgroundColor:#007cba' ],
+					},
+				},
+				[ DESKTOP_DEVICES ]: {
+					[ SELECTORS.blockMainSelectorAlias ]: {
+						props: [ 'padding:12px 20px' ],
+					},
+				},
+			},
+		},
+	];
+}
 
 /** @typedef {import('@wordpress/blocks').WPBlockVariation} WPBlockVariation */
 
@@ -20,7 +42,7 @@ const variations = [
 		name: 'one-button',
 		title: __( 'One button', 'scblocks' ),
 		isDefault: true,
-		innerBlocks: [ [ BUTTON_BLOCK_NAME ] ],
+		innerBlocks: [ getButton() ],
 		scope: [ 'block' ],
 		icon: (
 			<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +72,7 @@ const variations = [
 	{
 		name: 'two-buttons',
 		title: __( 'Two buttons', 'scblocks' ),
-		innerBlocks: [ [ BUTTON_BLOCK_NAME ], [ BUTTON_BLOCK_NAME ] ],
+		innerBlocks: [ getButton(), getButton() ],
 		scope: [ 'block' ],
 		icon: (
 			<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg">
@@ -90,11 +112,7 @@ const variations = [
 	{
 		name: 'three-buttons',
 		title: __( 'Three buttons', 'scblocks' ),
-		innerBlocks: [
-			[ BUTTON_BLOCK_NAME ],
-			[ BUTTON_BLOCK_NAME ],
-			[ BUTTON_BLOCK_NAME ],
-		],
+		innerBlocks: [ getButton(), getButton(), getButton() ],
 		scope: [ 'block' ],
 		icon: (
 			<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg">

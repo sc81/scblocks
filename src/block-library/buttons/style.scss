@@ -4,26 +4,17 @@
 }
 .#{$pluginAlias}-button {
 	display: flex;
-	margin-right: 5px;
-}
-.#{$pluginAlias}-button-link {
-	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 10px 20px;
-	line-height: 1.5;
-	border: 2px solid;
-	color: rgb(30, 30, 30);
 	text-decoration: none;
-	width: 100%;
 }
-.#{$pluginAlias}-button-icon {
+.#{$pluginAlias}-icon {
 	display: inline-flex;
-	width: 20px;
+	line-height: 0;
 
 	& > svg {
-		width: inherit;
-		height: inherit;
+		width: 1em;
+		height: 1em;
 		fill: currentColor;
 	}
 }

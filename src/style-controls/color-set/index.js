@@ -2,12 +2,14 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useState } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
 import Color from '../color';
 import { ALL_DEVICES } from '../../constants';
+import NormalHoverButtons from '../../components/normal-hover-buttons';
 
 const controls = [
 	{
@@ -21,13 +23,13 @@ const controls = [
 		propName: 'backgroundColor',
 	},
 	{
-		alias: 'linkColor',
-		label: __( 'Link Color', 'scblocks' ),
-		propName: 'color',
+		alias: 'borderColor',
+		label: __( 'Border Color', 'scblocks' ),
+		propName: 'borderColor',
 	},
 	{
-		alias: 'linkColorHover',
-		label: __( 'Link Color Hover', 'scblocks' ),
+		alias: 'linkColor',
+		label: __( 'Link Color', 'scblocks' ),
 		propName: 'color',
 	},
 	{
@@ -38,21 +40,57 @@ const controls = [
 ];
 
 export default function ColorSet( props ) {
-	const colors = props.selectorSettings.allowedPanels.colors;
+	const { selectorSettings } = props;
+	const [ isHover, setIsHover ] = useState( false );
+	const colors = selectorSettings.allowedPanels.colors;
+	const { selector, hoverSelector } = selectorSettings;
+	const colorControls = [];
+	const hoverControls = [];
 
-	return controls.map( ( control ) => {
+	controls.forEach( ( control ) => {
 		if ( ! colors[ control.alias ] ) {
 			return null;
 		}
-		return (
+		const controlSelector = colors[ control.alias ].selector;
+		colorControls.push(
 			<Color
 				{ ...props }
 				devices={ ALL_DEVICES }
 				key={ control.alias }
 				label={ control.label }
 				propName={ control.propName }
-				selector={ colors[ control.alias ].selector }
+				selector={
+					( typeof controlSelector === 'string' &&
+						controlSelector ) ||
+					selector
+				}
 			/>
 		);
+		if ( colors[ control.alias ].hasHoverControls ) {
+			hoverControls.push(
+				<Color
+					{ ...props }
+					devices={ ALL_DEVICES }
+					key={ control.alias }
+					label={ control.label }
+					propName={ control.propName }
+					selector={
+						colors[ control.alias ].hoverSelector || hoverSelector
+					}
+				/>
+			);
+		}
 	} );
+	return (
+		<>
+			{ hoverControls.length > 0 && (
+				<NormalHoverButtons
+					isHover={ isHover }
+					onChange={ ( value ) => setIsHover( value ) }
+				/>
+			) }
+			{ ! isHover && colorControls }
+			{ isHover && hoverControls }
+		</>
+	);
 }

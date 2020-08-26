@@ -13,18 +13,18 @@ export const HEADING_BLOCK_NAME = `${ PLUGIN_NAME }/heading`;
 
 export const selectorsSettings = [
 	{
-		label: __( 'Heading', 'scblocks' ),
+		label: __( 'Heading styles', 'scblocks' ),
 		selector: SELECTORS.blockMainSelectorAlias,
+		hoverSelector: SELECTORS.blockMainSelectorHoverAlias,
 		allowedPanels: {
 			colors: {
-				textColor: {
-					selector: SELECTORS.blockMainSelectorAlias,
-				},
+				textColor: true,
+				backgroundColor: true,
+				borderColor: true,
 				linkColor: {
+					hasHoverControls: true,
 					selector: SELECTORS.heading.link.alias,
-				},
-				linkColorHover: {
-					selector: SELECTORS.heading.linkHover.alias,
+					hoverSelector: SELECTORS.heading.linkHover.alias,
 				},
 				highlightText: {
 					selector: SELECTORS.heading.highlightText.alias,

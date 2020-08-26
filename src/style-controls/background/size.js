@@ -75,7 +75,7 @@ export default function Size( {
 	}
 
 	return (
-		<ControlWrapper label={ __( 'Size', 'scblocks' ) }>
+		<ControlWrapper label={ __( 'Size', 'scblocks' ) } displayInline>
 			<SelectControl
 				value={ selectValue }
 				options={ options }

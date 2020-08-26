@@ -70,6 +70,11 @@ const propDefaults = {
 			},
 		},
 	},
+	fontSize: {
+		label: __( 'Icon size', 'scblocks' ),
+		units: [ 'px', 'em' ],
+		unitRangeStep: {},
+	},
 };
 
 export default function NumberUnitProperty( props ) {

@@ -7,7 +7,7 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import {
-	setPropsSettingsForVariousMedia,
+	setPropsSettingsForVariousDevices,
 	getPropValue,
 	getSelectorPropsSettingsForAllDevices,
 } from '../../utils';
@@ -76,14 +76,14 @@ export default function Normal( props ) {
 			if ( properties[ ALL_DEVICES ] ) {
 				properties[ ALL_DEVICES ][ names.image ] = '';
 			}
-			setPropsSettingsForVariousMedia( {
+			setPropsSettingsForVariousDevices( {
 				attributes,
 				setAttributes,
 				selector,
-				mediaProps: {
+				devicesProps: {
 					...properties,
 				},
-				mediaSettings: {
+				devicesSettings: {
 					...settings,
 				},
 			} );
@@ -99,16 +99,16 @@ export default function Normal( props ) {
 				}
 			);
 
-			setPropsSettingsForVariousMedia( {
+			setPropsSettingsForVariousDevices( {
 				attributes,
 				setAttributes,
 				selector,
-				mediaProps: {
+				devicesProps: {
 					[ ALL_DEVICES ]: {
 						backgroundImage,
 					},
 				},
-				allMediaProps: {
+				allDevicesProps: {
 					[ names.image ]: '',
 					[ names.size ]: '',
 					[ names.repeat ]: '',
@@ -118,11 +118,11 @@ export default function Normal( props ) {
 				},
 			} );
 		} else {
-			setPropsSettingsForVariousMedia( {
+			setPropsSettingsForVariousDevices( {
 				attributes,
 				setAttributes,
 				selector,
-				allMediaProps: {
+				allDevicesProps: {
 					[ names.image ]: '',
 					[ names.size ]: '',
 					[ names.repeat ]: '',
@@ -130,7 +130,7 @@ export default function Normal( props ) {
 					[ names.attachment ]: '',
 					[ names.opacity ]: '',
 				},
-				allMediaSettings: {
+				allDevicesSettings: {
 					[ names.image ]: null,
 				},
 			} );
