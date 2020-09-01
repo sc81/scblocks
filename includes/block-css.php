@@ -34,7 +34,23 @@ class Block_Css {
 	/** @var string */
 	public $mobile_devices_max_width = '767px';
 
+	/**
+	 * Our css.
+	 *
+	 * @var string
+	 */
+	private $inline;
 
+	/**
+	 * The request URI to Google Fonts
+	 *
+	 * @var string
+	 */
+	private $google_fonts_uri;
+
+	/**
+	 * Constructor
+	 */
 	public function __construct() {
 		add_option( 'scblocks_css_write_time', time() );
 	}
@@ -85,11 +101,13 @@ class Block_Css {
 	}
 
 	/**
-	 * Checks if css file exists, if yes returns url.
+	 * The URI to css.
+	 *
+	 * If the file exists, it returns a URI, otherwise an empty string.
 	 *
 	 * @return string
 	 */
-	public function css_file_uri() : string {
+	public function file_uri() : string {
 		$post_id = $this->get_post_id();
 
 		if ( ! $post_id ) {
@@ -100,6 +118,19 @@ class Block_Css {
 		if ( empty( $post_settings ) || empty( $post_settings['css_version'] ) ) {
 			return '';
 		}
+		if ( ! empty( $post_settings['google_fonts'] ) ) {
+			$array = array(
+				'fonts' => $post_settings['google_fonts'],
+			);
+			if ( ! empty( $post_settings['google_fonts_variants'] ) ) {
+				$array['variants'] = $post_settings['google_fonts_variants'];
+			}
+			// assign uri
+			$fonts = new Fonts();
+
+			$this->google_fonts_uri = $fonts->build_google_fonts_uri( $array );
+
+		}
 		if ( 'file' === $this->mode() ) {
 			return $this->file( 'uri' );
 
@@ -108,9 +139,31 @@ class Block_Css {
 	}
 	/**
 	 * Gets an inline CSS.
+	 *
+	 * @return string
 	 */
-	public function get_inline_css() {
-		return $this->compose_css( $this->get_blocks_attr( $this->get_parsed_content() ) );
+	public function get_inline() : string {
+		// assign css
+		if ( ! isset( $this->inline ) ) {
+			$blocks_attr = $this->get_blocks_attr( $this->get_parsed_content() );
+
+			$this->inline = $this->compose( $blocks_attr );
+
+			// assign uri
+			$fonts = new Fonts( $blocks_attr );
+
+			$this->google_fonts_uri = $fonts->build_google_fonts_uri();
+		}
+		return $this->inline;
+	}
+
+	/**
+	 * Gets the request URI to Google Fonts.
+	 *
+	 * @return string
+	 */
+	public function get_google_fonts_uri() : string {
+		return $this->google_fonts_uri;
 	}
 	/**
 	 * Determine if we're using file mode or inline mode.
@@ -134,7 +187,7 @@ class Block_Css {
 
 			if ( 5 <= ( $current_time - $last_time ) ) {
 				// Attempt to write to the file.
-				$mode = ( $this->can_write() && $this->make_css() ) ? 'file' : 'inline';
+				$mode = ( $this->can_write() && $this->write_to_file() ) ? 'file' : 'inline';
 
 				// Does again if the file exists.
 				if ( 'file' === $mode ) {
@@ -163,7 +216,7 @@ class Block_Css {
 			return false;
 		}
 
-		$file_name   = $this->css_file_name();
+		$file_name   = $this->file_name();
 		$folder_path = $wp_upload_dir['basedir'] . '/scblocks';
 
 		// folder does not exists, create it
@@ -186,18 +239,27 @@ class Block_Css {
 		return true;
 	}
 	/**
-	 * Creates a css and tries to save to the file.
+	 * Tries to write css to a file.
 	 *
 	 * @return bool True on success, false on failure.
 	 */
-	public function make_css() : bool {
+	public function write_to_file() : bool {
 		$post_id = $this->get_post_id();
 
-		$css = $this->compose_css( $this->get_blocks_attr( $this->get_parsed_content() ) );
+		$blocks_attr = $this->get_blocks_attr( $this->get_parsed_content() );
+
+		$css = $this->compose( $blocks_attr );
 
 		if ( ! $css ) {
 			return false;
 		}
+		// assign css to prop
+		$this->inline = $css;
+
+		// assign uri
+		$fonts                  = new Fonts( $blocks_attr );
+		$google_fonts_data      = $fonts->get_google_fonts_data();
+		$this->google_fonts_uri = $fonts->build_google_fonts_uri();
 
 		// If we only have a little CSS, we should inline it.
 		$css_size = strlen( $css );
@@ -219,6 +281,14 @@ class Block_Css {
 			$settings['old_update_time'] = $update_time;
 			$settings['update_time']     = $update_time;
 			$settings['css_version']     = SCBLOCKS_CSS_VERSION;
+
+			if ( ! empty( $google_fonts_data ) && ! empty( $google_fonts_data['fonts'] ) ) {
+				$settings['google_fonts'] = $google_fonts_data['fonts'];
+
+				if ( ! empty( $google_fonts_data['variants'] ) ) {
+					$settings['google_fonts_variants'] = $google_fonts_data['variants'];
+				}
+			}
 			update_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, wp_slash( wp_json_encode( $settings ) ) );
 			update_option( 'scblocks_css_write_time', time() );
 
@@ -418,9 +488,8 @@ class Block_Css {
 		foreach ( $parsed_blocks as $block ) {
 			if ( strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 &&
 			isset( $block['attrs'] ) &&
-			! empty( $block['attrs']['css'] ) &&
 			! empty( $block['attrs']['uidClass'] ) ) {
-				$data[ $block['blockName'] . ' ' . $block['attrs']['uidClass'] ] = $block['attrs']['css'];
+				$data[ $block['blockName'] . ' ' . $block['attrs']['uidClass'] ] = $block['attrs'];
 			}
 			// reusable block
 			if ( 'core/block' === $block['blockName'] &&
@@ -446,11 +515,11 @@ class Block_Css {
 	/**
 	 * Composes css.
 	 *
-	 * @param array $blocks An array of blocks with their attributes.
+	 * @param array $blocks An array of blocks attributes.
 	 *
 	 * @return string
 	 */
-	public function compose_css( array $blocks ) : string {
+	public function compose( array $blocks ) : string {
 		$css = array(
 			'allDevices' => '',
 		);
@@ -459,7 +528,10 @@ class Block_Css {
 		$css[ self::TABLET_DEVICES ]  = '';
 		$css[ self::MOBILE_DEVICES ]  = '';
 
-		foreach ( $blocks as $block_name => $block_css ) {
+		foreach ( $blocks as $block_name => $block ) {
+			if ( empty( $block['css'] ) ) {
+				continue;
+			}
 
 			$block_name_parts = explode( ' ', $block_name );
 
@@ -467,7 +539,7 @@ class Block_Css {
 
 			$block_name_without_namespace = explode( '/', $block_name_parts[0] )[1];
 
-			foreach ( $block_css as $devices => $selectors ) {
+			foreach ( $block['css'] as $devices => $selectors ) {
 				$css[ $devices ] .= $this->compose_selectors( $selectors, $block_name_without_namespace, $uid_selector );
 			}
 		}
@@ -578,7 +650,7 @@ class Block_Css {
 	 *
 	 * @return string
 	 */
-	public function css_file_name( int $post_id = -1 ): string {
+	public function file_name( int $post_id = -1 ): string {
 		// If this is a multisite installation, append the blogid to the filename.
 		$css_blog_id = '';
 		if ( is_multisite() && $blog_id > 1 ) {
@@ -601,7 +673,7 @@ class Block_Css {
 
 		$upload_dir = wp_upload_dir();
 
-		$file_name = $this->css_file_name();
+		$file_name = $this->file_name();
 
 		$file_path = $upload_dir['basedir'] . '/scblocks/' . $file_name;
 
@@ -641,7 +713,7 @@ class Block_Css {
 	 * @param WP_Post $post Post object.
 	 */
 
-	public function wp_block_update( $post_id, $post ) {
+	public function wp_block_update( int $post_id, \WP_Post $post ) {
 		if ( wp_is_post_autosave( $post_id ) ||
 			wp_is_post_revision( $post_id ) ||
 			! current_user_can( 'edit_post', $post_id ) ) {

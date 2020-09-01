@@ -11,6 +11,7 @@ import edit from './edit';
 import save from './save';
 import { PLUGIN_NAME } from '../../constants';
 import { COLUMN_NAME } from './utils';
+import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 
 export const name = COLUMN_NAME;
 
@@ -32,6 +33,7 @@ export const settings = {
 		tag: {
 			type: 'string',
 		},
+		...SHARED_ATTRIBUTES.googleFonts,
 	},
 	supports: {
 		inserter: false,

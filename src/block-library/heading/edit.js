@@ -21,6 +21,7 @@ import ControlsManager from '../../components/controls-manager';
 import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import { name as blockName } from '.';
 import { BLOCK_CLASSES } from '../../block/constants';
+import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace } = props;
@@ -88,6 +89,7 @@ export default function Edit( props ) {
 					}
 				/>
 			</InspectorControls>
+			<GoogleFontsLink attributes={ attributes } />
 			<RichText
 				tagName={ Block[ tagName ] }
 				className={ `${ BLOCK_CLASSES.heading.main } ${ uidClass }` }

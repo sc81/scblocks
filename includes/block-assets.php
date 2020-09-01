@@ -59,17 +59,17 @@ class Block_Assets {
 	public function frontend_assets() {
 		$css_file_uri = '';
 		$inline_css   = '';
-		$css_handler  = new Block_Css();
+		$css          = new Block_Css();
 
-		$post_id = $css_handler->get_post_id();
+		$post_id = $css->get_post_id();
 		// ! singular || preview
 		if ( ! $post_id || is_preview() ) {
 			$has_block  = true;
-			$inline_css = $css_handler->get_inline_css();
+			$inline_css = $css->get_inline();
 		} else {
-			$css_file_uri = $css_handler->css_file_uri();
+			$css_file_uri = $css->file_uri();
 			if ( ! $css_file_uri ) {
-				$inline_css = $css_handler->get_inline_css();
+				$inline_css = $css->get_inline();
 			}
 			$has_block = ! ! $css_file_uri || ! ! $inline_css;
 
@@ -87,6 +87,9 @@ class Block_Assets {
 			}
 			if ( $inline_css ) {
 				wp_add_inline_style( 'scblocks', $inline_css );
+			}
+			if ( ! ! $css->get_google_fonts_uri() ) {
+				wp_enqueue_style( 'scblocks-google-fonts', $css->get_google_fonts_uri(), array(), null );// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 			}
 		}
 	}

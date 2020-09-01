@@ -15,6 +15,7 @@ import save from './save';
 import edit from './edit';
 import { BUTTONS_BLOCK_NAME } from '../buttons/utils';
 import { SELECTORS } from '../../block/constants';
+import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 
 export const name = BUTTON_BLOCK_NAME;
 
@@ -68,6 +69,7 @@ export const settings = {
 			type: 'boolean',
 			default: false,
 		},
+		...SHARED_ATTRIBUTES.googleFonts,
 	},
 	supports: {
 		alignWide: false,

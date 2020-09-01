@@ -30,7 +30,6 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/fonts.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-css.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/icons.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/font-awesome.php';
 	}
 
 	private function __construct() {

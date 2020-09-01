@@ -20,6 +20,7 @@ import useDynamicCss from '../../hooks/use-dynamic-css';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import Inspector from './inspector';
 import { BLOCK_CLASSES } from '../../block/constants';
+import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, clientId } = props;
@@ -53,6 +54,7 @@ export default function Edit( props ) {
 				className={ `${ BLOCK_CLASSES.column.main } ${ attributes.uidClass } ${ BLOCK_CLASSES.column.col }` }
 				ref={ columnRef }
 			>
+				<GoogleFontsLink attributes={ attributes } />
 				<InnerBlocks
 					templateLock={ false }
 					renderAppender={

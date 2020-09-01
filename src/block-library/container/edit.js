@@ -26,6 +26,7 @@ import useDynamicCss from '../../hooks/use-dynamic-css';
 import Inspector from './inspector';
 import { BLOCK_CLASSES } from '../../block/constants';
 import VariationsPicker from '../../block/variations-picker';
+import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;
@@ -69,6 +70,7 @@ export default function Edit( props ) {
 					[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
 				} ) }
 			>
+				<GoogleFontsLink attributes={ attributes } />
 				{ innerBlockCount > 0 && (
 					<InnerBlocks
 						templateLock={ false }

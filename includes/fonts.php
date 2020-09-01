@@ -7,106 +7,130 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Fonts {
 
-	private $plugin_settings_name = 'scblocks_settings';
+	/**
+	 * An array of blocks attributes.
+	 *
+	 * @var array
+	 */
+	private $blocks_attr;
 
-	public function register_actions() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'add_google_fonts_link' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'add_google_fonts_link' ) );
-		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_print_css_vars' ) );
+	/**
+	 * Constructor
+	 *
+	 * @param array $blocks_attr An array of blocks attributes.
+	 */
+	public function __construct( array $blocks_attr = array() ) {
+		$this->blocks_attr = $blocks_attr;
 	}
 
-	public function register_routes() {
-		register_rest_route(
-			'scblocks/v1',
-			'/fonts-settings',
-			array(
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'update_fonts_settings' ),
-					'permission_callback' => function () {
-						return current_user_can( 'edit_posts' );
-					},
-				),
-				array(
-					'methods'             => 'GET',
-					'callback'            => array( $this, 'get_fonts' ),
-					'permission_callback' => function () {
-						return current_user_can( 'edit_posts' );
-					},
-				),
-			)
-		);
+	/**
+	 * Register actions.
+	 */
+	public function register_actions() {
+		add_action( 'rest_api_init', array( $this, 'register_route' ) );
+	}
+
+	/**
+	 * Registers a REST API route for Google fonts.
+	 */
+	public function register_route() {
 		register_rest_route(
 			'scblocks/v1',
 			'/google-fonts',
 			array(
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_google_fonts' ),
+				'callback'            => array( $this, 'get_google_fonts_list' ),
 				'permission_callback' => function () {
 					return current_user_can( 'edit_posts' );
 				},
 			)
 		);
 	}
-	public function get_google_fonts() {
+	/**
+	 * Gets the google fonts.
+	 */
+	public function get_google_fonts_list() {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/google-fonts.php';
 		return rest_ensure_response( GOOGLE_FONTS );
 	}
-	public function get_fonts() {
-		$settings = get_option( $this->plugin_settings_name, array() );
-		$data     = '';
-		if ( ! empty( $settings ) ) {
-			$data                 = array();
-			$data['fonts']        = empty( $settings['fonts'] ) ? '' : $settings['fonts'];
-			$data['fontsCssVars'] = empty( $settings['fontsCssVars'] ) ? '' : $settings['fontsCssVars'];
+
+	/**
+	 * Gets the google fonts from blocks attributes
+	 *
+	 * @return array
+	 */
+	public function get_google_fonts_data() : array {
+		if ( empty( $this->blocks_attr ) ) {
+			return array();
 		}
+		$fonts         = array();
+		$font_variants = array();
 
-		return rest_ensure_response( $data );
-	}
-	public function update_fonts_settings( $data ) {
-		$settings = get_option( $this->plugin_settings_name, array() );
+		foreach ( $this->blocks_attr as $block_data ) {
+			if ( isset( $block_data['googleFont'] ) && isset( $block_data['fontFamily'] ) ) {
+				$font_family           = $block_data['fontFamily'];
+				$fonts[ $font_family ] = true;
 
-		$settings['fonts']        = $data['fonts'];
-		$settings['fontsCssVars'] = $data['fontsCssVars'];
+				$variants = $block_data['googleFontVariants'];
 
-		return rest_ensure_response( update_option( $this->plugin_settings_name, $settings ) );
-	}
+				if ( $variants ) {
+					$variants = explode( ',', $variants );
+					$variants = array_flip( $variants );
+					array_walk( $variants, array( $this, 'change_value_to_true' ) );
 
-	public function get_css_vars() {
-		$settings = get_option( $this->plugin_settings_name, array() );
-
-		if ( empty( $settings ) || empty( $settings['fontsCssVars'] ) ) {
-			return '';
-		}
-		return wp_strip_all_tags( $settings['fontsCssVars'] );
-	}
-	public function editor_print_css_vars() {
-		$css = $this->get_css_vars();
-		if ( $css ) {
-			wp_add_inline_style( 'scblocks-editor', $css );
-		}
-	}
-	public function google_fonts_link() {
-		$settings = get_option( $this->plugin_settings_name, array() );
-
-		if ( empty( $settings ) || empty( $settings['fonts'] ) ) {
-			return '';
-		}
-		$g_fonts = '';
-		foreach ( $settings['fonts'] as $family ) {
-			if ( $family ) {
-				$g_fonts .= $family . '|';
+					if ( ! empty( $font_variants[ $font_family ] ) ) {
+						$font_variants[ $font_family ] = $font_variants[ $font_family ] + $variants;
+					} else {
+						$font_variants[ $font_family ] = $variants;
+					}
+				}
 			}
 		}
-		$g_fonts = preg_replace( '/\|$/', '', $g_fonts );
-		if ( ! $g_fonts ) {
+		return array(
+			'fonts'    => $fonts,
+			'variants' => $font_variants,
+		);
+	}
+
+	/**
+	 * Callback called on each element of the array.
+	 *
+	 * The function sets all values of the array to true.
+	 *
+	 * @param mixed $item Reference to the value of an array parameter.
+	 */
+	private function change_value_to_true( &$item ) {
+		$item = true;
+	}
+
+	/**
+	 * Build the Google Font request URI from blocks attributes.
+	 *
+	 * @param array $fonts_data Array of Google Fonts and fonts variants.
+	 *
+	 * @return string URI to Google fonts
+	 */
+	public function build_google_fonts_uri( array $fonts_data = array() ) : string {
+		if ( empty( $fonts_data ) ) {
+			$fonts_data = $this->get_google_fonts_data();
+		}
+		if ( empty( $fonts_data ) || empty( $fonts_data['fonts'] ) ) {
 			return '';
 		}
+		$data = array();
 
-		return esc_url_raw( add_query_arg( 'family', $g_fonts, 'https://fonts.googleapis.com/css' ) );
-	}
-	public function add_google_fonts_link() {
-		wp_enqueue_style( 'scblocks-fonts', $this->google_fonts_link(), array(), SCBLOCKS_VERSION );
+		foreach ( $fonts_data['fonts'] as $font_family => $value ) {
+			if ( ! empty( $fonts_data['variants'] ) && ! empty( $fonts_data['variants'][ $font_family ] ) ) {
+				$data[] = $font_family . ':' . implode( ',', array_keys( $fonts_data['variants'][ $font_family ] ) );
+			} else {
+				$data[] = $font_family;
+			}
+		}
+		$args = array(
+			'family'  => implode( '|', $data ),
+			'display' => 'swap',
+		);
+
+		return add_query_arg( $args, 'https://fonts.googleapis.com/css' );
 	}
 }

@@ -23,6 +23,7 @@ import {
 } from '../../hooks/use-selector-activity';
 import { BLOCK_CLASSES, SELECTORS } from '../../block/constants';
 import { getPropValue } from '../../utils';
+import GoogleFontsLink from '../../block/google-fonts-link';
 
 const NEW_TAB_REL = 'noreferrer noopener';
 
@@ -93,6 +94,7 @@ export default function Edit( props ) {
 				selectorsActivity={ selectorsActivity }
 			/>
 			<Block.div style={ { flexGrow } }>
+				<GoogleFontsLink attributes={ attributes } />
 				<a
 					className={ `${ BLOCK_CLASSES.button.main } ${ uidClass }` }
 					href={ anchorHref }

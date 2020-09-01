@@ -1,3 +1,6 @@
+/**
+ * Internal dependencies
+ */
 import TextTransform from './text-transform';
 import FontWeight from './font-weight';
 import FontFamily from './font-family';
@@ -22,7 +25,6 @@ export default function Typography( props ) {
 	}
 
 	const {
-		fontFamily,
 		textTransform,
 		fontWeight,
 		textDecoration,
@@ -31,13 +33,7 @@ export default function Typography( props ) {
 		attributes,
 		devices: ALL_DEVICES,
 		selector,
-		props: [
-			'fontFamily',
-			'textTransform',
-			'fontWeight',
-			'textDecoration',
-			'fontStyle',
-		],
+		props: [ 'textTransform', 'fontWeight', 'textDecoration', 'fontStyle' ],
 	} );
 	const { fontSize, lineHeight, letterSpacing } = getPropertiesValue( {
 		attributes,
@@ -48,16 +44,38 @@ export default function Typography( props ) {
 
 	return (
 		<>
-			<FontFamily
-				value={ fontFamily }
+			<FontSize
+				value={ fontSize }
 				onChange={ ( value ) =>
+					onChange( { value, propName: 'fontSize', devices } )
+				}
+				onClear={ () =>
+					onChange( { value: '', propName: 'fontSize', devices } )
+				}
+			/>
+			<LineHeight
+				value={ lineHeight }
+				onChange={ ( value ) =>
+					onChange( { value, propName: 'lineHeight', devices } )
+				}
+				onClear={ () =>
+					onChange( { value: '', propName: 'lineHeight', devices } )
+				}
+			/>
+			<LetterSpacing
+				value={ letterSpacing }
+				onChange={ ( value ) =>
+					onChange( { value, propName: 'letterSpacing', devices } )
+				}
+				onClear={ () =>
 					onChange( {
-						value,
-						propName: 'fontFamily',
-						devices: ALL_DEVICES,
+						value: '',
+						propName: 'letterSpacing',
+						devices,
 					} )
 				}
 			/>
+			<FontFamily { ...props } />
 			<TextTransform
 				value={ textTransform }
 				onChange={ ( value ) =>
@@ -95,37 +113,6 @@ export default function Typography( props ) {
 						value,
 						propName: 'fontStyle',
 						devices: ALL_DEVICES,
-					} )
-				}
-			/>
-			<FontSize
-				value={ fontSize }
-				onChange={ ( value ) =>
-					onChange( { value, propName: 'fontSize', devices } )
-				}
-				onClear={ () =>
-					onChange( { value: '', propName: 'fontSize', devices } )
-				}
-			/>
-			<LineHeight
-				value={ lineHeight }
-				onChange={ ( value ) =>
-					onChange( { value, propName: 'lineHeight', devices } )
-				}
-				onClear={ () =>
-					onChange( { value: '', propName: 'lineHeight', devices } )
-				}
-			/>
-			<LetterSpacing
-				value={ letterSpacing }
-				onChange={ ( value ) =>
-					onChange( { value, propName: 'letterSpacing', devices } )
-				}
-				onClear={ () =>
-					onChange( {
-						value: '',
-						propName: 'letterSpacing',
-						devices,
 					} )
 				}
 			/>
