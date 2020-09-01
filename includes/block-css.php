@@ -46,7 +46,7 @@ class Block_Css {
 	 *
 	 * @var string
 	 */
-	private $google_fonts_uri;
+	private $google_fonts_uri = '';
 
 	/**
 	 * Constructor
