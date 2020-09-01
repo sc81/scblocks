@@ -104,7 +104,7 @@ export default function FontFamily( { attributes, setAttributes, selector } ) {
 				fontFamily: value,
 				googleFont: true,
 				fontFamilyFallback: GOOGLE_FONTS[ value ].fallback,
-				googleFontVariants: GOOGLE_FONTS[ value ].weight.join( ',' ),
+				googleFontVariants: GOOGLE_FONTS[ value ].variants.join( ',' ),
 			} );
 			setPropValue( {
 				attributes,
@@ -244,10 +244,10 @@ export default function FontFamily( { attributes, setAttributes, selector } ) {
 						onChange={ ( value ) => onChangeGoogleFont( value ) }
 					/>
 					{ GOOGLE_FONTS[ tempGoogleFont ] && (
-						<p>{ __( 'Google Font Weight' ) }</p>
+						<p>{ __( 'Google Font Variants', 'scblocks' ) }</p>
 					) }
 					{ GOOGLE_FONTS[ tempGoogleFont ] &&
-						GOOGLE_FONTS[ tempGoogleFont ].weight.map(
+						GOOGLE_FONTS[ tempGoogleFont ].variants.map(
 							( variant ) => {
 								return (
 									<CheckboxControl
