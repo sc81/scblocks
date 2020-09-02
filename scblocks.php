@@ -6,7 +6,7 @@
  * Author: sc81
  * Version: 0.1.0
  * Text Domain: scblocks
- * Tested up to: 5.4.0
+ * Tested up to: 5.5
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -36,7 +36,7 @@ function scblocks_load_plugin_textdomain() {
 
 if ( ! version_compare( PHP_VERSION, '7.0', '>=' ) ) {
 	add_action( 'admin_notices', 'scblocks_fail_php_version' );
-} elseif ( ! version_compare( get_bloginfo( 'version' ), '5.4', '>=' ) ) {
+} elseif ( ! version_compare( get_bloginfo( 'version' ), '5.5', '>=' ) ) {
 	add_action( 'admin_notices', 'scblocks_fail_wp_version' );
 } else {
 	require SCBLOCKS_PLUGIN_DIR . 'includes/plugin.php';
@@ -63,7 +63,7 @@ function scblocks_fail_php_version() {
  */
 function scblocks_fail_wp_version() {
 	/* translators: %s: WordPress version */
-	$message      = sprintf( esc_html__( 'ScBlocks requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING.', 'scblocks' ), '5.4' );
+	$message      = sprintf( esc_html__( 'ScBlocks requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING.', 'scblocks' ), '5.5' );
 	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
 	echo wp_kses_post( $html_message );
 }

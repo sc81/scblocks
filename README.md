@@ -18,10 +18,6 @@ Before you start, make sure you have Git, Node with npm and Composer installed.
 3. Run the `npm setup` command to install the plugin's dependencies.
 4. Run the `npm start` command to compile and watch source files for changes while development.
 
-### Important note
-
-You'll need to install the Gutenberg plugin if you are not running WordPress 5.5+
-
 ### More information
 
 - Collection of scripts used for development [@wordpress/scripts](https://www.npmjs.com/package/@wordpress/scripts)
