@@ -1,6 +1,10 @@
 <?php
 namespace ScBlocks;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 function get_font_awesome_icons() {
 	return array(
 		'brand'   => array(

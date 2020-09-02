@@ -1,6 +1,10 @@
 <?php
 namespace ScBlocks;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Icons {
 	public function __construct() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
