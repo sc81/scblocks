@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { column as icon } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -12,6 +11,7 @@ import save from './save';
 import { PLUGIN_NAME } from '../../constants';
 import { COLUMN_NAME } from './utils';
 import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
+import icon from './icon';
 
 export const name = COLUMN_NAME;
 

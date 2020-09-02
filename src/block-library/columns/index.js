@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { columns as icon } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -12,6 +11,7 @@ import save from './save';
 import edit from './edit';
 import { variations } from './variations';
 import { COLUMNS_NAME } from './utils';
+import icon from './icon';
 
 export const name = COLUMNS_NAME;
 

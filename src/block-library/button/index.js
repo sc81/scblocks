@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { button as icon } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -16,6 +15,7 @@ import edit from './edit';
 import { BUTTONS_BLOCK_NAME } from '../buttons/utils';
 import { SELECTORS } from '../../block/constants';
 import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
+import icon from '../buttons/icon';
 
 export const name = BUTTON_BLOCK_NAME;
 
