@@ -9,6 +9,7 @@ import { PanelBody } from '@wordpress/components';
 import ControlsManager from '../../components/controls-manager';
 import SelectHtmlTag from '../../components/select-html-tag';
 import { selectorsSettings } from './utils';
+import ContentWidth from './content-width';
 
 export default function Inspector( props ) {
 	const {
@@ -28,6 +29,7 @@ export default function Inspector( props ) {
 						<SelectHtmlTag value={ tag } onChange={ setTag } />
 					</PanelBody>
 				}
+				spacePanelAdditionalControls={ <ContentWidth { ...props } /> }
 			/>
 		</InspectorControls>
 	);
