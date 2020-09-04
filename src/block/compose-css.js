@@ -41,11 +41,16 @@ function composeSelectors( selectors, blockName, uidClass ) {
 	const blockNameParts = blockName.split( '/' );
 	const blockNameWithoutNamespace = blockNameParts[ 1 ];
 
-	// specificity plus 1
+	// column selector specificity plus 1
 	if ( blockNameWithoutNamespace === 'column' ) {
 		additionalSelector = SELECTORS.column.col.selector;
 	}
-	const leadingSelector = `.scb-${ blockNameWithoutNamespace }.${ uidClass }${ additionalSelector }`;
+	// Improving the specificity of the heading selector in the editor
+	let preSelector = '';
+	if ( blockNameWithoutNamespace === 'heading' ) {
+		preSelector = '.editor-styles-wrapper ';
+	}
+	const leadingSelector = `${ preSelector }.scb-${ blockNameWithoutNamespace }.${ uidClass }${ additionalSelector }`;
 
 	for ( const selectorAlias in selectors ) {
 		if ( ! selectors[ selectorAlias ].props ) {
