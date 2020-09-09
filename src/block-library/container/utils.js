@@ -11,6 +11,7 @@ import { SELECTORS } from '../../block/constants';
 export const selectorsSettings = [
 	{
 		label: __( 'Container Style', 'scblocks' ),
+		id: SELECTORS.blockMainSelectorAlias,
 		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {
 			typography: true,

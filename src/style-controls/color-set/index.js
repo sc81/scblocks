@@ -37,6 +37,11 @@ const controls = [
 		label: __( 'Highlight Text', 'scblocks' ),
 		propName: 'color',
 	},
+	{
+		alias: 'iconColor',
+		label: __( 'Icon Color', 'scblocks' ),
+		propName: 'color',
+	},
 ];
 
 export default function ColorSet( props ) {

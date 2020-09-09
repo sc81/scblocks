@@ -23,7 +23,9 @@ export const BLOCK_CLASSES = {
 		rootContainer: 'scb-root-container',
 	},
 	heading: {
-		main: 'scb-heading',
+		text: 'scb-heading',
+		wrapper: 'scb-heading-wrapper',
+		icon: 'scb-icon',
 	},
 };
 export const SELECTORS = {
@@ -84,6 +86,32 @@ export const SELECTORS = {
 		highlightText: {
 			selector: 'mark',
 			alias: 'highlightText',
+		},
+	},
+	headingWrapped: {
+		link: {
+			selector: 'a',
+			alias: 'link',
+		},
+		linkHover: {
+			selector: 'a:hover',
+			alias: 'linkHover',
+		},
+		highlightText: {
+			selector: 'mark',
+			alias: 'highlightText',
+		},
+		icon: {
+			selector: '.scb-icon',
+			alias: 'icon',
+		},
+		text: {
+			selector: '.scb-heading',
+			alias: 'text',
+		},
+		wrapper: {
+			selector: '.scb-heading-wrapper',
+			alias: 'wrapper',
 		},
 	},
 };

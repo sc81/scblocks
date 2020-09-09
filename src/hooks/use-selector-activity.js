@@ -3,11 +3,11 @@
  */
 import { useRef } from '@wordpress/element';
 
-export function isActiveSelector( activityState, selector ) {
-	return activityState.current[ selector ];
+export function isActiveSelector( activityState, selectorId ) {
+	return activityState.current[ selectorId ];
 }
-export function setSelectorActivity( activityState, selector, value ) {
-	activityState.current[ selector ] = value;
+export function setSelectorActivity( activityState, selectorId, value ) {
+	activityState.current[ selectorId ] = value;
 }
 
 export function useSelectorsActivity( selectorsSettings ) {
@@ -16,9 +16,9 @@ export function useSelectorsActivity( selectorsSettings ) {
 		activity.current = {};
 		selectorsSettings.forEach( ( elm ) => {
 			if ( elm.isActive === false ) {
-				activity.current[ elm.selector ] = elm.isActive;
+				activity.current[ elm.id ] = elm.isActive;
 			} else {
-				activity.current[ elm.selector ] = true;
+				activity.current[ elm.id ] = true;
 			}
 		} );
 	}

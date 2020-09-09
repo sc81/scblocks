@@ -13,7 +13,13 @@ import { setPropValue, getPropertiesValue } from '../../utils';
 import { ALL_DEVICES } from '../../constants';
 
 export default function Typography( props ) {
-	const { devices, attributes, setAttributes, selector } = props;
+	const { devices, attributes, setAttributes, selectorSettings } = props;
+	let { selector } = props;
+	const typographySelector =
+		selectorSettings.allowedPanels.typography.selector;
+	selector =
+		( typeof typographySelector === 'string' && typographySelector ) ||
+		selector;
 
 	function onChange( obj ) {
 		setPropValue( {

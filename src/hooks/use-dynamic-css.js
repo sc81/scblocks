@@ -21,11 +21,18 @@ function createStyleElement() {
 export default function useDynamicCss( props, devices ) {
 	const {
 		clientId,
-		attributes: { uidClass, css },
+		attributes: { uidClass, css, isWrapped },
 		setAttributes,
 		name,
 	} = props;
 	const style = useRef();
+
+	// block name without namespace
+	let blockName = name.split( '/' )[ 1 ];
+
+	if ( blockName === 'heading' && isWrapped ) {
+		blockName = 'headingWrapped';
+	}
 
 	// mount
 	useEffect( () => {
@@ -72,7 +79,7 @@ export default function useDynamicCss( props, devices ) {
 		style.current = createStyleElement();
 		style.current.textContent = composeCss( {
 			css,
-			name,
+			blockName,
 			uidClass: finalUidClass,
 			devices,
 		} );
@@ -82,12 +89,12 @@ export default function useDynamicCss( props, devices ) {
 		if ( uidClass ) {
 			style.current.textContent = composeCss( {
 				css,
-				name,
+				blockName,
 				uidClass,
 				devices,
 			} );
 		}
-	}, [ style, css, name, uidClass, devices ] );
+	}, [ style, css, blockName, uidClass, devices ] );
 	// unmount
 	useEffect(
 		() => () => {

@@ -14,6 +14,7 @@ export const BUTTONS_BLOCK_NAME = `${ PLUGIN_NAME }/buttons`;
 export const selectorsSettings = [
 	{
 		label: __( 'Buttons style', 'scblocks' ),
+		id: SELECTORS.blockMainSelectorAlias,
 		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {
 			space: {

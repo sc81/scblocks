@@ -12,6 +12,7 @@ import save from './save';
 import { HEADING_BLOCK_NAME } from './utils';
 import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 import icon from './icon';
+import { SELECTORS } from '../../block/constants';
 
 export const name = HEADING_BLOCK_NAME;
 
@@ -37,6 +38,16 @@ export const settings = {
 		uidClass: {
 			type: 'string',
 			default: '',
+		},
+		icon: {
+			type: 'string',
+			source: 'html',
+			selector: SELECTORS.headingWrapped.icon.selector,
+			default: '',
+		},
+		isWrapped: {
+			type: 'boolean',
+			default: false,
 		},
 		...SHARED_ATTRIBUTES.googleFonts,
 	},

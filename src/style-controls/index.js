@@ -32,21 +32,21 @@ export function StyleControls( props ) {
 	return selectorsSettings.map( ( element ) => {
 		if (
 			selectorsActivity &&
-			! isActiveSelector( selectorsActivity, element.selector )
+			! isActiveSelector( selectorsActivity, element.id )
 		) {
 			return null;
 		}
 		return (
 			<div
-				key={ element.selector }
+				key={ element.id }
 				className={ `components-panel__body ${ PLUGIN_NAME }-components-panel-body` }
-				data-expanded={ openedPanel === element.selector }
+				data-expanded={ openedPanel === element.id }
 			>
 				<h2 className="components-panel__body-title">
 					<button
 						className={ `${ PLUGIN_NAME }-components-panel-body-button` }
-						onClick={ () => onClickPanel( element.selector ) }
-						aria-expanded={ openedPanel === element.selector }
+						onClick={ () => onClickPanel( element.id ) }
+						aria-expanded={ openedPanel === element.id }
 						type="button"
 					>
 						{ /*
@@ -54,7 +54,7 @@ export function StyleControls( props ) {
                 				repaints the whole element, so this wrapping span hides that.
             			*/ }
 						<span aria-hidden="true">
-							{ openedPanel === element.selector ? (
+							{ openedPanel === element.id ? (
 								<SVG
 									className="components-panel__arrow"
 									width="24px"
@@ -89,8 +89,12 @@ export function StyleControls( props ) {
 						{ element.label }
 					</button>
 				</h2>
-				{ openedPanel === element.selector && (
-					<Panels { ...props } selector={ element.selector } />
+				{ openedPanel === element.id && (
+					<Panels
+						{ ...props }
+						selector={ element.selector }
+						selectorId={ element.id }
+					/>
 				) }
 			</div>
 		);

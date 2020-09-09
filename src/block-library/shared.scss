@@ -1,0 +1,10 @@
+.#{$pluginAlias}-icon {
+	display: inline-flex;
+	line-height: 0;
+
+	& > svg {
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+	}
+}

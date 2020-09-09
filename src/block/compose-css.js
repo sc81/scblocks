@@ -34,26 +34,29 @@ function composePropValue( selectorProps ) {
 	return css;
 }
 
-function composeSelectors( selectors, blockName, uidClass ) {
+function composeSelectors( selectorsObj, blockName, uidClass ) {
 	let css = '',
 		finalSelector,
 		additionalSelector = '';
-	const blockNameParts = blockName.split( '/' );
-	const blockNameWithoutNamespace = blockNameParts[ 1 ];
 
 	// column selector specificity plus 1
-	if ( blockNameWithoutNamespace === 'column' ) {
+	if ( blockName === 'column' ) {
 		additionalSelector = SELECTORS.column.col.selector;
 	}
 	// Improving the specificity of the heading selector in the editor
 	let preSelector = '';
-	if ( blockNameWithoutNamespace === 'heading' ) {
+	if ( blockName === 'heading' ) {
 		preSelector = '.editor-styles-wrapper ';
 	}
-	const leadingSelector = `${ preSelector }.scb-${ blockNameWithoutNamespace }.${ uidClass }${ additionalSelector }`;
+	let leadingSelector;
+	if ( blockName === 'headingWrapped' ) {
+		leadingSelector = `${ SELECTORS.headingWrapped.wrapper.selector }.${ uidClass }`;
+	} else {
+		leadingSelector = `${ preSelector }.scb-${ blockName }.${ uidClass }${ additionalSelector }`;
+	}
 
-	for ( const selectorAlias in selectors ) {
-		if ( ! selectors[ selectorAlias ].props ) {
+	for ( const selectorAlias in selectorsObj ) {
+		if ( ! selectorsObj[ selectorAlias ].props ) {
 			continue;
 		}
 		if ( selectorAlias === 'selector' ) {
@@ -62,8 +65,7 @@ function composeSelectors( selectors, blockName, uidClass ) {
 			finalSelector = leadingSelector + ':hover';
 		} else {
 			const nextSelector =
-				SELECTORS[ blockNameWithoutNamespace ][ selectorAlias ]
-					.selector;
+				SELECTORS[ blockName ][ selectorAlias ].selector;
 			if ( /^uidSelector/.test( nextSelector ) ) {
 				finalSelector = `.${ uidClass }${ nextSelector.replace(
 					/^uidSelector/,
@@ -75,14 +77,14 @@ function composeSelectors( selectors, blockName, uidClass ) {
 		}
 
 		css += `${ finalSelector }{${ composePropValue(
-			selectors[ selectorAlias ].props
+			selectorsObj[ selectorAlias ].props
 		) }}`;
 	}
 	return css;
 }
 export function composeCss( {
 	css: cssState,
-	name: blockName,
+	blockName,
 	uidClass,
 	devices: currentDevices,
 } ) {

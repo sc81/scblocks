@@ -97,7 +97,7 @@ function Panel( {
 
 export default function Panels( props ) {
 	const {
-		selector,
+		selectorId,
 		selectorsSettings,
 		blockMemo,
 		spacePanelAdditionalControls = null,
@@ -105,9 +105,9 @@ export default function Panels( props ) {
 
 	const index = useMemo( () => {
 		return selectorsSettings.findIndex(
-			( element ) => element.selector === selector
+			( element ) => element.id === selectorId
 		);
-	}, [ selector, selectorsSettings ] );
+	}, [ selectorId, selectorsSettings ] );
 
 	const [ isVisiblePanel, panelCount ] = useMemo( () => {
 		const state = {};
@@ -124,7 +124,7 @@ export default function Panels( props ) {
 
 	const [ openedPanel, setOpenedPanel ] = useState( () => {
 		return (
-			getLastActivePanel( blockMemo ).controlsPanel[ selector ] ||
+			getLastActivePanel( blockMemo ).controlsPanel[ selectorId ] ||
 			Object.keys( selectorsSettings[ index ].allowedPanels )[ 0 ]
 		);
 	} );
@@ -134,7 +134,7 @@ export default function Panels( props ) {
 			value = null;
 		}
 		setLastActivePanel( blockMemo, 'controlsPanel', {
-			[ selector ]: value,
+			[ selectorId ]: value,
 		} );
 		setOpenedPanel( value );
 	}

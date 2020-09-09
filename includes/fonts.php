@@ -93,9 +93,7 @@ class Fonts {
 	}
 
 	/**
-	 * Callback called on each element of the array.
-	 *
-	 * The function sets all values of the array to true.
+	 * The function sets the value to true.
 	 *
 	 * @param mixed $item Reference to the value of an array parameter.
 	 */

@@ -14,6 +14,7 @@ export const COLUMN_NAME = `${ PLUGIN_NAME }/column`;
 export const selectorsSettings = [
 	{
 		label: __( 'Column style', 'scblocks' ),
+		id: SELECTORS.column.content.alias,
 		selector: SELECTORS.column.content.alias,
 		allowedPanels: {
 			colors: {
