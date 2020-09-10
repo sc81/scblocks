@@ -13,7 +13,7 @@ export const COLUMN_NAME = `${ PLUGIN_NAME }/column`;
 
 export const selectorsSettings = [
 	{
-		label: __( 'Column style', 'scblocks' ),
+		label: __( 'Column Style', 'scblocks' ),
 		id: SELECTORS.column.content.alias,
 		selector: SELECTORS.column.content.alias,
 		allowedPanels: {
@@ -41,6 +41,9 @@ export const selectorsSettings = [
 			},
 			placement: {
 				order: {
+					selector: SELECTORS.blockMainSelectorAlias,
+				},
+				zIndex: {
 					selector: SELECTORS.blockMainSelectorAlias,
 				},
 			},
