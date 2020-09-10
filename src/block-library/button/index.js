@@ -28,14 +28,9 @@ export const settings = {
 	category: PLUGIN_NAME,
 	keywords: [ __( 'link', 'scblocks' ) ],
 	attributes: {
-		css: {
-			type: 'object',
-			default: {},
-		},
-		uidClass: {
-			type: 'string',
-			default: '',
-		},
+		...SHARED_ATTRIBUTES.required,
+		...SHARED_ATTRIBUTES.id,
+		...SHARED_ATTRIBUTES.classes,
 		url: {
 			type: 'string',
 			source: 'attribute',
@@ -77,6 +72,7 @@ export const settings = {
 		html: false,
 		reusable: false,
 		lightBlockWrapper: true,
+		customClassName: false,
 	},
 	parent: [ BUTTONS_BLOCK_NAME ],
 	edit,

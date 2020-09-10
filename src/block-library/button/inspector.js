@@ -13,6 +13,7 @@ import IconPicker from '../../components/icon-picker';
 import { selectorsSettings } from './utils';
 import { removeSelectors } from '../../utils';
 import { SELECTORS } from '../../block/constants';
+import IdClassesControls from '../../block/id-classes-controls.js';
 
 export default function Inspector( {
 	attributes,
@@ -78,6 +79,12 @@ export default function Inspector( {
 									}
 								/>
 							) }
+						</PanelBody>
+						<PanelBody opened>
+							<IdClassesControls
+								attributes={ attributes }
+								setAttributes={ setAttributes }
+							/>
 						</PanelBody>
 					</>
 				}

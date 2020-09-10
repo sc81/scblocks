@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress dependencies
  */
 import {
@@ -26,7 +31,7 @@ const ALLOWED_BLOCKS = [ COLUMN_NAME ];
 
 export default function Edit( props ) {
 	const { attributes, clientId } = props;
-	const { uidClass } = attributes;
+	const { uidClass, cssClasses } = attributes;
 
 	const { devices, columnCount } = useSelect(
 		( select ) => {
@@ -45,6 +50,12 @@ export default function Edit( props ) {
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	useDynamicCss( props, devices );
 
+	const classes = classnames( {
+		[ BLOCK_CLASSES.columns.main ]: true,
+		[ uidClass ]: true,
+		[ `${ cssClasses }` ]: '' !== cssClasses,
+	} );
+
 	return (
 		<>
 			<Inspector
@@ -58,7 +69,7 @@ export default function Edit( props ) {
 					__experimentalMoverDirection="horizontal"
 					__experimentalTagName={ Block.div }
 					__experimentalPassedProps={ {
-						className: `${ BLOCK_CLASSES.columns.main } ${ uidClass }`,
+						className: classes,
 					} }
 					renderAppender={ false }
 				/>

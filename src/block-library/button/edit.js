@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress dependencies
  */
 import { useSelect } from '@wordpress/data';
@@ -38,6 +43,7 @@ export default function Edit( props ) {
 		uidClass,
 		href,
 		withoutText,
+		cssClasses,
 	} = attributes;
 
 	const devices = useSelect(
@@ -83,6 +89,11 @@ export default function Edit( props ) {
 		propName: 'flexGrow',
 	} );
 	const anchorHref = !! href ? '#' : undefined;
+	const buttonClasses = classnames( {
+		[ BLOCK_CLASSES.button.main ]: true,
+		[ uidClass ]: true,
+		[ `${ cssClasses }` ]: '' !== cssClasses,
+	} );
 
 	return (
 		<>
@@ -95,10 +106,7 @@ export default function Edit( props ) {
 			/>
 			<Block.div style={ { flexGrow } }>
 				<GoogleFontsLink attributes={ attributes } />
-				<a
-					className={ `${ BLOCK_CLASSES.button.main } ${ uidClass }` }
-					href={ anchorHref }
-				>
+				<a className={ buttonClasses } href={ anchorHref }>
 					{ icon && (
 						<span
 							className={ BLOCK_CLASSES.button.icon }

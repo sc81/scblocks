@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress dependencies
  */
 import {
@@ -34,6 +39,7 @@ import {
 	getSelectorPropsSettingsForAllDevices,
 	setPropsSettingsForVariousDevices,
 } from '../../utils';
+import IdClassesControls from '../../block/id-classes-controls.js';
 
 const typographyProps = [
 	'fontSize',
@@ -48,7 +54,7 @@ const typographyProps = [
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace } = props;
-	const { text, tagName, uidClass, icon, isWrapped } = attributes;
+	const { text, tagName, uidClass, icon, isWrapped, cssClasses } = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -164,6 +170,7 @@ export default function Edit( props ) {
 					selectorsActivity={ selectorsActivity }
 					mainControls={
 						<PanelBody opened>
+							<IdClassesControls { ...props } />
 							<SelectControl
 								label={ __( 'Heading level', 'scblocks' ) }
 								value={ tagName }
@@ -214,7 +221,11 @@ export default function Edit( props ) {
 			{ ! isWrapped && (
 				<RichText
 					tagName={ Block[ tagName ] }
-					className={ `${ BLOCK_CLASSES.heading.text } ${ uidClass }` }
+					className={ classnames( {
+						[ BLOCK_CLASSES.heading.text ]: true,
+						[ uidClass ]: true,
+						[ `${ cssClasses }` ]: '' !== cssClasses,
+					} ) }
 					value={ text }
 					onChange={ ( value ) => setAttributes( { text: value } ) }
 					placeholder={ __( 'Heading', 'scblocks' ) }
@@ -241,7 +252,10 @@ export default function Edit( props ) {
 					/>
 					<RichText
 						tagName={ tagName }
-						className={ BLOCK_CLASSES.heading.text }
+						className={ classnames( {
+							[ BLOCK_CLASSES.heading.text ]: true,
+							[ `${ cssClasses }` ]: '' !== cssClasses,
+						} ) }
 						value={ text }
 						onChange={ ( value ) =>
 							setAttributes( { text: value } )

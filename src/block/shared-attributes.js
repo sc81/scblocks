@@ -1,4 +1,14 @@
 export const SHARED_ATTRIBUTES = {
+	required: {
+		css: {
+			type: 'object',
+			default: {},
+		},
+		uidClass: {
+			type: 'string',
+			default: '',
+		},
+	},
 	googleFonts: {
 		fontFamily: {
 			type: 'string',
@@ -13,6 +23,18 @@ export const SHARED_ATTRIBUTES = {
 			default: false,
 		},
 		googleFontVariants: {
+			type: 'string',
+			default: '',
+		},
+	},
+	id: {
+		elementId: {
+			type: 'string',
+			default: '',
+		},
+	},
+	classes: {
+		cssClasses: {
 			type: 'string',
 			default: '',
 		},

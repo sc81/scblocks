@@ -3,7 +3,7 @@
  */
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, PanelBody } from '@wordpress/components';
 import { useMemo } from '@wordpress/element';
 
 /**
@@ -16,6 +16,7 @@ import NumberUnit from '../../components/number-unit';
 import { SELECTORS } from '../../block/constants';
 import Separator from '../../components/separator';
 import propertyService from '../../style-controls/property-service';
+import IdClassesControls from '../../block/id-classes-controls.js';
 
 const options = [
 	{ label: __( 'Default', 'scblocks' ), value: '' },
@@ -112,6 +113,14 @@ export default function Inspector( {
 				attributes={ attributes }
 				devices={ devices }
 				blockMemo={ blockMemo }
+				mainControls={
+					<PanelBody opened>
+						<IdClassesControls
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</PanelBody>
+				}
 				spacePanelAdditionalControls={
 					<>
 						<ColumnWidth

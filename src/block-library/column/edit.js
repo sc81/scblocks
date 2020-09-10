@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress dependencies
  */
 import {
@@ -6,7 +11,6 @@ import {
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import { useRef } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -24,9 +28,6 @@ import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, clientId } = props;
-
-	const columnRef = useRef();
-
 	const { devices, hasChildBlocks } = useSelect(
 		( store ) => {
 			return {
@@ -43,6 +44,13 @@ export default function Edit( props ) {
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	useDynamicCss( props, devices );
 
+	const classes = classnames( {
+		[ BLOCK_CLASSES.column.main ]: true,
+		[ attributes.uidClass ]: true,
+		[ BLOCK_CLASSES.column.col ]: true,
+		[ `${ attributes.cssClasses }` ]: '' !== attributes.cssClasses,
+	} );
+
 	return (
 		<>
 			<Inspector
@@ -50,10 +58,7 @@ export default function Edit( props ) {
 				blockMemo={ blockMemo }
 				devices={ devices }
 			/>
-			<Block.div
-				className={ `${ BLOCK_CLASSES.column.main } ${ attributes.uidClass } ${ BLOCK_CLASSES.column.col }` }
-				ref={ columnRef }
-			>
+			<Block.div className={ classes }>
 				<GoogleFontsLink attributes={ attributes } />
 				<InnerBlocks
 					templateLock={ false }

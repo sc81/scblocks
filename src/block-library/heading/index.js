@@ -21,6 +21,7 @@ export const settings = {
 	icon,
 	category: PLUGIN_NAME,
 	attributes: {
+		...SHARED_ATTRIBUTES.required,
 		tagName: {
 			type: 'string',
 			default: 'h2',
@@ -29,14 +30,6 @@ export const settings = {
 			type: 'string',
 			source: 'html',
 			selector: 'p,h1,h2,h3,h4,h5,h6',
-			default: '',
-		},
-		css: {
-			type: 'object',
-			default: {},
-		},
-		uidClass: {
-			type: 'string',
 			default: '',
 		},
 		icon: {
@@ -50,12 +43,15 @@ export const settings = {
 			default: false,
 		},
 		...SHARED_ATTRIBUTES.googleFonts,
+		...SHARED_ATTRIBUTES.id,
+		...SHARED_ATTRIBUTES.classes,
 	},
 	supports: {
-		anchor: true,
+		anchor: false,
 		html: false,
 		className: false,
 		lightBlockWrapper: true,
+		customClassName: false,
 	},
 	edit,
 	save,

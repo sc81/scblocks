@@ -30,7 +30,7 @@ import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;
-	const { uidClass } = attributes;
+	const { uidClass, cssClasses } = attributes;
 	const { devices, innerBlockCount, isRootContainer } = useSelect(
 		( select ) => {
 			const { getBlockCount, getBlockHierarchyRootClientId } = select(
@@ -68,6 +68,7 @@ export default function Edit( props ) {
 					[ BLOCK_CLASSES.container.main ]: true,
 					[ uidClass ]: true,
 					[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
+					[ `${ cssClasses }` ]: '' !== cssClasses,
 				} ) }
 			>
 				<GoogleFontsLink attributes={ attributes } />

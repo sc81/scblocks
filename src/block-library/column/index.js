@@ -22,14 +22,9 @@ export const settings = {
 	category: PLUGIN_NAME,
 	icon,
 	attributes: {
-		css: {
-			type: 'object',
-			default: {},
-		},
-		uidClass: {
-			type: 'string',
-			default: '',
-		},
+		...SHARED_ATTRIBUTES.required,
+		...SHARED_ATTRIBUTES.id,
+		...SHARED_ATTRIBUTES.classes,
 		tag: {
 			type: 'string',
 		},
@@ -41,6 +36,7 @@ export const settings = {
 		html: false,
 		className: false,
 		lightBlockWrapper: true,
+		customClassName: false,
 	},
 	edit,
 	save,

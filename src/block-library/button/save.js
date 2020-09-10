@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress dependencies
  */
 import { RichText } from '@wordpress/block-editor';
@@ -11,8 +16,8 @@ import { BLOCK_CLASSES } from '../../block/constants';
 
 const placeholder = __( 'Button', 'scblocks' );
 
-export default function Save( { attributes } ) {
-	const {
+export default function Save( {
+	attributes: {
 		url,
 		linkTarget,
 		rel,
@@ -20,11 +25,18 @@ export default function Save( { attributes } ) {
 		icon,
 		uidClass,
 		withoutText,
-	} = attributes;
-
+		elementId,
+		cssClasses,
+	},
+} ) {
 	return (
 		<a
-			className={ `${ BLOCK_CLASSES.button.main } ${ uidClass }` }
+			id={ !! elementId ? elementId : undefined }
+			className={ classnames( {
+				[ BLOCK_CLASSES.button.main ]: true,
+				[ uidClass ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ) }
 			href={ url }
 			target={ linkTarget }
 			rel={ rel }

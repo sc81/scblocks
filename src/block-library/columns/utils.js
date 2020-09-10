@@ -13,16 +13,7 @@ export const selectorsSettings = [
 		id: SELECTORS.blockMainSelectorAlias,
 		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {
-			border: {
-				border: {
-					selector: SELECTORS.columns.allColumnsContent.alias,
-				},
-			},
-			space: {
-				padding: {
-					selector: SELECTORS.columns.allColumnsContent.alias,
-				},
-			},
+			space: true,
 			flex: {
 				alignItems: true,
 				flexDirection: true,

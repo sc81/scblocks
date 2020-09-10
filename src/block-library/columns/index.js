@@ -12,6 +12,7 @@ import edit from './edit';
 import { variations } from './variations';
 import { COLUMNS_NAME } from './utils';
 import icon from './icon';
+import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 
 export const name = COLUMNS_NAME;
 
@@ -24,20 +25,15 @@ export const settings = {
 		'scblocks'
 	),
 	attributes: {
-		css: {
-			type: 'object',
-			default: {},
-		},
-		uidClass: {
-			type: 'string',
-			default: '',
-		},
+		...SHARED_ATTRIBUTES.required,
+		...SHARED_ATTRIBUTES.id,
+		...SHARED_ATTRIBUTES.classes,
 	},
 	supports: {
 		html: false,
 		className: false,
 		lightBlockWrapper: true,
-		align: [ 'wide', 'full' ],
+		customClassName: false,
 	},
 	edit,
 	save,

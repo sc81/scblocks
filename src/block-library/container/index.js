@@ -29,17 +29,12 @@ export const settings = {
 		__( 'group', 'scblocks' ),
 	],
 	attributes: {
-		css: {
-			type: 'object',
-			default: {},
-		},
+		...SHARED_ATTRIBUTES.required,
+		...SHARED_ATTRIBUTES.id,
+		...SHARED_ATTRIBUTES.classes,
 		tag: {
 			type: 'string',
 			default: 'div',
-		},
-		uidClass: {
-			type: 'string',
-			default: '',
 		},
 		isRootContainer: {
 			type: 'boolean',
@@ -52,6 +47,7 @@ export const settings = {
 		className: false,
 		html: false,
 		lightBlockWrapper: true,
+		customClassName: false,
 	},
 	edit,
 	save,

@@ -3,6 +3,7 @@
  */
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
+import { PanelBody } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -16,7 +17,7 @@ import {
 } from '../../utils';
 import NumberUnit from '../../components/number-unit';
 import { SELECTORS } from '../../block/constants';
-import Separator from '../../components/separator';
+import IdClassesControls from '../../block/id-classes-controls.js';
 
 const ALL_COLUMNS_SELECTOR_ALIAS = SELECTORS.columns.allColumns.alias;
 const ALL_COLUMNS_CONTENT_SELECTOR_ALIAS =
@@ -79,6 +80,14 @@ export default function Inspector( {
 				attributes={ attributes }
 				devices={ devices }
 				blockMemo={ blockMemo }
+				mainControls={
+					<PanelBody opened>
+						<IdClassesControls
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</PanelBody>
+				}
 				spacePanelAdditionalControls={
 					<>
 						<NumberUnit
@@ -89,7 +98,6 @@ export default function Inspector( {
 							units={ [ 'px' ] }
 							displayClearButton
 						/>
-						<Separator />
 						<NumberUnit
 							label={ __( 'Vertical gap' ) }
 							value={ verticalGap }
@@ -98,7 +106,6 @@ export default function Inspector( {
 							units={ [ 'px' ] }
 							displayClearButton
 						/>
-						<Separator />
 					</>
 				}
 			/>

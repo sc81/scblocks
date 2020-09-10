@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress dependencies
  */
 import { InnerBlocks } from '@wordpress/block-editor';
@@ -8,10 +13,17 @@ import { InnerBlocks } from '@wordpress/block-editor';
  */
 import { BLOCK_CLASSES } from '../../block/constants';
 
-export default function save( { attributes } ) {
+export default function save( {
+	attributes: { uidClass, elementId, cssClasses },
+} ) {
 	return (
 		<div
-			className={ `${ BLOCK_CLASSES.columns.main } ${ attributes.uidClass }` }
+			id={ !! elementId ? elementId : undefined }
+			className={ classnames( {
+				[ BLOCK_CLASSES.columns.main ]: true,
+				[ uidClass ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ) }
 		>
 			<InnerBlocks.Content />
 		</div>

@@ -14,7 +14,6 @@ export default function SelectHtmlTag( { value, onChange } ) {
 				{ value: 'div', label: 'div' },
 				{ value: 'header', label: 'header' },
 				{ value: 'footer', label: 'footer' },
-				{ value: 'nav', label: 'nav' },
 				{ value: 'article', label: 'article' },
 				{ value: 'section', label: 'section' },
 				{ value: 'aside', label: 'aside' },

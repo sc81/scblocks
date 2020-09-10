@@ -10,6 +10,7 @@ import ControlsManager from '../../components/controls-manager';
 import SelectHtmlTag from '../../components/select-html-tag';
 import { selectorsSettings } from './utils';
 import ContentWidth from './content-width';
+import IdClassesControls from '../../block/id-classes-controls.js';
 
 export default function Inspector( props ) {
 	const {
@@ -26,6 +27,7 @@ export default function Inspector( props ) {
 				selectorsSettings={ selectorsSettings }
 				mainControls={
 					<PanelBody opened>
+						<IdClassesControls { ...props } />
 						<SelectHtmlTag value={ tag } onChange={ setTag } />
 					</PanelBody>
 				}
