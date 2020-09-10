@@ -7,6 +7,8 @@
 }
 .#{$pluginName}-number-control-header {
 	margin-bottom: 5px;
+	display: flex;
+	align-items: center;
 
 	span {
 		margin-right: 8px;
