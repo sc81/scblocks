@@ -29,9 +29,6 @@ class Block_Css {
 	public $tablet_devices_max_width = '1024px';
 
 	/** @var string */
-	public $tablet_devices_min_width = '768px';
-
-	/** @var string */
 	public $mobile_devices_max_width = '767px';
 
 	/**
@@ -550,7 +547,7 @@ class Block_Css {
 		foreach ( $css as $device_type => $device_css ) {
 			if ( $device_css ) {
 				if ( self::TABLET_DEVICES === $device_type ) {
-					$css[ $device_type ] = '@media(min-width:' . $this->tablet_devices_min_width . ') and (max-width:' . $this->tablet_devices_max_width . '){' . $device_css . '}';
+					$css[ $device_type ] = '@media(max-width:' . $this->tablet_devices_max_width . '){' . $device_css . '}';
 				} elseif ( self::MOBILE_DEVICES === $device_type ) {
 					$css[ $device_type ] = '@media(max-width:' . $this->mobile_devices_max_width . '){' . $device_css . '}';
 				}
