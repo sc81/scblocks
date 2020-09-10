@@ -32,15 +32,6 @@ export const selectorsSettings = [
 			space: {
 				margin: true,
 				padding: true,
-				width: {
-					units: {
-						'%': {
-							min: 10,
-							max: 100,
-						},
-					},
-					selector: SELECTORS.blockMainSelectorAlias,
-				},
 				minHeight: true,
 			},
 			flex: {
