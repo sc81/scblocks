@@ -11,7 +11,7 @@ import { useState } from '@wordpress/element';
 import OpenColorPicker from '../../components/open-color-picker';
 import NumberUnit from '../../components/number-unit';
 import { PLUGIN_NAME } from '../../constants';
-import BindControlsSwitch from '../../components/bind-controls-switch';
+import SyncControls from '../../components/sync-controls';
 
 const labels = {
 	top: __( 'Top', 'scblocks' ),
@@ -205,10 +205,7 @@ export default function BorderControl( { border, onChange } ) {
 				onChange={ onChangeColor }
 			/>
 			<div>{ __( 'Border width', 'scblocks' ) }</div>
-			<BindControlsSwitch
-				value={ switchState }
-				onChange={ setSwitchState }
-			/>
+			<SyncControls value={ switchState } onChange={ setSwitchState } />
 			{ controls() }
 		</>
 	);

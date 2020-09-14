@@ -8,24 +8,6 @@
 	display: flex;
 	align-items: center;
 }
-.components-dropdown-menu.#{$pluginName}-dropdown-units {
-	padding: 0;
-	margin-left: 1px;
-
-	button {
-		padding: 0 3px;
-	}
-}
-.components-popover.#{$pluginName}-dropdown-units-popover .components-popover__content {
-	min-width: 70px;
-	width: 70px;
-
-	button {
-		display: block;
-		width: 100%;
-		padding: 5px;
-	}
-}
 .#{$pluginName}-number-unit-content {
 	display: flex;
 	justify-content: space-between;

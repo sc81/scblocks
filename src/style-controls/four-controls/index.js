@@ -8,9 +8,10 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import ControlWrapper from '../../components/control-wrapper';
-import NumberUnit from '../../components/number-unit';
+import NumberControl from '../../components/number-control';
 import { getPropValue, setPropsSettings } from '../../utils';
-import BindControlsSwitch from '../../components/bind-controls-switch';
+import SyncControls from '../../components/sync-controls';
+import DropdownUnits from '../../components/dropdown-units';
 import { PLUGIN_NAME } from '../../constants';
 
 const labels = {
@@ -57,83 +58,164 @@ function getLabel( position, propName ) {
 		? radiusLabels[ position ]
 		: labels[ position ];
 }
-function getUnitRangeStep( propName, min, max ) {
-	if ( min === undefined ) {
-		min = propName === 'margin' ? -100 : 0;
-	}
-	if ( max === undefined ) {
-		max = 1000;
-	}
-	return {
+
+const MIN_MAX_STEP = {
+	margin: {
 		px: {
-			min,
-			max,
+			min: -9999,
+			max: 9999,
+			step: 1,
 		},
 		'%': {
-			min,
-			max,
+			min: -1000,
+			max: 1000,
+			step: 1,
 		},
-	};
+		em: {
+			min: -1000,
+			max: 1000,
+			step: 0.1,
+		},
+	},
+	padding: {
+		px: {
+			min: 0,
+			max: 1000,
+			step: 1,
+		},
+		'%': {
+			min: 0,
+			max: 100,
+			step: 1,
+		},
+		em: {
+			min: 0,
+			max: 100,
+			step: 0.1,
+		},
+	},
+	borderRadius: {
+		px: {
+			min: 0,
+			max: 1000,
+			step: 1,
+		},
+		'%': {
+			min: 0,
+			max: 100,
+			step: 1,
+		},
+	},
+};
+
+function getMinMaxStep( propName, unit ) {
+	return MIN_MAX_STEP[ propName ][ unit ];
+}
+
+const UNITS = {
+	margin: [ 'px', 'em', '%' ],
+	padding: [ 'px', 'em', '%' ],
+	borderRadius: [ 'px', '%' ],
+};
+
+function getNumber( value ) {
+	if ( ! value ) {
+		return '';
+	}
+	return parseFloat( value, 10 );
+}
+
+function isNumber( value ) {
+	return ! ( ! value && 0 !== value );
+}
+
+function getUnit( value, number ) {
+	if ( ! isNumber( number ) ) {
+		return 'px';
+	}
+	return value.replace( number + '', '' );
 }
 
 export default function FourControls( props ) {
-	const {
-		attributes,
-		setAttributes,
-		selector,
-		devices,
-		propName,
-		min,
-		max,
-	} = props;
-	const [ switcheState, setSwitcheState ] = useState( 'one' );
+	const { attributes, setAttributes, selector, devices, propName } = props;
+	const [ syncControls, setSyncControls ] = useState( 'one' );
 
 	const short = getPropValue( { attributes, devices, selector, propName } );
-	let top = getPropValue( {
+
+	let top, right, bottom, left;
+	const incomingTop = getPropValue( {
 		attributes,
 		devices,
 		selector,
 		propName: propLongName( propName, 'top' ),
 	} );
-	let right = getPropValue( {
+	const incomingRight = getPropValue( {
 		attributes,
 		devices,
 		selector,
 		propName: propLongName( propName, 'right' ),
 	} );
-	let bottom = getPropValue( {
+	const incomingBottom = getPropValue( {
 		attributes,
 		devices,
 		selector,
 		propName: propLongName( propName, 'bottom' ),
 	} );
-	let left = getPropValue( {
+	const incomingLeft = getPropValue( {
 		attributes,
 		devices,
 		selector,
 		propName: propLongName( propName, 'left' ),
 	} );
-
 	if ( short ) {
 		const value = short.split( ' ' );
 		if ( value.length === 1 ) {
-			top = right = bottom = left = value[ 0 ];
+			top = right = bottom = left = getNumber( value[ 0 ] );
 		}
 		if ( value.length === 2 ) {
-			top = bottom = value[ 0 ];
-			right = left = value[ 1 ];
+			top = bottom = getNumber( value[ 0 ] );
+			right = left = getNumber( value[ 1 ] );
 		}
 		if ( value.length === 4 ) {
-			top = value[ 0 ];
-			right = value[ 1 ];
-			bottom = value[ 2 ];
-			left = value[ 3 ];
+			top = getNumber( value[ 0 ] );
+			right = getNumber( value[ 1 ] );
+			bottom = getNumber( value[ 2 ] );
+			left = getNumber( value[ 3 ] );
 		}
+	} else {
+		top = getNumber( incomingTop );
+		right = getNumber( incomingRight );
+		bottom = getNumber( incomingBottom );
+		left = getNumber( incomingLeft );
 	}
+	const [ unit, setUnit ] = useState( () => {
+		if ( short ) {
+			const value = short.split( ' ' );
+			return getUnit( value[ 0 ], top );
+		}
+		if ( top ) {
+			return getUnit( incomingTop, top );
+		}
+		if ( right ) {
+			return getUnit( incomingRight, right );
+		}
+		if ( bottom ) {
+			return getUnit( incomingBottom, bottom );
+		}
+		if ( left ) {
+			return getUnit( incomingLeft, left );
+		}
+		return 'px';
+	} );
 
 	function onChange( value, position ) {
+		if ( ! isNumber( value ) ) {
+			value = '';
+		} else {
+			value = value + '';
+		}
 		let nextState;
-		switch ( switcheState ) {
+		switch ( syncControls ) {
 			case 'one':
 				nextState = {
 					top,
@@ -185,17 +267,17 @@ export default function FourControls( props ) {
 				next.right === next.bottom &&
 				next.bottom === next.left
 			) {
-				nextShort = next.top;
+				nextShort = `${ next.top }${ unit }`;
 			} else if ( next.top === next.bottom && next.right === next.left ) {
-				nextShort = next.top + ' ' + next.right;
+				nextShort = `${ next.top }${ unit } ${ next.right }${ unit }`;
 			} else {
-				nextShort = `${ next.top } ${ next.right } ${ next.bottom } ${ next.left }`;
+				nextShort = `${ next.top }${ unit } ${ next.right }${ unit } ${ next.bottom }${ unit } ${ next.left }${ unit }`;
 			}
 		} else {
-			nextTop = next.top;
-			nextRight = next.right;
-			nextBottom = next.bottom;
-			nextLeft = next.left;
+			nextTop = next.top ? `${ next.top }${ unit }` : '';
+			nextRight = next.right ? `${ next.right }${ unit }` : '';
+			nextBottom = next.bottom ? `${ next.bottom }${ unit }` : '';
+			nextLeft = next.left ? `${ next.left }${ unit }` : '';
 		}
 		setPropsSettings( {
 			attributes,
@@ -226,58 +308,72 @@ export default function FourControls( props ) {
 			},
 		} );
 	}
+	function onChangeUnit( value ) {
+		setUnit( value );
+		onClear();
+	}
 
 	return (
 		<ControlWrapper
 			{ ...props }
 			label={ title[ propName ] }
-			displayClearButton={ short || top || right || bottom || left }
+			displayClearButton={
+				short ||
+				incomingTop ||
+				incomingRight ||
+				incomingBottom ||
+				incomingLeft
+			}
 			onClear={ onClear }
+			extraControls={
+				<DropdownUnits
+					units={ UNITS[ propName ] }
+					value={ unit }
+					onChangeUnit={ onChangeUnit }
+				/>
+			}
 		>
-			<BindControlsSwitch
-				value={ switcheState }
-				onChange={ setSwitcheState }
-			/>
+			<SyncControls value={ syncControls } onChange={ setSyncControls } />
 			<div className={ `${ PLUGIN_NAME }-four-controls-top` }>
-				<NumberUnit
+				<NumberControl
 					label={ getLabel( 'top', propName ) }
 					value={ top }
-					units={ [ 'px', '%' ] }
 					onChange={ ( value ) => onChange( value, 'top' ) }
-					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
 					withoutSelectDevices
-					withoutSlider
+					clearButton={ false }
+					hasSlider={ false }
+					{ ...getMinMaxStep( propName, unit ) }
 				/>
 			</div>
 			<div className={ `${ PLUGIN_NAME }-four-controls-left-right` }>
-				<NumberUnit
+				<NumberControl
 					label={ getLabel( 'left', propName ) }
 					value={ left }
-					units={ [ 'px', '%' ] }
 					onChange={ ( value ) => onChange( value, 'left' ) }
-					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
 					withoutSelectDevices
-					withoutSlider
+					clearButton={ false }
+					hasSlider={ false }
+					{ ...getMinMaxStep( propName, unit ) }
 				/>
-				<NumberUnit
+				<NumberControl
 					label={ getLabel( 'right', propName ) }
 					value={ right }
-					units={ [ 'px', '%' ] }
 					onChange={ ( value ) => onChange( value, 'right' ) }
-					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
 					withoutSelectDevices
-					withoutSlider
+					clearButton={ false }
+					hasSlider={ false }
+					{ ...getMinMaxStep( propName, unit ) }
 				/>
 			</div>
 			<div className={ `${ PLUGIN_NAME }-four-controls-bottom` }>
-				<NumberUnit
+				<NumberControl
 					label={ getLabel( 'bottom', propName ) }
 					value={ bottom }
-					units={ [ 'px', '%' ] }
 					onChange={ ( value ) => onChange( value, 'bottom' ) }
-					unitRangeStep={ getUnitRangeStep( propName, min, max ) }
 					withoutSelectDevices
-					withoutSlider
+					clearButton={ false }
+					hasSlider={ false }
+					{ ...getMinMaxStep( propName, unit ) }
 				/>
 			</div>
 		</ControlWrapper>

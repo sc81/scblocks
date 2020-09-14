@@ -10,9 +10,10 @@ export default function ControlWrapper( {
 	children,
 	withoutSelectDevices = false,
 	displayInline = false,
-	withoutHeader = false,
+	withoutHeader = false, // what is it for ??
 	displayClearButton = false,
 	onClear,
+	extraControls,
 } ) {
 	const additionalClass = displayInline ? ' display-inline' : '';
 	return (
@@ -21,10 +22,21 @@ export default function ControlWrapper( {
 		>
 			{ ! withoutHeader && (
 				<div className={ `${ PLUGIN_NAME }-control-wrapper-header` }>
-					<span>{ label }</span>
-					{ ! withoutSelectDevices && <SelectDevices /> }
-					{ displayClearButton && (
-						<ButtonClear onClear={ onClear } />
+					<div
+						className={ `${ PLUGIN_NAME }-control-wrapper-header-left` }
+					>
+						<span>{ label }</span>
+						{ ! withoutSelectDevices && <SelectDevices /> }
+						{ displayClearButton && (
+							<ButtonClear onClear={ onClear } />
+						) }
+					</div>
+					{ extraControls && (
+						<div
+							className={ `${ PLUGIN_NAME }-control-wrapper-header-right` }
+						>
+							{ extraControls }
+						</div>
 					) }
 				</div>
 			) }

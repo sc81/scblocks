@@ -14,8 +14,14 @@
 	}
 	.#{$pluginName}-control-wrapper-header {
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 10px;
+	}
+	.#{$pluginName}-control-wrapper-header-left {
+		display: flex;
+		align-items: center;
+		margin-right: 5px;
 
 		span {
 			margin-right: 5px;

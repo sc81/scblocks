@@ -5,7 +5,6 @@ import { merge } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { Button, NavigableMenu, Dropdown } from '@wordpress/components';
 import { useMemo, useState } from '@wordpress/element';
 
 /**
@@ -14,6 +13,7 @@ import { useMemo, useState } from '@wordpress/element';
 import { PLUGIN_NAME } from '../../constants';
 import SelectDevices from '../select-devices';
 import ButtonClear from '../button-clear';
+import DropdownUnits from '../dropdown-units';
 
 function getDefaultUnitRangeStep() {
 	return {
@@ -112,44 +112,11 @@ export default function NumberUnit( {
 					) }
 				</div>
 				<div className={ `${ PLUGIN_NAME }-number-unit-header-right` }>
-					{ units.length === 1 && <span>{ units[ 0 ] }</span> }
-					{ units.length > 1 && (
-						<Dropdown
-							className={ `components-dropdown-menu ${ PLUGIN_NAME }-dropdown-units` }
-							contentClassName={ `${ PLUGIN_NAME }-dropdown-units-popover` }
-							renderToggle={ ( { isOpen, onToggle } ) => (
-								<Button
-									isLink
-									onClick={ onToggle }
-									aria-expanded={ isOpen }
-								>
-									<span>{ unit }</span>
-								</Button>
-							) }
-							renderContent={ ( { onClose } ) => (
-								<NavigableMenu>
-									{ units.map( ( u ) => {
-										return (
-											<Button
-												key={ u }
-												className={ `components-dropdown-menu__menu-item${
-													u === unit
-														? ' is-active'
-														: ''
-												}` }
-												onClick={ () => {
-													onClose();
-													onChangeUnit( u );
-												} }
-											>
-												{ u }
-											</Button>
-										);
-									} ) }
-								</NavigableMenu>
-							) }
-						/>
-					) }
+					<DropdownUnits
+						units={ units }
+						value={ unit }
+						onChangeUnit={ onChangeUnit }
+					/>
 				</div>
 			</div>
 			<div className={ `${ PLUGIN_NAME }-number-unit-content` }>

@@ -9,9 +9,9 @@ import { __ } from '@wordpress/i18n';
  */
 import { PLUGIN_NAME } from '../../constants';
 
-export default function BindControlsSwitch( { value, onChange } ) {
+export default function SyncControls( { value, onChange } ) {
 	return (
-		<ButtonGroup className={ `${ PLUGIN_NAME }-bind-controls-switch` }>
+		<ButtonGroup className={ `${ PLUGIN_NAME }-sync-controls` }>
 			<Button
 				type="button"
 				isSmall

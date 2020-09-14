@@ -14,13 +14,16 @@ export default function NumberControl( {
 	onChange,
 	value,
 	hasSlider = true,
+	clearButton = true,
 } ) {
 	return (
 		<div className={ `${ PLUGIN_NAME }-number-control` }>
 			<div className={ `${ PLUGIN_NAME }-number-control-header` }>
 				<span>{ label }</span>
 				{ ! withoutSelectDevices && <SelectDevices /> }
-				{ !! value && <ButtonClear onClear={ () => onChange( '' ) } /> }
+				{ clearButton && !! value && (
+					<ButtonClear onClear={ () => onChange( '' ) } />
+				) }
 			</div>
 			<div className={ `${ PLUGIN_NAME }-number-control-content` }>
 				{ hasSlider && (
