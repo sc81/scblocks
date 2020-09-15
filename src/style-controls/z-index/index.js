@@ -15,7 +15,7 @@ const propName = 'zIndex';
 export default function Zindex( props ) {
 	let { selector } = props;
 	const zIndexSelector =
-		props.selectorSettings.allowedPanels.placement.zIndex.selector;
+		props.selectorSettings.allowedPanels.position.zIndex.selector;
 	selector =
 		( typeof zIndexSelector === 'string' && zIndexSelector ) || selector;
 

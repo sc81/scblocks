@@ -9,11 +9,11 @@ import Order from '../order';
 
 const placementProps = [ 'position', 'zIndex', 'visibility', 'order' ];
 
-export default function Placement( props ) {
+export default function PositionPanel( props ) {
 	const { position, zIndex, visibility, order } = usePanelActiveControl(
 		props.selectorSettings,
 		placementProps,
-		'placement'
+		'position'
 	);
 
 	return (

@@ -14,7 +14,7 @@ import Typography from './typography/index';
 import Space from './space/index';
 import ColorSet from './color-set';
 import BorderPanel from './border-panel';
-import Placement from './placement';
+import PositionPanel from './position-panel';
 import {
 	getLastActivePanel,
 	setLastActivePanel,
@@ -225,15 +225,15 @@ export default function Panels( props ) {
 					/>
 				</Panel>
 			) }
-			{ isVisiblePanel.placement && (
+			{ isVisiblePanel.position && (
 				<Panel
-					name="placement"
-					label={ __( 'Placement', 'scblocks' ) }
+					name="position"
+					label={ __( 'Position', 'scblocks' ) }
 					onClickPanel={ onClickPanel }
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
 				>
-					<Placement
+					<PositionPanel
 						{ ...props }
 						selectorSettings={ selectorsSettings[ index ] }
 					/>

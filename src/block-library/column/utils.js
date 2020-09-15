@@ -39,7 +39,7 @@ export const selectorsSettings = [
 				flexDirection: true,
 				justifyContent: true,
 			},
-			placement: {
+			position: {
 				order: {
 					selector: SELECTORS.blockMainSelectorAlias,
 				},

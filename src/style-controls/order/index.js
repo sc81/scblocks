@@ -12,7 +12,7 @@ import NumberControl from '../../components/number-control';
 export default function Order( props ) {
 	let { selector } = props;
 	const orderSelector =
-		props.selectorSettings.allowedPanels.placement.order.selector;
+		props.selectorSettings.allowedPanels.position.order.selector;
 	selector =
 		( typeof orderSelector === 'string' && orderSelector ) || selector;
 

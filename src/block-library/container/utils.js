@@ -24,7 +24,7 @@ export const selectorsSettings = [
 				},
 				minHeight: true,
 			},
-			placement: {
+			position: {
 				zIndex: true,
 			},
 		},
