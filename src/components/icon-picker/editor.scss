@@ -60,18 +60,3 @@
 .#{$pluginName}-icon-library-categories .components-radio-control__option {
 	margin-bottom: 20px;
 }
-.#{$pluginName}-icon-picker .components-base-control__field {
-	display: flex;
-	align-items: center;
-}
-.#{$pluginName}-icon-picker-button {
-	margin: 0 10px;
-
-	& > span {
-		display: inline-flex;
-
-		& > svg {
-			width: 20px;
-		}
-	}
-}

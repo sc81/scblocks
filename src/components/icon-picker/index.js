@@ -1,7 +1,12 @@
 /**
+ * External dependencies
+ */
+import dompurify from 'dompurify';
+
+/**
  * WordPress dependencies
  */
-import { Button, BaseControl } from '@wordpress/components';
+import { Button, TextControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
@@ -10,17 +15,15 @@ import { __ } from '@wordpress/i18n';
  */
 import IconLibrary from './icon-library';
 import { PLUGIN_NAME } from '../../constants';
-import ButtonClear from '../button-clear';
+import ControlWrapper from '../../components/control-wrapper';
 
-const buttonLabel = __( 'Icon Library', 'scblocks' );
-const defaultLabel = __( 'Icon', 'scblocks' );
+function sanitizeSVG( svg ) {
+	return dompurify.sanitize( svg, {
+		USE_PROFILES: { svg: true, svgFilters: true },
+	} );
+}
 
-export default function IconPicker( {
-	icon,
-	onSelect,
-	onClear,
-	label = defaultLabel,
-} ) {
+export default function IconPicker( { icon, onSelect, onClear } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 
 	function onSelectIcon( nextIcon ) {
@@ -28,28 +31,33 @@ export default function IconPicker( {
 		setIsOpen( false );
 	}
 	return (
-		<BaseControl className={ `${ PLUGIN_NAME }-icon-picker` }>
-			<BaseControl.VisualLabel>{ label }</BaseControl.VisualLabel>
+		<ControlWrapper
+			label={ __( 'Icon SVG HTML', 'scblocks' ) }
+			withoutSelectDevices
+			displayClearButton={ !! icon }
+			onClear={ onClear }
+		>
+			<TextControl
+				value={ icon }
+				onChange={ ( value ) => onSelectIcon( sanitizeSVG( value ) ) }
+				help={ __(
+					'Paste the icon here or choose from the Icon Library',
+					'scblocks'
+				) }
+			/>
 			<Button
 				isSecondary
 				className={ `${ PLUGIN_NAME }-icon-picker-button` }
 				onClick={ () => setIsOpen( true ) }
-				label={ !! icon && buttonLabel }
-				showTooltip={ !! icon }
 			>
-				{ ! icon && buttonLabel }
-				{ !! icon && (
-					<span dangerouslySetInnerHTML={ { __html: icon } } />
-				) }
+				{ __( 'Icon Library', 'scblocks' ) }
 			</Button>
-			{ !! icon && <ButtonClear onClear={ onClear } /> }
-
 			{ isOpen && (
 				<IconLibrary
 					onSelectIcon={ onSelectIcon }
 					onRequestClose={ () => setIsOpen( false ) }
 				/>
 			) }
-		</BaseControl>
+		</ControlWrapper>
 	);
 }
