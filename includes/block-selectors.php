@@ -4,6 +4,8 @@ namespace ScBlocks;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+const BLOCK_MAIN_SELECTOR_ALIAS       = 'main';
+const BLOCK_MAIN_SELECTOR_HOVER_ALIAS = 'main:hover';
 
 const BLOCK_SELECTORS = array(
 	'button'         => array(

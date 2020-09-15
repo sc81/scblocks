@@ -9,7 +9,7 @@ import { useState } from '@wordpress/element';
  */
 import ControlWrapper from '../../components/control-wrapper';
 import NumberControl from '../../components/number-control';
-import { getPropValue, setPropsSettings } from '../../utils';
+import { getPropValue, setPropsValue } from '../../utils';
 import SyncControls from '../../components/sync-controls';
 import DropdownUnits from '../../components/dropdown-units';
 import { PLUGIN_NAME } from '../../constants';
@@ -279,7 +279,7 @@ export default function FourControls( props ) {
 			nextBottom = next.bottom ? `${ next.bottom }${ unit }` : '';
 			nextLeft = next.left ? `${ next.left }${ unit }` : '';
 		}
-		setPropsSettings( {
+		setPropsValue( {
 			attributes,
 			setAttributes,
 			devices,
@@ -294,7 +294,7 @@ export default function FourControls( props ) {
 		} );
 	}
 	function onClear() {
-		setPropsSettings( {
+		setPropsValue( {
 			attributes,
 			setAttributes,
 			devices,

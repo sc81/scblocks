@@ -579,13 +579,10 @@ class Block_Css {
 			$block_selector = '.scb-' . $block_name . $uid_selector . $additional_selector;
 		}
 
-		foreach ( $selectors as $selector_alias => $selector_state ) {
-			if ( empty( $selector_state['props'] ) ) {
-				continue;
-			}
-			if ( 'selector' === $selector_alias ) {
+		foreach ( $selectors as $selector_alias => $selector_props ) {
+			if ( BLOCK_MAIN_SELECTOR_ALIAS === $selector_alias ) {
 				$final_selector = $block_selector;
-			} elseif ( 'selector:hover' === $selector_alias ) {
+			} elseif ( BLOCK_MAIN_SELECTOR_HOVER_ALIAS === $selector_alias ) {
 				$final_selector = $block_selector . ':hover';
 			} else {
 				$next_selector = BLOCK_SELECTORS[ $block_name ][ $selector_alias ];
@@ -595,7 +592,7 @@ class Block_Css {
 					$final_selector = $block_selector . ' ' . $next_selector;
 				}
 			}
-			$css .= $final_selector . '{' . $this->compose_props( $selector_state['props'] ) . '}';
+			$css .= $final_selector . '{' . $this->compose_props( $selector_props ) . '}';
 		}
 		return $css;
 	}

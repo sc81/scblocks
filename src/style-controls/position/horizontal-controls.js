@@ -9,11 +9,7 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import { PLUGIN_NAME } from '../../constants';
-import {
-	getPropertiesValue,
-	setPropValue,
-	setPropsSettings,
-} from '../../utils';
+import { getPropertiesValue, setPropValue, setPropsValue } from '../../utils';
 import NumberUnit from '../../components/number-unit';
 
 export function HorizontalControls( {
@@ -38,7 +34,7 @@ export function HorizontalControls( {
 
 	function onClickButton( value ) {
 		setStartingEdge( value );
-		setPropsSettings( {
+		setPropsValue( {
 			attributes,
 			setAttributes,
 			devices,

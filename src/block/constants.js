@@ -29,8 +29,8 @@ export const BLOCK_CLASSES = {
 	},
 };
 export const SELECTORS = {
-	blockMainSelectorAlias: 'selector',
-	blockMainSelectorHoverAlias: 'selector:hover',
+	blockMainSelectorAlias: 'main',
+	blockMainSelectorHoverAlias: 'main:hover',
 	button: {
 		text: {
 			selector: '.scb-button-text',

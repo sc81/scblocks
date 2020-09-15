@@ -56,12 +56,9 @@ function composeSelectors( selectorsObj, blockName, uidClass ) {
 	}
 
 	for ( const selectorAlias in selectorsObj ) {
-		if ( ! selectorsObj[ selectorAlias ].props ) {
-			continue;
-		}
-		if ( selectorAlias === 'selector' ) {
+		if ( selectorAlias === SELECTORS.blockMainSelectorAlias ) {
 			finalSelector = leadingSelector;
-		} else if ( selectorAlias === 'selector:hover' ) {
+		} else if ( selectorAlias === SELECTORS.blockMainSelectorHoverAlias ) {
 			finalSelector = leadingSelector + ':hover';
 		} else {
 			const nextSelector =
@@ -77,7 +74,7 @@ function composeSelectors( selectorsObj, blockName, uidClass ) {
 		}
 
 		css += `${ finalSelector }{${ composePropValue(
-			selectorsObj[ selectorAlias ].props
+			selectorsObj[ selectorAlias ]
 		) }}`;
 	}
 	return css;

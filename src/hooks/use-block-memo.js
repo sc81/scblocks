@@ -33,6 +33,30 @@ export function setLastActivePanel( blockMemo, panelName, value ) {
 	};
 }
 
+export function setMemoBackgroundImageId( blockMemo, device, id ) {
+	if ( ! blockMemo.current.backgroundImageIds && ! id ) {
+		return;
+	}
+	if ( ! blockMemo.current.backgroundImageIds ) {
+		blockMemo.current.backgroundImageIds = {};
+	}
+	if ( id ) {
+		blockMemo.current.backgroundImageIds = {
+			...blockMemo.current.backgroundImageIds,
+			[ device ]: id,
+		};
+	} else {
+		delete blockMemo.current.backgroundImageIds[ device ];
+	}
+}
+
+export function getMemoBackgroundImageIds( blockMemo ) {
+	if ( blockMemo.current.backgroundImageIds ) {
+		return cloneDeep( blockMemo.current.backgroundImageIds );
+	}
+	return null;
+}
+
 export function useBlockMemo( attributes, selectorsSettings ) {
 	const blockMemo = useRef( null );
 
@@ -40,6 +64,9 @@ export function useBlockMemo( attributes, selectorsSettings ) {
 		blockMemo.current = {};
 		blockMemo.current.initial = { css: cloneDeep( attributes.css ) };
 		blockMemo.current.dynamic = { css: cloneDeep( attributes.css ) };
+		blockMemo.current.backgroundImageIds = cloneDeep(
+			attributes.backgroundImageIds
+		);
 
 		const obj = {
 			tabPanel: 'main',

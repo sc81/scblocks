@@ -8,6 +8,10 @@ export const SHARED_ATTRIBUTES = {
 			type: 'string',
 			default: '',
 		},
+		backgroundImageIds: {
+			type: 'object',
+			default: '',
+		},
 	},
 	googleFonts: {
 		fontFamily: {

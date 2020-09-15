@@ -4,25 +4,12 @@
 import { produce } from 'immer';
 import { isEmpty } from 'lodash';
 
-function isEmptySetting( value ) {
-	if ( typeof value === 'number' || typeof value === 'boolean' ) {
-		return false;
-	}
-	return isEmpty( value );
-}
-
-function setSelectorInitialStateIfAny( css, devices, selector, initSettings ) {
+function setSelectorInitialStateIfAny( css, devices, selector ) {
 	if ( ! css[ devices ] ) {
 		css[ devices ] = {};
 	}
 	if ( ! css[ devices ][ selector ] ) {
-		css[ devices ][ selector ] = {};
-	}
-	if ( ! css[ devices ][ selector ].props ) {
-		css[ devices ][ selector ].props = [];
-	}
-	if ( initSettings && ! css[ devices ][ selector ].settings ) {
-		css[ devices ][ selector ].settings = {};
+		css[ devices ][ selector ] = [];
 	}
 }
 
@@ -36,12 +23,8 @@ function extractValue( text ) {
 }
 
 export function getPropValue( { attributes, devices, selector, propName } ) {
-	if (
-		attributes.css[ devices ] &&
-		attributes.css[ devices ][ selector ] &&
-		attributes.css[ devices ][ selector ].props
-	) {
-		const selectorProps = attributes.css[ devices ][ selector ].props;
+	if ( attributes.css[ devices ] && attributes.css[ devices ][ selector ] ) {
+		const selectorProps = attributes.css[ devices ][ selector ];
 		const index = getPropIndex( selectorProps, propName );
 
 		return index > -1 ? extractValue( selectorProps[ index ] ) : '';
@@ -56,54 +39,13 @@ export function getPropertiesValue( obj ) {
 	} );
 	return props;
 }
-export function getSelectorPropsSettings( props ) {
-	return {
-		properties: getPropertiesValue( props ),
-		settings: getSelectorSettings( props ),
-	};
-}
-export function getSelectorPropsSettingsForAllDevices( props ) {
+
+export function getPropsForEveryDevice( props ) {
 	const properties = {};
-	const settingsObj = {};
 	for ( const devices in props.attributes.css ) {
 		properties[ devices ] = getPropertiesValue( { ...props, devices } );
-		settingsObj[ devices ] = getSelectorSettings( { ...props, devices } );
 	}
-	return { properties, settings: settingsObj };
-}
-export function getSelectorSettings( props ) {
-	const obj = {};
-	props.settings.forEach( ( propName ) => {
-		obj[ propName ] = getSelectorSetting( { ...props, propName } );
-	} );
-	return obj;
-}
-export function getSelectorSetting( {
-	attributes,
-	devices,
-	selector,
-	propName,
-} ) {
-	if (
-		! attributes.css[ devices ] ||
-		! attributes.css[ devices ][ selector ] ||
-		! attributes.css[ devices ][ selector ].settings ||
-		! attributes.css[ devices ][ selector ].settings[ propName ]
-	) {
-		return null;
-	}
-	const setting = attributes.css[ devices ][ selector ].settings[ propName ];
-	if (
-		typeof setting === 'string' ||
-		typeof setting === 'number' ||
-		typeof setting === 'boolean'
-	) {
-		return setting;
-	}
-	if ( Array.isArray( setting ) ) {
-		return [ ...setting ];
-	}
-	return { ...setting };
+	return properties;
 }
 
 export function setPropValue( {
@@ -132,12 +74,12 @@ export function setPropValue( {
 }
 
 function setProp( selectorState, propName, value ) {
-	const index = getPropIndex( selectorState.props, propName );
+	const index = getPropIndex( selectorState, propName );
 
 	if ( index > -1 ) {
-		selectorState.props[ index ] = `${ propName }:${ value }`;
+		selectorState[ index ] = `${ propName }:${ value }`;
 	} else {
-		selectorState.props.push( `${ propName }:${ value }` );
+		selectorState.push( `${ propName }:${ value }` );
 	}
 }
 function removeProperty( {
@@ -150,11 +92,7 @@ function removeProperty( {
 	if (
 		! attributes.css[ devices ] ||
 		! attributes.css[ devices ][ selector ] ||
-		! attributes.css[ devices ][ selector ].props ||
-		getPropIndex(
-			attributes.css[ devices ][ selector ].props,
-			propName
-		) === -1
+		getPropIndex( attributes.css[ devices ][ selector ], propName ) === -1
 	) {
 		return;
 	}
@@ -166,132 +104,45 @@ function removeProperty( {
 	setAttributes( { css } );
 }
 function removeProp( selectorState, propName ) {
-	const index = getPropIndex( selectorState.props, propName );
+	const index = getPropIndex( selectorState, propName );
 	if ( index > -1 ) {
-		selectorState.props.splice( index, 1 );
-		removeSettingIfAny( selectorState.settings, propName );
+		selectorState.splice( index, 1 );
 	}
 }
 
-function removeSettingIfAny( settings, prop ) {
-	if ( settings ) {
-		delete settings[ prop ];
-	}
-}
-
-export function removePropsAndSettings( {
+export function setPropsForVariousDevices( {
 	selector,
-	devices,
-	attributes,
-	setAttributes,
-	props,
-	settings,
-} ) {
-	if (
-		! attributes.css[ devices ] ||
-		! attributes.css[ devices ][ selector ] ||
-		! attributes.css[ devices ][ selector ].props
-	) {
-		return;
-	}
-	const css = produce( attributes.css, ( draft ) => {
-		if ( props ) {
-			const selectorProps = draft[ devices ][ selector ].props;
-			let index;
-			props.forEach( ( prop ) => {
-				index = getPropIndex( selectorProps, prop );
-				if ( index > -1 ) {
-					selectorProps.splice( index, 1 );
-				}
-			} );
-		}
-		if ( settings ) {
-			settings.forEach( ( s ) =>
-				removeSettingIfAny( draft[ devices ][ selector ].settings, s )
-			);
-		}
-
-		removeParentsIfAny( draft, devices, selector );
-	} );
-
-	setAttributes( { css } );
-}
-export function setSelectorsPropsForVariousDevices( {
 	attributes,
 	setAttributes,
 	props = null,
+	everyDeviceProps = null,
 } ) {
 	const css = produce( attributes.css, ( draft ) => {
+		if ( everyDeviceProps ) {
+			for ( const devices in draft ) {
+				setSelectorInitialStateIfAny( draft, devices, selector );
+				for ( const prop in everyDeviceProps ) {
+					if ( everyDeviceProps[ prop ] ) {
+						setProp(
+							draft[ devices ][ selector ],
+							prop,
+							everyDeviceProps[ prop ]
+						);
+					} else {
+						removeProp( draft[ devices ][ selector ], prop );
+					}
+				}
+				removeParentsIfAny( draft, devices, selector );
+			}
+		}
 		for ( const devices in props ) {
-			for ( const selector in props[ devices ] ) {
-				setSelectorInitialStateIfAny( draft, devices, selector );
-				for ( const prop in props[ devices ][ selector ] ) {
-					if ( props[ devices ][ selector ][ prop ] ) {
-						setProp(
-							draft[ devices ][ selector ],
-							prop,
-							props[ devices ][ selector ][ prop ]
-						);
-					} else {
-						removeProp( draft[ devices ][ selector ], prop );
-					}
-				}
-				removeParentsIfAny( draft, devices, selector );
-			}
-		}
-	} );
-
-	setAttributes( { css } );
-}
-export function setPropsSettingsForVariousDevices( {
-	selector,
-	attributes,
-	setAttributes,
-	devicesProps = null,
-	devicesSettings = null,
-	allDevicesProps = null,
-	allDevicesSettings = null,
-} ) {
-	const css = produce( attributes.css, ( draft ) => {
-		if ( allDevicesProps ) {
-			for ( const devices in draft ) {
-				setSelectorInitialStateIfAny( draft, devices, selector );
-				for ( const prop in allDevicesProps ) {
-					if ( allDevicesProps[ prop ] ) {
-						setProp(
-							draft[ devices ][ selector ],
-							prop,
-							allDevicesProps[ prop ]
-						);
-					} else {
-						removeProp( draft[ devices ][ selector ], prop );
-					}
-				}
-				removeParentsIfAny( draft, devices, selector );
-			}
-		}
-		if ( allDevicesSettings ) {
-			for ( const devices in draft ) {
-				setSelectorInitialStateIfAny( draft, devices, selector, true );
-				for ( const setting in allDevicesSettings ) {
-					if ( allDevicesSettings[ setting ] ) {
-						draft[ devices ][ selector ].settings[ setting ] =
-							allDevicesSettings[ setting ];
-					} else {
-						delete draft[ devices ][ selector ].settings[ setting ];
-					}
-				}
-				removeParentsIfAny( draft, devices, selector );
-			}
-		}
-		for ( const devices in devicesProps ) {
 			setSelectorInitialStateIfAny( draft, devices, selector );
-			for ( const prop in devicesProps[ devices ] ) {
-				if ( devicesProps[ devices ][ prop ] ) {
+			for ( const prop in props[ devices ] ) {
+				if ( props[ devices ][ prop ] ) {
 					setProp(
 						draft[ devices ][ selector ],
 						prop,
-						devicesProps[ devices ][ prop ]
+						props[ devices ][ prop ]
 					);
 				} else {
 					removeProp( draft[ devices ][ selector ], prop );
@@ -299,33 +150,19 @@ export function setPropsSettingsForVariousDevices( {
 			}
 			removeParentsIfAny( draft, devices, selector );
 		}
-		for ( const m in devicesSettings ) {
-			setSelectorInitialStateIfAny( draft, m, selector, true );
-
-			for ( const setting in devicesSettings[ m ] ) {
-				if ( ! isEmptySetting( devicesSettings[ m ][ setting ] ) ) {
-					draft[ m ][ selector ].settings[ setting ] =
-						devicesSettings[ m ][ setting ];
-				} else {
-					delete draft[ m ][ selector ].settings[ setting ];
-				}
-			}
-			removeParentsIfAny( draft, m, selector );
-		}
 	} );
 
 	setAttributes( { css } );
 }
-export function setPropsSettings( {
+export function setPropsValue( {
 	selector,
 	devices,
 	attributes,
 	setAttributes,
 	props,
-	settings = null,
 } ) {
 	const css = produce( attributes.css, ( draft ) => {
-		setSelectorInitialStateIfAny( draft, devices, selector, true );
+		setSelectorInitialStateIfAny( draft, devices, selector );
 
 		for ( const prop in props ) {
 			if ( props[ prop ] ) {
@@ -334,35 +171,27 @@ export function setPropsSettings( {
 				removeProp( draft[ devices ][ selector ], prop );
 			}
 		}
-		for ( const s in settings ) {
-			if ( settings[ s ] ) {
-				draft[ devices ][ selector ].settings[ s ] = settings[ s ];
-			} else {
-				delete draft[ devices ][ selector ].settings[ s ];
-			}
-		}
 		removeParentsIfAny( draft, devices, selector );
 	} );
 
 	setAttributes( { css } );
 }
-export function setPropsSettingsForVariousSelectors( {
+export function setPropsForVariousSelectors( {
 	attributes,
 	setAttributes,
 	devices,
-	selectorsProps = null,
-	selectorsSettings = null,
+	props = null,
 } ) {
 	const css = produce( attributes.css, ( draft ) => {
-		for ( const selector in selectorsProps ) {
+		for ( const selector in props ) {
 			setSelectorInitialStateIfAny( draft, devices, selector );
 
-			for ( const prop in selectorsProps[ selector ] ) {
-				if ( selectorsProps[ selector ][ prop ] ) {
+			for ( const prop in props[ selector ] ) {
+				if ( props[ selector ][ prop ] ) {
 					setProp(
 						draft[ devices ][ selector ],
 						prop,
-						selectorsProps[ selector ][ prop ]
+						props[ selector ][ prop ]
 					);
 				} else {
 					removeProp( draft[ devices ][ selector ], prop );
@@ -370,69 +199,6 @@ export function setPropsSettingsForVariousSelectors( {
 			}
 			removeParentsIfAny( draft, devices, selector );
 		}
-		for ( const selector in selectorsSettings ) {
-			setSelectorInitialStateIfAny( draft, devices, selector, true );
-
-			for ( const prop in selectorsSettings[ selector ] ) {
-				if ( selectorsSettings[ selector ][ prop ] ) {
-					draft[ devices ][ selector ].settings[ prop ] =
-						selectorsSettings[ selector ][ prop ];
-				} else {
-					delete draft[ devices ][ selector ].settings[ prop ];
-				}
-			}
-
-			removeParentsIfAny( draft, devices, selector );
-		}
-	} );
-
-	setAttributes( { css } );
-}
-export function setSelectorSettings( {
-	selector,
-	devices,
-	attributes,
-	setAttributes,
-	propName,
-	value,
-} ) {
-	if ( ! value ) {
-		removeSelectorSettings( {
-			selector,
-			devices,
-			propName,
-			attributes,
-			setAttributes,
-		} );
-		return;
-	}
-	const css = produce( attributes.css, ( draft ) => {
-		setSelectorInitialStateIfAny( draft, devices, selector, true );
-
-		draft[ devices ][ selector ].settings[ propName ] = value;
-	} );
-
-	setAttributes( { css } );
-}
-function removeSelectorSettings( {
-	selector,
-	devices,
-	propName,
-	attributes,
-	setAttributes,
-} ) {
-	if (
-		! attributes.css[ devices ] ||
-		! attributes.css[ devices ][ selector ] ||
-		! attributes.css[ devices ][ selector ].settings ||
-		! attributes.css[ devices ][ selector ].settings[ propName ]
-	) {
-		return;
-	}
-	const css = produce( attributes.css, ( draft ) => {
-		delete draft[ devices ][ selector ].settings[ propName ];
-
-		removeParentsIfAny( draft, devices, selector );
 	} );
 
 	setAttributes( { css } );
@@ -469,13 +235,7 @@ export function removeSelectors( {
 	setAttributes( { css } );
 }
 function removeParentsIfAny( css, devices, selector ) {
-	if ( isEmpty( css[ devices ][ selector ].settings ) ) {
-		delete css[ devices ][ selector ].settings;
-	}
-	if ( ! css[ devices ][ selector ].props.length ) {
-		delete css[ devices ][ selector ].props;
-	}
-	if ( isEmpty( css[ devices ][ selector ] ) ) {
+	if ( ! css[ devices ][ selector ].length ) {
 		delete css[ devices ][ selector ];
 	}
 	if ( isEmpty( css[ devices ] ) ) {

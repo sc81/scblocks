@@ -7,10 +7,7 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import BorderControl from '../border-control';
-import {
-	getPropertiesValue,
-	setPropsSettingsForVariousDevices,
-} from '../../utils';
+import { getPropertiesValue, setPropsForVariousDevices } from '../../utils';
 import ControlWrapper from '../../components/control-wrapper';
 import { ALL_DEVICES } from '../../constants';
 
@@ -39,11 +36,11 @@ export default function Border( props ) {
 	const border = { ...widths, ...colorStyle };
 
 	function onChange( value ) {
-		setPropsSettingsForVariousDevices( {
+		setPropsForVariousDevices( {
 			attributes,
 			setAttributes,
 			selector,
-			devicesProps: {
+			props: {
 				[ ALL_DEVICES ]: {
 					borderColor: value.borderColor,
 					borderStyle: value.borderStyle,
@@ -59,11 +56,11 @@ export default function Border( props ) {
 		} );
 	}
 	function onClear() {
-		setPropsSettingsForVariousDevices( {
+		setPropsForVariousDevices( {
 			attributes,
 			setAttributes,
 			selector,
-			devicesProps: {
+			props: {
 				[ ALL_DEVICES ]: {
 					borderColor: '',
 					borderStyle: '',

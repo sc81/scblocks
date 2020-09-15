@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import { isEmpty } from 'lodash';
+
+/**
  * WordPress dependencies
  */
 import { Button } from '@wordpress/components';
@@ -8,11 +13,7 @@ import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 /**
  * Internal dependencies
  */
-import {
-	setPropsSettings,
-	getSelectorSetting,
-	getPropValue,
-} from '../../utils';
+import { setPropsValue, getPropValue } from '../../utils';
 import { PLUGIN_NAME } from '../../constants';
 import { names } from './constants';
 import Position from './position';
@@ -20,20 +21,22 @@ import Size from './size';
 import Repeat from './repeat';
 import Attachment from './attachment';
 import ControlWrapper from '../../components/control-wrapper';
-import { setCssMemoValue } from '../../hooks/use-block-memo';
+import {
+	setCssMemoValue,
+	setMemoBackgroundImageId,
+} from '../../hooks/use-block-memo';
 import retriveUrl from './utils';
 
 const propName = names.image;
 
 export default function Image( props ) {
 	const { attributes, setAttributes, devices, selector, blockMemo } = props;
+	const { backgroundImageIds } = attributes;
+	const id =
+		backgroundImageIds && backgroundImageIds[ devices ]
+			? backgroundImageIds[ devices ]
+			: -1;
 
-	const id = getSelectorSetting( {
-		attributes,
-		devices,
-		selector,
-		propName,
-	} );
 	const backgroundImage = getPropValue( {
 		attributes,
 		devices,
@@ -48,16 +51,14 @@ export default function Image( props ) {
 		}
 		const nextUrl = `url(${ media.url })`;
 
-		setCssMemoValue( blockMemo, setPropsSettings, {
+		setCssMemoValue( blockMemo, setPropsValue, {
 			devices,
 			selector,
 			props: { backgroundImage: nextUrl },
-			settings: {
-				backgroundImage: media.id,
-			},
 		} );
+		setMemoBackgroundImageId( blockMemo, devices, media.id );
 
-		setPropsSettings( {
+		setPropsValue( {
 			selector,
 			devices,
 			attributes,
@@ -65,13 +66,24 @@ export default function Image( props ) {
 			props: {
 				backgroundImage: nextUrl,
 			},
-			settings: {
-				backgroundImage: media.id,
-			},
+		} );
+		let nextIds;
+		if ( backgroundImageIds ) {
+			nextIds = {
+				...backgroundImageIds,
+				[ devices ]: media.id,
+			};
+		} else {
+			nextIds = {
+				[ devices ]: media.id,
+			};
+		}
+		setAttributes( {
+			backgroundImageIds: nextIds,
 		} );
 	}
 	function onRemoveImage() {
-		setCssMemoValue( blockMemo, setPropsSettings, {
+		setCssMemoValue( blockMemo, setPropsValue, {
 			devices,
 			selector,
 			props: {
@@ -82,12 +94,10 @@ export default function Image( props ) {
 				backgroundImage: '',
 				opacity: '',
 			},
-			settings: {
-				backgroundImage: null,
-			},
 		} );
+		setMemoBackgroundImageId( blockMemo, devices, '' );
 
-		setPropsSettings( {
+		setPropsValue( {
 			attributes,
 			setAttributes,
 			devices,
@@ -100,9 +110,14 @@ export default function Image( props ) {
 				backgroundImage: '',
 				opacity: '',
 			},
-			settings: {
-				backgroundImage: null,
-			},
+		} );
+		let nextIds = { ...backgroundImageIds };
+		delete nextIds[ devices ];
+		if ( isEmpty( nextIds ) ) {
+			nextIds = null;
+		}
+		setAttributes( {
+			backgroundImageIds: nextIds,
 		} );
 	}
 
@@ -114,7 +129,7 @@ export default function Image( props ) {
 						<MediaUpload
 							onSelect={ onSelectMedia }
 							allowedTypes={ [ 'image' ] }
-							value={ id || -1 }
+							value={ id }
 							render={ ( { open } ) => (
 								<Button
 									isSecondary

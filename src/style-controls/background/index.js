@@ -7,9 +7,9 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import {
-	setPropsSettingsForVariousDevices,
+	setPropsForVariousDevices,
 	getPropValue,
-	getSelectorPropsSettingsForAllDevices,
+	getPropsForEveryDevice,
 } from '../../utils';
 import {
 	names,
@@ -23,7 +23,10 @@ import SelectBackgroundType from './select-background-type';
 import Image from './image';
 import Gradient from './gradient';
 import Color from '../color';
-import { getCssMemoValue } from '../../hooks/use-block-memo';
+import {
+	getMemoBackgroundImageIds,
+	getCssMemoValue,
+} from '../../hooks/use-block-memo';
 import retriveUrl from './utils';
 
 export default function Normal( props ) {
@@ -55,10 +58,10 @@ export default function Normal( props ) {
 		setBgType( value );
 
 		if ( value === IMAGE_BACKGROUND_TYPE ) {
-			const { properties, settings } = getCssMemoValue(
+			const properties = getCssMemoValue(
 				blockMemo,
 				'dynamic',
-				getSelectorPropsSettingsForAllDevices,
+				getPropsForEveryDevice,
 				{
 					selector,
 					props: [
@@ -69,24 +72,22 @@ export default function Normal( props ) {
 						names.attachment,
 						names.opacity,
 					],
-					settings: [ names.image ],
 				}
 			);
 			// don't set a gradient
 			if ( properties[ ALL_DEVICES ] ) {
 				properties[ ALL_DEVICES ][ names.image ] = '';
 			}
-			setPropsSettingsForVariousDevices( {
+			setPropsForVariousDevices( {
 				attributes,
 				setAttributes,
 				selector,
-				devicesProps: {
+				props: {
 					...properties,
 				},
-				devicesSettings: {
-					...settings,
-				},
 			} );
+			const ids = getMemoBackgroundImageIds( blockMemo );
+			setAttributes( { backgroundImageIds: ids } );
 		} else if ( value === GRADIENT_BACKGROUND_TYPE ) {
 			const backgroundImage = getCssMemoValue(
 				blockMemo,
@@ -99,16 +100,16 @@ export default function Normal( props ) {
 				}
 			);
 
-			setPropsSettingsForVariousDevices( {
+			setPropsForVariousDevices( {
 				attributes,
 				setAttributes,
 				selector,
-				devicesProps: {
+				props: {
 					[ ALL_DEVICES ]: {
 						backgroundImage,
 					},
 				},
-				allDevicesProps: {
+				everyDeviceProps: {
 					[ names.image ]: '',
 					[ names.size ]: '',
 					[ names.repeat ]: '',
@@ -117,12 +118,13 @@ export default function Normal( props ) {
 					[ names.opacity ]: '',
 				},
 			} );
+			setAttributes( { backgroundImageIds: null } );
 		} else {
-			setPropsSettingsForVariousDevices( {
+			setPropsForVariousDevices( {
 				attributes,
 				setAttributes,
 				selector,
-				allDevicesProps: {
+				everyDeviceProps: {
 					[ names.image ]: '',
 					[ names.size ]: '',
 					[ names.repeat ]: '',
@@ -130,10 +132,8 @@ export default function Normal( props ) {
 					[ names.attachment ]: '',
 					[ names.opacity ]: '',
 				},
-				allDevicesSettings: {
-					[ names.image ]: null,
-				},
 			} );
+			setAttributes( { backgroundImageIds: null } );
 		}
 	}
 	return (

@@ -10,7 +10,7 @@ import { useState } from '@wordpress/element';
  */
 import { PLUGIN_NAME, ALL_DEVICES } from '../../constants';
 import {
-	setPropsSettingsForVariousDevices,
+	setPropsForVariousDevices,
 	getPropValue,
 	setPropValue,
 } from '../../utils';
@@ -44,16 +44,16 @@ export default function Position( props ) {
 			} );
 		} else {
 			setIsCustom( false );
-			setPropsSettingsForVariousDevices( {
+			setPropsForVariousDevices( {
 				attributes,
 				setAttributes,
 				selector,
-				devicesProps: {
+				props: {
 					[ ALL_DEVICES ]: {
 						position: '',
 					},
 				},
-				allDevicesProps: {
+				everyDeviceProps: {
 					right: '',
 					left: '',
 					top: '',

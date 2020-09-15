@@ -13,7 +13,7 @@ import { selectorsSettings } from './utils';
 import {
 	setPropValue,
 	getPropValue,
-	setPropsSettingsForVariousSelectors,
+	setPropsForVariousSelectors,
 } from '../../utils';
 import NumberUnit from '../../components/number-unit';
 import { SELECTORS } from '../../block/constants';
@@ -58,11 +58,11 @@ export default function Inspector( {
 		if ( value ) {
 			marginLeft = `-${ value }`;
 		}
-		setPropsSettingsForVariousSelectors( {
+		setPropsForVariousSelectors( {
 			attributes,
 			setAttributes,
 			devices,
-			selectorsProps: {
+			props: {
 				[ ALL_COLUMNS_CONTENT_SELECTOR_ALIAS ]: {
 					marginLeft: value,
 				},

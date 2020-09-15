@@ -36,8 +36,8 @@ import {
 import IconPicker from '../../components/icon-picker';
 import {
 	removeSelectors,
-	getSelectorPropsSettingsForAllDevices,
-	setPropsSettingsForVariousDevices,
+	getPropsForEveryDevice,
+	setPropsForVariousDevices,
 } from '../../utils';
 import IdClassesControls from '../../block/id-classes-controls.js';
 
@@ -79,11 +79,10 @@ export default function Edit( props ) {
 			icon: '',
 			isWrapped: false,
 		} );
-		const { properties } = getSelectorPropsSettingsForAllDevices( {
+		const properties = getPropsForEveryDevice( {
 			attributes,
 			selector: SELECTORS.headingWrapped.text.alias,
 			props: typographyProps,
-			settings: [],
 		} );
 		const attrs = {
 			css: {},
@@ -92,18 +91,18 @@ export default function Edit( props ) {
 			attrs.css = next.css;
 		}
 		// rewrite typography props
-		setPropsSettingsForVariousDevices( {
+		setPropsForVariousDevices( {
 			attributes,
 			setAttributes: setAttrs,
 			selector: SELECTORS.blockMainSelectorAlias,
-			devicesProps: properties,
+			props: properties,
 		} );
 		// delete flex props
-		setPropsSettingsForVariousDevices( {
+		setPropsForVariousDevices( {
 			attributes: attrs,
 			setAttributes: setAttrs,
 			selector: SELECTORS.blockMainSelectorAlias,
-			allDevicesProps: {
+			everyDeviceProps: {
 				flexDirection: '',
 				justifyContent: '',
 				alignItems: '',
@@ -120,11 +119,10 @@ export default function Edit( props ) {
 		} );
 	}
 	function onSelectIcon( value ) {
-		const { properties } = getSelectorPropsSettingsForAllDevices( {
+		const properties = getPropsForEveryDevice( {
 			attributes,
 			selector: SELECTORS.blockMainSelectorAlias,
 			props: typographyProps,
-			settings: [],
 		} );
 		const attrs = {
 			css: {},
@@ -133,18 +131,18 @@ export default function Edit( props ) {
 			attrs.css = next.css;
 		}
 		// rewrite typography props
-		setPropsSettingsForVariousDevices( {
+		setPropsForVariousDevices( {
 			attributes,
 			setAttributes: setAttrs,
 			selector: SELECTORS.headingWrapped.text.alias,
-			devicesProps: properties,
+			props: properties,
 		} );
 		// delete typography props from the main selector
-		setPropsSettingsForVariousDevices( {
+		setPropsForVariousDevices( {
 			attributes: attrs,
 			setAttributes,
 			selector: SELECTORS.blockMainSelectorAlias,
-			allDevicesProps: {
+			everyDeviceProps: {
 				fontSize: '',
 				fontFamily: '',
 				fontWeight: '',
