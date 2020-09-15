@@ -21,7 +21,7 @@ const flexProps = [
 	'justifyContent',
 ];
 
-export default function Flex( props ) {
+export default function FlexPanel( props ) {
 	const { selectorSettings } = props;
 	const {
 		flexBasis,
