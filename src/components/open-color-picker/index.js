@@ -82,7 +82,7 @@ export default function OpenColorPicker( {
 							let next;
 							const { r, g, b, a } = color.rgb;
 							if ( a === 1 ) {
-								next = `rgb(${ r },${ g },${ b })`;
+								next = color.hex;
 							} else {
 								next = `rgba(${ r },${ g },${ b },${ a })`;
 							}
