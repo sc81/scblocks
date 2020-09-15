@@ -10,8 +10,7 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../constants';
-import { CORE_BLOCK_EDITOR_STORE_NAME } from '../../constants';
+import { CORE_BLOCK_EDITOR_STORE_NAME, PLUGIN_NAME } from '../../constants';
 import { HEADING_BLOCK_NAME } from './utils';
 
 const icon = <Dashicon icon="edit" />;
@@ -24,7 +23,7 @@ function MarkFormat( { isActive, value, onChange, onFocus } ) {
 		const selectedBlock = select(
 			CORE_BLOCK_EDITOR_STORE_NAME
 		).getSelectedBlock();
-		return selectedBlock && selectedBlock === HEADING_BLOCK_NAME;
+		return selectedBlock && HEADING_BLOCK_NAME === selectedBlock.name;
 	}, [] );
 
 	if ( ! isHeading ) {

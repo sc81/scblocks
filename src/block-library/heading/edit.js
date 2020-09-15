@@ -20,6 +20,7 @@ import { useEffect } from '@wordpress/element';
 /**
  * Internal dependencies
  */
+import './markformat';
 import { selectorsSettings } from './utils';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import useDynamicCss from '../../hooks/use-dynamic-css';
