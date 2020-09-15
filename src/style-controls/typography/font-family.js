@@ -131,11 +131,17 @@ export default function FontFamily( { attributes, setAttributes, selector } ) {
 			cssFontFamily = nextFontFamily;
 		}
 		if ( validText( nextFontFallback ) ) {
+			if ( ! nextFontFamily ) {
+				nextFontFallback = '';
+			}
 			setAttributes( {
 				fontFamilyFallback: nextFontFallback,
 			} );
 			if ( cssFontFamily ) {
-				cssFontFamily = `${ cssFontFamily },${ nextFontFallback }`;
+				if ( nextFontFallback ) {
+					nextFontFallback = `,${ nextFontFallback }`;
+				}
+				cssFontFamily = cssFontFamily + nextFontFallback;
 			}
 		}
 		// css fontFamily
