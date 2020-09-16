@@ -20,8 +20,6 @@ import { SELECTORS } from '../../block/constants';
 import IdClassesControls from '../../block/id-classes-controls.js';
 
 const ALL_COLUMNS_SELECTOR_ALIAS = SELECTORS.columns.allColumns.alias;
-const ALL_COLUMNS_CONTENT_SELECTOR_ALIAS =
-	SELECTORS.columns.allColumnsContent.alias;
 
 export default function Inspector( {
 	attributes,
@@ -33,8 +31,8 @@ export default function Inspector( {
 		attributes,
 		setAttributes,
 		devices,
-		selector: ALL_COLUMNS_CONTENT_SELECTOR_ALIAS,
-		propName: 'marginLeft',
+		selector: ALL_COLUMNS_SELECTOR_ALIAS,
+		propName: 'paddingLeft',
 	} );
 	const verticalGap = getPropValue( {
 		attributes,
@@ -63,8 +61,8 @@ export default function Inspector( {
 			setAttributes,
 			devices,
 			props: {
-				[ ALL_COLUMNS_CONTENT_SELECTOR_ALIAS ]: {
-					marginLeft: value,
+				[ ALL_COLUMNS_SELECTOR_ALIAS ]: {
+					paddingLeft: value,
 				},
 				[ SELECTORS.blockMainSelectorAlias ]: {
 					marginLeft,

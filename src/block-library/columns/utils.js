@@ -9,7 +9,7 @@ export const COLUMNS_NAME = `${ PLUGIN_NAME }/columns`;
 
 export const selectorsSettings = [
 	{
-		label: __( 'Columns style', 'scblocks' ),
+		label: __( 'Columns Style', 'scblocks' ),
 		id: SELECTORS.blockMainSelectorAlias,
 		selector: SELECTORS.blockMainSelectorAlias,
 		allowedPanels: {

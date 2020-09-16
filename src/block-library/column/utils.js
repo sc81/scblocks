@@ -14,9 +14,10 @@ export const COLUMN_NAME = `${ PLUGIN_NAME }/column`;
 export const selectorsSettings = [
 	{
 		label: __( 'Column Style', 'scblocks' ),
-		id: SELECTORS.column.content.alias,
-		selector: SELECTORS.column.content.alias,
+		id: SELECTORS.column.inner.alias,
+		selector: SELECTORS.column.inner.alias,
 		allowedPanels: {
+			typography: true,
 			colors: {
 				textColor: true,
 				linkColor: {
@@ -31,12 +32,13 @@ export const selectorsSettings = [
 			border: true,
 			space: {
 				margin: true,
-				padding: true,
+				padding: {
+					selector: SELECTORS.column.content.alias,
+				},
 				minHeight: true,
 			},
 			flex: {
 				alignItems: true,
-				flexDirection: true,
 				justifyContent: true,
 			},
 			position: {

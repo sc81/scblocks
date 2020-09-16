@@ -60,18 +60,20 @@ export default function Edit( props ) {
 			/>
 			<Block.div className={ classes }>
 				<GoogleFontsLink attributes={ attributes } />
-				<InnerBlocks
-					templateLock={ false }
-					renderAppender={
-						hasChildBlocks
-							? undefined
-							: () => <InnerBlocks.ButtonBlockAppender />
-					}
-					__experimentalPassedProps={ {
-						className: BLOCK_CLASSES.column.content,
-					} }
-					__experimentalTagName="div"
-				/>
+				<div className={ BLOCK_CLASSES.column.inner }>
+					<InnerBlocks
+						templateLock={ false }
+						renderAppender={
+							hasChildBlocks
+								? undefined
+								: () => <InnerBlocks.ButtonBlockAppender />
+						}
+						__experimentalPassedProps={ {
+							className: BLOCK_CLASSES.column.content,
+						} }
+						__experimentalTagName="div"
+					/>
+				</div>
 			</Block.div>
 		</>
 	);

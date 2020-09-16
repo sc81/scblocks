@@ -27,8 +27,10 @@ export default function Save( {
 				[ `${ cssClasses }` ]: '' !== cssClasses,
 			} ) }
 		>
-			<div className={ BLOCK_CLASSES.column.content }>
-				<InnerBlocks.Content />
+			<div className={ BLOCK_CLASSES.column.inner }>
+				<div className={ BLOCK_CLASSES.column.content }>
+					<InnerBlocks.Content />
+				</div>
 			</div>
 		</HtmlTag>
 	);

@@ -11,6 +11,7 @@ export const BLOCK_CLASSES = {
 		main: 'scb-column',
 		content: 'scb-column-content',
 		col: 'scb-col',
+		inner: 'scb-inner-column',
 	},
 	columns: {
 		main: 'scb-columns',
@@ -43,8 +44,12 @@ export const SELECTORS = {
 	},
 	column: {
 		content: {
-			selector: '> .scb-column-content',
+			selector: '> .scb-inner-column > .scb-column-content',
 			alias: 'content',
+		},
+		inner: {
+			selector: '> .scb-inner-column',
+			alias: 'inner',
 		},
 		col: {
 			selector: '.scb-col',

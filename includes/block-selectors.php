@@ -13,14 +13,15 @@ const BLOCK_SELECTORS = array(
 		'icon' => '.scb-icon',
 	),
 	'column'         => array(
-		'content'   => '> .scb-column-content',
+		'content'   => '> .scb-inner-column > .scb-column-content',
+		'inner'     => '> .scb-inner-column',
 		'col'       => '.scb-col',
 		'link'      => 'uidSelector a',
 		'linkHover' => 'uidSelector a:hover',
 	),
 	'columns'        => array(
 		'allColumns'        => 'uidSelector > .scb-column',
-		'allColumnsContent' => 'uidSelector > .scb-column > .scb-column-content',
+		'allColumnsContent' => 'uidSelector > .scb-column > .scb-inner-column > .scb-column-content',
 	),
 	'container'      => array(
 		'content' => '> .scb-container-content',
