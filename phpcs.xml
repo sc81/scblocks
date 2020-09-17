@@ -12,6 +12,12 @@
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 	</rule>
 
+	<rule ref="WordPress.Arrays.MultipleStatementAlignment">
+		<properties>
+			<property name="alignMultilineItems" value="!=100"/>
+		</properties>
+	</rule>
+
 	<config name="minimum_supported_wp_version" value="5.5"/>
 
 	<rule ref="WordPress.WP.I18n">

@@ -8,27 +8,27 @@ const BLOCK_MAIN_SELECTOR_ALIAS       = 'main';
 const BLOCK_MAIN_SELECTOR_HOVER_ALIAS = 'main:hover';
 
 const BLOCK_SELECTORS = array(
-	'button'         => array(
+	'button' => array(
 		'text' => '.scb-button-text',
 		'icon' => '.scb-icon',
 	),
-	'column'         => array(
+	'column' => array(
 		'content'   => '> .scb-inner-column > .scb-column-content',
 		'inner'     => '> .scb-inner-column',
 		'col'       => '.scb-col',
 		'link'      => 'uidSelector a',
 		'linkHover' => 'uidSelector a:hover',
 	),
-	'columns'        => array(
+	'columns' => array(
 		'allColumns'        => 'uidSelector > .scb-column',
 		'allColumnsContent' => 'uidSelector > .scb-column > .scb-inner-column > .scb-column-content',
 	),
-	'container'      => array(
+	'container' => array(
 		'content'   => '> .scb-container-content',
 		'link'      => 'uidSelector a',
 		'linkHover' => 'uidSelector a:hover',
 	),
-	'heading'        => array(
+	'heading' => array(
 		'link'          => 'a',
 		'linkHover'     => 'a:hover',
 		'highlightText' => 'mark',
