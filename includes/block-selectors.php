@@ -24,7 +24,9 @@ const BLOCK_SELECTORS = array(
 		'allColumnsContent' => 'uidSelector > .scb-column > .scb-inner-column > .scb-column-content',
 	),
 	'container'      => array(
-		'content' => '> .scb-container-content',
+		'content'   => '> .scb-container-content',
+		'link'      => 'uidSelector a',
+		'linkHover' => 'uidSelector a:hover',
 	),
 	'heading'        => array(
 		'link'          => 'a',

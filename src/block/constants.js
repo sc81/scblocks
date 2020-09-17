@@ -78,6 +78,14 @@ export const SELECTORS = {
 			selector: '> .scb-container-content',
 			alias: 'content',
 		},
+		link: {
+			selector: 'uidSelector a',
+			alias: 'link',
+		},
+		linkHover: {
+			selector: 'uidSelector a:hover',
+			alias: 'linkHover',
+		},
 	},
 	heading: {
 		link: {
