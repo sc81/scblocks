@@ -8,7 +8,7 @@ import {
 	PLUGIN_NAME,
 	DESKTOP_DEVICES,
 } from '../constants';
-import { SELECTORS } from './constants';
+import { BLOCK_SELECTOR } from './constants';
 
 function standardizeName( name ) {
 	if ( name.includes( 'Custom' ) ) {
@@ -41,7 +41,7 @@ function composeSelectors( selectorsObj, blockName, uidClass ) {
 
 	// column selector specificity plus 1
 	if ( blockName === 'column' ) {
-		additionalSelector = SELECTORS.column.col.selector;
+		additionalSelector = BLOCK_SELECTOR.column.col.selector;
 	}
 	// Improving the specificity of the heading selector in the editor
 	let preSelector = '';
@@ -50,19 +50,21 @@ function composeSelectors( selectorsObj, blockName, uidClass ) {
 	}
 	let leadingSelector;
 	if ( blockName === 'headingWrapped' ) {
-		leadingSelector = `${ SELECTORS.headingWrapped.wrapper.selector }.${ uidClass }`;
+		leadingSelector = `${ BLOCK_SELECTOR.headingWrapped.wrapper.selector }.${ uidClass }`;
 	} else {
 		leadingSelector = `${ preSelector }.scb-${ blockName }.${ uidClass }${ additionalSelector }`;
 	}
 
 	for ( const selectorAlias in selectorsObj ) {
-		if ( selectorAlias === SELECTORS.blockMainSelectorAlias ) {
+		if ( selectorAlias === BLOCK_SELECTOR.blockMainSelectorAlias ) {
 			finalSelector = leadingSelector;
-		} else if ( selectorAlias === SELECTORS.blockMainSelectorHoverAlias ) {
+		} else if (
+			selectorAlias === BLOCK_SELECTOR.blockMainSelectorHoverAlias
+		) {
 			finalSelector = leadingSelector + ':hover';
 		} else {
 			const nextSelector =
-				SELECTORS[ blockName ][ selectorAlias ].selector;
+				BLOCK_SELECTOR[ blockName ][ selectorAlias ].selector;
 			if ( /^uidSelector/.test( nextSelector ) ) {
 				finalSelector = `.${ uidClass }${ nextSelector.replace(
 					/^uidSelector/,

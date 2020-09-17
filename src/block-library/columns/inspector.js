@@ -16,10 +16,10 @@ import {
 	setPropsForVariousSelectors,
 } from '../../utils';
 import NumberUnit from '../../components/number-unit';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 import IdClassesControls from '../../block/id-classes-controls.js';
 
-const ALL_COLUMNS_SELECTOR_ALIAS = SELECTORS.columns.allColumns.alias;
+const ALL_COLUMNS_SELECTOR_ALIAS = BLOCK_SELECTOR.columns.allColumns.alias;
 
 export default function Inspector( {
 	attributes,
@@ -64,7 +64,7 @@ export default function Inspector( {
 				[ ALL_COLUMNS_SELECTOR_ALIAS ]: {
 					paddingLeft: value,
 				},
-				[ SELECTORS.blockMainSelectorAlias ]: {
+				[ BLOCK_SELECTOR.blockMainSelectorAlias ]: {
 					marginLeft,
 				},
 			},

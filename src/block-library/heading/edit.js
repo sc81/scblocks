@@ -27,7 +27,7 @@ import useDynamicCss from '../../hooks/use-dynamic-css';
 import ControlsManager from '../../components/controls-manager';
 import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import { name as blockName } from '.';
-import { BLOCK_CLASSES, SELECTORS } from '../../block/constants';
+import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
 import GoogleFontsLink from '../../block/google-fonts-link';
 import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
 import {
@@ -82,7 +82,7 @@ export default function Edit( props ) {
 		} );
 		const properties = getPropsForEveryDevice( {
 			attributes,
-			selector: SELECTORS.headingWrapped.text.alias,
+			selector: BLOCK_SELECTOR.headingWrapped.text.alias,
 			props: typographyProps,
 		} );
 		const attrs = {
@@ -95,14 +95,14 @@ export default function Edit( props ) {
 		setPropsForVariousDevices( {
 			attributes,
 			setAttributes: setAttrs,
-			selector: SELECTORS.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 			props: properties,
 		} );
 		// delete flex props
 		setPropsForVariousDevices( {
 			attributes: attrs,
 			setAttributes: setAttrs,
-			selector: SELECTORS.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 			everyDeviceProps: {
 				flexDirection: '',
 				justifyContent: '',
@@ -114,15 +114,15 @@ export default function Edit( props ) {
 			attributes: attrs,
 			setAttributes,
 			selectors: [
-				SELECTORS.headingWrapped.icon.alias,
-				SELECTORS.headingWrapped.text.alias,
+				BLOCK_SELECTOR.headingWrapped.icon.alias,
+				BLOCK_SELECTOR.headingWrapped.text.alias,
 			],
 		} );
 	}
 	function onSelectIcon( value ) {
 		const properties = getPropsForEveryDevice( {
 			attributes,
-			selector: SELECTORS.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 			props: typographyProps,
 		} );
 		const attrs = {
@@ -135,14 +135,14 @@ export default function Edit( props ) {
 		setPropsForVariousDevices( {
 			attributes,
 			setAttributes: setAttrs,
-			selector: SELECTORS.headingWrapped.text.alias,
+			selector: BLOCK_SELECTOR.headingWrapped.text.alias,
 			props: properties,
 		} );
 		// delete typography props from the main selector
 		setPropsForVariousDevices( {
 			attributes: attrs,
 			setAttributes,
-			selector: SELECTORS.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 			everyDeviceProps: {
 				fontSize: '',
 				fontFamily: '',

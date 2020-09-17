@@ -12,14 +12,14 @@ import { useSelect } from '@wordpress/data';
 import NumberUnit from '../../components/number-unit';
 import propertyService from '../../style-controls/property-service';
 import { CORE_BLOCK_EDITOR_STORE_NAME } from '../../constants';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 import Separator from '../../components/separator';
 
 export default function ContentWidth( props ) {
 	const { propValue, onChange } = propertyService( {
 		...props,
 		propName: 'maxWidth',
-		selector: SELECTORS.container.content.alias,
+		selector: BLOCK_SELECTOR.container.content.alias,
 	} );
 	const themeWidth = useSelect( ( select ) => {
 		return select( CORE_BLOCK_EDITOR_STORE_NAME ).getSettings().maxWidth;

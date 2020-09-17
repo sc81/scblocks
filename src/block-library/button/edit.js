@@ -26,7 +26,7 @@ import {
 	setSelectorActivity,
 	useSelectorsActivity,
 } from '../../hooks/use-selector-activity';
-import { BLOCK_CLASSES, SELECTORS } from '../../block/constants';
+import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
 import { getPropValue } from '../../utils';
 import GoogleFontsLink from '../../block/google-fonts-link';
 
@@ -61,7 +61,7 @@ export default function Edit( props ) {
 	useEffect( () => {
 		setSelectorActivity(
 			selectorsActivity,
-			SELECTORS.button.icon.alias,
+			BLOCK_SELECTOR.button.icon.alias,
 			!! icon
 		);
 	}, [ selectorsActivity, icon ] );
@@ -85,7 +85,7 @@ export default function Edit( props ) {
 	const flexGrow = getPropValue( {
 		attributes,
 		devices,
-		selector: SELECTORS.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 		propName: 'flexGrow',
 	} );
 	const anchorHref = !! href ? '#' : undefined;

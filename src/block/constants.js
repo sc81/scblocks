@@ -29,7 +29,7 @@ export const BLOCK_CLASSES = {
 		icon: 'scb-icon',
 	},
 };
-export const SELECTORS = {
+export const BLOCK_SELECTOR = {
 	blockMainSelectorAlias: 'main',
 	blockMainSelectorHoverAlias: 'main:hover',
 	button: {

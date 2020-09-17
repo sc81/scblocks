@@ -13,7 +13,7 @@ import ControlsManager from '../../components/controls-manager';
 import { setPropValue, getPropValue } from '../../utils';
 import { selectorsSettings } from './utils';
 import NumberUnit from '../../components/number-unit';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 import Separator from '../../components/separator';
 import propertyService from '../../style-controls/property-service';
 import IdClassesControls from '../../block/id-classes-controls.js';
@@ -92,7 +92,7 @@ export default function Inspector( {
 		attributes,
 		setAttributes,
 		devices,
-		selector: SELECTORS.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 		propName: 'paddingBottom',
 	} );
 	function onChangeVerticalGap( value ) {
@@ -100,7 +100,7 @@ export default function Inspector( {
 			attributes,
 			setAttributes,
 			devices,
-			selector: SELECTORS.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 			propName: 'paddingBottom',
 			value,
 		} );
@@ -127,7 +127,7 @@ export default function Inspector( {
 							setAttributes={ setAttributes }
 							attributes={ attributes }
 							devices={ devices }
-							selector={ SELECTORS.blockMainSelectorAlias }
+							selector={ BLOCK_SELECTOR.blockMainSelectorAlias }
 						/>
 						<Separator />
 						<NumberUnit

@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import { BUTTON_BLOCK_NAME } from '../button/utils';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 import { DESKTOP_DEVICES, ALL_DEVICES } from '../../constants';
 
 function getButton() {
@@ -16,13 +16,13 @@ function getButton() {
 		{
 			css: {
 				[ ALL_DEVICES ]: {
-					[ SELECTORS.blockMainSelectorAlias ]: [
+					[ BLOCK_SELECTOR.blockMainSelectorAlias ]: [
 						'color:#ffffff',
 						'backgroundColor:#007cba',
 					],
 				},
 				[ DESKTOP_DEVICES ]: {
-					[ SELECTORS.blockMainSelectorAlias ]: [
+					[ BLOCK_SELECTOR.blockMainSelectorAlias ]: [
 						'padding:12px 20px',
 					],
 				},

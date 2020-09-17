@@ -571,25 +571,25 @@ class Block_Css {
 		// specificity plus 1
 		$additional_selector = '';
 		if ( 'column' === $block_name ) {
-			$additional_selector = BLOCK_SELECTORS['column']['col'];
+			$additional_selector = BLOCK_SELECTOR['column']['col'];
 		}
 		if ( 'headingWrapped' === $block_name ) {
-			$block_selector = BLOCK_SELECTORS[ $block_name ]['wrapper'] . $uid_selector;
+			$leading_selector = BLOCK_SELECTOR[ $block_name ]['wrapper'] . $uid_selector;
 		} else {
-			$block_selector = '.scb-' . $block_name . $uid_selector . $additional_selector;
+			$leading_selector = '.scb-' . $block_name . $uid_selector . $additional_selector;
 		}
 
 		foreach ( $selectors as $selector_alias => $selector_props ) {
 			if ( BLOCK_MAIN_SELECTOR_ALIAS === $selector_alias ) {
-				$final_selector = $block_selector;
+				$final_selector = $leading_selector;
 			} elseif ( BLOCK_MAIN_SELECTOR_HOVER_ALIAS === $selector_alias ) {
-				$final_selector = $block_selector . ':hover';
+				$final_selector = $leading_selector . ':hover';
 			} else {
-				$next_selector = BLOCK_SELECTORS[ $block_name ][ $selector_alias ];
+				$next_selector = BLOCK_SELECTOR[ $block_name ][ $selector_alias ];
 				if ( preg_match( '/^uidSelector/', $next_selector ) ) {
 					$final_selector = $uid_selector . preg_replace( '/^uidSelector/', '', $next_selector );
 				} else {
-					$final_selector = $block_selector . ' ' . $next_selector;
+					$final_selector = $leading_selector . ' ' . $next_selector;
 				}
 			}
 			$css .= $final_selector . '{' . $this->compose_props( $selector_props ) . '}';

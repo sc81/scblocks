@@ -7,16 +7,16 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import { PLUGIN_NAME } from '../../constants';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 
 export const BUTTON_BLOCK_NAME = `${ PLUGIN_NAME }/button`;
 
 export const selectorsSettings = [
 	{
 		label: __( 'Button style', 'scblocks' ),
-		id: SELECTORS.blockMainSelectorAlias,
-		selector: SELECTORS.blockMainSelectorAlias,
-		hoverSelector: SELECTORS.blockMainSelectorHoverAlias,
+		id: BLOCK_SELECTOR.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+		hoverSelector: BLOCK_SELECTOR.blockMainSelectorHoverAlias,
 		allowedPanels: {
 			colors: {
 				textColor: {
@@ -45,8 +45,8 @@ export const selectorsSettings = [
 	},
 	{
 		label: __( 'Icon style', 'scblocks' ),
-		id: SELECTORS.button.icon.alias,
-		selector: SELECTORS.button.icon.alias,
+		id: BLOCK_SELECTOR.button.icon.alias,
+		selector: BLOCK_SELECTOR.button.icon.alias,
 		allowedPanels: {
 			space: {
 				padding: true,

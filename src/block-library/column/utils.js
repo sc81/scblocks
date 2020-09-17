@@ -7,23 +7,23 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import { PLUGIN_NAME } from '../../constants';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 
 export const COLUMN_NAME = `${ PLUGIN_NAME }/column`;
 
 export const selectorsSettings = [
 	{
 		label: __( 'Column Style', 'scblocks' ),
-		id: SELECTORS.column.inner.alias,
-		selector: SELECTORS.column.inner.alias,
+		id: BLOCK_SELECTOR.column.inner.alias,
+		selector: BLOCK_SELECTOR.column.inner.alias,
 		allowedPanels: {
 			typography: true,
 			colors: {
 				textColor: true,
 				linkColor: {
 					hasHoverControls: true,
-					selector: SELECTORS.column.link.alias,
-					hoverSelector: SELECTORS.column.linkHover.alias,
+					selector: BLOCK_SELECTOR.column.link.alias,
+					hoverSelector: BLOCK_SELECTOR.column.linkHover.alias,
 				},
 				backgroundColor: true,
 				borderColor: true,
@@ -33,7 +33,7 @@ export const selectorsSettings = [
 			space: {
 				margin: true,
 				padding: {
-					selector: SELECTORS.column.content.alias,
+					selector: BLOCK_SELECTOR.column.content.alias,
 				},
 				minHeight: true,
 			},
@@ -43,10 +43,10 @@ export const selectorsSettings = [
 			},
 			position: {
 				order: {
-					selector: SELECTORS.blockMainSelectorAlias,
+					selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 				},
 				zIndex: {
-					selector: SELECTORS.blockMainSelectorAlias,
+					selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 				},
 			},
 		},

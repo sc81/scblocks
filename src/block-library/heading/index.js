@@ -12,7 +12,7 @@ import save from './save';
 import { HEADING_BLOCK_NAME } from './utils';
 import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 import icon from './icon';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 
 export const name = HEADING_BLOCK_NAME;
 
@@ -35,7 +35,7 @@ export const settings = {
 		icon: {
 			type: 'string',
 			source: 'html',
-			selector: SELECTORS.headingWrapped.icon.selector,
+			selector: BLOCK_SELECTOR.headingWrapped.icon.selector,
 			default: '',
 		},
 		isWrapped: {

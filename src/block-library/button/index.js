@@ -13,7 +13,7 @@ import { PLUGIN_NAME } from '../../constants';
 import save from './save';
 import edit from './edit';
 import { BUTTONS_BLOCK_NAME } from '../buttons/utils';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 import icon from '../buttons/icon';
 
@@ -40,7 +40,7 @@ export const settings = {
 		text: {
 			type: 'string',
 			source: 'html',
-			selector: SELECTORS.button.text.selector,
+			selector: BLOCK_SELECTOR.button.text.selector,
 		},
 		linkTarget: {
 			type: 'string',
@@ -57,7 +57,7 @@ export const settings = {
 		icon: {
 			type: 'string',
 			source: 'html',
-			selector: SELECTORS.button.icon.selector,
+			selector: BLOCK_SELECTOR.button.icon.selector,
 			default: '',
 		},
 		withoutText: {

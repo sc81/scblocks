@@ -7,15 +7,15 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import { PLUGIN_NAME } from '../../constants';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 
 export const BUTTONS_BLOCK_NAME = `${ PLUGIN_NAME }/buttons`;
 
 export const selectorsSettings = [
 	{
 		label: __( 'Buttons style', 'scblocks' ),
-		id: SELECTORS.blockMainSelectorAlias,
-		selector: SELECTORS.blockMainSelectorAlias,
+		id: BLOCK_SELECTOR.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 		allowedPanels: {
 			space: {
 				margin: true,

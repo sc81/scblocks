@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 const BLOCK_MAIN_SELECTOR_ALIAS       = 'main';
 const BLOCK_MAIN_SELECTOR_HOVER_ALIAS = 'main:hover';
 
-const BLOCK_SELECTORS = array(
+const BLOCK_SELECTOR = array(
 	'button' => array(
 		'text' => '.scb-button-text',
 		'icon' => '.scb-icon',

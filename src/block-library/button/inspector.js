@@ -12,7 +12,7 @@ import ControlsManager from '../../components/controls-manager';
 import IconPicker from '../../components/icon-picker';
 import { selectorsSettings } from './utils';
 import { removeSelectors } from '../../utils';
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 import IdClassesControls from '../../block/id-classes-controls.js';
 
 export default function Inspector( {
@@ -33,7 +33,7 @@ export default function Inspector( {
 		removeSelectors( {
 			attributes,
 			setAttributes,
-			selectors: [ SELECTORS.button.icon.alias ],
+			selectors: [ BLOCK_SELECTOR.button.icon.alias ],
 		} );
 	}
 

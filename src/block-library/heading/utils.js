@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { SELECTORS } from '../../block/constants';
+import { BLOCK_SELECTOR } from '../../block/constants';
 import { PLUGIN_NAME } from '../../constants';
 
 export const HEADING_BLOCK_NAME = `${ PLUGIN_NAME }/heading`;
@@ -15,7 +15,7 @@ export const selectorsSettings = [
 	{
 		label: __( 'Heading Styles', 'scblocks' ),
 		id: 'heading',
-		selector: SELECTORS.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 		allowedPanels: {
 			colors: {
 				textColor: true,
@@ -23,11 +23,11 @@ export const selectorsSettings = [
 				borderColor: true,
 				linkColor: {
 					hasHoverControls: true,
-					selector: SELECTORS.heading.link.alias,
-					hoverSelector: SELECTORS.heading.linkHover.alias,
+					selector: BLOCK_SELECTOR.heading.link.alias,
+					hoverSelector: BLOCK_SELECTOR.heading.linkHover.alias,
 				},
 				highlightText: {
-					selector: SELECTORS.heading.highlightText.alias,
+					selector: BLOCK_SELECTOR.heading.highlightText.alias,
 				},
 			},
 			typography: true,
@@ -41,7 +41,7 @@ export const selectorsSettings = [
 	{
 		label: __( 'Heading Styles', 'scblocks' ),
 		id: 'wrapper',
-		selector: SELECTORS.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 		allowedPanels: {
 			colors: {
 				textColor: true,
@@ -49,15 +49,16 @@ export const selectorsSettings = [
 				borderColor: true,
 				linkColor: {
 					hasHoverControls: true,
-					selector: SELECTORS.headingWrapped.link.alias,
-					hoverSelector: SELECTORS.headingWrapped.linkHover.alias,
+					selector: BLOCK_SELECTOR.headingWrapped.link.alias,
+					hoverSelector:
+						BLOCK_SELECTOR.headingWrapped.linkHover.alias,
 				},
 				highlightText: {
-					selector: SELECTORS.headingWrapped.highlightText.alias,
+					selector: BLOCK_SELECTOR.headingWrapped.highlightText.alias,
 				},
 			},
 			typography: {
-				selector: SELECTORS.headingWrapped.text.alias,
+				selector: BLOCK_SELECTOR.headingWrapped.text.alias,
 			},
 			border: true,
 			space: {
@@ -75,7 +76,7 @@ export const selectorsSettings = [
 	{
 		label: __( 'Icon Styles', 'scblocks' ),
 		id: 'icon',
-		selector: SELECTORS.headingWrapped.icon.alias,
+		selector: BLOCK_SELECTOR.headingWrapped.icon.alias,
 		allowedPanels: {
 			colors: {
 				iconColor: true,
