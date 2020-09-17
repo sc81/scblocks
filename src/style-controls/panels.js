@@ -19,7 +19,6 @@ import {
 	getLastActivePanel,
 	setLastActivePanel,
 } from '../hooks/use-block-memo';
-import FlexPanel from './flex-panel';
 
 function Panel( {
 	name,
@@ -195,20 +194,6 @@ export default function Panels( props ) {
 							selectorSettings={ selectorsSettings[ index ] }
 						/>
 					</>
-				</Panel>
-			) }
-			{ isVisiblePanel.flex && (
-				<Panel
-					name="flex"
-					label={ __( 'Flexible', 'scblocks' ) }
-					onClickPanel={ onClickPanel }
-					openedPanel={ openedPanel }
-					panelCount={ panelCount }
-				>
-					<FlexPanel
-						{ ...props }
-						selectorSettings={ selectorsSettings[ index ] }
-					/>
 				</Panel>
 			) }
 			{ isVisiblePanel.border && (

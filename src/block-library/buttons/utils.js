@@ -20,7 +20,7 @@ export const selectorsSettings = [
 			space: {
 				margin: true,
 			},
-			flex: {
+			position: {
 				alignItems: true,
 				flexDirection: true,
 				justifyContent: true,

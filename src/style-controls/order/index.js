@@ -10,16 +10,9 @@ import propertyService from '../property-service';
 import NumberControl from '../../components/number-control';
 
 export default function Order( props ) {
-	let { selector } = props;
-	const orderSelector =
-		props.selectorSettings.allowedPanels.position.order.selector;
-	selector =
-		( typeof orderSelector === 'string' && orderSelector ) || selector;
-
 	const { propValue, onChange } = propertyService( {
 		...props,
 		propName: 'order',
-		selector,
 	} );
 	return (
 		<NumberControl

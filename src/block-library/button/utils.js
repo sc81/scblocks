@@ -13,7 +13,7 @@ export const BUTTON_BLOCK_NAME = `${ PLUGIN_NAME }/button`;
 
 export const selectorsSettings = [
 	{
-		label: __( 'Button style', 'scblocks' ),
+		label: __( 'Button Style', 'scblocks' ),
 		id: BLOCK_SELECTOR.blockMainSelectorAlias,
 		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 		hoverSelector: BLOCK_SELECTOR.blockMainSelectorHoverAlias,
@@ -36,15 +36,15 @@ export const selectorsSettings = [
 			space: {
 				padding: true,
 				margin: true,
-			},
-			flex: {
 				flexGrow: true,
+			},
+			position: {
 				flexDirection: true,
 			},
 		},
 	},
 	{
-		label: __( 'Icon style', 'scblocks' ),
+		label: __( 'Icon Style', 'scblocks' ),
 		id: BLOCK_SELECTOR.button.icon.alias,
 		selector: BLOCK_SELECTOR.button.icon.alias,
 		allowedPanels: {

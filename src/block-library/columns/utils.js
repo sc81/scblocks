@@ -14,7 +14,7 @@ export const selectorsSettings = [
 		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 		allowedPanels: {
 			space: true,
-			flex: {
+			position: {
 				alignItems: true,
 				flexDirection: true,
 			},

@@ -17,7 +17,7 @@ export default function FlexDirection( props ) {
 	} );
 
 	return (
-		<ControlWrapper label={ __( 'Flex direction', 'scblocks' ) }>
+		<ControlWrapper label={ __( 'Arrangement of elements', 'scblocks' ) }>
 			<SelectControl
 				value={ propValue }
 				onChange={ onChange }

@@ -65,7 +65,7 @@ export const selectorsSettings = [
 				padding: true,
 				margin: true,
 			},
-			flex: {
+			position: {
 				flexDirection: true,
 				alignItems: true,
 				justifyContent: true,

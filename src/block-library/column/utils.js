@@ -37,10 +37,6 @@ export const selectorsSettings = [
 				},
 				minHeight: true,
 			},
-			flex: {
-				alignItems: true,
-				justifyContent: true,
-			},
 			position: {
 				order: {
 					selector: BLOCK_SELECTOR.blockMainSelectorAlias,
@@ -48,6 +44,8 @@ export const selectorsSettings = [
 				zIndex: {
 					selector: BLOCK_SELECTOR.blockMainSelectorAlias,
 				},
+				alignItems: true,
+				justifyContent: true,
 			},
 		},
 	},

@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { useMemo } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -11,6 +12,7 @@ import NumberUnitProperty from '../number-unit-property';
 import FourControls from '../four-controls';
 import Separator from '../../components/separator';
 import { getControlSelector } from '../utils';
+import NumberProperty from '../number-property';
 
 const spaceProps = [
 	'margin',
@@ -22,6 +24,7 @@ const spaceProps = [
 	'minHeight',
 	'maxHeight',
 	'fontSize', // icon size
+	'flexGrow',
 ];
 
 export default function Space( props ) {
@@ -36,6 +39,7 @@ export default function Space( props ) {
 		minHeight,
 		maxHeight,
 		fontSize,
+		flexGrow,
 	} = usePanelActiveControl( selectorSettings, spaceProps, 'space' );
 
 	const propSelector = useMemo( () => {
@@ -48,7 +52,7 @@ export default function Space( props ) {
 			);
 		} );
 		return state;
-	} );
+	}, [ selectorSettings ] );
 
 	const unitRangeStep = useMemo( () => {
 		const state = {};
@@ -156,6 +160,15 @@ export default function Space( props ) {
 					selector={ propSelector.maxHeight }
 					propName="maxHeight"
 					{ ...unitRangeStep.maxHeight }
+				/>
+			) }
+			{ flexGrow && (
+				<NumberProperty
+					{ ...props }
+					selector={ propSelector.flexGrow }
+					label={ __( 'Grab more space', 'scblocks' ) }
+					propName="flexGrow"
+					max={ 30 }
 				/>
 			) }
 		</>
