@@ -113,7 +113,7 @@ export default function Inspector( {
 				attributes={ attributes }
 				devices={ devices }
 				blockMemo={ blockMemo }
-				mainControls={
+				htmlAttrsControls={
 					<PanelBody opened>
 						<IdClassesControls
 							attributes={ attributes }

@@ -27,8 +27,12 @@ export default function Inspector( props ) {
 				selectorsSettings={ selectorsSettings }
 				mainControls={
 					<PanelBody opened>
-						<IdClassesControls { ...props } />
 						<SelectHtmlTag value={ tag } onChange={ setTag } />
+					</PanelBody>
+				}
+				htmlAttrsControls={
+					<PanelBody opened>
+						<IdClassesControls { ...props } />
 					</PanelBody>
 				}
 				spacePanelAdditionalControls={ <ContentWidth { ...props } /> }

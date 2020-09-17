@@ -65,7 +65,7 @@ export default function Edit( props ) {
 					attributes={ attributes }
 					devices={ devices }
 					blockMemo={ blockMemo }
-					mainControls={
+					htmlAttrsControls={
 						<PanelBody opened>
 							<IdClassesControls { ...props } />
 						</PanelBody>

@@ -69,12 +69,12 @@ export function useBlockMemo( attributes, selectorsSettings ) {
 		);
 
 		const obj = {
-			tabPanel: 'main',
-			selectorPanel: selectorsSettings[ 0 ].selector,
+			tabPanel: 'style',
+			selectorPanel: selectorsSettings[ 0 ].id,
 			controlsPanel: {},
 		};
 		selectorsSettings.forEach( ( elm ) => {
-			obj.controlsPanel[ elm.selector ] = {};
+			obj.controlsPanel[ elm.id ] = {};
 		} );
 		blockMemo.current.lastActivePanel = obj;
 	}

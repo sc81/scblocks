@@ -80,13 +80,15 @@ export default function Inspector( {
 								/>
 							) }
 						</PanelBody>
-						<PanelBody opened>
-							<IdClassesControls
-								attributes={ attributes }
-								setAttributes={ setAttributes }
-							/>
-						</PanelBody>
 					</>
+				}
+				htmlAttrsControls={
+					<PanelBody opened>
+						<IdClassesControls
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</PanelBody>
 				}
 			/>
 		</InspectorControls>

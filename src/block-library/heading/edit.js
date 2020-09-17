@@ -169,7 +169,6 @@ export default function Edit( props ) {
 					selectorsActivity={ selectorsActivity }
 					mainControls={
 						<PanelBody opened>
-							<IdClassesControls { ...props } />
 							<SelectControl
 								label={ __( 'Heading level', 'scblocks' ) }
 								value={ tagName }
@@ -212,6 +211,11 @@ export default function Edit( props ) {
 								onSelect={ onSelectIcon }
 								onClear={ onRemoveIcon }
 							/>
+						</PanelBody>
+					}
+					htmlAttrsControls={
+						<PanelBody opened>
+							<IdClassesControls { ...props } />
 						</PanelBody>
 					}
 				/>
