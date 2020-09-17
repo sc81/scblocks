@@ -42,17 +42,17 @@ export const settings = {
 			source: 'html',
 			selector: BLOCK_SELECTOR.button.text.selector,
 		},
-		linkTarget: {
-			type: 'string',
-			source: 'attribute',
-			selector: 'a',
-			attribute: 'target',
+		target: {
+			type: 'boolean',
+			default: false,
 		},
-		rel: {
-			type: 'string',
-			source: 'attribute',
-			selector: 'a',
-			attribute: 'rel',
+		relNoFollow: {
+			type: 'boolean',
+			default: false,
+		},
+		relSponsored: {
+			type: 'boolean',
+			default: false,
 		},
 		icon: {
 			type: 'string',

@@ -19,8 +19,9 @@ const placeholder = __( 'Button', 'scblocks' );
 export default function Save( {
 	attributes: {
 		url,
-		linkTarget,
-		rel,
+		target,
+		relNoFollow,
+		relSponsored,
 		text,
 		icon,
 		uidClass,
@@ -29,6 +30,21 @@ export default function Save( {
 		cssClasses,
 	},
 } ) {
+	const relAttributes = [];
+
+	if ( relNoFollow ) {
+		relAttributes.push( 'nofollow' );
+	}
+
+	if ( target ) {
+		relAttributes.push( 'noopener', 'noreferrer' );
+	}
+
+	if ( relSponsored ) {
+		relAttributes.push( 'sponsored' );
+	}
+	const rel =
+		relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined;
 	return (
 		<a
 			id={ !! elementId ? elementId : undefined }
@@ -38,7 +54,7 @@ export default function Save( {
 				[ `${ cssClasses }` ]: '' !== cssClasses,
 			} ) }
 			href={ url }
-			target={ linkTarget }
+			target={ target ? '_blank' : undefined }
 			rel={ rel }
 		>
 			{ !! icon && (

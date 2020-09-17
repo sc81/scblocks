@@ -30,21 +30,9 @@ import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
 import { getPropValue } from '../../utils';
 import GoogleFontsLink from '../../block/google-fonts-link';
 
-const NEW_TAB_REL = 'noreferrer noopener';
-
 export default function Edit( props ) {
 	const { attributes, setAttributes, isSelected } = props;
-	const {
-		url,
-		linkTarget,
-		rel,
-		text,
-		icon,
-		uidClass,
-		href,
-		withoutText,
-		cssClasses,
-	} = attributes;
+	const { text, icon, uidClass, href, withoutText, cssClasses } = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -66,22 +54,6 @@ export default function Edit( props ) {
 		);
 	}, [ selectorsActivity, icon ] );
 
-	function onToggleOpenInNewTab( value ) {
-		const newLinkTarget = value ? '_blank' : undefined;
-
-		let updatedRel = rel;
-		if ( newLinkTarget && ! rel ) {
-			updatedRel = NEW_TAB_REL;
-		} else if ( ! newLinkTarget && rel === NEW_TAB_REL ) {
-			updatedRel = undefined;
-		}
-
-		setAttributes( {
-			linkTarget: newLinkTarget,
-			rel: updatedRel,
-		} );
-	}
-
 	const flexGrow = getPropValue( {
 		attributes,
 		devices,
@@ -101,7 +73,6 @@ export default function Edit( props ) {
 				{ ...props }
 				devices={ devices }
 				blockMemo={ blockMemo }
-				onToggleOpenInNewTab={ onToggleOpenInNewTab }
 				selectorsActivity={ selectorsActivity }
 			/>
 			<Block.div style={ { flexGrow } }>
@@ -127,11 +98,9 @@ export default function Edit( props ) {
 					) }
 				</a>
 				<URLPicker
-					url={ url }
+					attributes={ attributes }
 					setAttributes={ setAttributes }
 					isSelected={ isSelected }
-					opensInNewTab={ linkTarget === '_blank' }
-					onToggleOpenInNewTab={ onToggleOpenInNewTab }
 				/>
 			</Block.div>
 		</>

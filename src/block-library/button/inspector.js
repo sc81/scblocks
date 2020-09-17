@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
@@ -18,12 +18,11 @@ import IdClassesControls from '../../block/id-classes-controls.js';
 export default function Inspector( {
 	attributes,
 	setAttributes,
-	onToggleOpenInNewTab,
 	devices,
 	blockMemo,
 	selectorsActivity,
 } ) {
-	const { linkTarget, rel, icon, withoutText } = attributes;
+	const { icon, withoutText } = attributes;
 
 	function onClearIcon() {
 		setAttributes( {
@@ -47,22 +46,7 @@ export default function Inspector( {
 				blockMemo={ blockMemo }
 				selectorsActivity={ selectorsActivity }
 				mainControls={
-					<>
-						<PanelBody title={ __( 'Link', 'scblocks' ) } opened>
-							<ToggleControl
-								label={ __( 'Open in new tab', 'scblocks' ) }
-								onChange={ onToggleOpenInNewTab }
-								checked={ linkTarget === '_blank' }
-							/>
-							<TextControl
-								label={ __( 'Link rel', 'scblocks' ) }
-								value={ rel || '' }
-								onChange={ ( value ) =>
-									setAttributes( { rel: value } )
-								}
-							/>
-						</PanelBody>
-						<PanelBody title={ __( 'Icon', 'scblocks' ) } opened>
+						<PanelBody opened>
 							<IconPicker
 								icon={ icon }
 								onSelect={ ( value ) => {
@@ -80,7 +64,6 @@ export default function Inspector( {
 								/>
 							) }
 						</PanelBody>
-					</>
 				}
 				htmlAttrsControls={
 					<PanelBody opened>

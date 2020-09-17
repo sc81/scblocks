@@ -18,10 +18,8 @@ import { link, linkOff } from '@wordpress/icons';
 
 export default function URLPicker( {
 	isSelected,
-	url,
+	attributes: { url, target, relSponsored, relNoFollow },
 	setAttributes,
-	opensInNewTab,
-	onToggleOpenInNewTab,
 } ) {
 	const [ isURLPickerOpen, setIsURLPickerOpen ] = useState( false );
 	const urlIsSet = !! url;
@@ -33,8 +31,9 @@ export default function URLPicker( {
 	const unlinkButton = () => {
 		setAttributes( {
 			url: undefined,
-			linkTarget: undefined,
-			rel: undefined,
+			target: false,
+			relNoFollow: false,
+			relSponsored: false,
 		} );
 		setIsURLPickerOpen( false );
 	};
@@ -45,17 +44,34 @@ export default function URLPicker( {
 		>
 			<LinkControl
 				className="wp-block-navigation-link__inline-link-input"
-				value={ { url, opensInNewTab } }
+				value={ { url, target, relNoFollow, relSponsored } }
 				onChange={ ( {
 					url: newURL = '',
-					opensInNewTab: newOpensInNewTab,
+					target: newTarget,
+					relNoFollow: newRelNoFollow,
+					relSponsored: newRelSponsored,
 				} ) => {
-					setAttributes( { url: newURL } );
-
-					if ( opensInNewTab !== newOpensInNewTab ) {
-						onToggleOpenInNewTab( newOpensInNewTab );
-					}
+					setAttributes( {
+						url: newURL,
+						target: newTarget,
+						relNoFollow: newRelNoFollow,
+						relSponsored: newRelSponsored,
+					} );
 				} }
+				settings={ [
+					{
+						id: 'target',
+						title: __( 'Open link in a new tab', 'scblocks' ),
+					},
+					{
+						id: 'relNoFollow',
+						title: __( 'Add rel="nofollow"', 'scblocks' ),
+					},
+					{
+						id: 'relSponsored',
+						title: __( 'Add rel="sponsored"', 'scblocks' ),
+					},
+				] }
 			/>
 		</Popover>
 	);
