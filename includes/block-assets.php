@@ -10,6 +10,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Block_Assets {
 
+	private $dist_dir_name;
+
+	public function __construct() {
+		if ( @file_exists( SCBLOCKS_PLUGIN_DIR . 'build' ) ) {
+			$this->dist_dir_name = 'build';
+		} else {
+			$this->dist_dir_name = 'dist';
+		}
+	}
+
 	public function register_actions() {
 		add_filter( 'block_categories', array( $this, 'register_category' ), 10, 2 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
@@ -34,10 +44,10 @@ class Block_Assets {
 	 * Editor assets.
 	 */
 	public function editor_assets() {
-		$asset_file = include SCBLOCKS_PLUGIN_DIR . 'build/index.asset.php';
+		$asset_file = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . '/index.asset.php';
 		wp_enqueue_script(
 			'scblocks-editor',
-			SCBLOCKS_PLUGIN_URL . 'build/index.js',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . '/index.js',
 			$asset_file['dependencies'],
 			$asset_file['version'],
 			true
@@ -45,7 +55,7 @@ class Block_Assets {
 
 		wp_enqueue_style(
 			'scblocks-editor',
-			SCBLOCKS_PLUGIN_URL . 'build/index.css',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . '/index.css',
 			array(),
 			$asset_file['version']
 		);
@@ -78,7 +88,7 @@ class Block_Assets {
 		if ( $has_block ) {
 			wp_enqueue_style(
 				'scblocks',
-				SCBLOCKS_PLUGIN_URL . 'build/style-index.css',
+				SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . '/style-index.css',
 				array(),
 				SCBLOCKS_CSS_VERSION
 			);

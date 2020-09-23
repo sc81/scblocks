@@ -20,6 +20,7 @@
 		"setup": "composer install && npm install && npm run build",
 		"start": "wp-scripts start",
 		"build": "wp-scripts build",
+		"build:dist": "wp-scripts build --output-path=dist",
 		"clean": "rm -rf build node_modules vendor composer.lock package-lock.json",
 		"lint-css": "wp-scripts lint-style",
 		"lint-css:fix": "npm run lint-css -- --fix",

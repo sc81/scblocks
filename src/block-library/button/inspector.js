@@ -46,24 +46,24 @@ export default function Inspector( {
 				blockMemo={ blockMemo }
 				selectorsActivity={ selectorsActivity }
 				mainControls={
-						<PanelBody opened>
-							<IconPicker
-								icon={ icon }
-								onSelect={ ( value ) => {
-									setAttributes( { icon: value } );
-								} }
-								onClear={ onClearIcon }
+					<PanelBody opened>
+						<IconPicker
+							icon={ icon }
+							onSelect={ ( value ) => {
+								setAttributes( { icon: value } );
+							} }
+							onClear={ onClearIcon }
+						/>
+						{ !! icon && (
+							<ToggleControl
+								label={ __( 'Without text', 'scblocks' ) }
+								checked={ withoutText }
+								onChange={ ( value ) =>
+									setAttributes( { withoutText: value } )
+								}
 							/>
-							{ !! icon && (
-								<ToggleControl
-									label={ __( 'Without text', 'scblocks' ) }
-									checked={ withoutText }
-									onChange={ ( value ) =>
-										setAttributes( { withoutText: value } )
-									}
-								/>
-							) }
-						</PanelBody>
+						) }
+					</PanelBody>
 				}
 				htmlAttrsControls={
 					<PanelBody opened>
