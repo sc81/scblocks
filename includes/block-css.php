@@ -36,7 +36,7 @@ class Block_Css {
 	 *
 	 * @var string
 	 */
-	private $inline;
+	private $inline_css;
 
 	/**
 	 * The request URI to Google Fonts
@@ -72,7 +72,7 @@ class Block_Css {
 			$id = $post->ID;
 		}
 		if ( $this->is_woo_shop() ) {
-			$id = $this->get_woo_shop_page_id();
+			$id = $this->woo_shop_page_id();
 		}
 		if ( is_home() ) {
 			$id = get_option( 'page_for_posts' );
@@ -93,7 +93,7 @@ class Block_Css {
 	 *
 	 * @return int
 	 */
-	public function get_woo_shop_page_id() : int {
+	public function woo_shop_page_id() : int {
 		return get_option( 'woocommerce_shop_page_id' );
 	}
 
@@ -110,7 +110,7 @@ class Block_Css {
 		if ( ! $post_id ) {
 			return '';
 		}
-		$post_settings = $this->get_post_meta_post_settings( $post_id );
+		$post_settings = $this->post_settings( $post_id );
 
 		if ( empty( $post_settings ) || empty( $post_settings['css_version'] ) ) {
 			return '';
@@ -122,7 +122,7 @@ class Block_Css {
 			if ( ! empty( $post_settings['google_fonts_variants'] ) ) {
 				$array['variants'] = $post_settings['google_fonts_variants'];
 			}
-			// assign uri
+			// assign fonts uri
 			$fonts = new Fonts();
 
 			$this->google_fonts_uri = $fonts->build_google_fonts_uri( $array );
@@ -141,17 +141,17 @@ class Block_Css {
 	 */
 	public function get_inline() : string {
 		// assign css
-		if ( ! isset( $this->inline ) ) {
-			$blocks_attr = $this->get_blocks_attr( $this->get_parsed_content() );
+		if ( ! isset( $this->inline_css ) ) {
+			$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
 
-			$this->inline = $this->compose( $blocks_attr );
+			$this->inline_css = $this->compose( $blocks_attr );
 
-			// assign uri
+			// assign fonts uri
 			$fonts = new Fonts( $blocks_attr );
 
 			$this->google_fonts_uri = $fonts->build_google_fonts_uri();
 		}
-		return $this->inline;
+		return $this->inline_css;
 	}
 
 	/**
@@ -168,10 +168,7 @@ class Block_Css {
 	 * @return string
 	 */
 	public function mode() : string {
-
-		// Check if we're using file mode or inline mode.
-		// Default to file mode and falback to inline if file mode is not possible.
-		$mode = apply_filters( 'scblocks_css_print_method', 'file' );
+		$mode = Plugin::option( 'css_print_method' );
 
 		if ( is_customize_preview() || is_preview() ) {
 			return 'inline';
@@ -243,7 +240,7 @@ class Block_Css {
 	public function write_to_file() : bool {
 		$post_id = $this->get_post_id();
 
-		$blocks_attr = $this->get_blocks_attr( $this->get_parsed_content() );
+		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
 
 		$css = $this->compose( $blocks_attr );
 
@@ -251,9 +248,9 @@ class Block_Css {
 			return false;
 		}
 		// assign css to prop
-		$this->inline = $css;
+		$this->inline_css = $css;
 
-		// assign uri
+		// assign fonts uri
 		$fonts                  = new Fonts( $blocks_attr );
 		$google_fonts_data      = $fonts->get_google_fonts_data();
 		$this->google_fonts_uri = $fonts->build_google_fonts_uri();
@@ -274,7 +271,7 @@ class Block_Css {
 		$is_saved = $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $css ), FS_CHMOD_FILE );
 		if ( $is_saved ) {
 			$update_time                 = time();
-			$settings                    = $this->get_post_meta_post_settings( $post_id );
+			$settings                    = $this->post_settings( $post_id );
 			$settings['old_update_time'] = $update_time;
 			$settings['update_time']     = $update_time;
 			$settings['css_version']     = SCBLOCKS_CSS_VERSION;
@@ -311,10 +308,14 @@ class Block_Css {
 		if ( ! $post_id ) {
 			return false;
 		}
-		$post_settings = $this->get_post_meta_post_settings( $post_id );
+		$post_settings = $this->post_settings( $post_id );
 
 		if ( empty( $post_settings ) ) {
 			return false;
+		}
+		// force css file update
+		if ( (int) Plugin::option( 'force_regenerate_css_files' ) >= (int) $post_settings['update_time'] ) {
+			return true;
 		}
 		// new css version
 		if ( isset( $post_settings['css_version'] ) &&
@@ -325,7 +326,8 @@ class Block_Css {
 		if ( $post_settings['old_update_time'] !== $post_settings['update_time'] ) {
 			return true;
 		}
-		$options = get_option( Plugin::OPTION_NAME, array() );
+		$options = Plugin::options();
+
 		// check if any reusable block has been updated
 		if ( ! empty( $post_settings['reusable_blocks'] ) &&
 			$this->is_any_reusable_block_updated( $post_settings['reusable_blocks'], $post_settings['update_time'], $options ) ) {
@@ -353,7 +355,7 @@ class Block_Css {
 			if ( ! $reusable_block_post || ! isset( $reusable_block_post->post_content ) ) {
 				continue;
 			}
-			$reusable_reusable_blocks = $this->get_reusable_blocks_ids( $reusable_block_post->post_content );
+			$reusable_reusable_blocks = $this->reusable_blocks_ids( $reusable_block_post->post_content );
 			if ( $this->is_any_reusable_block_updated(
 				$reusable_reusable_blocks,
 				$post_update_time,
@@ -371,7 +373,7 @@ class Block_Css {
 	 *
 	 * @return array An array of reusable block id
 	 */
-	public function get_reusable_blocks_ids( $post_content ) {
+	public function reusable_blocks_ids( $post_content ) {
 		if ( '' === $post_content ) {
 			return array();
 		}
@@ -401,10 +403,10 @@ class Block_Css {
 			return $post_id;
 		}
 
-		$old_settings  = $this->get_post_meta_post_settings( $post_id );
+		$old_settings  = $this->post_settings( $post_id );
 		$next_settings = array();
 
-		$stored_reusable_blocks = $this->get_reusable_blocks_ids( $post->post_content );
+		$stored_reusable_blocks = $this->reusable_blocks_ids( $post->post_content );
 
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
 			if ( empty( $old_settings ) ) {
@@ -442,7 +444,7 @@ class Block_Css {
 	 *
 	 * @return array
 	 */
-	public function get_post_meta_post_settings( int $post_id ) : array {
+	public function post_settings( int $post_id ) : array {
 		$value = get_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, true );
 		if ( $value ) {
 			return json_decode( $value, true );
@@ -455,13 +457,13 @@ class Block_Css {
 	 *
 	 * @return array
 	 */
-	public function get_parsed_content() : array {
+	public function parsed_content() : array {
 		$post_id = $this->get_post_id();
 		if ( ! $post_id ) {
 			return array();
 		}
 		if ( $this->is_woo_shop() ) {
-			$post = get_post( $this->get_woo_shop_page_id() );
+			$post = get_post( $this->woo_shop_page_id() );
 		} else {
 			$post = get_post();
 		}
@@ -477,7 +479,7 @@ class Block_Css {
 	 *
 	 * @return array
 	 */
-	public function get_blocks_attr( array $parsed_blocks, array $data = array() ) : array {
+	public function blocks_attrs( array $parsed_blocks, array $data = array() ) : array {
 		if ( empty( $parsed_blocks ) ) {
 			return $data;
 		}
@@ -497,13 +499,13 @@ class Block_Css {
 				if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
 					$parsed_reusable_block = parse_blocks( $reusable_block->post_content );
 
-					$data = $this->get_blocks_attr( $parsed_reusable_block, $data );
+					$data = $this->blocks_attrs( $parsed_reusable_block, $data );
 
 				}
 			}
 			// inner blocks
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$data = $this->get_blocks_attr( $block['innerBlocks'], $data );
+				$data = $this->blocks_attrs( $block['innerBlocks'], $data );
 			}
 		}
 		return $data;
@@ -720,12 +722,12 @@ class Block_Css {
 			! current_user_can( 'edit_post', $post_id ) ) {
 			return $post_id;
 		}
-		$options = get_option( Plugin::OPTION_NAME, array() );
+		$options = Plugin::options();
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
 			$options[ $post_id ] = time();
 		} else {
 			unset( $options[ $post_id ] );
 		}
-		update_option( Plugin::OPTION_NAME, $options );
+		Plugin::update_option( $options );
 	}
 }
