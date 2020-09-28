@@ -170,7 +170,7 @@ export default function Edit( props ) {
 					mainControls={
 						<PanelBody opened>
 							<SelectControl
-								label={ __( 'Heading level', 'scblocks' ) }
+								label={ __( 'Element', 'scblocks' ) }
 								value={ tagName }
 								options={ [
 									{
