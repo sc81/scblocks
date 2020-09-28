@@ -22,6 +22,8 @@ class Plugin {
 			array(
 				'css_print_method'           => 'file',
 				'force_regenerate_css_files' => '0',
+				'wp_block_in_wp_block'       => array(),
+				'wp_block_update_time'       => array(),
 			)
 		);
 	}
@@ -48,7 +50,7 @@ class Plugin {
 	}
 
 	/**
-	 * Retrieves an array of options from the database.
+	 * Retrieves options from the database.
 	 *
 	 * @return array
 	 */
@@ -57,20 +59,20 @@ class Plugin {
 	}
 
 	/**
-	 * Updates the value of an option.
+	 * Updates options.
 	 *
 	 * @param array $settings New option state
 	 *
 	 * @return bool True if the value was updated, false otherwise.
 	 */
-	public static function update_option( array $settings ) : bool {
+	public static function update_options( array $settings ) : bool {
 		return update_option( self::OPTION_NAME, $settings );
 	}
 
 	/**
 	 * Loads required files.
 	 */
-	public function load_files() {
+	private function load_files() {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-selectors.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-assets.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/fonts.php';

@@ -64,7 +64,7 @@ class Plugin_Settings {
 				$regenerate_css = '&css-files-regenerate=true';
 			}
 
-			Plugin::update_option( $settings );
+			Plugin::update_options( $settings );
 
 			wp_safe_redirect( admin_url( 'admin.php?page=scblocks-settings&settings-updated=true' . $regenerate_css ) );
 			exit;
