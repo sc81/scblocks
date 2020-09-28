@@ -58,7 +58,7 @@ class Block_Css {
 	public function register_actions() {
 		add_action( 'save_post', array( $this, 'update_post_settings' ), 10, 2 );
 		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ), 10, 2 );
-		add_action( 'delete_post', array( $this, 'delete_update_time' ) );
+		add_action( 'delete_post', array( $this, 'delete_update_time' ), 10, 2 );
 	}
 	/**
 	 * Get the current page ID.
