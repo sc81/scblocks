@@ -21,15 +21,20 @@ class Block_Assets {
 	}
 
 	public function register_actions() {
-		add_filter( 'block_categories', array( $this, 'register_category' ), 10, 2 );
+		add_filter( 'block_categories', array( $this, 'register_category' ), 10, 1 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_assets' ) );
+		add_filter( 'excerpt_allowed_blocks', array( $this, 'set_excerpt_allowed_blocks' ) );
 	}
 
 	/**
 	 * Registers a category for blocks.
+	 *
+	 * @param array $categories Default array of block categories.
+	 *
+	 * @return array Filtered block categories
 	 */
-	public function register_category( $categories, $post ) {
+	public function register_category( array $categories ) : array {
 		return array_merge(
 			$categories,
 			array(
@@ -39,6 +44,19 @@ class Block_Assets {
 				),
 			)
 		);
+	}
+	/**
+	 * Registers blocks that can be displayed in post excerpts.
+	 *
+	 * @param array $allowed_blocks Existing allowed blocks.
+	 *
+	 * @return array
+	*/
+	public function set_excerpt_allowed_blocks( array $allowed_blocks ) : array {
+		$allowed_blocks[] = 'scblocks/heading';
+		$allowed_blocks[] = 'scblocks/container';
+
+		return $allowed_blocks;
 	}
 	/**
 	 * Editor assets.
