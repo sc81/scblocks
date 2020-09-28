@@ -34,6 +34,14 @@ function getColumns( widths ) {
 	];
 }
 
+function containerCss() {
+	return {
+		[ DESKTOP_DEVICES ]: {
+			[ BLOCK_SELECTOR.container.content.alias ]: [ 'padding:40px' ],
+		},
+	};
+}
+
 /** @typedef {import('@wordpress/blocks').WPBlockVariation} WPBlockVariation */
 
 /**
@@ -66,7 +74,15 @@ export const variations = [
 			</SVG>
 		),
 		isDefault: true,
-		innerBlocks: [ [ 'core/paragraph' ] ],
+		innerBlocks: [
+			[
+				'core/paragraph',
+				{ content: __( 'Paragraph in the container', 'scblocks' ) },
+			],
+		],
+		attributes: {
+			css: containerCss(),
+		},
 		scope: [ 'block' ],
 	},
 	{
@@ -88,6 +104,9 @@ export const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumns( [ 50, 50 ] ) ],
+		attributes: {
+			css: containerCss(),
+		},
 		scope: [ 'block' ],
 	},
 	{
@@ -112,6 +131,9 @@ export const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumns( [ 33.33, 66.66 ] ) ],
+		attributes: {
+			css: containerCss(),
+		},
 		scope: [ 'block' ],
 	},
 	{
@@ -136,6 +158,9 @@ export const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumns( [ 66.66, 33.33 ] ) ],
+		attributes: {
+			css: containerCss(),
+		},
 		scope: [ 'block' ],
 	},
 	{
@@ -156,6 +181,9 @@ export const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumns( [ 33.33, 33.33, 33.33 ] ) ],
+		attributes: {
+			css: containerCss(),
+		},
 		scope: [ 'block' ],
 	},
 	{
@@ -176,6 +204,9 @@ export const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumnState( [ 25, 50, 25 ] ) ],
+		attributes: {
+			css: containerCss(),
+		},
 		scope: [ 'block' ],
 	},
 ];
