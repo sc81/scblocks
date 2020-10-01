@@ -3,6 +3,9 @@
 	display: flex;
 	flex-wrap: wrap;
 }
+.#{$pluginAlias}-column {
+	box-sizing: border-box;
+}
 .#{$pluginAlias}-inner-column {
 	display: flex;
 	height: 100%;
