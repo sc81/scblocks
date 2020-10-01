@@ -64,6 +64,12 @@ export const settings = {
 			type: 'boolean',
 			default: false,
 		},
+		ariaLabel: {
+			type: 'string',
+			source: 'attribute',
+			selector: 'a',
+			attribute: 'aria-label',
+		},
 		...SHARED_ATTRIBUTES.googleFonts,
 	},
 	supports: {

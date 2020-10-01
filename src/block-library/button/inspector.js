@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { PanelBody, ToggleControl } from '@wordpress/components';
+import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
@@ -22,12 +22,13 @@ export default function Inspector( {
 	blockMemo,
 	selectorsActivity,
 } ) {
-	const { icon, withoutText } = attributes;
+	const { icon, withoutText, ariaLabel } = attributes;
 
 	function onClearIcon() {
 		setAttributes( {
 			icon: '',
 			withoutText: false,
+			ariaLabel: '',
 		} );
 		removeSelectors( {
 			attributes,
@@ -58,9 +59,12 @@ export default function Inspector( {
 							<ToggleControl
 								label={ __( 'Without text', 'scblocks' ) }
 								checked={ withoutText }
-								onChange={ ( value ) =>
-									setAttributes( { withoutText: value } )
-								}
+								onChange={ ( value ) => {
+									setAttributes( { withoutText: value } );
+									if ( ! value ) {
+										setAttributes( { ariaLabel: '' } );
+									}
+								} }
 							/>
 						) }
 					</PanelBody>
@@ -71,6 +75,21 @@ export default function Inspector( {
 							attributes={ attributes }
 							setAttributes={ setAttributes }
 						/>
+						{ withoutText && (
+							<TextControl
+								label={ __( 'ARIA Label', 'scblocks' ) }
+								help={ __(
+									'Describe the purpose of the button. This is useful for people who use screen readers when the button has no text.',
+									'scblocks'
+								) }
+								value={ ariaLabel }
+								onChange={ ( value ) => {
+									setAttributes( {
+										ariaLabel: value,
+									} );
+								} }
+							/>
+						) }
 					</PanelBody>
 				}
 			/>

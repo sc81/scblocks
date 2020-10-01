@@ -28,6 +28,7 @@ export default function Save( {
 		withoutText,
 		elementId,
 		cssClasses,
+		ariaLabel,
 	},
 } ) {
 	const relAttributes = [];
@@ -56,6 +57,7 @@ export default function Save( {
 			href={ url }
 			target={ target ? '_blank' : undefined }
 			rel={ rel }
+			aria-label={ !! ariaLabel ? ariaLabel : undefined }
 		>
 			{ !! icon && (
 				<span
