@@ -27,6 +27,7 @@ export const settings = {
 		...SHARED_ATTRIBUTES.classes,
 		tag: {
 			type: 'string',
+			default: 'div',
 		},
 		...SHARED_ATTRIBUTES.googleFonts,
 	},

@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
@@ -15,6 +16,10 @@ import * as heading from './heading';
 
 [ button, buttons, column, columns, container, heading ].forEach(
 	( { name, settings } ) => {
-		registerBlockType( name, settings );
+		const blockName = name.replace( 'scblocks/', '' );
+		registerBlockType(
+			name,
+			applyFilters( `scblocks.${ blockName }.settings`, settings )
+		);
 	}
 );

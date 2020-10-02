@@ -11,7 +11,7 @@ import { BLOCK_SELECTOR } from '../../block/constants';
 
 export const BUTTONS_BLOCK_NAME = `${ PLUGIN_NAME }/buttons`;
 
-export const selectorsSettings = [
+export const BUTTONS_SELECTORS_SETTINGS = [
 	{
 		label: __( 'Buttons style', 'scblocks' ),
 		id: BLOCK_SELECTOR.blockMainSelectorAlias,

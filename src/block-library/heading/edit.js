@@ -7,24 +7,22 @@ import classnames from 'classnames';
  * WordPress dependencies
  */
 import {
-	InspectorControls,
 	RichText,
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
-import { PanelBody, SelectControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
 import { useEffect } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
  */
 import './markformat';
-import { selectorsSettings } from './utils';
+import { HEADING_SELECTORS_SETTINGS } from './utils';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import useDynamicCss from '../../hooks/use-dynamic-css';
-import ControlsManager from '../../components/controls-manager';
 import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import { name as blockName } from '.';
 import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
@@ -34,28 +32,19 @@ import {
 	useSelectorsActivity,
 	setSelectorActivity,
 } from '../../hooks/use-selector-activity';
-import IconPicker from '../../components/icon-picker';
-import {
-	removeSelectors,
-	getPropsForEveryDevice,
-	setPropsForVariousDevices,
-} from '../../utils';
-import IdClassesControls from '../../block/id-classes-controls.js';
-
-const typographyProps = [
-	'fontSize',
-	'fontFamily',
-	'fontWeight',
-	'fontStyle',
-	'lineHeight',
-	'letterSpacing',
-	'textDecoration',
-	'textTransform',
-];
+import Inspector from './inspector';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace } = props;
-	const { text, tagName, uidClass, icon, isWrapped, cssClasses } = attributes;
+	const {
+		text,
+		tagName,
+		uidClass,
+		icon,
+		isWrapped,
+		cssClasses,
+		elementId,
+	} = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -63,6 +52,11 @@ export default function Edit( props ) {
 				CORE_EDIT_POST_STORE_NAME
 			).__experimentalGetPreviewDeviceType(),
 		[]
+	);
+	const selectorsSettings = applyFilters(
+		'scblocks.heading.selectorsSettings',
+		HEADING_SELECTORS_SETTINGS,
+		BLOCK_SELECTOR
 	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	useDynamicCss( props, devices );
@@ -75,160 +69,19 @@ export default function Edit( props ) {
 		setSelectorActivity( selectorsActivity, 'heading', ! isWrapped );
 	}, [ selectorsActivity, isWrapped ] );
 
-	function onRemoveIcon() {
-		setAttributes( {
-			icon: '',
-			isWrapped: false,
-		} );
-		const properties = getPropsForEveryDevice( {
-			attributes,
-			selector: BLOCK_SELECTOR.headingWrapped.text.alias,
-			props: typographyProps,
-		} );
-		const attrs = {
-			css: {},
-		};
-		function setAttrs( next ) {
-			attrs.css = next.css;
-		}
-		// rewrite typography props
-		setPropsForVariousDevices( {
-			attributes,
-			setAttributes: setAttrs,
-			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
-			props: properties,
-		} );
-		// delete flex props
-		setPropsForVariousDevices( {
-			attributes: attrs,
-			setAttributes: setAttrs,
-			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
-			everyDeviceProps: {
-				flexDirection: '',
-				justifyContent: '',
-				alignItems: '',
-			},
-		} );
-		// remove unnecessary selectors
-		removeSelectors( {
-			attributes: attrs,
-			setAttributes,
-			selectors: [
-				BLOCK_SELECTOR.headingWrapped.icon.alias,
-				BLOCK_SELECTOR.headingWrapped.text.alias,
-			],
-		} );
-	}
-	function onSelectIcon( value ) {
-		const properties = getPropsForEveryDevice( {
-			attributes,
-			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
-			props: typographyProps,
-		} );
-		const attrs = {
-			css: {},
-		};
-		function setAttrs( next ) {
-			attrs.css = next.css;
-		}
-		// rewrite typography props
-		setPropsForVariousDevices( {
-			attributes,
-			setAttributes: setAttrs,
-			selector: BLOCK_SELECTOR.headingWrapped.text.alias,
-			props: properties,
-		} );
-		// delete typography props from the main selector
-		setPropsForVariousDevices( {
-			attributes: attrs,
-			setAttributes,
-			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
-			everyDeviceProps: {
-				fontSize: '',
-				fontFamily: '',
-				fontWeight: '',
-				fontStyle: '',
-				lineHeight: '',
-				letterSpacing: '',
-				textDecoration: '',
-				textTransform: '',
-			},
-		} );
-		setAttributes( { icon: value, isWrapped: true } );
-	}
-
 	return (
 		<>
-			<InspectorControls>
-				<ControlsManager
-					selectorsSettings={ selectorsSettings }
-					setAttributes={ setAttributes }
-					attributes={ attributes }
-					devices={ devices }
-					blockMemo={ blockMemo }
-					selectorsActivity={ selectorsActivity }
-					mainControls={
-						<PanelBody opened>
-							<SelectControl
-								label={ __( 'Element', 'scblocks' ) }
-								value={ tagName }
-								options={ [
-									{
-										label: __( 'H1', 'scblocks' ),
-										value: 'h1',
-									},
-									{
-										label: __( 'H2', 'scblocks' ),
-										value: 'h2',
-									},
-									{
-										label: __( 'H3', 'scblocks' ),
-										value: 'h3',
-									},
-									{
-										label: __( 'H4', 'scblocks' ),
-										value: 'h4',
-									},
-									{
-										label: __( 'H5', 'scblocks' ),
-										value: 'h5',
-									},
-									{
-										label: __( 'H6', 'scblocks' ),
-										value: 'h6',
-									},
-									{
-										label: __( 'p', 'scblocks' ),
-										value: 'p',
-									},
-								] }
-								onChange={ ( value ) =>
-									setAttributes( { tagName: value } )
-								}
-							/>
-							<IconPicker
-								icon={ icon }
-								onSelect={ onSelectIcon }
-								onClear={ onRemoveIcon }
-							/>
-						</PanelBody>
-					}
-					htmlAttrsControls={
-						<PanelBody opened>
-							<IdClassesControls { ...props } />
-						</PanelBody>
-					}
-				/>
-			</InspectorControls>
+			<Inspector
+				{ ...props }
+				devices={ devices }
+				blockMemo={ blockMemo }
+				selectorsSettings={ selectorsSettings }
+				selectorsActivity={ selectorsActivity }
+			/>
 			<GoogleFontsLink attributes={ attributes } />
 			{ ! isWrapped && (
 				<RichText
 					tagName={ Block[ tagName ] }
-					className={ classnames( {
-						[ BLOCK_CLASSES.heading.text ]: true,
-						[ uidClass ]: true,
-						[ `${ cssClasses }` ]: '' !== cssClasses,
-					} ) }
 					value={ text }
 					onChange={ ( value ) => setAttributes( { text: value } ) }
 					placeholder={ __( 'Heading', 'scblocks' ) }
@@ -243,6 +96,18 @@ export default function Edit( props ) {
 						} );
 					} }
 					onReplace={ onReplace }
+					{ ...applyFilters(
+						'scblocks.heading.htmlAttributes',
+						{
+							id: !! elementId ? elementId : undefined,
+							className: classnames( {
+								[ BLOCK_CLASSES.heading.text ]: true,
+								[ uidClass ]: true,
+								[ `${ cssClasses }` ]: '' !== cssClasses,
+							} ),
+						},
+						attributes
+					) }
 				/>
 			) }
 			{ isWrapped && (
@@ -255,10 +120,6 @@ export default function Edit( props ) {
 					/>
 					<RichText
 						tagName={ tagName }
-						className={ classnames( {
-							[ BLOCK_CLASSES.heading.text ]: true,
-							[ `${ cssClasses }` ]: '' !== cssClasses,
-						} ) }
 						value={ text }
 						onChange={ ( value ) =>
 							setAttributes( { text: value } )
@@ -275,6 +136,17 @@ export default function Edit( props ) {
 							} );
 						} }
 						onReplace={ onReplace }
+						{ ...applyFilters(
+							'scblocks.heading.htmlAttributes',
+							{
+								id: !! elementId ? elementId : undefined,
+								className: classnames( {
+									[ BLOCK_CLASSES.heading.text ]: true,
+									[ `${ cssClasses }` ]: '' !== cssClasses,
+								} ),
+							},
+							attributes
+						) }
 					/>
 				</Block.div>
 			) }

@@ -7,6 +7,7 @@ import classnames from 'classnames';
  * WordPress dependencies
  */
 import { RichText } from '@wordpress/block-editor';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
@@ -14,8 +15,8 @@ import { RichText } from '@wordpress/block-editor';
 import { BLOCK_CLASSES } from '../../block/constants';
 import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
 
-export default function save( {
-	attributes: {
+export default function save( { attributes } ) {
+	const {
 		text,
 		tagName,
 		uidClass,
@@ -23,24 +24,39 @@ export default function save( {
 		isWrapped,
 		elementId,
 		cssClasses,
-	},
-} ) {
+	} = attributes;
 	if ( ! isWrapped ) {
-		const classes = classnames( {
-			[ BLOCK_CLASSES.heading.text ]: true,
-			[ uidClass ]: true,
-			[ `${ cssClasses }` ]: '' !== cssClasses,
-		} );
+		const htmlAttributes = applyFilters(
+			'scblocks.heading.htmlAttributes',
+			{
+				id: !! elementId ? elementId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.heading.text ]: true,
+					[ uidClass ]: true,
+					[ `${ cssClasses }` ]: '' !== cssClasses,
+				} ),
+			},
+			attributes
+		);
 		return (
 			<RichText.Content
-				id={ !! elementId ? elementId : undefined }
-				className={ classes }
 				tagName={ tagName }
 				value={ text }
+				{ ...htmlAttributes }
 			/>
 		);
 	}
-
+	const htmlAttributes = applyFilters(
+		'scblocks.heading.htmlAttributes',
+		{
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				[ BLOCK_CLASSES.heading.text ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+		},
+		attributes
+	);
 	return (
 		<div className={ `${ BLOCK_CLASSES.heading.wrapper } ${ uidClass }` }>
 			<DangerouslyPasteIcon
@@ -48,13 +64,9 @@ export default function save( {
 				className={ BLOCK_CLASSES.heading.icon }
 			/>
 			<RichText.Content
-				id={ !! elementId ? elementId : undefined }
-				className={ classnames( {
-					[ BLOCK_CLASSES.heading.text ]: true,
-					[ `${ cssClasses }` ]: '' !== cssClasses,
-				} ) }
 				tagName={ tagName }
 				value={ text }
+				{ ...htmlAttributes }
 			/>
 		</div>
 	);

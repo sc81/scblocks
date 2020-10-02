@@ -11,11 +11,12 @@ import {
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
  */
-import { selectorsSettings } from './utils';
+import { COLUMN_SELECTORS_SETTINGS } from './utils';
 import {
 	CORE_BLOCK_EDITOR_STORE_NAME,
 	CORE_EDIT_POST_STORE_NAME,
@@ -23,11 +24,12 @@ import {
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import Inspector from './inspector';
-import { BLOCK_CLASSES } from '../../block/constants';
+import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
 import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, clientId } = props;
+	const { elementId, cssClasses, uidClass } = attributes;
 	const { devices, hasChildBlocks } = useSelect(
 		( store ) => {
 			return {
@@ -41,15 +43,27 @@ export default function Edit( props ) {
 		},
 		[ clientId ]
 	);
+	const selectorsSettings = applyFilters(
+		'scblocks.column.selectorsSettings',
+		COLUMN_SELECTORS_SETTINGS,
+		BLOCK_SELECTOR
+	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	useDynamicCss( props, devices );
 
-	const classes = classnames( {
-		[ BLOCK_CLASSES.column.main ]: true,
-		[ attributes.uidClass ]: true,
-		[ BLOCK_CLASSES.column.col ]: true,
-		[ `${ attributes.cssClasses }` ]: '' !== attributes.cssClasses,
-	} );
+	const htmlAttributes = applyFilters(
+		'scblocks.column.htmlAttributes',
+		{
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				[ BLOCK_CLASSES.column.main ]: true,
+				[ uidClass ]: true,
+				[ BLOCK_CLASSES.column.col ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+		},
+		attributes
+	);
 
 	return (
 		<>
@@ -57,10 +71,16 @@ export default function Edit( props ) {
 				{ ...props }
 				blockMemo={ blockMemo }
 				devices={ devices }
+				selectorsSettings={ selectorsSettings }
 			/>
-			<Block.div className={ classes }>
+			<Block.div { ...htmlAttributes }>
 				<GoogleFontsLink attributes={ attributes } />
 				<div className={ BLOCK_CLASSES.column.inner }>
+					{ applyFilters(
+						'scblocks.column.inside',
+						null,
+						attributes
+					) }
 					<InnerBlocks
 						templateLock={ false }
 						renderAppender={

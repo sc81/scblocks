@@ -4,12 +4,12 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { PanelBody } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
  */
 import ControlsManager from '../../components/controls-manager';
-import { selectorsSettings } from './utils';
 import {
 	setPropValue,
 	getPropValue,
@@ -21,12 +21,8 @@ import IdClassesControls from '../../block/id-classes-controls.js';
 
 const ALL_COLUMNS_SELECTOR_ALIAS = BLOCK_SELECTOR.columns.allColumns.alias;
 
-export default function Inspector( {
-	attributes,
-	setAttributes,
-	devices,
-	blockMemo,
-} ) {
+export default function Inspector( props ) {
+	const { attributes, setAttributes, devices } = props;
 	const horizontalGap = getPropValue( {
 		attributes,
 		setAttributes,
@@ -73,19 +69,22 @@ export default function Inspector( {
 	return (
 		<InspectorControls>
 			<ControlsManager
-				selectorsSettings={ selectorsSettings }
-				setAttributes={ setAttributes }
-				attributes={ attributes }
-				devices={ devices }
-				blockMemo={ blockMemo }
-				htmlAttrsControls={
+				{ ...props }
+				mainControls={ applyFilters(
+					'scblocks.columns.mainControls',
+					null,
+					props
+				) }
+				htmlAttrsControls={ applyFilters(
+					'scblocks.columns.htmlAttrControls',
 					<PanelBody opened>
 						<IdClassesControls
 							attributes={ attributes }
 							setAttributes={ setAttributes }
 						/>
-					</PanelBody>
-				}
+					</PanelBody>,
+					props
+				) }
 				spacePanelAdditionalControls={
 					<>
 						<NumberUnit

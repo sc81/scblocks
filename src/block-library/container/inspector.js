@@ -3,12 +3,13 @@
  */
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
+
 /**
  * Internal dependencies
  */
 import ControlsManager from '../../components/controls-manager';
 import SelectHtmlTag from '../../components/select-html-tag';
-import { selectorsSettings } from './utils';
 import ContentWidth from './content-width';
 import IdClassesControls from '../../block/id-classes-controls.js';
 
@@ -24,17 +25,20 @@ export default function Inspector( props ) {
 		<InspectorControls>
 			<ControlsManager
 				{ ...props }
-				selectorsSettings={ selectorsSettings }
-				mainControls={
+				mainControls={ applyFilters(
+					'scblocks.container.mainControls',
 					<PanelBody opened>
 						<SelectHtmlTag value={ tag } onChange={ setTag } />
-					</PanelBody>
-				}
-				htmlAttrsControls={
+					</PanelBody>,
+					props
+				) }
+				htmlAttrsControls={ applyFilters(
+					'scblocks.container.htmlAttrControls',
 					<PanelBody opened>
 						<IdClassesControls { ...props } />
-					</PanelBody>
-				}
+					</PanelBody>,
+					props
+				) }
 				spacePanelAdditionalControls={ <ContentWidth { ...props } /> }
 			/>
 		</InspectorControls>

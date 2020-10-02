@@ -11,7 +11,7 @@ import { BLOCK_SELECTOR } from '../../block/constants';
 
 export const COLUMN_NAME = `${ PLUGIN_NAME }/column`;
 
-export const selectorsSettings = [
+export const COLUMN_SELECTORS_SETTINGS = [
 	{
 		label: __( 'Column Style', 'scblocks' ),
 		id: BLOCK_SELECTOR.column.inner.alias,

@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n';
  */
 import { BLOCK_SELECTOR } from '../../block/constants';
 
-export const selectorsSettings = [
+export const CONTAINER_SELECTORS_SETTINGS = [
 	{
 		label: __( 'Container Style', 'scblocks' ),
 		id: BLOCK_SELECTOR.blockMainSelectorAlias,

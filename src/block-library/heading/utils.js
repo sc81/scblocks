@@ -11,7 +11,7 @@ import { PLUGIN_NAME } from '../../constants';
 
 export const HEADING_BLOCK_NAME = `${ PLUGIN_NAME }/heading`;
 
-export const selectorsSettings = [
+export const HEADING_SELECTORS_SETTINGS = [
 	{
 		label: __( 'Heading Styles', 'scblocks' ),
 		id: 'heading',

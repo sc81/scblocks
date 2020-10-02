@@ -12,11 +12,12 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
  */
-import { selectorsSettings } from './utils';
+import { CONTAINER_SELECTORS_SETTINGS } from './utils';
 import {
 	CORE_BLOCK_EDITOR_STORE_NAME,
 	CORE_EDIT_POST_STORE_NAME,
@@ -24,13 +25,13 @@ import {
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import Inspector from './inspector';
-import { BLOCK_CLASSES } from '../../block/constants';
+import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
 import VariationsPicker from '../../block/variations-picker';
 import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;
-	const { uidClass, cssClasses } = attributes;
+	const { uidClass, cssClasses, elementId } = attributes;
 	const { devices, innerBlockCount, isRootContainer } = useSelect(
 		( select ) => {
 			const { getBlockCount, getBlockHierarchyRootClientId } = select(
@@ -52,9 +53,29 @@ export default function Edit( props ) {
 		setAttributes( { isRootContainer } );
 	}, [ isRootContainer, setAttributes ] );
 
+	const selectorsSettings = applyFilters(
+		'scblocks.container.selectorsSettings',
+		CONTAINER_SELECTORS_SETTINGS,
+		BLOCK_SELECTOR
+	);
+
 	useDynamicCss( props, devices );
 
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
+
+	const htmlAttributes = applyFilters(
+		'scblocks.container.htmlAttributes',
+		{
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				[ BLOCK_CLASSES.container.main ]: true,
+				[ uidClass ]: true,
+				[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+		},
+		attributes
+	);
 
 	return (
 		<>
@@ -62,16 +83,15 @@ export default function Edit( props ) {
 				{ ...props }
 				devices={ devices }
 				blockMemo={ blockMemo }
+				selectorsSettings={ selectorsSettings }
 			/>
-			<Block.div
-				className={ classnames( {
-					[ BLOCK_CLASSES.container.main ]: true,
-					[ uidClass ]: true,
-					[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
-					[ `${ cssClasses }` ]: '' !== cssClasses,
-				} ) }
-			>
+			<Block.div { ...htmlAttributes }>
 				<GoogleFontsLink attributes={ attributes } />
+				{ applyFilters(
+					'scblocks.container.inside',
+					null,
+					attributes
+				) }
 				{ innerBlockCount > 0 && (
 					<InnerBlocks
 						templateLock={ false }

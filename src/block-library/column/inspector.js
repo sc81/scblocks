@@ -5,18 +5,19 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { SelectControl, PanelBody } from '@wordpress/components';
 import { useMemo } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
  */
 import ControlsManager from '../../components/controls-manager';
 import { setPropValue, getPropValue } from '../../utils';
-import { selectorsSettings } from './utils';
 import NumberUnit from '../../components/number-unit';
 import { BLOCK_SELECTOR } from '../../block/constants';
 import Separator from '../../components/separator';
 import propertyService from '../../style-controls/property-service';
 import IdClassesControls from '../../block/id-classes-controls.js';
+import SelectHtmlTag from '../../components/select-html-tag';
 
 const options = [
 	{ label: __( 'Default', 'scblocks' ), value: '' },
@@ -82,12 +83,8 @@ function ColumnWidth( props ) {
 	);
 }
 
-export default function Inspector( {
-	attributes,
-	setAttributes,
-	devices,
-	blockMemo,
-} ) {
+export default function Inspector( props ) {
+	const { attributes, setAttributes, devices } = props;
 	const verticalGap = getPropValue( {
 		attributes,
 		setAttributes,
@@ -108,19 +105,29 @@ export default function Inspector( {
 	return (
 		<InspectorControls>
 			<ControlsManager
-				selectorsSettings={ selectorsSettings }
-				setAttributes={ setAttributes }
-				attributes={ attributes }
-				devices={ devices }
-				blockMemo={ blockMemo }
-				htmlAttrsControls={
+				{ ...props }
+				mainControls={ applyFilters(
+					'scblocks.column.mainControls',
+					<PanelBody opened>
+						<SelectHtmlTag
+							value={ attributes.tag }
+							onChange={ ( value ) =>
+								setAttributes( { tag: value } )
+							}
+						/>
+					</PanelBody>,
+					props
+				) }
+				htmlAttrsControls={ applyFilters(
+					'scblocks.column.htmlAttrControls',
 					<PanelBody opened>
 						<IdClassesControls
 							attributes={ attributes }
 							setAttributes={ setAttributes }
 						/>
-					</PanelBody>
-				}
+					</PanelBody>,
+					props
+				) }
 				spacePanelAdditionalControls={
 					<>
 						<ColumnWidth

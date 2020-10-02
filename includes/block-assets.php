@@ -62,11 +62,12 @@ class Block_Assets {
 	 * Editor assets.
 	 */
 	public function editor_assets() {
-		$asset_file = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . '/index.asset.php';
+		$asset_file   = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . '/index.asset.php';
+		$dependencies = $asset_file['dependencies'];
 		wp_enqueue_script(
 			'scblocks-editor',
 			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . '/index.js',
-			$asset_file['dependencies'],
+			apply_filters( 'scblocks_editor_blocks_dependencies', $dependencies ),
 			$asset_file['version'],
 			true
 		);

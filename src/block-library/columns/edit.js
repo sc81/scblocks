@@ -11,6 +11,7 @@ import {
 	__experimentalBlock as Block,
 	BlockControls,
 } from '@wordpress/block-editor';
+import { applyFilters } from '@wordpress/hooks';
 import { useSelect, dispatch, select } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import { Toolbar, Button } from '@wordpress/components';
@@ -24,7 +25,7 @@ import {
 	CORE_EDIT_POST_STORE_NAME,
 	DESKTOP_DEVICES,
 } from '../../constants';
-import { selectorsSettings } from './utils';
+import { COLUMNS_SELECTORS_SETTINGS } from './utils';
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import VariationsPicker from '../../block/variations-picker';
@@ -36,7 +37,7 @@ const ALLOWED_BLOCKS = [ COLUMN_NAME ];
 
 export default function Edit( props ) {
 	const { attributes, clientId } = props;
-	const { uidClass, cssClasses } = attributes;
+	const { uidClass, cssClasses, elementId } = attributes;
 
 	const { devices, columnCount } = useSelect(
 		( store ) => {
@@ -51,15 +52,26 @@ export default function Edit( props ) {
 		},
 		[ clientId ]
 	);
-
+	const selectorsSettings = applyFilters(
+		'scblocks.columns.selectorsSettings',
+		COLUMNS_SELECTORS_SETTINGS,
+		BLOCK_SELECTOR
+	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	useDynamicCss( props, devices );
 
-	const classes = classnames( {
-		[ BLOCK_CLASSES.columns.main ]: true,
-		[ uidClass ]: true,
-		[ `${ cssClasses }` ]: '' !== cssClasses,
-	} );
+	const htmlAttributes = applyFilters(
+		'scblocks.columns.htmlAttributes',
+		{
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				[ BLOCK_CLASSES.columns.main ]: true,
+				[ uidClass ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+		},
+		attributes
+	);
 
 	return (
 		<>
@@ -99,15 +111,14 @@ export default function Edit( props ) {
 				{ ...props }
 				blockMemo={ blockMemo }
 				devices={ devices }
+				selectorsSettings={ selectorsSettings }
 			/>
 			{ columnCount > 0 && (
 				<InnerBlocks
 					allowedBlocks={ ALLOWED_BLOCKS }
 					__experimentalMoverDirection="horizontal"
 					__experimentalTagName={ Block.div }
-					__experimentalPassedProps={ {
-						className: classes,
-					} }
+					__experimentalPassedProps={ htmlAttributes }
 					renderAppender={ false }
 				/>
 			) }

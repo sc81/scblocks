@@ -8,6 +8,7 @@ import classnames from 'classnames';
  */
 import { RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
@@ -16,8 +17,8 @@ import { BLOCK_CLASSES } from '../../block/constants';
 
 const placeholder = __( 'Button', 'scblocks' );
 
-export default function Save( {
-	attributes: {
+export default function Save( { attributes } ) {
+	const {
 		url,
 		target,
 		relNoFollow,
@@ -29,8 +30,7 @@ export default function Save( {
 		elementId,
 		cssClasses,
 		ariaLabel,
-	},
-} ) {
+	} = attributes;
 	const relAttributes = [];
 
 	if ( relNoFollow ) {
@@ -46,19 +46,25 @@ export default function Save( {
 	}
 	const rel =
 		relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined;
-	return (
-		<a
-			id={ !! elementId ? elementId : undefined }
-			className={ classnames( {
+
+	const htmlAttributes = applyFilters(
+		'scblocks.button.htmlAttributes',
+		{
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
 				[ BLOCK_CLASSES.button.main ]: true,
 				[ uidClass ]: true,
 				[ `${ cssClasses }` ]: '' !== cssClasses,
-			} ) }
-			href={ url }
-			target={ target ? '_blank' : undefined }
-			rel={ rel }
-			aria-label={ !! ariaLabel ? ariaLabel : undefined }
-		>
+			} ),
+			href: url,
+			target: target ? '_blank' : undefined,
+			rel,
+			'aria-label': !! ariaLabel ? ariaLabel : undefined,
+		},
+		attributes
+	);
+	return (
+		<a { ...htmlAttributes }>
 			{ !! icon && (
 				<span
 					className={ BLOCK_CLASSES.button.icon }
