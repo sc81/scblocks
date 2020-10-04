@@ -17,7 +17,7 @@ import {
 } from '../../utils';
 import NumberUnit from '../../components/number-unit';
 import { BLOCK_SELECTOR } from '../../block/constants';
-import IdClassesControls from '../../block/id-classes-controls.js';
+import IdClassesControls from '../../block/id-classes-controls';
 
 const ALL_COLUMNS_SELECTOR_ALIAS = BLOCK_SELECTOR.columns.allColumns.alias;
 

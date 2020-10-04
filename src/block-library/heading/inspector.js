@@ -17,7 +17,7 @@ import {
 	getPropsForEveryDevice,
 	setPropsForVariousDevices,
 } from '../../utils';
-import IdClassesControls from '../../block/id-classes-controls.js';
+import IdClassesControls from '../../block/id-classes-controls';
 
 const typographyProps = [
 	'fontSize',

@@ -11,7 +11,7 @@ import { applyFilters } from '@wordpress/hooks';
 import ControlsManager from '../../components/controls-manager';
 import SelectHtmlTag from '../../components/select-html-tag';
 import ContentWidth from './content-width';
-import IdClassesControls from '../../block/id-classes-controls.js';
+import IdClassesControls from '../../block/id-classes-controls';
 
 export default function Inspector( props ) {
 	const {

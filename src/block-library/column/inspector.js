@@ -16,7 +16,7 @@ import NumberUnit from '../../components/number-unit';
 import { BLOCK_SELECTOR } from '../../block/constants';
 import Separator from '../../components/separator';
 import propertyService from '../../style-controls/property-service';
-import IdClassesControls from '../../block/id-classes-controls.js';
+import IdClassesControls from '../../block/id-classes-controls';
 import SelectHtmlTag from '../../components/select-html-tag';
 
 const options = [

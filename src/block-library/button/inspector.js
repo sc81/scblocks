@@ -13,7 +13,7 @@ import ControlsManager from '../../components/controls-manager';
 import IconPicker from '../../components/icon-picker';
 import { removeSelectors } from '../../utils';
 import { BLOCK_SELECTOR } from '../../block/constants';
-import IdClassesControls from '../../block/id-classes-controls.js';
+import IdClassesControls from '../../block/id-classes-controls';
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;

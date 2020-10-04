@@ -29,7 +29,7 @@ import VariationsPicker from '../../block/variations-picker';
 import { BUTTON_BLOCK_NAME } from '../button/utils';
 import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
 import ControlsManager from '../../components/controls-manager';
-import IdClassesControls from '../../block/id-classes-controls.js';
+import IdClassesControls from '../../block/id-classes-controls';
 
 const ALLOWED_BLOCKS = [ BUTTON_BLOCK_NAME ];
 
