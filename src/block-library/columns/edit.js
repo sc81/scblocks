@@ -89,9 +89,8 @@ export default function Edit( props ) {
 								createBlock( 'scblocks/column', {
 									css: {
 										[ DESKTOP_DEVICES ]: {
-											[ BLOCK_SELECTOR.blockMainSelectorAlias ]: [
-												'width:50%',
-											],
+											[ BLOCK_SELECTOR.column.main
+												.alias ]: [ 'width:50%' ],
 										},
 									},
 								} ),

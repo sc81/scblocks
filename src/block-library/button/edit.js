@@ -76,7 +76,7 @@ export default function Edit( props ) {
 	const flexGrow = getPropValue( {
 		attributes,
 		devices,
-		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.button.main.alias,
 		propName: 'flexGrow',
 	} );
 	const relAttributes = [];
@@ -102,6 +102,7 @@ export default function Edit( props ) {
 			className: classnames( {
 				[ BLOCK_CLASSES.button.main ]: true,
 				[ uidClass ]: true,
+				[ BLOCK_CLASSES.button.btn ]: true,
 				[ `${ cssClasses }` ]: '' !== cssClasses,
 			} ),
 			href: url,

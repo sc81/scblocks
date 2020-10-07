@@ -11,25 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Block_Css {
 
 	/** @var string */
-	const DESKTOP_DEVICES = 'Desktop';
-
-	/** @var string */
-	const TABLET_DEVICES = 'Tablet';
-
-	/** @var string */
-	const MOBILE_DEVICES = 'Mobile';
-
-	/** @var string */
 	const BLOCK_NAMESPACE = 'scblocks';
 
 	/** @var string */
 	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
-
-	/** @var string */
-	public $tablet_devices_max_width = '1024px';
-
-	/** @var string */
-	public $mobile_devices_max_width = '767px';
 
 	/**
 	 * Our css.
@@ -145,7 +130,12 @@ class Block_Css {
 		if ( ! isset( $this->inline_css ) ) {
 			$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
 
-			$this->inline_css = $this->compose( $blocks_attr );
+			$composer = new Css();
+
+			$this->inline_css = $composer->compose( $blocks_attr );
+			if ( $this->inline_css ) {
+				$this->inline_css = Initial_Css::get() . $this->inline_css;
+			}
 
 			// assign fonts uri
 			$fonts = new Fonts( $blocks_attr );
@@ -243,11 +233,13 @@ class Block_Css {
 
 		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
 
-		$css = $this->compose( $blocks_attr );
+		$composer = new Css();
+		$css      = $composer->compose( $blocks_attr );
 
 		if ( ! $css ) {
 			return false;
 		}
+		$css = Initial_Css::get() . $css;
 		// assign css to prop
 		$this->inline_css = $css;
 
@@ -512,141 +504,6 @@ class Block_Css {
 		return $data;
 	}
 
-	/**
-	 * Composes css.
-	 *
-	 * @param array $blocks An array of blocks attributes.
-	 *
-	 * @return string
-	 */
-	public function compose( array $blocks ) : string {
-		$css = array(
-			'allDevices' => '',
-		);
-
-		$css[ self::DESKTOP_DEVICES ] = '';
-		$css[ self::TABLET_DEVICES ]  = '';
-		$css[ self::MOBILE_DEVICES ]  = '';
-
-		foreach ( $blocks as $block_name => $block ) {
-			if ( empty( $block['css'] ) ) {
-				continue;
-			}
-
-			$block_name_parts = explode( ' ', $block_name );
-
-			$uid_selector = '.' . $block_name_parts[1];
-
-			$block_name_without_namespace = explode( '/', $block_name_parts[0] )[1];
-
-			if ( 'heading' === $block_name_without_namespace && isset( $block['isWrapped'] ) && $block['isWrapped'] ) {
-				$block_name_without_namespace = 'headingWrapped';
-			}
-
-			foreach ( $block['css'] as $devices => $selectors ) {
-				$css[ $devices ] .= $this->compose_selectors( $selectors, $block_name_without_namespace, $uid_selector );
-			}
-		}
-		foreach ( $css as $device_type => $device_css ) {
-			if ( $device_css ) {
-				if ( self::TABLET_DEVICES === $device_type ) {
-					$css[ $device_type ] = '@media(max-width:' . $this->tablet_devices_max_width . '){' . $device_css . '}';
-				} elseif ( self::MOBILE_DEVICES === $device_type ) {
-					$css[ $device_type ] = '@media(max-width:' . $this->mobile_devices_max_width . '){' . $device_css . '}';
-				}
-			}
-		}
-		return $css['allDevices'] . $css[ self::DESKTOP_DEVICES ] . $css[ self::TABLET_DEVICES ] . $css[ self::MOBILE_DEVICES ];
-	}
-
-	/**
-	 * Composes selectors.
-	 *
-	 * @param array $selectors Array of selectors.
-	 * @param string $block_name Block name.
-	 * @param string $uid_selector
-	 *
-	 * @return string
-	 */
-	public function compose_selectors( array $selectors, string $block_name, string $uid_selector ) : string {
-		$css = '';
-
-		// specificity plus 1
-		$additional_selector = '';
-		if ( 'column' === $block_name ) {
-			$additional_selector = BLOCK_SELECTOR['column']['col'];
-		}
-		if ( 'headingWrapped' === $block_name ) {
-			$leading_selector = BLOCK_SELECTOR[ $block_name ]['wrapper'] . $uid_selector;
-		} else {
-			$leading_selector = '.scb-' . $block_name . $uid_selector . $additional_selector;
-		}
-
-		foreach ( $selectors as $selector_alias => $selector_props ) {
-			if ( BLOCK_MAIN_SELECTOR_ALIAS === $selector_alias ) {
-				$final_selector = $leading_selector;
-			} elseif ( BLOCK_MAIN_SELECTOR_HOVER_ALIAS === $selector_alias ) {
-				$final_selector = $leading_selector . ':hover';
-			} else {
-				$next_selector = BLOCK_SELECTOR[ $block_name ][ $selector_alias ];
-				if ( preg_match( '/^uidSelector/', $next_selector ) ) {
-					$final_selector = $uid_selector . preg_replace( '/^uidSelector/', '', $next_selector );
-				} else {
-					$final_selector = $leading_selector . ' ' . $next_selector;
-				}
-			}
-			$css .= $final_selector . '{' . $this->compose_props( $selector_props ) . '}';
-		}
-		return $css;
-	}
-
-	/**
-	 * Composes properties.
-	 *
-	 * @param $props
-	 *
-	 * @return string
-	 */
-	public function compose_props( array $props ) : string {
-		$css = '';
-
-		foreach ( $props as $prop ) {
-			$colon_index = strpos( $prop, ':' );
-			$name        = substr( $prop, 0, $colon_index );
-			$value       = substr( $prop, $colon_index );
-			$css        .= $this->standarize_prop_name( $name ) . $value . ';';
-		}
-		return $css;
-	}
-
-	/**
-	 * Converts the property to the valid css property.
-	 *
-	 * @param $name
-	 *
-	 * @return string
-	 */
-	public function standarize_prop_name( string $name ) : string {
-		if ( strpos( $name, 'Custom' ) !== false ) {
-			$n = str_replace( 'Custom', '', $name );
-			$n = preg_replace_callback(
-				'/[A-Z]/',
-				function( $match ) {
-					return '-' . strtolower( $match[0] );
-				},
-				$n
-			);
-			return '--' . self::BLOCK_NAMESPACE . '-' . $n;
-		} else {
-			return preg_replace_callback(
-				'/[A-Z]/',
-				function( $match ) {
-					return '-' . strtolower( $match[0] );
-				},
-				$name
-			);
-		}
-	}
 	/**
 	 * Gets the css file name
 	 *

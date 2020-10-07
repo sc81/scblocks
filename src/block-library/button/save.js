@@ -54,6 +54,7 @@ export default function Save( { attributes } ) {
 			className: classnames( {
 				[ BLOCK_CLASSES.button.main ]: true,
 				[ uidClass ]: true,
+				[ BLOCK_CLASSES.button.btn ]: true,
 				[ `${ cssClasses }` ]: '' !== cssClasses,
 			} ),
 			href: url,

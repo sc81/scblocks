@@ -11,8 +11,8 @@ import { BLOCK_SELECTOR } from '../../block/constants';
 export const CONTAINER_SELECTORS_SETTINGS = [
 	{
 		label: __( 'Container Style', 'scblocks' ),
-		id: BLOCK_SELECTOR.blockMainSelectorAlias,
-		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+		id: BLOCK_SELECTOR.container.main.alias,
+		selector: BLOCK_SELECTOR.container.main.alias,
 		allowedPanels: {
 			colors: {
 				textColor: true,

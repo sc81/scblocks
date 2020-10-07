@@ -53,14 +53,14 @@ export default function Inspector( props ) {
 		setPropsForVariousDevices( {
 			attributes,
 			setAttributes: setAttrs,
-			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.heading.main.alias,
 			props: properties,
 		} );
 		// delete flex props
 		setPropsForVariousDevices( {
 			attributes: attrs,
 			setAttributes: setAttrs,
-			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.heading.main.alias,
 			everyDeviceProps: {
 				flexDirection: '',
 				justifyContent: '',
@@ -80,7 +80,7 @@ export default function Inspector( props ) {
 	function onSelectIcon( value ) {
 		const properties = getPropsForEveryDevice( {
 			attributes,
-			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.headingWrapped.main.alias,
 			props: typographyProps,
 		} );
 		const attrs = {
@@ -100,7 +100,7 @@ export default function Inspector( props ) {
 		setPropsForVariousDevices( {
 			attributes: attrs,
 			setAttributes,
-			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.headingWrapped.main.alias,
 			everyDeviceProps: {
 				fontSize: '',
 				fontFamily: '',

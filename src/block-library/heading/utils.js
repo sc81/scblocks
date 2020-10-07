@@ -15,7 +15,7 @@ export const HEADING_SELECTORS_SETTINGS = [
 	{
 		label: __( 'Heading Styles', 'scblocks' ),
 		id: 'heading',
-		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.heading.main.alias,
 		allowedPanels: {
 			colors: {
 				textColor: true,
@@ -41,7 +41,7 @@ export const HEADING_SELECTORS_SETTINGS = [
 	{
 		label: __( 'Heading Styles', 'scblocks' ),
 		id: 'wrapper',
-		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.headingWrapped.main.alias,
 		allowedPanels: {
 			colors: {
 				textColor: true,

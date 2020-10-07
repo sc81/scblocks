@@ -39,10 +39,10 @@ export const COLUMN_SELECTORS_SETTINGS = [
 			},
 			position: {
 				order: {
-					selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+					selector: BLOCK_SELECTOR.column.main.alias,
 				},
 				zIndex: {
-					selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+					selector: BLOCK_SELECTOR.column.main.alias,
 				},
 				alignItems: true,
 				justifyContent: true,

@@ -16,13 +16,13 @@ function getButton() {
 		{
 			css: {
 				[ ALL_DEVICES ]: {
-					[ BLOCK_SELECTOR.blockMainSelectorAlias ]: [
+					[ BLOCK_SELECTOR.button.main.alias ]: [
 						'color:#ffffff',
 						'backgroundColor:#007cba',
 					],
 				},
 				[ DESKTOP_DEVICES ]: {
-					[ BLOCK_SELECTOR.blockMainSelectorAlias ]: [
+					[ BLOCK_SELECTOR.button.main.alias ]: [
 						'padding:12px 20px',
 					],
 				},

@@ -89,7 +89,7 @@ export default function Inspector( props ) {
 		attributes,
 		setAttributes,
 		devices,
-		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+		selector: BLOCK_SELECTOR.column.main.alias,
 		propName: 'paddingBottom',
 	} );
 	function onChangeVerticalGap( value ) {
@@ -97,7 +97,7 @@ export default function Inspector( props ) {
 			attributes,
 			setAttributes,
 			devices,
-			selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+			selector: BLOCK_SELECTOR.column.main.alias,
 			propName: 'paddingBottom',
 			value,
 		} );
@@ -134,7 +134,7 @@ export default function Inspector( props ) {
 							setAttributes={ setAttributes }
 							attributes={ attributes }
 							devices={ devices }
-							selector={ BLOCK_SELECTOR.blockMainSelectorAlias }
+							selector={ BLOCK_SELECTOR.column.main.alias }
 						/>
 						<Separator />
 						<NumberUnit

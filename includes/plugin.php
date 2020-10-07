@@ -73,12 +73,14 @@ class Plugin {
 	 * Loads required files.
 	 */
 	private function load_files() {
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-selectors.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/initial-css.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-selector.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-assets.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/fonts.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-css.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/icons.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/plugin-settings.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/css.php';
 	}
 
 	private function __construct() {

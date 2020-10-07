@@ -10,8 +10,8 @@ export const COLUMNS_NAME = `${ PLUGIN_NAME }/columns`;
 export const COLUMNS_SELECTORS_SETTINGS = [
 	{
 		label: __( 'Columns Style', 'scblocks' ),
-		id: BLOCK_SELECTOR.blockMainSelectorAlias,
-		selector: BLOCK_SELECTOR.blockMainSelectorAlias,
+		id: BLOCK_SELECTOR.columns.main.alias,
+		selector: BLOCK_SELECTOR.columns.main.alias,
 		allowedPanels: {
 			space: true,
 			position: {

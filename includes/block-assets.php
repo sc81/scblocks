@@ -65,7 +65,7 @@ class Block_Assets {
 		$asset_file   = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . '/index.asset.php';
 		$dependencies = $asset_file['dependencies'];
 		wp_enqueue_script(
-			'scblocks-editor',
+			'scblocks',
 			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . '/index.js',
 			apply_filters( 'scblocks_editor_blocks_dependencies', $dependencies ),
 			$asset_file['version'],
@@ -73,11 +73,13 @@ class Block_Assets {
 		);
 
 		wp_enqueue_style(
-			'scblocks-editor',
+			'scblocks',
 			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . '/index.css',
 			array(),
 			$asset_file['version']
 		);
+
+		wp_add_inline_style( 'scblocks', Initial_Css::get() );
 
 		wp_set_script_translations( 'scblocks-editor', 'scblocks' );
 	}

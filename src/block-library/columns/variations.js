@@ -20,7 +20,7 @@ function getColumnState( width ) {
 		{
 			css: {
 				[ DESKTOP_DEVICES ]: {
-					[ BLOCK_SELECTOR.blockMainSelectorAlias ]: [
+					[ BLOCK_SELECTOR.column.main.alias ]: [
 						`width:${ width }%`,
 					],
 				},

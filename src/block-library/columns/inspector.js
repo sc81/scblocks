@@ -19,7 +19,7 @@ import NumberUnit from '../../components/number-unit';
 import { BLOCK_SELECTOR } from '../../block/constants';
 import IdClassesControls from '../../block/id-classes-controls';
 
-const ALL_COLUMNS_SELECTOR_ALIAS = BLOCK_SELECTOR.columns.allColumns.alias;
+const ALL_COLUMNS_SELECTOR_ALIAS = BLOCK_SELECTOR.columns.column.alias;
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes, devices } = props;
@@ -60,7 +60,7 @@ export default function Inspector( props ) {
 				[ ALL_COLUMNS_SELECTOR_ALIAS ]: {
 					paddingLeft: value,
 				},
-				[ BLOCK_SELECTOR.blockMainSelectorAlias ]: {
+				[ BLOCK_SELECTOR.columns.main.alias ]: {
 					marginLeft,
 				},
 			},

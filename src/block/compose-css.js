@@ -35,46 +35,11 @@ function composePropValue( selectorProps ) {
 }
 
 function composeSelectors( selectorsObj, blockName, uidClass ) {
-	let css = '',
-		finalSelector,
-		additionalSelector = '';
-
-	// column selector specificity plus 1
-	if ( blockName === 'column' ) {
-		additionalSelector = BLOCK_SELECTOR.column.col.selector;
-	}
-	// Improving the specificity of the heading selector in the editor
-	let preSelector = '';
-	if ( blockName === 'heading' ) {
-		preSelector = '.editor-styles-wrapper ';
-	}
-	let leadingSelector;
-	if ( blockName === 'headingWrapped' ) {
-		leadingSelector = `${ BLOCK_SELECTOR.headingWrapped.wrapper.selector }.${ uidClass }`;
-	} else {
-		leadingSelector = `${ preSelector }.scb-${ blockName }.${ uidClass }${ additionalSelector }`;
-	}
-
+	let css = '';
 	for ( const selectorAlias in selectorsObj ) {
-		if ( selectorAlias === BLOCK_SELECTOR.blockMainSelectorAlias ) {
-			finalSelector = leadingSelector;
-		} else if (
-			selectorAlias === BLOCK_SELECTOR.blockMainSelectorHoverAlias
-		) {
-			finalSelector = leadingSelector + ':hover';
-		} else {
-			const nextSelector =
-				BLOCK_SELECTOR[ blockName ][ selectorAlias ].selector;
-			if ( /^uidSelector/.test( nextSelector ) ) {
-				finalSelector = `.${ uidClass }${ nextSelector.replace(
-					/^uidSelector/,
-					''
-				) }`;
-			} else {
-				finalSelector = `${ leadingSelector } ${ nextSelector }`;
-			}
-		}
-
+		const finalSelector = BLOCK_SELECTOR[ blockName ][
+			selectorAlias
+		].fullSelector( uidClass );
 		css += `${ finalSelector }{${ composePropValue(
 			selectorsObj[ selectorAlias ]
 		) }}`;
