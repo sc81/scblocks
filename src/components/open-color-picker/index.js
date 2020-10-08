@@ -13,11 +13,7 @@ import { useRef } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import {
-	PLUGIN_NAME,
-	CORE_EDITOR_STORE_NAME,
-	PLUGIN_COLORS,
-} from '../../constants';
+import { PLUGIN_NAME, CORE_EDITOR_STORE_NAME } from '../../constants';
 
 export default function OpenColorPicker( {
 	value,
@@ -26,9 +22,7 @@ export default function OpenColorPicker( {
 	label,
 } ) {
 	const colors = useSelect( ( select ) => {
-		const themeColors = select( CORE_EDITOR_STORE_NAME ).getEditorSettings()
-			.colors;
-		return [ ...themeColors, ...PLUGIN_COLORS ];
+		return select( CORE_EDITOR_STORE_NAME ).getEditorSettings().colors;
 	}, [] );
 
 	const pickerKey = useRef( 1 );
@@ -92,25 +86,16 @@ export default function OpenColorPicker( {
 					<div
 						className={ `components-color-picker__body ${ PLUGIN_NAME }-color-picker-body` }
 					>
-						<div>
-							<div
-								className={ `${ PLUGIN_NAME }-color-picker-text` }
-							>
-								{ __( 'Editor colors', 'scblocks' ) }
-							</div>
-							<div>
-								<ColorPalette
-									colors={ colors }
-									value={ value }
-									onChange={ ( color ) => {
-										onChange( color );
-										pickerKey.current++;
-									} }
-									disableCustomColors={ true }
-									clearable={ false }
-								/>
-							</div>
-						</div>
+						<ColorPalette
+							colors={ colors }
+							value={ value }
+							onChange={ ( color ) => {
+								onChange( color );
+								pickerKey.current++;
+							} }
+							disableCustomColors={ true }
+							clearable={ false }
+						/>
 					</div>
 				</div>
 			) }
