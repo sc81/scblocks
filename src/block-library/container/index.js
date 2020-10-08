@@ -32,6 +32,7 @@ export const settings = {
 		...SHARED_ATTRIBUTES.required,
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
+		...SHARED_ATTRIBUTES.bgImageIds,
 		tag: {
 			type: 'string',
 			default: 'div',
