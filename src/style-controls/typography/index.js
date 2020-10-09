@@ -11,6 +11,7 @@ import LineHeight from './line-height';
 import LetterSpacing from './letter-spacing';
 import { setPropValue, getPropertiesValue } from '../../utils';
 import { ALL_DEVICES } from '../../constants';
+import TextAlign from './text-align';
 
 export default function Typography( props ) {
 	const { devices, attributes, setAttributes, selectorSettings } = props;
@@ -41,15 +42,26 @@ export default function Typography( props ) {
 		selector,
 		props: [ 'textTransform', 'fontWeight', 'textDecoration', 'fontStyle' ],
 	} );
-	const { fontSize, lineHeight, letterSpacing } = getPropertiesValue( {
+	const {
+		fontSize,
+		lineHeight,
+		letterSpacing,
+		textAlign,
+	} = getPropertiesValue( {
 		attributes,
 		devices,
 		selector,
-		props: [ 'fontSize', 'lineHeight', 'letterSpacing' ],
+		props: [ 'fontSize', 'lineHeight', 'letterSpacing', 'textAlign' ],
 	} );
 
 	return (
 		<>
+			<TextAlign
+				value={ textAlign }
+				onChange={ ( value ) =>
+					onChange( { value, propName: 'textAlign', devices } )
+				}
+			/>
 			<FontSize
 				value={ fontSize }
 				onChange={ ( value ) =>
