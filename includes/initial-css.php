@@ -10,14 +10,14 @@ class Initial_Css {
 		$desktop = '';
 		$tablet  = '';
 		$mobile  = '';
-		if ( isset( $arr_css['Desktop'] ) ) {
-			$desktop = self::device_css( $arr_css['Desktop'] );
+		if ( isset( $arr_css['desktop'] ) ) {
+			$desktop = self::device_css( $arr_css['desktop'] );
 		}
-		if ( isset( $arr_css['Tablet'] ) ) {
-			$tablet = '@media(max-width: 1024px){' . self::device_css( $arr_css['Tablet'] ) . '}';
+		if ( isset( $arr_css['tablet'] ) ) {
+			$tablet = '@media(max-width: 1024px){' . self::device_css( $arr_css['tablet'] ) . '}';
 		}
-		if ( isset( $arr_css['Mobile'] ) ) {
-			$mobile = '@media(max-width: 767px){' . self::device_css( $arr_css['Mobile'] ) . '}';
+		if ( isset( $arr_css['mobile'] ) ) {
+			$mobile = '@media(max-width: 767px){' . self::device_css( $arr_css['mobile'] ) . '}';
 		}
 		return $desktop . $tablet . $mobile;
 	}

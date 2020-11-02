@@ -10,22 +10,22 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Css {
 	/** @var string */
-	const DESKTOP_DEVICES = 'Desktop';
+	const DESKTOP_DEVICE = 'desktop';
 
 	/** @var string */
-	const TABLET_DEVICES = 'Tablet';
+	const TABLET_DEVICE = 'tablet';
 
 	/** @var string */
-	const MOBILE_DEVICES = 'Mobile';
+	const MOBILE_DEVICE = 'mobile';
 
 	/** @var string */
 	const BLOCK_NAMESPACE = 'scblocks';
 
 	/** @var string */
-	public $tablet_devices_max_width = '1024px';
+	public $tablet_device_max_width = '1024px';
 
 	/** @var string */
-	public $mobile_devices_max_width = '767px';
+	public $mobile_device_max_width = '767px';
 
 	private $block_selector;
 
@@ -45,9 +45,9 @@ class Css {
 			'allDevices' => '',
 		);
 
-		$css[ self::DESKTOP_DEVICES ] = '';
-		$css[ self::TABLET_DEVICES ]  = '';
-		$css[ self::MOBILE_DEVICES ]  = '';
+		$css[ self::DESKTOP_DEVICE ] = '';
+		$css[ self::TABLET_DEVICE ]  = '';
+		$css[ self::MOBILE_DEVICE ]  = '';
 
 		foreach ( $blocks as $block_name => $block ) {
 			if ( empty( $block['css'] ) ) {
@@ -70,14 +70,14 @@ class Css {
 		}
 		foreach ( $css as $device_type => $device_css ) {
 			if ( $device_css ) {
-				if ( self::TABLET_DEVICES === $device_type ) {
-					$css[ $device_type ] = '@media(max-width:' . $this->tablet_devices_max_width . '){' . $device_css . '}';
-				} elseif ( self::MOBILE_DEVICES === $device_type ) {
-					$css[ $device_type ] = '@media(max-width:' . $this->mobile_devices_max_width . '){' . $device_css . '}';
+				if ( self::TABLET_DEVICE === $device_type ) {
+					$css[ $device_type ] = '@media(max-width:' . $this->tablet_device_max_width . '){' . $device_css . '}';
+				} elseif ( self::MOBILE_DEVICE === $device_type ) {
+					$css[ $device_type ] = '@media(max-width:' . $this->mobile_device_max_width . '){' . $device_css . '}';
 				}
 			}
 		}
-		return $css['allDevices'] . $css[ self::DESKTOP_DEVICES ] . $css[ self::TABLET_DEVICES ] . $css[ self::MOBILE_DEVICES ];
+		return $css['allDevices'] . $css[ self::DESKTOP_DEVICE ] . $css[ self::TABLET_DEVICE ] . $css[ self::MOBILE_DEVICE ];
 	}
 
 	/**

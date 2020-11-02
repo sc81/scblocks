@@ -39,9 +39,9 @@ export default function Edit( props ) {
 			);
 			return {
 				innerBlockCount: getBlockCount( clientId ),
-				devices: select(
-					CORE_EDIT_POST_STORE_NAME
-				).__experimentalGetPreviewDeviceType(),
+				devices: select( CORE_EDIT_POST_STORE_NAME )
+					.__experimentalGetPreviewDeviceType()
+					.toLowerCase(),
 				isRootContainer:
 					getBlockHierarchyRootClientId( clientId ) === clientId,
 			};

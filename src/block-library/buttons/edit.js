@@ -39,9 +39,9 @@ export default function Edit( props ) {
 	const { devices, buttonCount } = useSelect(
 		( select ) => {
 			return {
-				devices: select(
-					CORE_EDIT_POST_STORE_NAME
-				).__experimentalGetPreviewDeviceType(),
+				devices: select( CORE_EDIT_POST_STORE_NAME )
+					.__experimentalGetPreviewDeviceType()
+					.toLowerCase(),
 				buttonCount: select(
 					CORE_BLOCK_EDITOR_STORE_NAME
 				).getBlockCount( clientId ),

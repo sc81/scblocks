@@ -42,9 +42,9 @@ export default function Edit( props ) {
 	const { devices, columnCount } = useSelect(
 		( store ) => {
 			return {
-				devices: store(
-					CORE_EDIT_POST_STORE_NAME
-				).__experimentalGetPreviewDeviceType(),
+				devices: store( CORE_EDIT_POST_STORE_NAME )
+					.__experimentalGetPreviewDeviceType()
+					.toLowerCase(),
 				columnCount: store(
 					CORE_BLOCK_EDITOR_STORE_NAME
 				).getBlockCount( clientId ),

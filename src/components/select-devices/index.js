@@ -8,33 +8,28 @@ import { useSelect, useDispatch } from '@wordpress/data';
 /**
  * Internal dependencies
  */
-import {
-	MOBILE_DEVICES,
-	TABLET_DEVICES,
-	DESKTOP_DEVICES,
-	CORE_EDIT_POST_STORE_NAME,
-} from '../../constants';
+import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 
 const icons = [
 	{
 		name: 'desktop',
 		title: __( 'Desktop', 'scblocks' ),
-		value: DESKTOP_DEVICES,
+		value: 'Desktop',
 	},
 	{
 		name: 'tablet',
 		title: __( 'Tablet', 'scblocks' ),
-		value: TABLET_DEVICES,
+		value: 'Tablet',
 	},
 	{
 		name: 'smartphone',
 		title: __( 'Mobile', 'scblocks' ),
-		value: MOBILE_DEVICES,
+		value: 'Mobile',
 	},
 ];
 
 export default function SelectDevices() {
-	const devices = useSelect(
+	const device = useSelect(
 		( select ) =>
 			select(
 				CORE_EDIT_POST_STORE_NAME
@@ -45,7 +40,7 @@ export default function SelectDevices() {
 		__experimentalSetPreviewDeviceType: setPreviewDeviceType,
 	} = useDispatch( CORE_EDIT_POST_STORE_NAME );
 
-	const icon = icons.find( ( e ) => devices === e.value ).name;
+	const icon = icons.find( ( e ) => device === e.value ).name;
 
 	return (
 		<DropdownMenu

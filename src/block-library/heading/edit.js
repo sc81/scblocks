@@ -48,9 +48,9 @@ export default function Edit( props ) {
 
 	const devices = useSelect(
 		( select ) =>
-			select(
-				CORE_EDIT_POST_STORE_NAME
-			).__experimentalGetPreviewDeviceType(),
+			select( CORE_EDIT_POST_STORE_NAME )
+				.__experimentalGetPreviewDeviceType()
+				.toLowerCase(),
 		[]
 	);
 	const selectorsSettings = applyFilters(
