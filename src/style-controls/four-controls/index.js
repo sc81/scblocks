@@ -218,10 +218,10 @@ export default function FourControls( props ) {
 		switch ( syncControls ) {
 			case 'one':
 				nextState = {
-					top,
-					right,
-					bottom,
-					left,
+					top: top + '',
+					right: right + '',
+					bottom: bottom + '',
+					left: left + '',
 					[ position ]: value,
 				};
 				break;
@@ -236,15 +236,15 @@ export default function FourControls( props ) {
 			case 'opposite': {
 				if ( position === 'top' || position === 'bottom' ) {
 					nextState = {
-						right,
-						left,
+						right: right + '',
+						left: left + '',
 						top: value,
 						bottom: value,
 					};
 				} else {
 					nextState = {
-						top,
-						bottom,
+						top: top + '',
+						bottom: bottom + '',
 						left: value,
 						right: value,
 					};
