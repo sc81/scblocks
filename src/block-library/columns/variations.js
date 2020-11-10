@@ -155,4 +155,61 @@ export const variations = [
 		],
 		scope: [ 'block' ],
 	},
+	{
+		name: 'four-columns-equal',
+		title: __( '25 / 25 / 25 / 25', 'scblocks' ),
+		description: __( 'Four columns; equal split', 'scblocks' ),
+		icon: (
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="48"
+				height="48"
+				viewBox="0 0 48 48"
+				fill="none"
+			>
+				<rect
+					x="8"
+					y="11"
+					width="32"
+					height="26"
+					stroke="#007CBA"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					fill="none"
+				/>
+				<line
+					x1="16"
+					y1="12"
+					x2="16"
+					y2="36"
+					stroke="#007CBA"
+					strokeWidth="2"
+				/>
+				<line
+					x1="24"
+					y1="12"
+					x2="24"
+					y2="36"
+					stroke="#007CBA"
+					strokeWidth="2"
+				/>
+				<line
+					x1="32"
+					y1="12"
+					x2="32"
+					y2="36"
+					stroke="#007CBA"
+					strokeWidth="2"
+				/>
+			</svg>
+		),
+		innerBlocks: [
+			getColumnState( 25 ),
+			getColumnState( 25 ),
+			getColumnState( 25 ),
+			getColumnState( 25 ),
+		],
+		scope: [ 'block' ],
+	},
 ];
