@@ -12,7 +12,7 @@ function get_block_selector() {
 			array(
 				'button' => array(
 					'main' => function( $uid_class ) {
-						return ".scb-button.$uid_class.scb-btn";
+						return ".scb-button.$uid_class.scb-btn,.scb-button.$uid_class.scb-btn:visited";
 					},
 					'mainHover' => function( $uid_class ) {
 						return ".scb-button.$uid_class.scb-btn:hover";
@@ -26,7 +26,7 @@ function get_block_selector() {
 						return ".scb-buttons.$uid_class";
 					},
 					'button' => function( $uid_class ) {
-						return ".$uid_class .scb-button";
+						return ".$uid_class .scb-button,.$uid_class .scb-button:visited";
 					},
 					'buttonHover' => function( $uid_class ) {
 						return ".$uid_class .scb-button:hover";
