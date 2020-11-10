@@ -20,7 +20,11 @@ import { applyFilters } from '@wordpress/hooks';
  */
 import { BUTTON_SELECTORS_SETTINGS } from './utils';
 import useDynamicCss from '../../hooks/use-dynamic-css';
-import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
+import {
+	CORE_EDIT_POST_STORE_NAME,
+	MOBILE_DEVICES,
+	TABLET_DEVICES,
+} from '../../constants';
 import Inspector from './inspector';
 import { useBlockMemo } from '../../hooks/use-block-memo';
 import URLPicker from './url-picker';
@@ -29,7 +33,7 @@ import {
 	useSelectorsActivity,
 } from '../../hooks/use-selector-activity';
 import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
-import { getPropValue } from '../../utils';
+import { getPropsForEveryDevice } from '../../utils';
 import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
@@ -73,12 +77,6 @@ export default function Edit( props ) {
 		);
 	}, [ selectorsActivity, icon ] );
 
-	const flexGrow = getPropValue( {
-		attributes,
-		devices,
-		selector: BLOCK_SELECTOR.button.main.alias,
-		propName: 'flexGrow',
-	} );
 	const relAttributes = [];
 
 	if ( relNoFollow ) {
@@ -112,6 +110,25 @@ export default function Edit( props ) {
 		},
 		attributes
 	);
+	const flexGrowForEveryDevice = getPropsForEveryDevice( {
+		attributes,
+		selector: BLOCK_SELECTOR.button.main.alias,
+		props: [ 'flexGrow' ],
+	} );
+	let flexGrow = flexGrowForEveryDevice.desktop?.flexGrow || '';
+
+	if (
+		TABLET_DEVICES === devices &&
+		flexGrowForEveryDevice.tablet?.flexGrow
+	) {
+		flexGrow = flexGrowForEveryDevice.tablet.flexGrow;
+	}
+	if (
+		MOBILE_DEVICES === devices &&
+		flexGrowForEveryDevice.mobile?.flexGrow
+	) {
+		flexGrow = flexGrowForEveryDevice.mobile.flexGrow;
+	}
 
 	return (
 		<>
