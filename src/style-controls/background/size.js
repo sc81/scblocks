@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { SelectControl, RangeControl } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -11,6 +11,7 @@ import { setPropValue, getPropValue } from '../../utils';
 import { names } from './constants';
 import ControlWrapper from '../../components/control-wrapper';
 import { setCssMemoValue } from '../../hooks/use-block-memo';
+import NumberControl from '../../components/number-control';
 
 const propName = names.size;
 
@@ -75,19 +76,24 @@ export default function Size( {
 	}
 
 	return (
-		<ControlWrapper label={ __( 'Size', 'scblocks' ) } displayInline>
+		<ControlWrapper
+			label={ __( 'Size', 'scblocks' ) }
+			displayInline={ ! isCustom }
+		>
 			<SelectControl
 				value={ selectValue }
 				options={ options }
 				onChange={ onChangeSelect }
 			/>
 			{ isCustom && (
-				<RangeControl
-					className="flex-basis-100 margin-top-10"
+				<NumberControl
 					value={ size }
 					onChange={ onChangeCustom }
 					min={ 0 }
 					max={ 200 }
+					step={ 1 }
+					withoutSelectDevices
+					clearButton={ false }
 				/>
 			) }
 		</ControlWrapper>
