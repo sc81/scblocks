@@ -78,40 +78,42 @@ export default function Inspector( props ) {
 		} );
 	}
 	function onSelectIcon( value ) {
-		const properties = getPropsForEveryDevice( {
-			attributes,
-			selector: BLOCK_SELECTOR.headingWrapped.main.alias,
-			props: typographyProps,
-		} );
-		const attrs = {
-			css: {},
-		};
-		function setAttrs( next ) {
-			attrs.css = next.css;
+		if ( ! icon ) {
+			const properties = getPropsForEveryDevice( {
+				attributes,
+				selector: BLOCK_SELECTOR.headingWrapped.main.alias,
+				props: typographyProps,
+			} );
+			const attrs = {
+				css: {},
+			};
+			function setAttrs( next ) {
+				attrs.css = next.css;
+			}
+			// rewrite typography props
+			setPropsForVariousDevices( {
+				attributes,
+				setAttributes: setAttrs,
+				selector: BLOCK_SELECTOR.headingWrapped.text.alias,
+				props: properties,
+			} );
+			// delete typography props from the main selector
+			setPropsForVariousDevices( {
+				attributes: attrs,
+				setAttributes,
+				selector: BLOCK_SELECTOR.headingWrapped.main.alias,
+				everyDeviceProps: {
+					fontSize: '',
+					fontFamily: '',
+					fontWeight: '',
+					fontStyle: '',
+					lineHeight: '',
+					letterSpacing: '',
+					textDecoration: '',
+					textTransform: '',
+				},
+			} );
 		}
-		// rewrite typography props
-		setPropsForVariousDevices( {
-			attributes,
-			setAttributes: setAttrs,
-			selector: BLOCK_SELECTOR.headingWrapped.text.alias,
-			props: properties,
-		} );
-		// delete typography props from the main selector
-		setPropsForVariousDevices( {
-			attributes: attrs,
-			setAttributes,
-			selector: BLOCK_SELECTOR.headingWrapped.main.alias,
-			everyDeviceProps: {
-				fontSize: '',
-				fontFamily: '',
-				fontWeight: '',
-				fontStyle: '',
-				lineHeight: '',
-				letterSpacing: '',
-				textDecoration: '',
-				textTransform: '',
-			},
-		} );
 		setAttributes( { icon: value, isWrapped: true } );
 	}
 	return (
