@@ -90,25 +90,8 @@ function get_block_selector() {
 					'highlightText' => function( $uid_class ) {
 						return ".scb-heading.$uid_class mark";
 					},
-				),
-				'headingWrapped' => array(
-					'main' => function( $uid_class ) {
-						return ".scb-heading-wrapper.$uid_class";
-					},
-					'link' => function( $uid_class ) {
-						return ".scb-heading-wrapper.$uid_class a";
-					},
-					'linkHover' => function( $uid_class ) {
-						return ".scb-heading-wrapper.$uid_class a:hover";
-					},
-					'highlightText' => function( $uid_class ) {
-						return ".scb-heading-wrapper.$uid_class mark";
-					},
 					'icon' => function( $uid_class ) {
-						return ".scb-heading-wrapper.$uid_class .scb-icon";
-					},
-					'text' => function( $uid_class ) {
-						return ".scb-heading-wrapper.$uid_class .scb-heading";
+						return ".scb-heading.$uid_class .scb-icon";
 					},
 				),
 			)

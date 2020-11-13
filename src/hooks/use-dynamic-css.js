@@ -24,24 +24,19 @@ const BLOCK_ALIAS = {
 	columns: 'cols',
 	container: 'con',
 	heading: 'h',
-	headingWrapped: 'h',
 };
 
 export default function useDynamicCss( props, devices ) {
 	const {
 		clientId,
-		attributes: { uidClass, css, isWrapped },
+		attributes: { uidClass, css },
 		setAttributes,
 		name,
 	} = props;
 	const style = useRef();
 
 	// block name without namespace
-	let blockName = name.split( '/' )[ 1 ];
-
-	if ( blockName === 'heading' && isWrapped ) {
-		blockName = 'headingWrapped';
-	}
+	const blockName = name.split( '/' )[ 1 ];
 
 	// mount
 	useEffect( () => {

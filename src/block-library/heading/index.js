@@ -29,18 +29,14 @@ export const settings = {
 		text: {
 			type: 'string',
 			source: 'html',
-			selector: 'p,h1,h2,h3,h4,h5,h6',
+			selector: BLOCK_SELECTOR.heading.text.selector,
 			default: '',
 		},
 		icon: {
 			type: 'string',
 			source: 'html',
-			selector: BLOCK_SELECTOR.headingWrapped.icon.selector,
+			selector: BLOCK_SELECTOR.heading.icon.selector,
 			default: '',
-		},
-		isWrapped: {
-			type: 'boolean',
-			default: false,
 		},
 		...SHARED_ATTRIBUTES.googleFonts,
 		...SHARED_ATTRIBUTES.id,

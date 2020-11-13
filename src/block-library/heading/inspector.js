@@ -14,21 +14,11 @@ import { BLOCK_SELECTOR } from '../../block/constants';
 import IconPicker from '../../components/icon-picker';
 import {
 	removeSelectors,
-	getPropsForEveryDevice,
 	setPropsForVariousDevices,
+	setPropValue,
 } from '../../utils';
 import IdClassesControls from '../../block/id-classes-controls';
-
-const typographyProps = [
-	'fontSize',
-	'fontFamily',
-	'fontWeight',
-	'fontStyle',
-	'lineHeight',
-	'letterSpacing',
-	'textDecoration',
-	'textTransform',
-];
+import { ALL_DEVICES } from '../../constants';
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
@@ -36,12 +26,6 @@ export default function Inspector( props ) {
 	function onRemoveIcon() {
 		setAttributes( {
 			icon: '',
-			isWrapped: false,
-		} );
-		const properties = getPropsForEveryDevice( {
-			attributes,
-			selector: BLOCK_SELECTOR.headingWrapped.text.alias,
-			props: typographyProps,
 		} );
 		const attrs = {
 			css: {},
@@ -49,72 +33,33 @@ export default function Inspector( props ) {
 		function setAttrs( next ) {
 			attrs.css = next.css;
 		}
-		// rewrite typography props
 		setPropsForVariousDevices( {
 			attributes,
 			setAttributes: setAttrs,
 			selector: BLOCK_SELECTOR.heading.main.alias,
-			props: properties,
-		} );
-		// delete flex props
-		setPropsForVariousDevices( {
-			attributes: attrs,
-			setAttributes: setAttrs,
-			selector: BLOCK_SELECTOR.heading.main.alias,
 			everyDeviceProps: {
+				display: '',
 				flexDirection: '',
-				justifyContent: '',
 				alignItems: '',
+				justifyContent: '',
 			},
 		} );
-		// remove unnecessary selectors
 		removeSelectors( {
 			attributes: attrs,
 			setAttributes,
-			selectors: [
-				BLOCK_SELECTOR.headingWrapped.icon.alias,
-				BLOCK_SELECTOR.headingWrapped.text.alias,
-			],
+			selectors: [ BLOCK_SELECTOR.heading.icon.alias ],
 		} );
 	}
 	function onSelectIcon( value ) {
-		if ( ! icon ) {
-			const properties = getPropsForEveryDevice( {
-				attributes,
-				selector: BLOCK_SELECTOR.headingWrapped.main.alias,
-				props: typographyProps,
-			} );
-			const attrs = {
-				css: {},
-			};
-			function setAttrs( next ) {
-				attrs.css = next.css;
-			}
-			// rewrite typography props
-			setPropsForVariousDevices( {
-				attributes,
-				setAttributes: setAttrs,
-				selector: BLOCK_SELECTOR.headingWrapped.text.alias,
-				props: properties,
-			} );
-			// delete typography props from the main selector
-			setPropsForVariousDevices( {
-				attributes: attrs,
-				setAttributes,
-				selector: BLOCK_SELECTOR.headingWrapped.main.alias,
-				everyDeviceProps: {
-					fontSize: '',
-					fontFamily: '',
-					fontWeight: '',
-					fontStyle: '',
-					lineHeight: '',
-					letterSpacing: '',
-					textDecoration: '',
-					textTransform: '',
-				},
-			} );
-		}
-		setAttributes( { icon: value, isWrapped: true } );
+		setAttributes( { icon: value } );
+		setPropValue( {
+			attributes,
+			setAttributes,
+			devices: ALL_DEVICES,
+			selector: BLOCK_SELECTOR.heading.main.alias,
+			propName: 'display',
+			value: 'flex',
+		} );
 	}
 	return (
 		<InspectorControls>

@@ -6,29 +6,28 @@ import { __ } from '@wordpress/i18n';
 
 export default function IdClassesControls( {
 	setAttributes,
-	attributes: { elementId, cssClasses },
+	attributes: { htmlId, htmlClass },
 } ) {
 	return (
 		<>
 			<TextControl
 				label={ __( 'Element ID', 'scblocks' ) }
-				value={ elementId }
+				value={ htmlId }
 				onChange={ ( value ) => {
 					const nextId = value.replace( /[\s#\\'"\.]/g, '-' );
 
 					setAttributes( {
-						elementId: nextId,
+						htmlId: nextId,
 					} );
 				} }
 			/>
-
 			<TextControl
 				label={ __( 'CSS Classes', 'scblocks' ) }
-				value={ cssClasses }
+				value={ htmlClass }
 				onChange={ ( value ) => {
 					const nextValue = value.replace( /[\\'",\.]/g, '-' );
 					setAttributes( {
-						cssClasses: nextValue,
+						htmlClass: nextValue,
 					} );
 				} }
 			/>

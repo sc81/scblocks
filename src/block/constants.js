@@ -25,8 +25,8 @@ export const BLOCK_CLASSES = {
 		rootContainer: 'scb-root-container',
 	},
 	heading: {
-		text: 'scb-heading',
-		wrapper: 'scb-heading-wrapper',
+		main: 'scb-heading',
+		text: 'scb-heading-text',
 		icon: 'scb-icon',
 	},
 };
@@ -143,38 +143,14 @@ export const BLOCK_SELECTOR = {
 			fullSelector: ( uidClass ) => `.scb-heading.${ uidClass } mark`,
 			alias: 'highlightText',
 		},
-	},
-	headingWrapped: {
-		main: {
-			fullSelector: ( uidClass ) => `.scb-heading-wrapper.${ uidClass }`,
-			alias: 'main',
-		},
-		link: {
-			fullSelector: ( uidClass ) =>
-				`.scb-heading-wrapper.${ uidClass } a`,
-			alias: 'link',
-		},
-		linkHover: {
-			fullSelector: ( uidClass ) =>
-				`.scb-heading-wrapper.${ uidClass } a:hover`,
-			alias: 'linkHover',
-		},
-		highlightText: {
-			fullSelector: ( uidClass ) =>
-				`.scb-heading-wrapper.${ uidClass } mark`,
-			alias: 'highlightText',
-		},
 		icon: {
 			fullSelector: ( uidClass ) =>
-				`.scb-heading-wrapper.${ uidClass } .scb-icon`,
+				`.scb-heading.${ uidClass } .scb-icon`,
 			selector: '.scb-icon',
 			alias: 'icon',
 		},
 		text: {
-			fullSelector: ( uidClass ) =>
-				`.scb-heading-wrapper.${ uidClass } .scb-heading`,
-			selector: '.scb-heading',
-			alias: 'text',
+			selector: '.scb-heading-text',
 		},
 	},
 };

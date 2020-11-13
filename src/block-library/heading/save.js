@@ -18,56 +18,37 @@ import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
 export default function save( { attributes } ) {
 	const {
 		text,
-		tagName,
+		tagName: Tag,
 		uidClass,
 		icon,
-		isWrapped,
-		elementId,
-		cssClasses,
+		htmlId,
+		htmlClass,
 	} = attributes;
-	if ( ! isWrapped ) {
-		const htmlAttributes = applyFilters(
-			'scblocks.heading.htmlAttributes',
-			{
-				id: !! elementId ? elementId : undefined,
-				className: classnames( {
-					[ BLOCK_CLASSES.heading.text ]: true,
-					[ uidClass ]: true,
-					[ `${ cssClasses }` ]: '' !== cssClasses,
-				} ),
-			},
-			attributes
-		);
-		return (
-			<RichText.Content
-				tagName={ tagName }
-				value={ text }
-				{ ...htmlAttributes }
-			/>
-		);
-	}
+
 	const htmlAttributes = applyFilters(
 		'scblocks.heading.htmlAttributes',
 		{
-			id: !! elementId ? elementId : undefined,
+			id: !! htmlId ? htmlId : undefined,
 			className: classnames( {
-				[ BLOCK_CLASSES.heading.text ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ BLOCK_CLASSES.heading.main ]: true,
+				[ uidClass ]: true,
+				[ BLOCK_CLASSES.heading.text ]: ! icon,
+				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 		},
 		attributes
 	);
 	return (
-		<div className={ `${ BLOCK_CLASSES.heading.wrapper } ${ uidClass }` }>
+		<Tag { ...htmlAttributes }>
 			<DangerouslyPasteIcon
 				icon={ icon }
 				className={ BLOCK_CLASSES.heading.icon }
 			/>
 			<RichText.Content
-				tagName={ tagName }
 				value={ text }
-				{ ...htmlAttributes }
+				tagName={ !! icon ? 'span' : null }
+				className={ !! icon ? BLOCK_CLASSES.heading.text : null }
 			/>
-		</div>
+		</Tag>
 	);
 }

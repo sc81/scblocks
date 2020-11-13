@@ -15,15 +15,15 @@ import { applyFilters } from '@wordpress/hooks';
 import { BLOCK_CLASSES } from '../../block/constants';
 
 export default function save( { attributes } ) {
-	const { uidClass, elementId, cssClasses } = attributes;
+	const { uidClass, htmlId, htmlClass } = attributes;
 	const htmlAttributes = applyFilters(
 		'scblocks.columns.htmlAttributes',
 		{
-			id: !! elementId ? elementId : undefined,
+			id: !! htmlId ? htmlId : undefined,
 			className: classnames( {
 				[ BLOCK_CLASSES.columns.main ]: true,
 				[ uidClass ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 		},
 		attributes

@@ -60,10 +60,6 @@ class Css {
 
 			$block_name_without_namespace = $this->camel_case( explode( '/', $block_name_parts[0] )[1] );
 
-			if ( 'heading' === $block_name_without_namespace && isset( $block['isWrapped'] ) && $block['isWrapped'] ) {
-				$block_name_without_namespace = 'headingWrapped';
-			}
-
 			foreach ( $block['css'] as $devices => $selectors ) {
 				$css[ $devices ] .= $this->compose_selectors( $selectors, $block_name_without_namespace, $uid_class );
 			}

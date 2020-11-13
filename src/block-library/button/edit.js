@@ -44,11 +44,11 @@ export default function Edit( props ) {
 		uidClass,
 		url,
 		withoutText,
-		cssClasses,
+		htmlClass,
 		relNoFollow,
 		relSponsored,
 		target,
-		elementId,
+		htmlId,
 		ariaLabel,
 	} = attributes;
 
@@ -96,12 +96,12 @@ export default function Edit( props ) {
 	const htmlAttributes = applyFilters(
 		'scblocks.button.htmlAttributes',
 		{
-			id: !! elementId ? elementId : undefined,
+			id: !! htmlId ? htmlId : undefined,
 			className: classnames( {
 				[ BLOCK_CLASSES.button.main ]: true,
 				[ uidClass ]: true,
 				[ BLOCK_CLASSES.button.btn ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 			href: url,
 			target: target ? '_blank' : undefined,

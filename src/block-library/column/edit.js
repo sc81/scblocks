@@ -29,7 +29,7 @@ import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, clientId } = props;
-	const { elementId, cssClasses, uidClass } = attributes;
+	const { htmlId, htmlClass, uidClass } = attributes;
 	const { devices, hasChildBlocks } = useSelect(
 		( store ) => {
 			return {
@@ -54,12 +54,12 @@ export default function Edit( props ) {
 	const htmlAttributes = applyFilters(
 		'scblocks.column.htmlAttributes',
 		{
-			id: !! elementId ? elementId : undefined,
+			id: !! htmlId ? htmlId : undefined,
 			className: classnames( {
 				[ BLOCK_CLASSES.column.main ]: true,
 				[ uidClass ]: true,
 				[ BLOCK_CLASSES.column.col ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 		},
 		attributes

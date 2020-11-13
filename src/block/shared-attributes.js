@@ -28,13 +28,13 @@ export const SHARED_ATTRIBUTES = {
 		},
 	},
 	id: {
-		elementId: {
+		htmlId: {
 			type: 'string',
 			default: '',
 		},
 	},
 	classes: {
-		cssClasses: {
+		htmlClass: {
 			type: 'string',
 			default: '',
 		},
