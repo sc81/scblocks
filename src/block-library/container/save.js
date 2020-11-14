@@ -15,23 +15,17 @@ import { applyFilters } from '@wordpress/hooks';
 import { BLOCK_CLASSES } from '../../block/constants';
 
 export default function save( { attributes } ) {
-	const {
-		tag,
-		uidClass,
-		isRootContainer,
-		elementId,
-		cssClasses,
-	} = attributes;
+	const { tag, uidClass, isRootContainer, htmlId, htmlClass } = attributes;
 	const HtmlTag = tag;
 	const htmlAttributes = applyFilters(
 		'scblocks.container.htmlAttributes',
 		{
-			id: !! elementId ? elementId : undefined,
+			id: !! htmlId ? htmlId : undefined,
 			className: classnames( {
 				[ BLOCK_CLASSES.container.main ]: true,
 				[ uidClass ]: true,
 				[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 		},
 		attributes

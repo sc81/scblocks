@@ -36,15 +36,7 @@ import Inspector from './inspector';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace } = props;
-	const {
-		text,
-		tagName,
-		uidClass,
-		icon,
-		isWrapped,
-		cssClasses,
-		elementId,
-	} = attributes;
+	const { text, tagName, uidClass, icon, htmlClass, htmlId } = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -64,10 +56,23 @@ export default function Edit( props ) {
 	const selectorsActivity = useSelectorsActivity( selectorsSettings );
 
 	useEffect( () => {
-		setSelectorActivity( selectorsActivity, 'wrapper', isWrapped );
-		setSelectorActivity( selectorsActivity, 'icon', isWrapped );
-		setSelectorActivity( selectorsActivity, 'heading', ! isWrapped );
-	}, [ selectorsActivity, isWrapped ] );
+		setSelectorActivity( selectorsActivity, 'icon', icon );
+	}, [ selectorsActivity, icon ] );
+
+	const Tag = Block[ tagName ];
+	const htmlAttributes = applyFilters(
+		'scblocks.heading.htmlAttributes',
+		{
+			id: !! htmlId ? htmlId : undefined,
+			className: classnames( {
+				[ BLOCK_CLASSES.heading.main ]: true,
+				[ uidClass ]: true,
+				[ BLOCK_CLASSES.heading.text ]: ! icon,
+				[ `${ htmlClass }` ]: '' !== htmlClass,
+			} ),
+		},
+		attributes
+	);
 
 	return (
 		<>
@@ -79,9 +84,14 @@ export default function Edit( props ) {
 				selectorsActivity={ selectorsActivity }
 			/>
 			<GoogleFontsLink attributes={ attributes } />
-			{ ! isWrapped && (
+			<Tag { ...htmlAttributes }>
+				<DangerouslyPasteIcon
+					icon={ icon }
+					className={ BLOCK_CLASSES.heading.icon }
+				/>
 				<RichText
-					tagName={ Block[ tagName ] }
+					tagName="span"
+					className={ !! icon ? BLOCK_CLASSES.heading.text : null }
 					value={ text }
 					onChange={ ( value ) => setAttributes( { text: value } ) }
 					placeholder={ __( 'Heading', 'scblocks' ) }
@@ -96,60 +106,8 @@ export default function Edit( props ) {
 						} );
 					} }
 					onReplace={ onReplace }
-					{ ...applyFilters(
-						'scblocks.heading.htmlAttributes',
-						{
-							id: !! elementId ? elementId : undefined,
-							className: classnames( {
-								[ BLOCK_CLASSES.heading.text ]: true,
-								[ uidClass ]: true,
-								[ `${ cssClasses }` ]: '' !== cssClasses,
-							} ),
-						},
-						attributes
-					) }
 				/>
-			) }
-			{ isWrapped && (
-				<Block.div
-					className={ `${ BLOCK_CLASSES.heading.wrapper } ${ uidClass }` }
-				>
-					<DangerouslyPasteIcon
-						icon={ icon }
-						className={ BLOCK_CLASSES.heading.icon }
-					/>
-					<RichText
-						tagName={ tagName }
-						value={ text }
-						onChange={ ( value ) =>
-							setAttributes( { text: value } )
-						}
-						placeholder={ __( 'Heading', 'scblocks' ) }
-						onSplit={ ( value ) => {
-							if ( ! value ) {
-								return createBlock( 'core/paragraph' );
-							}
-
-							return createBlock( blockName, {
-								...attributes,
-								text: value,
-							} );
-						} }
-						onReplace={ onReplace }
-						{ ...applyFilters(
-							'scblocks.heading.htmlAttributes',
-							{
-								id: !! elementId ? elementId : undefined,
-								className: classnames( {
-									[ BLOCK_CLASSES.heading.text ]: true,
-									[ `${ cssClasses }` ]: '' !== cssClasses,
-								} ),
-							},
-							attributes
-						) }
-					/>
-				</Block.div>
-			) }
+			</Tag>
 		</>
 	);
 }

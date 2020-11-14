@@ -36,47 +36,17 @@ export const HEADING_SELECTORS_SETTINGS = [
 				padding: true,
 				margin: true,
 			},
-		},
-	},
-	{
-		label: __( 'Heading Styles', 'scblocks' ),
-		id: 'wrapper',
-		selector: BLOCK_SELECTOR.headingWrapped.main.alias,
-		allowedPanels: {
-			colors: {
-				textColor: true,
-				backgroundColor: true,
-				borderColor: true,
-				linkColor: {
-					hasHoverControls: true,
-					selector: BLOCK_SELECTOR.headingWrapped.link.alias,
-					hoverSelector:
-						BLOCK_SELECTOR.headingWrapped.linkHover.alias,
-				},
-				highlightText: {
-					selector: BLOCK_SELECTOR.headingWrapped.highlightText.alias,
-				},
-			},
-			typography: {
-				selector: BLOCK_SELECTOR.headingWrapped.text.alias,
-			},
-			border: true,
-			space: {
-				padding: true,
-				margin: true,
-			},
 			position: {
 				flexDirection: true,
 				alignItems: true,
 				justifyContent: true,
 			},
 		},
-		isActive: false,
 	},
 	{
 		label: __( 'Icon Styles', 'scblocks' ),
 		id: 'icon',
-		selector: BLOCK_SELECTOR.headingWrapped.icon.alias,
+		selector: BLOCK_SELECTOR.heading.icon.alias,
 		allowedPanels: {
 			colors: {
 				iconColor: true,

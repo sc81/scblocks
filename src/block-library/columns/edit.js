@@ -37,7 +37,7 @@ const ALLOWED_BLOCKS = [ COLUMN_NAME ];
 
 export default function Edit( props ) {
 	const { attributes, clientId } = props;
-	const { uidClass, cssClasses, elementId } = attributes;
+	const { uidClass, htmlClass, htmlId } = attributes;
 
 	const { devices, columnCount } = useSelect(
 		( store ) => {
@@ -63,11 +63,11 @@ export default function Edit( props ) {
 	const htmlAttributes = applyFilters(
 		'scblocks.columns.htmlAttributes',
 		{
-			id: !! elementId ? elementId : undefined,
+			id: !! htmlId ? htmlId : undefined,
 			className: classnames( {
 				[ BLOCK_CLASSES.columns.main ]: true,
 				[ uidClass ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 		},
 		attributes

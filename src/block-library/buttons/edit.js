@@ -35,7 +35,7 @@ const ALLOWED_BLOCKS = [ BUTTON_BLOCK_NAME ];
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;
-	const { cssClasses, elementId, uidClass } = attributes;
+	const { htmlClass, htmlId, uidClass } = attributes;
 	const { devices, buttonCount } = useSelect(
 		( select ) => {
 			return {
@@ -60,11 +60,11 @@ export default function Edit( props ) {
 	const htmlAttributes = applyFilters(
 		'scblocks.buttons.htmlAttributes',
 		{
-			id: !! elementId ? elementId : undefined,
+			id: !! htmlId ? htmlId : undefined,
 			className: classnames( {
 				[ BLOCK_CLASSES.buttons.main ]: true,
 				[ uidClass ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 		},
 		attributes
