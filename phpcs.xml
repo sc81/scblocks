@@ -10,6 +10,7 @@
 
 	<rule ref="WordPress-Extra">
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.PHP.NoSilencedErrors"/>
 	</rule>
 
 	<rule ref="WordPress.Arrays.MultipleStatementAlignment">
