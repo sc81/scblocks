@@ -14,6 +14,7 @@ import { applyFilters } from '@wordpress/hooks';
  * Internal dependencies
  */
 import { BLOCK_CLASSES } from '../../block/constants';
+import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
 
 const placeholder = __( 'Button', 'scblocks' );
 
@@ -55,6 +56,7 @@ export default function Save( { attributes } ) {
 				[ BLOCK_CLASSES.button.main ]: true,
 				[ uidClass ]: true,
 				[ BLOCK_CLASSES.button.btn ]: true,
+				[ BLOCK_CLASSES.button.text ]: ! icon,
 				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 			href: url,
@@ -64,21 +66,20 @@ export default function Save( { attributes } ) {
 		},
 		attributes
 	);
+	const Tag = url ? 'a' : 'span';
 	return (
-		<a { ...htmlAttributes }>
-			{ !! icon && (
-				<span
-					className={ BLOCK_CLASSES.button.icon }
-					dangerouslySetInnerHTML={ { __html: icon } }
-				/>
-			) }
+		<Tag { ...htmlAttributes }>
+			<DangerouslyPasteIcon
+				icon={ icon }
+				className={ BLOCK_CLASSES.button.icon }
+			/>
 			{ ! withoutText && (
 				<RichText.Content
-					tagName="span"
-					className={ BLOCK_CLASSES.button.text }
+					tagName={ !! icon ? 'span' : null }
+					className={ !! icon ? BLOCK_CLASSES.button.text : null }
 					value={ text || placeholder }
 				/>
 			) }
-		</a>
+		</Tag>
 	);
 }

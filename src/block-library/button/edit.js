@@ -35,6 +35,7 @@ import {
 import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
 import { getPropsForEveryDevice } from '../../utils';
 import GoogleFontsLink from '../../block/google-fonts-link';
+import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, isSelected } = props;
@@ -101,6 +102,7 @@ export default function Edit( props ) {
 				[ BLOCK_CLASSES.button.main ]: true,
 				[ uidClass ]: true,
 				[ BLOCK_CLASSES.button.btn ]: true,
+				[ BLOCK_CLASSES.button.text ]: ! icon,
 				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 			href: url,
@@ -129,6 +131,7 @@ export default function Edit( props ) {
 	) {
 		flexGrow = flexGrowForEveryDevice.mobile.flexGrow;
 	}
+	const Tag = url ? 'a' : 'span';
 
 	return (
 		<>
@@ -142,29 +145,33 @@ export default function Edit( props ) {
 			<Block.div style={ { flexGrow } }>
 				<GoogleFontsLink attributes={ attributes } />
 				{ /* eslint-disable  jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */ }
-				<a
+				<Tag
 					{ ...htmlAttributes }
 					onClick={ ( e ) => e.preventDefault() }
 				>
-					{ icon && (
-						<span
-							className={ BLOCK_CLASSES.button.icon }
-							dangerouslySetInnerHTML={ { __html: icon } }
-						/>
-					) }
+					<DangerouslyPasteIcon
+						icon={ icon }
+						className={ BLOCK_CLASSES.button.icon }
+					/>
 					{ ! withoutText && (
 						<RichText
-							tagName="span"
-							className={ BLOCK_CLASSES.button.text }
+							className={
+								!! icon ? BLOCK_CLASSES.button.text : ''
+							}
 							value={ text }
 							onChange={ ( value ) =>
 								setAttributes( { text: value } )
 							}
 							placeholder={ __( 'Button', 'scblocks' ) }
-							withoutInteractiveFormatting
+							allowedFormats={ [
+								'core/bold',
+								'core/italic',
+								'core/strikethrough',
+							] }
+							keepPlaceholderOnFocus
 						/>
 					) }
-				</a>
+				</Tag>
 				<URLPicker
 					attributes={ attributes }
 					setAttributes={ setAttributes }
