@@ -49,19 +49,17 @@ class Css {
 		$css[ self::TABLET_DEVICE ]  = '';
 		$css[ self::MOBILE_DEVICE ]  = '';
 
-		foreach ( $blocks as $block_name => $block ) {
-			if ( empty( $block['css'] ) ) {
-				continue;
-			}
+		foreach ( $blocks as $block_name => $block_data ) {
+			foreach ( $block_data as $block ) {
+				if ( empty( $block['uidClass'] ) || empty( $block['css'] ) ) {
+					continue;
+				}
 
-			$block_name_parts = explode( ' ', $block_name );
+				$block_name = $this->camel_case( $block_name );
 
-			$uid_class = $block_name_parts[1];
-
-			$block_name_without_namespace = $this->camel_case( explode( '/', $block_name_parts[0] )[1] );
-
-			foreach ( $block['css'] as $devices => $selectors ) {
-				$css[ $devices ] .= $this->compose_selectors( $selectors, $block_name_without_namespace, $uid_class );
+				foreach ( $block['css'] as $device => $selectors ) {
+					$css[ $device ] .= $this->compose_selectors( $selectors, $block_name, $block['uidClass'] );
+				}
 			}
 		}
 		foreach ( $css as $device_type => $device_css ) {

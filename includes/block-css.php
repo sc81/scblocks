@@ -478,15 +478,13 @@ class Block_Css {
 		}
 
 		foreach ( $parsed_blocks as $block ) {
-			if ( strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 &&
-			isset( $block['attrs'] ) &&
-			! empty( $block['attrs']['uidClass'] ) ) {
-				$data[ $block['blockName'] . ' ' . $block['attrs']['uidClass'] ] = $block['attrs'];
+			if ( isset( $block['blockName'] ) && strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
+				$block_name = explode( '/', $block['blockName'] )[1];
+
+				$data[ $block_name ][] = $block['attrs'];
 			}
 			// reusable block
-			if ( 'core/block' === $block['blockName'] &&
-			isset( $block['attrs'] ) &&
-			! empty( $block['attrs']['ref'] ) ) {
+			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] ) ) {
 				$reusable_block = get_post( $block['attrs']['ref'] );
 
 				if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
