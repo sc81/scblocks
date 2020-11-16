@@ -58,7 +58,6 @@ export default function Edit( props ) {
 			className: classnames( {
 				[ BLOCK_CLASSES.column.main ]: true,
 				[ uidClass ]: true,
-				[ BLOCK_CLASSES.column.col ]: true,
 				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 		},

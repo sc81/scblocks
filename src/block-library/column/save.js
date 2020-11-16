@@ -24,7 +24,6 @@ export default function Save( { attributes } ) {
 			className: classnames( {
 				[ BLOCK_CLASSES.column.main ]: true,
 				[ uidClass ]: true,
-				[ BLOCK_CLASSES.column.col ]: true,
 				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 		},

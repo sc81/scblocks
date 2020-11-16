@@ -3,7 +3,6 @@ export const BLOCK_CLASSES = {
 		main: 'scb-button',
 		text: 'scb-button-text',
 		icon: 'scb-icon',
-		btn: 'scb-btn',
 	},
 	buttons: {
 		main: 'scb-buttons',
@@ -11,7 +10,6 @@ export const BLOCK_CLASSES = {
 	column: {
 		main: 'scb-column',
 		content: 'scb-column-content',
-		col: 'scb-col',
 		inner: 'scb-inner-column',
 	},
 	columns: {
@@ -33,12 +31,11 @@ export const BLOCK_CLASSES = {
 export const BLOCK_SELECTOR = {
 	button: {
 		main: {
-			fullSelector: ( uidClass ) => `.scb-button.${ uidClass }.scb-btn`,
+			fullSelector: ( uidClass ) => `.scb-button.${ uidClass }`,
 			alias: 'main',
 		},
 		mainHover: {
-			fullSelector: ( uidClass ) =>
-				`.scb-button.${ uidClass }.scb-btn:hover`,
+			fullSelector: ( uidClass ) => `.scb-button.${ uidClass }:hover`,
 			alias: 'mainHover',
 		},
 		text: {
@@ -70,17 +67,17 @@ export const BLOCK_SELECTOR = {
 	},
 	column: {
 		main: {
-			fullSelector: ( uidClass ) => `.scb-column.${ uidClass }.scb-col`,
+			fullSelector: ( uidClass ) => `.scb-column.${ uidClass }`,
 			alias: 'main',
 		},
 		content: {
 			fullSelector: ( uidClass ) =>
-				`.scb-column.${ uidClass }.scb-col > .scb-inner-column > .scb-column-content`,
+				`.scb-column.${ uidClass } > .scb-inner-column > .scb-column-content`,
 			alias: 'content',
 		},
 		inner: {
 			fullSelector: ( uidClass ) =>
-				`.scb-column.${ uidClass }.scb-col > .scb-inner-column`,
+				`.scb-column.${ uidClass } > .scb-inner-column`,
 			alias: 'inner',
 		},
 		link: {

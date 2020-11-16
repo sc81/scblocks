@@ -12,10 +12,10 @@ function get_block_selector() {
 			array(
 				'button' => array(
 					'main' => function( $uid_class ) {
-						return ".scb-button.$uid_class.scb-btn,.scb-button.$uid_class.scb-btn:visited";
+						return ".scb-button.$uid_class,.scb-button.$uid_class:visited";
 					},
 					'mainHover' => function( $uid_class ) {
-						return ".scb-button.$uid_class.scb-btn:hover";
+						return ".scb-button.$uid_class:hover";
 					},
 					'icon' => function( $uid_class ) {
 						return ".scb-button.$uid_class .scb-icon";
@@ -37,13 +37,13 @@ function get_block_selector() {
 				),
 				'column' => array(
 					'main' => function( $uid_class ) {
-						return ".scb-column.$uid_class.scb-col";
+						return ".scb-column.$uid_class";
 					},
 					'content' => function( $uid_class ) {
-						return ".scb-column.$uid_class.scb-col > .scb-inner-column > .scb-column-content";
+						return ".scb-column.$uid_class > .scb-inner-column > .scb-column-content";
 					},
 					'inner' => function( $uid_class ) {
-						return ".scb-column.$uid_class.scb-col > .scb-inner-column";
+						return ".scb-column.$uid_class > .scb-inner-column";
 					},
 					'link' => function( $uid_class ) {
 						return ".$uid_class a";
