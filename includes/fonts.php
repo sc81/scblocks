@@ -67,21 +67,23 @@ class Fonts {
 		$font_variants = array();
 
 		foreach ( $this->blocks_attr as $block_data ) {
-			if ( isset( $block_data['googleFont'] ) && isset( $block_data['fontFamily'] ) ) {
-				$font_family           = $block_data['fontFamily'];
-				$fonts[ $font_family ] = true;
+			foreach ( $block_data as $block ) {
+				if ( isset( $block['googleFont'] ) && isset( $block['fontFamily'] ) ) {
+					$font_family           = $block['fontFamily'];
+					$fonts[ $font_family ] = true;
 
-				$variants = $block_data['googleFontVariants'];
+					$variants = $block['googleFontVariants'];
 
-				if ( $variants ) {
-					$variants = explode( ',', $variants );
-					$variants = array_flip( $variants );
-					array_walk( $variants, array( $this, 'change_value_to_true' ) );
+					if ( $variants ) {
+						$variants = explode( ',', $variants );
+						$variants = array_flip( $variants );
+						array_walk( $variants, array( $this, 'change_value_to_true' ) );
 
-					if ( ! empty( $font_variants[ $font_family ] ) ) {
-						$font_variants[ $font_family ] = $font_variants[ $font_family ] + $variants;
-					} else {
-						$font_variants[ $font_family ] = $variants;
+						if ( ! empty( $font_variants[ $font_family ] ) ) {
+							$font_variants[ $font_family ] = $font_variants[ $font_family ] + $variants;
+						} else {
+							$font_variants[ $font_family ] = $variants;
+						}
 					}
 				}
 			}
