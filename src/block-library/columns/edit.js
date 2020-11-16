@@ -23,7 +23,7 @@ import { __ } from '@wordpress/i18n';
 import {
 	CORE_BLOCK_EDITOR_STORE_NAME,
 	CORE_EDIT_POST_STORE_NAME,
-	DESKTOP_DEVICES,
+	DESKTOP_DEVICE,
 } from '../../constants';
 import { COLUMNS_SELECTORS_SETTINGS } from './utils';
 import useDynamicCss from '../../hooks/use-dynamic-css';
@@ -58,7 +58,7 @@ export default function Edit( props ) {
 		BLOCK_SELECTOR
 	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
-	useDynamicCss( props, devices );
+	const style = useDynamicCss( props, devices );
 
 	const htmlAttributes = applyFilters(
 		'scblocks.columns.htmlAttributes',
@@ -75,6 +75,7 @@ export default function Edit( props ) {
 
 	return (
 		<>
+			<style>{ style }</style>
 			<BlockControls>
 				<Toolbar>
 					<Button
@@ -88,7 +89,7 @@ export default function Edit( props ) {
 								).getBlocks( clientId ),
 								createBlock( 'scblocks/column', {
 									css: {
-										[ DESKTOP_DEVICES ]: {
+										[ DESKTOP_DEVICE ]: {
 											[ BLOCK_SELECTOR.column.main
 												.alias ]: [ 'width:50%' ],
 										},

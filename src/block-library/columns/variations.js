@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { DESKTOP_DEVICES } from '../../constants';
+import { DESKTOP_DEVICE } from '../../constants';
 import { COLUMN_NAME } from '../column/utils';
 import { BLOCK_SELECTOR } from '../../block/constants';
 
@@ -19,7 +19,7 @@ function getColumnState( width ) {
 		COLUMN_NAME,
 		{
 			css: {
-				[ DESKTOP_DEVICES ]: {
+				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.column.main.alias ]: [
 						`width:${ width }%`,
 					],

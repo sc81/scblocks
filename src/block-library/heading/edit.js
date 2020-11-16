@@ -51,7 +51,7 @@ export default function Edit( props ) {
 		BLOCK_SELECTOR
 	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
-	useDynamicCss( props, devices );
+	const style = useDynamicCss( props, devices );
 
 	const selectorsActivity = useSelectorsActivity( selectorsSettings );
 
@@ -76,6 +76,7 @@ export default function Edit( props ) {
 
 	return (
 		<>
+			<style>{ style }</style>
 			<Inspector
 				{ ...props }
 				devices={ devices }

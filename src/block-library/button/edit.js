@@ -22,8 +22,8 @@ import { BUTTON_SELECTORS_SETTINGS } from './utils';
 import useDynamicCss from '../../hooks/use-dynamic-css';
 import {
 	CORE_EDIT_POST_STORE_NAME,
-	MOBILE_DEVICES,
-	TABLET_DEVICES,
+	MOBILE_DEVICE,
+	TABLET_DEVICE,
 } from '../../constants';
 import Inspector from './inspector';
 import { useBlockMemo } from '../../hooks/use-block-memo';
@@ -66,7 +66,7 @@ export default function Edit( props ) {
 		BLOCK_SELECTOR
 	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
-	useDynamicCss( props, devices );
+	const style = useDynamicCss( props, devices );
 
 	const selectorsActivity = useSelectorsActivity( selectorsSettings );
 
@@ -120,13 +120,13 @@ export default function Edit( props ) {
 	let flexGrow = flexGrowForEveryDevice.desktop?.flexGrow || '';
 
 	if (
-		TABLET_DEVICES === devices &&
+		TABLET_DEVICE === devices &&
 		flexGrowForEveryDevice.tablet?.flexGrow
 	) {
 		flexGrow = flexGrowForEveryDevice.tablet.flexGrow;
 	}
 	if (
-		MOBILE_DEVICES === devices &&
+		MOBILE_DEVICE === devices &&
 		flexGrowForEveryDevice.mobile?.flexGrow
 	) {
 		flexGrow = flexGrowForEveryDevice.mobile.flexGrow;
@@ -143,6 +143,7 @@ export default function Edit( props ) {
 				selectorsActivity={ selectorsActivity }
 			/>
 			<Block.div style={ { flexGrow } }>
+				<style>{ style }</style>
 				<GoogleFontsLink attributes={ attributes } />
 				{ /* eslint-disable  jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */ }
 				<Tag

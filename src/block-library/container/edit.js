@@ -59,7 +59,7 @@ export default function Edit( props ) {
 		BLOCK_SELECTOR
 	);
 
-	useDynamicCss( props, devices );
+	const style = useDynamicCss( props, devices );
 
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 
@@ -79,6 +79,7 @@ export default function Edit( props ) {
 
 	return (
 		<>
+			<style>{ style }</style>
 			<Inspector
 				{ ...props }
 				devices={ devices }

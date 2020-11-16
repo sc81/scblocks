@@ -49,7 +49,7 @@ export default function Edit( props ) {
 		BLOCK_SELECTOR
 	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
-	useDynamicCss( props, devices );
+	const style = useDynamicCss( props, devices );
 
 	const htmlAttributes = applyFilters(
 		'scblocks.column.htmlAttributes',
@@ -67,6 +67,7 @@ export default function Edit( props ) {
 
 	return (
 		<>
+			<style>{ style }</style>
 			<Inspector
 				{ ...props }
 				blockMemo={ blockMemo }

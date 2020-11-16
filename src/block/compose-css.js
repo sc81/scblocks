@@ -3,10 +3,10 @@
  */
 import {
 	ALL_DEVICES,
-	TABLET_DEVICES,
-	MOBILE_DEVICES,
+	TABLET_DEVICE,
+	MOBILE_DEVICE,
 	PLUGIN_NAME,
-	DESKTOP_DEVICES,
+	DESKTOP_DEVICE,
 } from '../constants';
 import { BLOCK_SELECTOR } from './constants';
 
@@ -50,34 +50,34 @@ export function composeCss( {
 	css: cssState,
 	blockName,
 	uidClass,
-	devices: currentDevices,
+	device: currentDevice,
 } ) {
 	const css = {
 		[ ALL_DEVICES ]: '',
-		[ DESKTOP_DEVICES ]: '',
-		[ TABLET_DEVICES ]: '',
-		[ MOBILE_DEVICES ]: '',
+		[ DESKTOP_DEVICE ]: '',
+		[ TABLET_DEVICE ]: '',
+		[ MOBILE_DEVICE ]: '',
 	};
 
-	for ( const devices in cssState ) {
-		css[ devices ] += composeSelectors(
-			cssState[ devices ],
+	for ( const cssDevice in cssState ) {
+		css[ cssDevice ] += composeSelectors(
+			cssState[ cssDevice ],
 			blockName,
 			uidClass
 		);
 	}
 
-	if ( currentDevices === DESKTOP_DEVICES ) {
-		return css[ ALL_DEVICES ] + css[ DESKTOP_DEVICES ];
-	} else if ( currentDevices === TABLET_DEVICES ) {
+	if ( currentDevice === DESKTOP_DEVICE ) {
+		return css[ ALL_DEVICES ] + css[ DESKTOP_DEVICE ];
+	} else if ( currentDevice === TABLET_DEVICE ) {
 		return (
-			css[ ALL_DEVICES ] + css[ DESKTOP_DEVICES ] + css[ TABLET_DEVICES ]
+			css[ ALL_DEVICES ] + css[ DESKTOP_DEVICE ] + css[ TABLET_DEVICE ]
 		);
 	}
 	return (
 		css[ ALL_DEVICES ] +
-		css[ DESKTOP_DEVICES ] +
-		css[ TABLET_DEVICES ] +
-		css[ MOBILE_DEVICES ]
+		css[ DESKTOP_DEVICE ] +
+		css[ TABLET_DEVICE ] +
+		css[ MOBILE_DEVICE ]
 	);
 }

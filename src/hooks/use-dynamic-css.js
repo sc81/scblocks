@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { useEffect, useRef } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { select } from '@wordpress/data';
 
 /**
@@ -12,11 +12,6 @@ import { CORE_BLOCK_EDITOR_STORE_NAME } from '../constants';
 
 const memoizedUidClasses = [];
 
-function createStyleElement() {
-	const style = document.createElement( 'style' );
-	document.body.appendChild( style );
-	return style;
-}
 const BLOCK_ALIAS = {
 	button: 'btn',
 	buttons: 'btns',
@@ -26,14 +21,14 @@ const BLOCK_ALIAS = {
 	heading: 'h',
 };
 
-export default function useDynamicCss( props, devices ) {
+export default function useDynamicCss( props, device ) {
 	const {
 		clientId,
 		attributes: { uidClass, css },
 		setAttributes,
 		name,
 	} = props;
-	const style = useRef();
+	const [ style, setStyle ] = useState( '' );
 
 	// block name without namespace
 	const blockName = name.split( '/' )[ 1 ];
@@ -56,7 +51,7 @@ export default function useDynamicCss( props, devices ) {
 			memoizedUidClasses.push( nextUidClass );
 			finalUidClass = nextUidClass;
 
-			// it's probably not a reusable block, this is a weak test
+			// it's probably not a reusable block
 			// duplicate block
 		} else if (
 			blockRootClientId !== null &&
@@ -68,7 +63,7 @@ export default function useDynamicCss( props, devices ) {
 			memoizedUidClasses.push( nextUidClass );
 			finalUidClass = nextUidClass;
 
-			// probably reusable block, this is a weak test
+			// probably reusable block
 			// add reusable block uidClass only once
 		} else if ( blockRootClientId === null ) {
 			if ( ! memoizedUidClasses.includes( uidClass ) ) {
@@ -80,32 +75,28 @@ export default function useDynamicCss( props, devices ) {
 			memoizedUidClasses.push( uidClass );
 			finalUidClass = uidClass;
 		}
-		style.current = createStyleElement();
-		style.current.textContent = composeCss( {
-			css,
-			blockName,
-			uidClass: finalUidClass,
-			devices,
-		} );
+		setStyle(
+			composeCss( {
+				css,
+				blockName,
+				uidClass: finalUidClass,
+				device,
+			} )
+		);
 	}, [] );
 	// update
 	useEffect( () => {
 		if ( uidClass ) {
-			style.current.textContent = composeCss( {
-				css,
-				blockName,
-				uidClass,
-				devices,
-			} );
+			setStyle(
+				composeCss( {
+					css,
+					blockName,
+					uidClass,
+					device,
+				} )
+			);
 		}
-	}, [ style, css, blockName, uidClass, devices ] );
-	// unmount
-	useEffect(
-		() => () => {
-			if ( style.current ) {
-				style.current.remove();
-			}
-		},
-		[]
-	);
+	}, [ setStyle, composeCss, css, blockName, uidClass, device ] );
+
+	return style;
 }
