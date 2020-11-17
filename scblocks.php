@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: ScBlocks
- * Description: Custom blocks for the new WordPress editor.
+ * Description: A collection of Gutenberg Blocks that help you build WordPress sites.
  * Author: sc81
  * Version: 0.1.0
  * Text Domain: scblocks
