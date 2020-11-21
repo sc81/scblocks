@@ -1,5 +1,6 @@
 === ScBlocks ===
 Contributors: sc81
+Donate link: https://sc81.github.io/scblocks
 Tags: blocks, gutenberg, container, columns, grid, page builder, block editor
 Requires at least: 5.5
 Tested up to: 5.5.3
@@ -11,6 +12,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 A collection of Gutenberg Blocks that help you build WordPress sites.
 
 == Description ==
+
+https://www.youtube.com/watch?v=W0eIGbPa0TQ
 
 ScBlocks is a collection of advanced and powerful blocks. This plugin provides multiple options for each block so you can easily change the styles, attributes, and contents of the blocks. With this plugin, you can create any kind of layout with beautiful content.
 
@@ -29,6 +32,10 @@ Create headlines with advanced typography.
 = Buttons =
 
 Prompt visitors to take action with a beautiful buttons.
+
+= Source files =
+
+[github](https://github.com/sc81/scblocks)
 
 == Installation ==
 
