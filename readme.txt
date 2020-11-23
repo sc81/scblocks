@@ -1,7 +1,7 @@
-=== ScBlocks ===
+=== Page Builder Gutenberg Blocks – ScBlocks ===
 Contributors: sc81
 Donate link: https://sc81.github.io/scblocks
-Tags: blocks, gutenberg, container, columns, grid, page builder, block editor
+Tags: page builder, blocks, gutenberg, WordPress blocks, container
 Requires at least: 5.5
 Tested up to: 5.5.3
 Stable tag: 1.0
