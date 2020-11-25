@@ -31,12 +31,8 @@ function getButton() {
 	];
 }
 
-/** @typedef {import('@wordpress/blocks').WPBlockVariation} WPBlockVariation */
-
 /**
  * Template option choices for predefined buttons layouts.
- *
- * @type {WPBlockVariation[]}
  */
 const variations = [
 	{

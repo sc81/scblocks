@@ -20,6 +20,7 @@ import icon from '../buttons/icon';
 export const name = BUTTON_BLOCK_NAME;
 
 export const settings = {
+	apiVersion: 2,
 	title: __( 'Button', 'scblocks' ),
 	description: __(
 		'Prompt visitors to take action with a button-style link.'
@@ -77,7 +78,6 @@ export const settings = {
 		className: false,
 		html: false,
 		reusable: false,
-		lightBlockWrapper: true,
 		customClassName: false,
 	},
 	parent: [ BUTTONS_BLOCK_NAME ],

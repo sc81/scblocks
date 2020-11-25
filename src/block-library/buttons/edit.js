@@ -8,8 +8,8 @@ import classnames from 'classnames';
  */
 import { useSelect } from '@wordpress/data';
 import {
-	InnerBlocks,
-	__experimentalBlock as Block,
+	useBlockProps,
+	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
 	InspectorControls,
 } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
@@ -57,18 +57,24 @@ export default function Edit( props ) {
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	const style = useDynamicCss( props, devices );
 
-	const htmlAttributes = applyFilters(
-		'scblocks.buttons.htmlAttributes',
-		{
-			id: !! htmlId ? htmlId : undefined,
-			className: classnames( {
-				[ BLOCK_CLASSES.buttons.main ]: true,
-				[ uidClass ]: true,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
-			} ),
-		},
-		attributes
+	const blockProps = useBlockProps(
+		applyFilters(
+			'scblocks.buttons.htmlAttributes',
+			{
+				id: !! htmlId ? htmlId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.buttons.main ]: true,
+					[ uidClass ]: true,
+					[ `${ htmlClass }` ]: '' !== htmlClass,
+				} ),
+			},
+			attributes
+		)
 	);
+	const innerBlocksProps = useInnerBlocksProps( blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		renderAppender: false,
+	} );
 
 	return (
 		<>
@@ -94,17 +100,10 @@ export default function Edit( props ) {
 					) }
 				/>
 			</InspectorControls>
-			{ buttonCount > 0 && (
-				<InnerBlocks
-					{ ...htmlAttributes }
-					allowedBlocks={ ALLOWED_BLOCKS }
-					orientation="horizontal"
-					__experimentalTagName={ Block.div }
-					__experimentalPassedProps={ htmlAttributes }
-					renderAppender={ false }
-				/>
+			{ buttonCount > 0 && <div { ...innerBlocksProps } /> }
+			{ buttonCount === 0 && (
+				<VariationsPicker { ...props } blockProps={ blockProps } />
 			) }
-			{ buttonCount === 0 && <VariationsPicker { ...props } /> }
 		</>
 	);
 }

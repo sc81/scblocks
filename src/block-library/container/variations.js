@@ -42,12 +42,8 @@ function containerCss() {
 	};
 }
 
-/** @typedef {import('@wordpress/blocks').WPBlockVariation} WPBlockVariation */
-
 /**
  * Template option choices for predefined columns layouts.
- *
- * @type {WPBlockVariation[]}
  */
 export const variations = [
 	{

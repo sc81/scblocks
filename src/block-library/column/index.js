@@ -16,6 +16,7 @@ import icon from './icon';
 export const name = COLUMN_NAME;
 
 export const settings = {
+	apiVersion: 2,
 	title: __( 'Column', 'scblocks' ),
 	parent: [ `${ PLUGIN_NAME }/columns` ],
 	description: __( 'A single column within a columns block.', 'scblocks' ),
@@ -37,7 +38,6 @@ export const settings = {
 		reusable: false,
 		html: false,
 		className: false,
-		lightBlockWrapper: true,
 		customClassName: false,
 	},
 	edit,

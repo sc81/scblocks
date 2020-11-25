@@ -17,6 +17,7 @@ import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 export const name = COLUMNS_NAME;
 
 export const settings = {
+	apiVersion: 2,
 	title: __( 'Columns', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
@@ -32,7 +33,6 @@ export const settings = {
 	supports: {
 		html: false,
 		className: false,
-		lightBlockWrapper: true,
 		customClassName: false,
 	},
 	edit,

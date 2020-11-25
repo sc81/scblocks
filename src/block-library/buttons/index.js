@@ -18,6 +18,7 @@ import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 export const name = BUTTONS_BLOCK_NAME;
 
 export const settings = {
+	apiVersion: 2,
 	title: __( 'Buttons', 'scblocks' ),
 	description: __(
 		'Prompt visitors to take action with a group of button-style links.'
@@ -33,7 +34,6 @@ export const settings = {
 	supports: {
 		alignWide: false,
 		className: false,
-		lightBlockWrapper: true,
 		customClassName: false,
 	},
 	edit,
