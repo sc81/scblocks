@@ -48,5 +48,8 @@ In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
 
+= 1.1.0 =
+* New: Use apiVersion 2
+
 = 1.0 =
 * Initial release
