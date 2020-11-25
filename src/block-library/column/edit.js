@@ -8,7 +8,8 @@ import classnames from 'classnames';
  */
 import {
 	InnerBlocks,
-	__experimentalBlock as Block,
+	useBlockProps,
+	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
@@ -51,17 +52,30 @@ export default function Edit( props ) {
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	const style = useDynamicCss( props, devices );
 
-	const htmlAttributes = applyFilters(
-		'scblocks.column.htmlAttributes',
+	const blockProps = useBlockProps(
+		applyFilters(
+			'scblocks.column.htmlAttributes',
+			{
+				id: !! htmlId ? htmlId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.column.main ]: true,
+					[ uidClass ]: true,
+					[ `${ htmlClass }` ]: '' !== htmlClass,
+				} ),
+			},
+			attributes
+		)
+	);
+	const innerBlocksProps = useInnerBlocksProps(
 		{
-			id: !! htmlId ? htmlId : undefined,
-			className: classnames( {
-				[ BLOCK_CLASSES.column.main ]: true,
-				[ uidClass ]: true,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
-			} ),
+			className: BLOCK_CLASSES.column.content,
 		},
-		attributes
+		{
+			templateLock: false,
+			renderAppender: hasChildBlocks
+				? undefined
+				: () => <InnerBlocks.ButtonBlockAppender />,
+		}
 	);
 
 	return (
@@ -73,7 +87,7 @@ export default function Edit( props ) {
 				devices={ devices }
 				selectorsSettings={ selectorsSettings }
 			/>
-			<Block.div { ...htmlAttributes }>
+			<div { ...blockProps }>
 				<GoogleFontsLink attributes={ attributes } />
 				<div className={ BLOCK_CLASSES.column.inner }>
 					{ applyFilters(
@@ -81,20 +95,9 @@ export default function Edit( props ) {
 						null,
 						attributes
 					) }
-					<InnerBlocks
-						templateLock={ false }
-						renderAppender={
-							hasChildBlocks
-								? undefined
-								: () => <InnerBlocks.ButtonBlockAppender />
-						}
-						__experimentalPassedProps={ {
-							className: BLOCK_CLASSES.column.content,
-						} }
-						__experimentalTagName="div"
-					/>
+					<div { ...innerBlocksProps } />
 				</div>
-			</Block.div>
+			</div>
 		</>
 	);
 }

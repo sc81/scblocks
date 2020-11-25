@@ -6,10 +6,7 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import {
-	RichText,
-	__experimentalBlock as Block,
-} from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
@@ -36,7 +33,14 @@ import Inspector from './inspector';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace } = props;
-	const { text, tagName, uidClass, icon, htmlClass, htmlId } = attributes;
+	const {
+		text,
+		tagName: Tag,
+		uidClass,
+		icon,
+		htmlClass,
+		htmlId,
+	} = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -59,19 +63,20 @@ export default function Edit( props ) {
 		setSelectorActivity( selectorsActivity, 'icon', icon );
 	}, [ selectorsActivity, icon ] );
 
-	const Tag = Block[ tagName ];
-	const htmlAttributes = applyFilters(
-		'scblocks.heading.htmlAttributes',
-		{
-			id: !! htmlId ? htmlId : undefined,
-			className: classnames( {
-				[ BLOCK_CLASSES.heading.main ]: true,
-				[ uidClass ]: true,
-				[ BLOCK_CLASSES.heading.text ]: ! icon,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
-			} ),
-		},
-		attributes
+	const blockProps = useBlockProps(
+		applyFilters(
+			'scblocks.heading.htmlAttributes',
+			{
+				id: !! htmlId ? htmlId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.heading.main ]: true,
+					[ uidClass ]: true,
+					[ BLOCK_CLASSES.heading.text ]: ! icon,
+					[ `${ htmlClass }` ]: '' !== htmlClass,
+				} ),
+			},
+			attributes
+		)
 	);
 
 	return (
@@ -85,7 +90,7 @@ export default function Edit( props ) {
 				selectorsActivity={ selectorsActivity }
 			/>
 			<GoogleFontsLink attributes={ attributes } />
-			<Tag { ...htmlAttributes }>
+			<Tag { ...blockProps }>
 				<DangerouslyPasteIcon
 					icon={ icon }
 					className={ BLOCK_CLASSES.heading.icon }

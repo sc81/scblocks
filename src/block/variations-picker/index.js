@@ -5,10 +5,7 @@ import { get } from 'lodash';
 /**
  * WordPress dependencies
  */
-import {
-	__experimentalBlockVariationPicker,
-	__experimentalBlock as Block,
-} from '@wordpress/block-editor';
+import { __experimentalBlockVariationPicker } from '@wordpress/block-editor';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 
@@ -32,7 +29,7 @@ function createBlocksFromInnerBlocksTemplate( innerBlocksTemplate ) {
 }
 
 export default function VariationsPicker( props ) {
-	const { clientId, name } = props;
+	const { clientId, name, blockProps } = props;
 	const { blockType, defaultVariation, variations } = useSelect(
 		( select ) => {
 			const {
@@ -51,7 +48,7 @@ export default function VariationsPicker( props ) {
 
 	const { replaceInnerBlocks } = useDispatch( CORE_BLOCK_EDITOR_STORE_NAME );
 	return (
-		<Block.div>
+		<div { ...blockProps }>
 			<__experimentalBlockVariationPicker
 				icon={ get( blockType, [ 'icon', 'src' ] ) }
 				label={ get( blockType, [ 'title' ] ) }
@@ -71,6 +68,6 @@ export default function VariationsPicker( props ) {
 				} }
 				allowSkip
 			/>
-		</Block.div>
+		</div>
 	);
 }

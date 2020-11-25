@@ -7,8 +7,8 @@ import classnames from 'classnames';
  * WordPress dependencies
  */
 import {
-	InnerBlocks,
-	__experimentalBlock as Block,
+	useBlockProps,
+	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
 	BlockControls,
 } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
@@ -60,18 +60,24 @@ export default function Edit( props ) {
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	const style = useDynamicCss( props, devices );
 
-	const htmlAttributes = applyFilters(
-		'scblocks.columns.htmlAttributes',
-		{
-			id: !! htmlId ? htmlId : undefined,
-			className: classnames( {
-				[ BLOCK_CLASSES.columns.main ]: true,
-				[ uidClass ]: true,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
-			} ),
-		},
-		attributes
+	const blockProps = useBlockProps(
+		applyFilters(
+			'scblocks.columns.htmlAttributes',
+			{
+				id: !! htmlId ? htmlId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.columns.main ]: true,
+					[ uidClass ]: true,
+					[ `${ htmlClass }` ]: '' !== htmlClass,
+				} ),
+			},
+			attributes
+		)
 	);
+	const innerBlocksProps = useInnerBlocksProps( blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		renderAppender: false,
+	} );
 
 	return (
 		<>
@@ -113,16 +119,10 @@ export default function Edit( props ) {
 				devices={ devices }
 				selectorsSettings={ selectorsSettings }
 			/>
-			{ columnCount > 0 && (
-				<InnerBlocks
-					allowedBlocks={ ALLOWED_BLOCKS }
-					__experimentalMoverDirection="horizontal"
-					__experimentalTagName={ Block.div }
-					__experimentalPassedProps={ htmlAttributes }
-					renderAppender={ false }
-				/>
+			{ columnCount > 0 && <div { ...innerBlocksProps } /> }
+			{ columnCount === 0 && (
+				<VariationsPicker { ...props } blockProps={ blockProps } />
 			) }
-			{ columnCount === 0 && <VariationsPicker { ...props } /> }
 		</>
 	);
 }

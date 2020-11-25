@@ -6,7 +6,7 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { RichText } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
@@ -25,18 +25,20 @@ export default function save( { attributes } ) {
 		htmlClass,
 	} = attributes;
 
-	const htmlAttributes = applyFilters(
-		'scblocks.heading.htmlAttributes',
-		{
-			id: !! htmlId ? htmlId : undefined,
-			className: classnames( {
-				[ BLOCK_CLASSES.heading.main ]: true,
-				[ uidClass ]: true,
-				[ BLOCK_CLASSES.heading.text ]: ! icon,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
-			} ),
-		},
-		attributes
+	const htmlAttributes = useBlockProps.save(
+		applyFilters(
+			'scblocks.heading.htmlAttributes',
+			{
+				id: !! htmlId ? htmlId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.heading.main ]: true,
+					[ uidClass ]: true,
+					[ BLOCK_CLASSES.heading.text ]: ! icon,
+					[ `${ htmlClass }` ]: '' !== htmlClass,
+				} ),
+			},
+			attributes
+		)
 	);
 	return (
 		<Tag { ...htmlAttributes }>

@@ -17,6 +17,7 @@ import { BLOCK_SELECTOR } from '../../block/constants';
 export const name = HEADING_BLOCK_NAME;
 
 export const settings = {
+	apiVersion: 2,
 	title: __( 'Heading', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
@@ -46,7 +47,6 @@ export const settings = {
 		anchor: false,
 		html: false,
 		className: false,
-		lightBlockWrapper: true,
 		customClassName: false,
 	},
 	edit,

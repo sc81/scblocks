@@ -17,6 +17,7 @@ import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 export const name = `${ PLUGIN_NAME }/container`;
 
 export const settings = {
+	apiVersion: 2,
 	title: __( 'Container', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
@@ -47,7 +48,6 @@ export const settings = {
 	supports: {
 		className: false,
 		html: false,
-		lightBlockWrapper: true,
 		customClassName: false,
 	},
 	edit,

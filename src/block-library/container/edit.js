@@ -7,8 +7,8 @@ import classnames from 'classnames';
  * WordPress dependencies
  */
 import {
-	InnerBlocks,
-	__experimentalBlock as Block,
+	useBlockProps,
+	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
@@ -63,18 +63,28 @@ export default function Edit( props ) {
 
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 
-	const htmlAttributes = applyFilters(
-		'scblocks.container.htmlAttributes',
+	const blockProps = useBlockProps(
+		applyFilters(
+			'scblocks.container.htmlAttributes',
+			{
+				id: !! htmlId ? htmlId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.container.main ]: true,
+					[ uidClass ]: true,
+					[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
+					[ `${ htmlClass }` ]: '' !== htmlClass,
+				} ),
+			},
+			attributes
+		)
+	);
+	const innerBlocksProps = useInnerBlocksProps(
 		{
-			id: !! htmlId ? htmlId : undefined,
-			className: classnames( {
-				[ BLOCK_CLASSES.container.main ]: true,
-				[ uidClass ]: true,
-				[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
-			} ),
+			className: BLOCK_CLASSES.container.content,
 		},
-		attributes
+		{
+			templateLock: false,
+		}
 	);
 
 	return (
@@ -86,24 +96,21 @@ export default function Edit( props ) {
 				blockMemo={ blockMemo }
 				selectorsSettings={ selectorsSettings }
 			/>
-			<Block.div { ...htmlAttributes }>
+			<div { ...blockProps }>
 				<GoogleFontsLink attributes={ attributes } />
 				{ applyFilters(
 					'scblocks.container.inside',
 					null,
 					attributes
 				) }
-				{ innerBlockCount > 0 && (
-					<InnerBlocks
-						templateLock={ false }
-						__experimentalTagName="div"
-						__experimentalPassedProps={ {
-							className: BLOCK_CLASSES.container.content,
-						} }
+				{ innerBlockCount > 0 && <div { ...innerBlocksProps } /> }
+				{ innerBlockCount === 0 && (
+					<VariationsPicker
+						{ ...props }
+						blockProps={ innerBlocksProps }
 					/>
 				) }
-				{ innerBlockCount === 0 && <VariationsPicker { ...props } /> }
-			</Block.div>
+			</div>
 		</>
 	);
 }
