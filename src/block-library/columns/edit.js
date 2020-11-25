@@ -14,7 +14,7 @@ import {
 import { applyFilters } from '@wordpress/hooks';
 import { useSelect, dispatch, select } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
-import { Toolbar, Button } from '@wordpress/components';
+import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -83,10 +83,9 @@ export default function Edit( props ) {
 		<>
 			<style>{ style }</style>
 			<BlockControls>
-				<Toolbar>
-					<Button
+				<ToolbarGroup>
+					<ToolbarButton
 						icon="plus"
-						showTooltip
 						label={ __( 'Add Column', 'scblocks' ) }
 						onClick={ () => {
 							const innerBlocks = [
@@ -111,7 +110,7 @@ export default function Edit( props ) {
 							);
 						} }
 					/>
-				</Toolbar>
+				</ToolbarGroup>
 			</BlockControls>
 			<Inspector
 				{ ...props }
