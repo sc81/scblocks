@@ -1,12 +1,3 @@
-.#{$pluginAlias}-heading-wrapper {
-	display: flex;
-
-	> .#{$pluginAlias}-heading {
-		margin: 0;
-		padding: 0;
-	}
-}
-
 .#{$pluginAlias}-heading mark {
 	background: none;
 }

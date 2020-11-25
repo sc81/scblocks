@@ -40,7 +40,7 @@ function composeSelectors( selectorsObj, blockName, uidClass ) {
 		const finalSelector = BLOCK_SELECTOR[ blockName ][
 			selectorAlias
 		].fullSelector( uidClass );
-		css += `${ finalSelector }{${ composePropValue(
+		css += `.editor-styles-wrapper ${ finalSelector }{${ composePropValue(
 			selectorsObj[ selectorAlias ]
 		) }}`;
 	}
