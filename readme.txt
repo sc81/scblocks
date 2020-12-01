@@ -50,6 +50,7 @@ In most cases, #1 will work fine and is way easier.
 
 = 1.1.0 =
 * New: Use apiVersion 2
+* Fix: Use ToolbarGroup instead of Toolbar
 
 = 1.0 =
 * Initial release
