@@ -4,15 +4,9 @@
 import { SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-/**
- * Internal dependencies
- */
-import { selectControlClass } from './utils';
-
 export default function FontWeight( { value, onChange } ) {
 	return (
 		<SelectControl
-			className={ selectControlClass }
 			label={ __( 'Font weight', 'scblocks' ) }
 			value={ value }
 			options={ [
