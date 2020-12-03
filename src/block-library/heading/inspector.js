@@ -7,18 +7,16 @@ import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import ControlsManager from '../../components/controls-manager';
-import { BLOCK_SELECTOR } from '../../block/constants';
-import IconPicker from '../../components/icon-picker';
+import { BLOCK_SELECTOR, IdClassesControls } from '@scblocks/block';
+import { ALL_DEVICES } from '@scblocks/constants';
 import {
 	removeSelectors,
 	setPropsForVariousDevices,
 	setPropValue,
-} from '../../utils';
-import IdClassesControls from '../../block/id-classes-controls';
-import { ALL_DEVICES } from '../../constants';
+} from '@scblocks/css-utils';
+import { ControlsManager, IconPicker } from '@scblocks/components';
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;

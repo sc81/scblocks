@@ -4,10 +4,14 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { DropdownComponent } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
 import BoxShadowControl from '../box-shadow-control';
-import DropdownComponent from '../../components/dropdown-component';
 import propertyService from '../property-service';
 
 const propName = 'boxShadow';

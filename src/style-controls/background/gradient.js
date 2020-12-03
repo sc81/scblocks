@@ -9,12 +9,19 @@ import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
 /**
+ * ScBlocks dependencies
+ */
+import {
+	setPropValue,
+	getPropValue,
+	setCssMemoValue,
+} from '@scblocks/css-utils';
+import { CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-import { CORE_BLOCK_EDITOR_STORE_NAME } from '../../constants';
-import { setPropValue, getPropValue } from '../../utils';
 import { names } from './constants';
-import { setCssMemoValue } from '../../hooks/use-block-memo';
 
 const propName = names.image;
 

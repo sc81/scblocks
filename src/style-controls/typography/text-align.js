@@ -5,9 +5,9 @@ import { SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import ControlWrapper from '../../components/control-wrapper';
+import { ControlWrapper } from '@scblocks/components';
 
 export default function TextAlign( { value, onChange } ) {
 	return (

@@ -10,9 +10,9 @@ import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { BLOCK_CLASSES } from '../../block/constants';
+import { BLOCK_CLASSES } from '@scblocks/block';
 
 export default function save( { attributes } ) {
 	const {

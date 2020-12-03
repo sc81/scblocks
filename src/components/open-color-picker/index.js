@@ -11,9 +11,9 @@ import {
 import { __ } from '@wordpress/i18n';
 import { useRef } from '@wordpress/element';
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { PLUGIN_NAME, CORE_EDITOR_STORE_NAME } from '../../constants';
+import { PLUGIN_NAME, CORE_EDITOR_STORE_NAME } from '@scblocks/constants';
 
 export default function OpenColorPicker( {
 	value,

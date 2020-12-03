@@ -6,11 +6,15 @@ import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
-import { getPropertiesValue, setPropValue, setPropsValue } from '../../utils';
-import NumberUnit from '../../components/number-unit';
+import {
+	getPropertiesValue,
+	setPropValue,
+	setPropsValue,
+} from '@scblocks/css-utils';
+import { PLUGIN_NAME } from '@scblocks/constants';
+import { NumberUnit } from '@scblocks/components';
 
 export function HorizontalControls( {
 	attributes,

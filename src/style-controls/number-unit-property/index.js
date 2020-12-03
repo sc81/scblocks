@@ -10,9 +10,13 @@ import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
 
 /**
+ * ScBlocks dependencies
+ */
+import { NumberUnit } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
-import NumberUnit from '../../components/number-unit';
 import propertyService from '../property-service';
 
 const propDefaults = {

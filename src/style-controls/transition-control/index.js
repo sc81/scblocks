@@ -5,9 +5,9 @@ import { SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import NumberControl from '../../components/number-control';
+import { NumberControl } from '@scblocks/components';
 
 export default function TransitionControl( {
 	value,

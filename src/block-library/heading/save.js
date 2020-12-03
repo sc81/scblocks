@@ -10,10 +10,10 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { BLOCK_CLASSES } from '../../block/constants';
-import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
+import { BLOCK_CLASSES } from '@scblocks/block';
+import { DangerouslyPasteIcon } from '@scblocks/components';
 
 export default function save( { attributes } ) {
 	const {

@@ -8,16 +8,21 @@ import { useMemo } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
+ * ScBlocks dependencies
+ */
+import { BLOCK_SELECTOR, IdClassesControls } from '@scblocks/block';
+import { setPropValue, getPropValue } from '@scblocks/css-utils';
+import {
+	ControlsManager,
+	NumberUnit,
+	Separator,
+	SelectHtmlTag,
+} from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
-import ControlsManager from '../../components/controls-manager';
-import { setPropValue, getPropValue } from '../../utils';
-import NumberUnit from '../../components/number-unit';
-import { BLOCK_SELECTOR } from '../../block/constants';
-import Separator from '../../components/separator';
 import propertyService from '../../style-controls/property-service';
-import IdClassesControls from '../../block/id-classes-controls';
-import SelectHtmlTag from '../../components/select-html-tag';
 
 const options = [
 	{ label: __( 'Default', 'scblocks' ), value: '' },

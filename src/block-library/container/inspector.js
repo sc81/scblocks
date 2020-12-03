@@ -6,12 +6,15 @@ import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
+ * ScBlocks dependencies
+ */
+import { IdClassesControls } from '@scblocks/block';
+import { ControlsManager, SelectHtmlTag } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
-import ControlsManager from '../../components/controls-manager';
-import SelectHtmlTag from '../../components/select-html-tag';
 import ContentWidth from './content-width';
-import IdClassesControls from '../../block/id-classes-controls';
 
 export default function Inspector( props ) {
 	const {

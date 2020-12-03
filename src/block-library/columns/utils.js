@@ -2,8 +2,12 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { BLOCK_SELECTOR } from '../../block/constants';
-import { PLUGIN_NAME } from '../../constants';
+
+/**
+ * ScBlocks dependencies
+ */
+import { BLOCK_SELECTOR } from '@scblocks/block';
+import { PLUGIN_NAME } from '@scblocks/constants';
 
 export const COLUMNS_NAME = `${ PLUGIN_NAME }/columns`;
 

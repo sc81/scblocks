@@ -5,14 +5,15 @@ import { TabPanel } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { PLUGIN_NAME } from '@scblocks/constants';
+import { getLastActivePanel, setLastActivePanel } from '@scblocks/css-utils';
+
+/**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
 import { StyleControls } from '../../style-controls';
-import {
-	getLastActivePanel,
-	setLastActivePanel,
-} from '../../hooks/use-block-memo';
 
 export default function ControlsManager( {
 	mainControls,

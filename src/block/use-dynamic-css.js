@@ -5,10 +5,14 @@ import { useEffect, useState } from '@wordpress/element';
 import { select } from '@wordpress/data';
 
 /**
+ * ScBlocks dependencies
+ */
+import { CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-import { composeCss } from '../block/compose-css';
-import { CORE_BLOCK_EDITOR_STORE_NAME } from '../constants';
+import composeCss from './compose-css';
 
 const memoizedUidClasses = [];
 

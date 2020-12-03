@@ -1,4 +1,7 @@
-import { PLUGIN_NAME } from '../../constants';
+/**
+ * ScBlocks dependencies
+ */
+import { PLUGIN_NAME } from '@scblocks/constants';
 
 export default function SelectWithOptgroup( {
 	label,

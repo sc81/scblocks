@@ -15,19 +15,26 @@ import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
+ * ScBlocks dependencies
+ */
+import {
+	useDynamicCss,
+	useBlockMemo,
+	BLOCK_CLASSES,
+	BLOCK_SELECTOR,
+	VariationsPicker,
+	GoogleFontsLink,
+} from '@scblocks/block';
+import {
+	CORE_EDIT_POST_STORE_NAME,
+	CORE_BLOCK_EDITOR_STORE_NAME,
+} from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
 import { CONTAINER_SELECTORS_SETTINGS } from './utils';
-import {
-	CORE_BLOCK_EDITOR_STORE_NAME,
-	CORE_EDIT_POST_STORE_NAME,
-} from '../../constants';
-import { useBlockMemo } from '../../hooks/use-block-memo';
-import useDynamicCss from '../../hooks/use-dynamic-css';
 import Inspector from './inspector';
-import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
-import VariationsPicker from '../../block/variations-picker';
-import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;

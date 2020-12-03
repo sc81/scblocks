@@ -6,15 +6,18 @@ import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { PLUGIN_NAME, ALL_DEVICES } from '../../constants';
 import {
-	setPropsForVariousDevices,
 	getPropValue,
 	setPropValue,
-} from '../../utils';
+	setPropsForVariousDevices,
+} from '@scblocks/css-utils';
+import { PLUGIN_NAME, ALL_DEVICES } from '@scblocks/constants';
 
+/**
+ * Internal dependencies
+ */
 import { HorizontalControls } from './horizontal-controls';
 import { VerticalControls } from './vertical-controls';
 

@@ -10,12 +10,12 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
 import {
 	CORE_BLOCKS_STORE_NAME,
 	CORE_BLOCK_EDITOR_STORE_NAME,
-} from '../../constants';
+} from '@scblocks/constants';
 
 function createBlocksFromInnerBlocksTemplate( innerBlocksTemplate ) {
 	return innerBlocksTemplate.map(

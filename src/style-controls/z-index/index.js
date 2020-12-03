@@ -5,10 +5,14 @@ import { TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { ALL_DEVICES } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
 import propertyService from '../property-service';
-import { ALL_DEVICES } from '../../constants';
 
 const propName = 'zIndex';
 

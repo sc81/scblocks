@@ -4,16 +4,22 @@
 import { useState } from '@wordpress/element';
 
 /**
+ * ScBlocks dependencies
+ */
+import { ALL_DEVICES } from '@scblocks/constants';
+import {
+	ControlWrapper,
+	NormalHoverButtons,
+	Separator,
+} from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
-import { ALL_DEVICES } from '../../constants';
 import Border from '../border';
 import Transition from '../transition';
 import BoxShadow from '../box-shadow';
-import NormalHoverButtons from '../../components/normal-hover-buttons/index';
 import FourControls from '../four-controls';
-import ControlWrapper from '../../components/control-wrapper';
-import Separator from '../../components/separator';
 import { getControlSelector, getControlHoverSelector } from '../utils';
 
 export default function BorderPanel( props ) {

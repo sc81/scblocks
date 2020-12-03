@@ -4,12 +4,19 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import {
+	getPropertiesValue,
+	setPropsForVariousDevices,
+} from '@scblocks/css-utils';
+import { ALL_DEVICES } from '@scblocks/constants';
+import { ControlWrapper } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
 import BorderControl from '../border-control';
-import { getPropertiesValue, setPropsForVariousDevices } from '../../utils';
-import ControlWrapper from '../../components/control-wrapper';
-import { ALL_DEVICES } from '../../constants';
 
 export default function Border( props ) {
 	const { attributes, devices, selector, setAttributes, isHover } = props;

@@ -11,10 +11,10 @@ import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { BLOCK_CLASSES } from '../../block/constants';
-import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
+import { BLOCK_CLASSES } from '@scblocks/block';
+import { DangerouslyPasteIcon } from '@scblocks/components';
 
 const placeholder = __( 'Button', 'scblocks' );
 

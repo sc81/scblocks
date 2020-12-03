@@ -4,10 +4,14 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { NumberControl } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
 import propertyService from '../property-service';
-import NumberControl from '../../components/number-control';
 
 export default function Order( props ) {
 	const { propValue, onChange } = propertyService( {

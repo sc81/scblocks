@@ -4,9 +4,9 @@
 import { Button, NavigableMenu, Dropdown } from '@wordpress/components';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
+import { PLUGIN_NAME } from '@scblocks/constants';
 
 export default function DropdownUnits( { units, value, onChangeUnit } ) {
 	return (

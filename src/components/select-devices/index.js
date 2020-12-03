@@ -6,9 +6,9 @@ import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
+import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 
 const icons = [
 	{

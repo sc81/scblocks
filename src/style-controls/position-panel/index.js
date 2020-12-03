@@ -6,7 +6,7 @@ import { useMemo } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import usePanelActiveControl from '../../hooks/use-panel-active-control';
+import usePanelActiveControl from '../use-panel-active-control';
 import Zindex from '../z-index';
 import Visibility from '../visibility';
 import Position from '../position';
