@@ -9,13 +9,17 @@ import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR, IdClassesControls } from '@scblocks/block';
+import {
+	BLOCK_SELECTOR,
+	IdClassesControls,
+	ControlsManager,
+} from '@scblocks/block';
 import {
 	setPropValue,
 	getPropValue,
 	setPropsForVariousSelectors,
 } from '@scblocks/css-utils';
-import { ControlsManager, NumberUnit } from '@scblocks/components';
+import { NumberUnit } from '@scblocks/components';
 
 const ALL_COLUMNS_SELECTOR_ALIAS = BLOCK_SELECTOR.columns.column.alias;
 

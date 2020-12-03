@@ -10,14 +10,13 @@ import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR, IdClassesControls } from '@scblocks/block';
-import { setPropValue, getPropValue } from '@scblocks/css-utils';
 import {
+	BLOCK_SELECTOR,
+	IdClassesControls,
 	ControlsManager,
-	NumberUnit,
-	Separator,
-	SelectHtmlTag,
-} from '@scblocks/components';
+} from '@scblocks/block';
+import { setPropValue, getPropValue } from '@scblocks/css-utils';
+import { NumberUnit, Separator, SelectHtmlTag } from '@scblocks/components';
 
 /**
  * Internal dependencies

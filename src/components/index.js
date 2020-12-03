@@ -1,6 +1,5 @@
 export { default as ButtonClear } from './button-clear';
 export { default as ControlWrapper } from './control-wrapper';
-export { default as ControlsManager } from './controls-manager';
 export { default as DangerouslyPasteIcon } from './dangerously-paste-icon';
 export { default as DropdownComponent } from './dropdown-component';
 export { default as DropdownUnits } from './dropdown-units';

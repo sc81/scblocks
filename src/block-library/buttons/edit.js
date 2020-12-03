@@ -25,12 +25,12 @@ import {
 	BLOCK_SELECTOR,
 	VariationsPicker,
 	IdClassesControls,
+	ControlsManager,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
 	CORE_BLOCK_EDITOR_STORE_NAME,
 } from '@scblocks/constants';
-import { ControlsManager } from '@scblocks/components';
 
 /**
  * Internal dependencies

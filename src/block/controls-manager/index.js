@@ -9,11 +9,7 @@ import { __ } from '@wordpress/i18n';
  */
 import { PLUGIN_NAME } from '@scblocks/constants';
 import { getLastActivePanel, setLastActivePanel } from '@scblocks/css-utils';
-
-/**
- * Internal dependencies
- */
-import { StyleControls } from '../../style-controls';
+import { StyleControls } from '@scblocks/style-controls';
 
 export default function ControlsManager( {
 	mainControls,

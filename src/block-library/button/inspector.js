@@ -9,9 +9,13 @@ import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR, IdClassesControls } from '@scblocks/block';
+import {
+	BLOCK_SELECTOR,
+	IdClassesControls,
+	ControlsManager,
+} from '@scblocks/block';
 import { removeSelectors } from '@scblocks/css-utils';
-import { IconPicker, ControlsManager } from '@scblocks/components';
+import { IconPicker } from '@scblocks/components';
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;

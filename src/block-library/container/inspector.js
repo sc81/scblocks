@@ -8,8 +8,8 @@ import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import { IdClassesControls } from '@scblocks/block';
-import { ControlsManager, SelectHtmlTag } from '@scblocks/components';
+import { IdClassesControls, ControlsManager } from '@scblocks/block';
+import { SelectHtmlTag } from '@scblocks/components';
 
 /**
  * Internal dependencies
