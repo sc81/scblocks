@@ -13,11 +13,11 @@ import {
 import apiFetch from '@wordpress/api-fetch';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import ControlWrapper from '../../components/control-wrapper';
-import { PLUGIN_NAME, ALL_DEVICES } from '../../constants';
-import { setPropValue } from '../../utils';
+import { setPropValue } from '@scblocks/css-utils';
+import { PLUGIN_NAME, ALL_DEVICES } from '@scblocks/constants';
+import { ControlWrapper } from '@scblocks/components';
 
 let GOOGLE_FONTS;
 

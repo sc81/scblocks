@@ -14,21 +14,26 @@ import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
+ * ScBlocks dependencies
+ */
+import {
+	useDynamicCss,
+	useBlockMemo,
+	BLOCK_CLASSES,
+	BLOCK_SELECTOR,
+	GoogleFontsLink,
+	useSelectorsActivity,
+	setSelectorActivity,
+} from '@scblocks/block';
+import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
+import { DangerouslyPasteIcon } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
 import './markformat';
 import { HEADING_SELECTORS_SETTINGS } from './utils';
-import { useBlockMemo } from '../../hooks/use-block-memo';
-import useDynamicCss from '../../hooks/use-dynamic-css';
-import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import { name as blockName } from '.';
-import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
-import GoogleFontsLink from '../../block/google-fonts-link';
-import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
-import {
-	useSelectorsActivity,
-	setSelectorActivity,
-} from '../../hooks/use-selector-activity';
 import Inspector from './inspector';
 
 export default function Edit( props ) {

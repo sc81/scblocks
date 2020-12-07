@@ -4,10 +4,14 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { OpenColorPicker } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
 import propertyService from '../property-service';
-import OpenColorPicker from '../../components/open-color-picker';
 
 export default function Color( props ) {
 	const { propValue, onChange } = propertyService( props );

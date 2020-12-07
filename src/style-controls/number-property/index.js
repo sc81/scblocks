@@ -1,5 +1,12 @@
+/**
+ * ScBlocks dependencies
+ */
+import { NumberControl } from '@scblocks/components';
+
+/**
+ * Internal dependencies
+ */
 import propertyService from '../property-service';
-import NumberControl from '../../components/number-control';
 
 export default function NumberProperty( props ) {
 	const { propValue, onChange } = propertyService( props );

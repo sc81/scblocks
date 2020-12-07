@@ -5,11 +5,15 @@ import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
 
 /**
+ * ScBlocks dependencies
+ */
+import { ALL_DEVICES } from '@scblocks/constants';
+import { ControlWrapper } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
 import TransitionControl from '../transition-control';
-import { ALL_DEVICES } from '../../constants';
-import ControlWrapper from '../../components/control-wrapper';
 import propertyService from '../property-service';
 
 const propName = 'transition';

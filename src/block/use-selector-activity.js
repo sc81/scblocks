@@ -3,9 +3,6 @@
  */
 import { useRef } from '@wordpress/element';
 
-export function isActiveSelector( activityState, selectorId ) {
-	return activityState.current[ selectorId ];
-}
 export function setSelectorActivity( activityState, selectorId, value ) {
 	activityState.current[ selectorId ] = value;
 }

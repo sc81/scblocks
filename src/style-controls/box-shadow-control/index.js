@@ -6,10 +6,9 @@ import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import NumberUnit from '../../components/number-unit';
-import OpenColorPicker from '../../components/open-color-picker';
+import { NumberUnit, OpenColorPicker } from '@scblocks/components';
 
 export default function BoxShadowControl( { value, onChange } ) {
 	const [ state, setState ] = useState( () => {

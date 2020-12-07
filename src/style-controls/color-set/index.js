@@ -5,11 +5,15 @@ import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
 /**
+ * ScBlocks dependencies
+ */
+import { ALL_DEVICES } from '@scblocks/constants';
+import { NormalHoverButtons } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
 import Color from '../color';
-import { ALL_DEVICES } from '../../constants';
-import NormalHoverButtons from '../../components/normal-hover-buttons';
 
 const controls = [
 	{

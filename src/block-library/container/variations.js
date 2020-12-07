@@ -5,11 +5,15 @@ import { Path, SVG, Rect } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { BLOCK_SELECTOR } from '@scblocks/block';
+import { DESKTOP_DEVICE } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-import { DESKTOP_DEVICE } from '../../constants';
 import { COLUMN_NAME } from '../column/utils';
-import { BLOCK_SELECTOR } from '../../block/constants';
 import { COLUMNS_NAME } from '../columns/utils';
 
 function getColumnState( width ) {

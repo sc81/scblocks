@@ -14,9 +14,9 @@ class Block_Assets {
 
 	public function __construct() {
 		if ( @file_exists( SCBLOCKS_PLUGIN_DIR . 'build' ) ) {
-			$this->dist_dir_name = 'build';
+			$this->dist_dir_name = 'build/';
 		} else {
-			$this->dist_dir_name = 'dist';
+			$this->dist_dir_name = 'dist/';
 		}
 	}
 
@@ -62,11 +62,51 @@ class Block_Assets {
 	 * Editor assets.
 	 */
 	public function editor_assets() {
-		$asset_file   = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . '/index.asset.php';
+		$style_controls_asset = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'styleControls.asset.php';
+		wp_enqueue_script(
+			'scblocks-style-controls',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'styleControls.js',
+			$style_controls_asset['dependencies'],
+			$style_controls_asset['version'],
+			true
+		);
+		$components_asset = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'components.asset.php';
+		wp_enqueue_script(
+			'scblocks-components',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'components.js',
+			$components_asset['dependencies'],
+			$components_asset['version'],
+			true
+		);
+		$block_asset = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'block.asset.php';
+		wp_enqueue_script(
+			'scblocks-block',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'block.js',
+			$block_asset['dependencies'],
+			$block_asset['version'],
+			true
+		);
+		$const_asset = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'constants.asset.php';
+		wp_enqueue_script(
+			'scblocks-constants',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'constants.js',
+			$const_asset['dependencies'],
+			$const_asset['version'],
+			true
+		);
+		$utils_asset = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'cssUtils.asset.php';
+		wp_enqueue_script(
+			'scblocks-css-utils',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'cssUtils.js',
+			$utils_asset['dependencies'],
+			$utils_asset['version'],
+			true
+		);
+		$asset_file   = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'index.asset.php';
 		$dependencies = $asset_file['dependencies'];
 		wp_enqueue_script(
 			'scblocks',
-			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . '/index.js',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'index.js',
 			apply_filters( 'scblocks_editor_blocks_dependencies', $dependencies ),
 			$asset_file['version'],
 			true
@@ -74,7 +114,7 @@ class Block_Assets {
 
 		wp_enqueue_style(
 			'scblocks',
-			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . '/index.css',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'index.css',
 			array(),
 			$asset_file['version']
 		);
@@ -108,7 +148,7 @@ class Block_Assets {
 		if ( $has_block ) {
 			wp_enqueue_style(
 				'scblocks',
-				SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . '/style-index.css',
+				SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'style-index.css',
 				array(),
 				SCBLOCKS_CSS_VERSION
 			);

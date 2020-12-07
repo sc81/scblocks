@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@scblocks/*": ["./src/*"]
+		}
+	},
+	"exclude": [
+		"build",
+		"dist",
+		"node_modules",
+		"vendor"
+	]
+}

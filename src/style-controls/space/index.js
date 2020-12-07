@@ -5,12 +5,16 @@ import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { Separator } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
-import usePanelActiveControl from '../../hooks/use-panel-active-control';
+import usePanelActiveControl from '../use-panel-active-control';
 import NumberUnitProperty from '../number-unit-property';
 import FourControls from '../four-controls';
-import Separator from '../../components/separator';
 import { getControlSelector } from '../utils';
 import NumberProperty from '../number-property';
 

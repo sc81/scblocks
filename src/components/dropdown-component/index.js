@@ -5,9 +5,13 @@ import { Dropdown, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { PLUGIN_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
 import ControlWrapper from '../control-wrapper';
 
 export default function DropdownComponent( {

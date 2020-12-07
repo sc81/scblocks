@@ -13,21 +13,26 @@ import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
+ * ScBlocks dependencies
+ */
+import {
+	useDynamicCss,
+	useBlockMemo,
+	useSelectorsActivity,
+	setSelectorActivity,
+	GoogleFontsLink,
+	BLOCK_CLASSES,
+	BLOCK_SELECTOR,
+} from '@scblocks/block';
+import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
+import { DangerouslyPasteIcon } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
 import { BUTTON_SELECTORS_SETTINGS } from './utils';
-import useDynamicCss from '../../hooks/use-dynamic-css';
-import { CORE_EDIT_POST_STORE_NAME } from '../../constants';
 import Inspector from './inspector';
-import { useBlockMemo } from '../../hooks/use-block-memo';
 import URLPicker from './url-picker';
-import {
-	setSelectorActivity,
-	useSelectorsActivity,
-} from '../../hooks/use-selector-activity';
-import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
-import GoogleFontsLink from '../../block/google-fonts-link';
-import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, isSelected } = props;

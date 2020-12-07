@@ -8,9 +8,13 @@ import { Dashicon } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 
 /**
+ * ScBlocks dependencies
+ */
+import { PLUGIN_NAME, CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-import { CORE_BLOCK_EDITOR_STORE_NAME, PLUGIN_NAME } from '../../constants';
 import { HEADING_BLOCK_NAME } from './utils';
 
 const icon = <Dashicon icon="edit" />;

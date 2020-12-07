@@ -5,9 +5,9 @@ import { Button, ButtonGroup } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
+import { PLUGIN_NAME } from '@scblocks/constants';
 
 export default function NormalHoverButtons( { isHover, onChange } ) {
 	return (

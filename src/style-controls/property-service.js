@@ -1,5 +1,11 @@
-import { getPropValue, setPropValue } from '../utils';
-import { setCssMemoValue } from '../hooks/use-block-memo';
+/**
+ * ScBlocks dependencies
+ */
+import {
+	setPropValue,
+	getPropValue,
+	setCssMemoValue,
+} from '@scblocks/css-utils';
 
 export default function propertyService( props, needMemo ) {
 	const propValue = getPropValue( props );

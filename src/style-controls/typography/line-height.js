@@ -4,9 +4,9 @@
 import { __ } from '@wordpress/i18n';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import NumberUnit from '../../components/number-unit';
+import { NumberUnit } from '@scblocks/components';
 
 export default function LineHeight( props ) {
 	return (

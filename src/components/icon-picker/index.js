@@ -11,11 +11,15 @@ import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { PLUGIN_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
 import IconLibrary from './icon-library';
-import { PLUGIN_NAME } from '../../constants';
-import ControlWrapper from '../../components/control-wrapper';
+import ControlWrapper from '../control-wrapper';
 
 function sanitizeSVG( svg ) {
 	return dompurify.sanitize( svg, {

@@ -7,17 +7,19 @@ import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import ControlsManager from '../../components/controls-manager';
+import {
+	BLOCK_SELECTOR,
+	IdClassesControls,
+	ControlsManager,
+} from '@scblocks/block';
 import {
 	setPropValue,
 	getPropValue,
 	setPropsForVariousSelectors,
-} from '../../utils';
-import NumberUnit from '../../components/number-unit';
-import { BLOCK_SELECTOR } from '../../block/constants';
-import IdClassesControls from '../../block/id-classes-controls';
+} from '@scblocks/css-utils';
+import { NumberUnit } from '@scblocks/components';
 
 const ALL_COLUMNS_SELECTOR_ALIAS = BLOCK_SELECTOR.columns.column.alias;
 

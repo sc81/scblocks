@@ -4,13 +4,17 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { SHARED_ATTRIBUTES } from '@scblocks/block';
+import { PLUGIN_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
 import edit from './edit';
 import save from './save';
-import { PLUGIN_NAME } from '../../constants';
 import { COLUMN_NAME } from './utils';
-import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 import icon from './icon';
 
 export const name = COLUMN_NAME;

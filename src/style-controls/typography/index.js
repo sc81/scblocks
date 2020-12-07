@@ -1,4 +1,9 @@
 /**
+ * ScBlocks dependencies
+ */
+import { getPropertiesValue, setPropValue } from '@scblocks/css-utils';
+import { ALL_DEVICES } from '@scblocks/constants';
+/**
  * Internal dependencies
  */
 import TextTransform from './text-transform';
@@ -9,8 +14,6 @@ import TextDecoration from './text-decoration';
 import FontSize from './font-size';
 import LineHeight from './line-height';
 import LetterSpacing from './letter-spacing';
-import { setPropValue, getPropertiesValue } from '../../utils';
-import { ALL_DEVICES } from '../../constants';
 import TextAlign from './text-align';
 
 export default function Typography( props ) {

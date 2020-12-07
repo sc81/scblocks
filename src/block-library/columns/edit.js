@@ -18,20 +18,27 @@ import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
 import {
-	CORE_BLOCK_EDITOR_STORE_NAME,
+	useDynamicCss,
+	useBlockMemo,
+	BLOCK_CLASSES,
+	BLOCK_SELECTOR,
+	VariationsPicker,
+} from '@scblocks/block';
+import {
 	CORE_EDIT_POST_STORE_NAME,
+	CORE_BLOCK_EDITOR_STORE_NAME,
 	DESKTOP_DEVICE,
-} from '../../constants';
+} from '@scblocks/constants';
+
+/**
+ * Internal dependencies
+ */
 import { COLUMNS_SELECTORS_SETTINGS } from './utils';
-import useDynamicCss from '../../hooks/use-dynamic-css';
-import { useBlockMemo } from '../../hooks/use-block-memo';
-import VariationsPicker from '../../block/variations-picker';
 import { COLUMN_NAME } from '../column/utils';
 import Inspector from './inspector';
-import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
 
 const ALLOWED_BLOCKS = [ COLUMN_NAME ];
 
