@@ -52,6 +52,7 @@ In most cases, #1 will work fine and is way easier.
 * New: Use apiVersion 2
 * Tweak: Remove scblocks-select-control class from typography controls
 * Fix: Use ToolbarGroup instead of Toolbar
+* Fix: Icon style in Icon Library
 
 = 1.0 =
 * Initial release

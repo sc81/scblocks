@@ -49,6 +49,13 @@
 			max-width: 75px;
 			white-space: nowrap;
 		}
+		& > span.dashicon {
+			padding: 0;
+			color: #6d6d6d;
+			font-size: 32px;
+			width: 32px;
+			height: 32px;
+		}
 	}
 }
 .#{$pluginName}-icon-library-spinner {
