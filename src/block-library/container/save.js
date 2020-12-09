@@ -13,6 +13,7 @@ import { applyFilters } from '@wordpress/hooks';
  * ScBlocks dependencies
  */
 import { BLOCK_CLASSES } from '@scblocks/block';
+import ShapeDividers from './shape-dividers';
 
 export default function save( { attributes } ) {
 	const {
@@ -40,6 +41,7 @@ export default function save( { attributes } ) {
 	return (
 		<Tag { ...htmlAttributes }>
 			{ applyFilters( 'scblocks.container.inside', null, attributes ) }
+			<ShapeDividers attributes={ attributes } />
 			<div className={ BLOCK_CLASSES.container.content }>
 				<InnerBlocks.Content />
 			</div>

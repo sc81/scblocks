@@ -35,6 +35,7 @@ import {
  */
 import { CONTAINER_SELECTORS_SETTINGS } from './utils';
 import Inspector from './inspector';
+import ShapeDividers from './shape-dividers';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;
@@ -110,6 +111,7 @@ export default function Edit( props ) {
 					null,
 					attributes
 				) }
+				<ShapeDividers { ...props } />
 				{ innerBlockCount > 0 && <div { ...innerBlocksProps } /> }
 				{ innerBlockCount === 0 && (
 					<VariationsPicker

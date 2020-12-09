@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { SHARED_ATTRIBUTES } from '@scblocks/block';
+import { SHARED_ATTRIBUTES, BLOCK_SELECTOR } from '@scblocks/block';
 import { PLUGIN_NAME } from '@scblocks/constants';
 
 /**
@@ -37,6 +37,7 @@ export const settings = {
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
 		...SHARED_ATTRIBUTES.bgImageIds,
+		...SHARED_ATTRIBUTES.googleFonts,
 		tag: {
 			type: 'string',
 			default: 'div',
@@ -45,9 +46,24 @@ export const settings = {
 			type: 'boolean',
 			default: false,
 		},
-		...SHARED_ATTRIBUTES.googleFonts,
+		shapeDividers: {
+			type: 'array',
+			source: 'query',
+			selector: BLOCK_SELECTOR.container.shape.selector,
+			query: {
+				shape: {
+					type: 'string',
+					source: 'html',
+				},
+				id: {
+					type: 'string',
+					source: 'attribute',
+					attribute: 'data-id',
+				},
+			},
+			default: [],
+		},
 	},
-
 	supports: {
 		className: false,
 		html: false,
