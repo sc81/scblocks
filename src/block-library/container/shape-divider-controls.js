@@ -3,17 +3,21 @@
  */
 import {
 	SelectControl,
-	TextControl,
 	ToggleControl,
 	Button,
 	ButtonGroup,
+	BaseControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
  * ScBlocks dependencies
  */
-import { OpenColorPicker } from '@scblocks/components';
+import {
+	OpenColorPicker,
+	NumberUnit,
+	NumberControl,
+} from '@scblocks/components';
 import {
 	getPropertiesValue,
 	removeSelectors,
@@ -37,18 +41,16 @@ export default function ShapeDividerControls( {
 	index,
 } ) {
 	const { shapeDividers } = attributes;
-	const { fill, transform: flip } = getPropertiesValue( {
-		attributes,
-		devices: ALL_DEVICES,
-		selector: shapeSvgSelector,
-		props: [ 'fill', 'transform' ],
-	} );
-	const { zIndex, top } = getPropertiesValue( {
+
+	const { zIndex, transform, color, top } = getPropertiesValue( {
 		attributes,
 		devices: ALL_DEVICES,
 		selector: shapeSelector,
-		props: [ 'zIndex', 'top' ],
+		props: [ 'zIndex', 'transform', 'color', 'top' ],
 	} );
+	const scaleX = transform.includes( 'scaleX' );
+	const scaleY = transform.includes( 'scaleY' );
+
 	const { width, height } = getPropertiesValue( {
 		attributes,
 		devices,
@@ -59,34 +61,50 @@ export default function ShapeDividerControls( {
 	if ( top ) {
 		location = 'top';
 	}
-	function onChangeCssProp( propName, value ) {
-		if ( propName === 'transform' ) {
-			value = value ? 'rotateY(180deg)' : '';
-		}
+	function changeShapeSvgProp( propName, value ) {
 		setPropValue( {
 			attributes,
 			setAttributes,
-			selector: propName === 'zIndex' ? shapeSelector : shapeSvgSelector,
-			devices:
-				propName === 'fill' ||
-				propName === 'transform' ||
-				propName === 'zIndex'
-					? ALL_DEVICES
-					: devices,
+			selector: shapeSvgSelector,
+			devices,
 			propName,
 			value,
 		} );
 	}
+	function changeShapeProp( propName, value ) {
+		let nextValue = '';
+		if ( propName.includes( 'scale' ) ) {
+			const next = {
+				scaleX: scaleX ? 'scaleX(-1)' : '',
+				scaleY: scaleY ? 'scaleY(-1)' : '',
+			};
+			if(propName === 'scaleX'){
+				next.scaleX = value ? 'scaleX(-1)' : '';
+			}
+			if(propName === 'scaleY'){
+				next.scaleY = value ? 'scaleY(-1)' : '';
+			}
+			
+			nextValue = Object.values( next ).join( ' ' ).trim();
+			propName = 'transform';
+		}
+		setPropValue( {
+			attributes,
+			setAttributes,
+			selector: shapeSelector,
+			devices: ALL_DEVICES,
+			propName,
+			value: nextValue,
+		} );
+	}
 	function onChangeLocation( value ) {
-		let nextTop, nextBottom, nextTransform;
+		let nextTop, nextBottom;
 		if ( value === 'top' ) {
 			nextTop = '-1px';
 			nextBottom = '';
-			nextTransform = 'scaleY(-1)';
 		} else {
 			nextTop = '';
 			nextBottom = '-1px';
-			nextTransform = '';
 		}
 		setPropsValue( {
 			attributes,
@@ -96,7 +114,6 @@ export default function ShapeDividerControls( {
 			props: {
 				top: nextTop,
 				bottom: nextBottom,
-				transform: nextTransform,
 			},
 		} );
 	}
@@ -126,15 +143,17 @@ export default function ShapeDividerControls( {
 	}
 	return (
 		<>
-			<ButtonGroup>
-				<OpenShapeLibrary
-					label={ __( 'Replace', 'scblocks' ) }
-					onSelectShape={ replaceShape }
-				/>
-				<Button isSecondary onClick={ removeShape }>
-					{ __( 'Remove', 'scblocks' ) }
-				</Button>
-			</ButtonGroup>
+			<BaseControl>
+				<ButtonGroup>
+					<OpenShapeLibrary
+						label={ __( 'Replace', 'scblocks' ) }
+						onSelectShape={ replaceShape }
+					/>
+					<Button isSecondary onClick={ removeShape }>
+						{ __( 'Remove', 'scblocks' ) }
+					</Button>
+				</ButtonGroup>
+			</BaseControl>
 			<SelectControl
 				label={ __( 'Location', 'scblocks' ) }
 				value={ location }
@@ -146,28 +165,56 @@ export default function ShapeDividerControls( {
 			/>
 			<OpenColorPicker
 				label={ __( 'Color', 'scblocks' ) }
-				value={ fill }
-				onChange={ ( value ) => onChangeCssProp( 'fill', value ) }
+				value={ color }
+				onChange={ ( value ) => changeShapeProp( 'color', value ) }
 			/>
-			<TextControl
-				label={ __( 'Width', 'scblocks' ) }
-				value={ width }
-				onChange={ ( value ) => onChangeCssProp( 'width', value ) }
-			/>
-			<TextControl
-				label={ __( 'Height', 'scblocks' ) }
-				value={ height }
-				onChange={ ( value ) => onChangeCssProp( 'height', value ) }
-			/>
-			<ToggleControl
-				label={ __( 'Flip', 'scblocks' ) }
-				checked={ !! flip }
-				onChange={ ( value ) => onChangeCssProp( 'transform', value ) }
-			/>
-			<TextControl
+			<BaseControl>
+				<NumberUnit
+					label={ __( 'Width', 'scblocks' ) }
+					value={ width }
+					units={ [ '%' ] }
+					onChange={ ( value ) =>
+						changeShapeSvgProp( 'width', value )
+					}
+					unitRangeStep={ { '%': { min: 100, max: 1000 } } }
+					displayClearButton={ !! width }
+					onClear={ () => changeShapeSvgProp( 'width', '' ) }
+					withoutSlider
+				/>
+			</BaseControl>
+			<BaseControl>
+				<NumberUnit
+					label={ __( 'Height', 'scblocks' ) }
+					value={ height }
+					units={ [ 'px' ] }
+					onChange={ ( value ) =>
+						changeShapeSvgProp( 'height', value )
+					}
+					unitRangeStep={ { px: { min: 0, max: 10000 } } }
+					displayClearButton={ !! height }
+					onClear={ () => changeShapeSvgProp( 'height', '' ) }
+					withoutSlider
+				/>
+			</BaseControl>
+			<NumberControl
 				label={ __( 'z-index', 'scblocks' ) }
 				value={ zIndex }
-				onChange={ ( value ) => onChangeCssProp( 'zIndex', value ) }
+				onChange={ ( value ) => changeShapeProp( 'zIndex', value ) }
+				withoutSelectDevices
+				min={ 0 }
+				max={ 999999 }
+				step={ 1 }
+				hasSlider={ false }
+			/>
+			<ToggleControl
+				label={ __( 'Flip Horizontally', 'scblocks' ) }
+				checked={ scaleX }
+				onChange={ ( value ) => changeShapeProp( 'scaleX', value ) }
+			/>
+			<ToggleControl
+				label={ __( 'Flip Vertically', 'scblocks' ) }
+				checked={ scaleY }
+				onChange={ ( value ) => changeShapeProp( 'scaleY', value ) }
 			/>
 		</>
 	);
