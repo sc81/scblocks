@@ -20,11 +20,12 @@ import {
 } from '@scblocks/components';
 import {
 	getPropertiesValue,
+	getPropValue,
 	removeSelectors,
 	setPropsValue,
 	setPropValue,
 } from '@scblocks/css-utils';
-import { ALL_DEVICES } from '@scblocks/constants';
+import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
 import { BLOCK_SELECTOR } from '@scblocks/block';
 
 /**
@@ -42,14 +43,25 @@ export default function ShapeDividerControls( {
 } ) {
 	const { shapeDividers } = attributes;
 
-	const { zIndex, transform, color, top } = getPropertiesValue( {
+	const { zIndex, transform, color } = getPropertiesValue( {
 		attributes,
 		devices: ALL_DEVICES,
 		selector: shapeSelector,
-		props: [ 'zIndex', 'transform', 'color', 'top' ],
+		props: [ 'zIndex', 'transform', 'color' ],
 	} );
 	const scaleX = transform.includes( 'scaleX' );
 	const scaleY = transform.includes( 'scaleY' );
+
+	const top = getPropValue( {
+		attributes,
+		devices: DESKTOP_DEVICE,
+		selector: shapeSelector,
+		propName: 'top',
+	} );
+	let location = 'bottom';
+	if ( top ) {
+		location = 'top';
+	}
 
 	const { width, height } = getPropertiesValue( {
 		attributes,
@@ -57,10 +69,7 @@ export default function ShapeDividerControls( {
 		selector: shapeSvgSelector,
 		props: [ 'width', 'height' ],
 	} );
-	let location = 'bottom';
-	if ( top ) {
-		location = 'top';
-	}
+
 	function changeShapeSvgProp( propName, value ) {
 		setPropValue( {
 			attributes,
@@ -72,20 +81,19 @@ export default function ShapeDividerControls( {
 		} );
 	}
 	function changeShapeProp( propName, value ) {
-		let nextValue = '';
 		if ( propName.includes( 'scale' ) ) {
 			const next = {
 				scaleX: scaleX ? 'scaleX(-1)' : '',
 				scaleY: scaleY ? 'scaleY(-1)' : '',
 			};
-			if(propName === 'scaleX'){
+			if ( propName === 'scaleX' ) {
 				next.scaleX = value ? 'scaleX(-1)' : '';
 			}
-			if(propName === 'scaleY'){
+			if ( propName === 'scaleY' ) {
 				next.scaleY = value ? 'scaleY(-1)' : '';
 			}
-			
-			nextValue = Object.values( next ).join( ' ' ).trim();
+
+			value = Object.values( next ).join( ' ' ).trim();
 			propName = 'transform';
 		}
 		setPropValue( {
@@ -94,7 +102,7 @@ export default function ShapeDividerControls( {
 			selector: shapeSelector,
 			devices: ALL_DEVICES,
 			propName,
-			value: nextValue,
+			value,
 		} );
 	}
 	function onChangeLocation( value ) {
@@ -109,7 +117,7 @@ export default function ShapeDividerControls( {
 		setPropsValue( {
 			attributes,
 			setAttributes,
-			devices: ALL_DEVICES,
+			devices: DESKTOP_DEVICE,
 			selector: shapeSelector,
 			props: {
 				top: nextTop,

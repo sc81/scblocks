@@ -19,7 +19,7 @@
 		margin-bottom: 0;
 	}
 }
-
+// shapes
 .scblocks-shape-library-list {
 	display: flex;
 	flex-direction: column;
@@ -34,4 +34,8 @@
 			height: 50px;
 		}
 	}
+}
+.scblocks-panel-title-icon svg {
+	width: 150px;
+	height: 14px;
 }

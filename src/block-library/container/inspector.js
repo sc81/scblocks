@@ -4,7 +4,7 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 
 /**
  * ScBlocks dependencies
@@ -14,7 +14,7 @@ import {
 	ControlsManager,
 	BLOCK_SELECTOR,
 } from '@scblocks/block';
-import { SelectHtmlTag } from '@scblocks/components';
+import { DangerouslyPasteIcon, SelectHtmlTag } from '@scblocks/components';
 import { setPropsForVariousSelectors } from '@scblocks/css-utils';
 import { DESKTOP_DEVICE } from '@scblocks/constants';
 
@@ -29,7 +29,6 @@ function getUid() {
 	return Math.random().toString( 16 ).substr( 2, 7 );
 }
 
-/* eslint-disable @wordpress/i18n-translator-comments */
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
 	const { tag, shapeDividers } = attributes;
@@ -61,6 +60,9 @@ export default function Inspector( props ) {
 					right: '0',
 					bottom: '-1px',
 				},
+				[ BLOCK_SELECTOR.container.main.alias ]: {
+					position: 'relative',
+				},
 			},
 		} );
 	}
@@ -85,23 +87,25 @@ export default function Inspector( props ) {
 				spacePanelAdditionalControls={ <ContentWidth { ...props } /> }
 				shapesPanelControls={
 					<>
-						{ shapeDividers.map( ( shape, index ) => {
+						{ shapeDividers.map( ( element, index ) => {
 							return (
 								<PanelBody
 									key={ index }
-									title={ sprintf(
-										__( 'Shape %s', 'scblocks' ),
-										index + 1
-									) }
+									title={
+										<DangerouslyPasteIcon
+											icon={ element.shape }
+											className="scblocks-panel-title-icon"
+										/>
+									}
 									initialOpen={ false }
 								>
 									<ShapeDividerControls
 										{ ...props }
 										shapeSelector={ BLOCK_SELECTOR.container.shape.alias(
-											shape.id
+											element.id
 										) }
 										shapeSvgSelector={ BLOCK_SELECTOR.container.shapeSvg.alias(
-											shape.id
+											element.id
 										) }
 										index={ index }
 									/>

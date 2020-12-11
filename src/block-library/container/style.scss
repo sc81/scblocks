@@ -9,13 +9,13 @@
 	}
 }
 // shapes
-
 .scb-container .scb-shape {
 	position: absolute;
-    overflow: hidden;
-    pointer-events: none;
-    line-height: 0;
+	overflow: hidden;
+	pointer-events: none;
+	line-height: 0;
 }
 .scb-container .scb-shape svg {
 	width: calc(100% + 1.3px);
+	fill: currentColor;
 }
