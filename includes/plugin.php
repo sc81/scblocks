@@ -70,6 +70,29 @@ class Plugin {
 	}
 
 	/**
+	 * Get media query.
+	 *
+	 * @since 1.1.0
+	 * @param string $type Device type.
+	 *
+	 * @return string
+	 */
+	public static function media_query( string $type ): string {
+		$data = apply_filters(
+			'scblocks_media_query',
+			array(
+				'large_desktop' => '(min-width: 1400px)',
+				'desktop'       => '(min-width: 1025px)',
+				'tablet'        => '(max-width: 1024px)',
+				'tablet_only'   => '(min-width: 768px) and (max-width: 1024px)',
+				'mobile'        => '(max-width: 767px)',
+				'small_mobile'  => '(max-width: 576px)',
+			)
+		);
+		return $data[ $type ];
+	}
+
+	/**
 	 * Loads required files.
 	 */
 	private function load_files() {

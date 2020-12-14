@@ -22,15 +22,17 @@ class Css {
 	const BLOCK_NAMESPACE = 'scblocks';
 
 	/** @var string */
-	public $tablet_device_max_width = '1024px';
+	private $tablet_media_query;
 
 	/** @var string */
-	public $mobile_device_max_width = '767px';
+	private $mobile_media_query;
 
 	private $block_selector;
 
 	public function __construct() {
-		$this->block_selector = get_block_selector();
+		$this->block_selector     = get_block_selector();
+		$this->tablet_media_query = '@media' . Plugin::media_query( 'tablet' );
+		$this->mobile_media_query = '@media' . Plugin::media_query( 'mobile' );
 	}
 
 	/**
@@ -65,9 +67,9 @@ class Css {
 		foreach ( $css as $device_type => $device_css ) {
 			if ( $device_css ) {
 				if ( self::TABLET_DEVICE === $device_type ) {
-					$css[ $device_type ] = '@media(max-width:' . $this->tablet_device_max_width . '){' . $device_css . '}';
+					$css[ $device_type ] = $this->tablet_media_query . '{' . $device_css . '}';
 				} elseif ( self::MOBILE_DEVICE === $device_type ) {
-					$css[ $device_type ] = '@media(max-width:' . $this->mobile_device_max_width . '){' . $device_css . '}';
+					$css[ $device_type ] = $this->mobile_media_query . '{' . $device_css . '}';
 				}
 			}
 		}
