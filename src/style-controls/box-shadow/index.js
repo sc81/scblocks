@@ -6,13 +6,12 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { DropdownComponent } from '@scblocks/components';
+import { DropdownComponent, propertyService } from '@scblocks/components';
 
 /**
  * Internal dependencies
  */
 import BoxShadowControl from '../box-shadow-control';
-import propertyService from '../property-service';
 
 const propName = 'boxShadow';
 const defaultValue = '0px 0px 2px 0px #b1b1b1';

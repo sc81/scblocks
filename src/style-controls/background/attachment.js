@@ -7,12 +7,11 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { ControlWrapper } from '@scblocks/components';
+import { ControlWrapper, propertyService } from '@scblocks/components';
 
 /**
  * Internal dependencies
  */
-import propertyService from '../property-service';
 import { names } from './constants';
 
 const propName = names.attachment;

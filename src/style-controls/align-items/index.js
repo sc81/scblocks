@@ -7,12 +7,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { ControlWrapper } from '@scblocks/components';
-
-/**
- * Internal dependencies
- */
-import propertyService from '../property-service';
+import { ControlWrapper, propertyService } from '@scblocks/components';
 
 const propName = 'alignItems';
 
