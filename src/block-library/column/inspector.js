@@ -16,12 +16,12 @@ import {
 	ControlsManager,
 } from '@scblocks/block';
 import { setPropValue, getPropValue } from '@scblocks/css-utils';
-import { NumberUnit, Separator, SelectHtmlTag } from '@scblocks/components';
-
-/**
- * Internal dependencies
- */
-import propertyService from '../../style-controls/property-service';
+import {
+	NumberUnit,
+	Separator,
+	SelectHtmlTag,
+	propertyService,
+} from '@scblocks/components';
 
 const options = [
 	{ label: __( 'Default', 'scblocks' ), value: '' },
