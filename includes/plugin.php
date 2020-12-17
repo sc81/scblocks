@@ -11,6 +11,10 @@ class Plugin {
 
 	private static $instance;
 
+	private static $css = '';
+
+	private static $css_mode = '';
+
 	/**
 	 * Gets defaults for option.
 	 *
@@ -70,6 +74,34 @@ class Plugin {
 	}
 
 	/**
+	 * Memorize css
+	 *
+	 * @param string $css Our css
+	 *
+	 * @return void
+	 */
+	public static function memorize_css( string $css ) {
+		self::$css = $css;
+	}
+	/**
+	 * Get memorized css.
+	 *
+	 * @return string
+	 */
+	public static function css() : string {
+		return self::$css;
+	}
+	public static function set_css_mode( string $value ) {
+		self::$css_mode = $value;
+	}
+	public static function css_mode() {
+		return self::$css_mode;
+	}
+	public static function update_css_write_time() {
+		update_option( 'scblocks_css_write_time', time() );
+	}
+
+	/**
 	 * Loads required files.
 	 */
 	private function load_files() {
@@ -84,6 +116,8 @@ class Plugin {
 	}
 
 	private function __construct() {
+		add_option( 'scblocks_css_write_time', time() );
+
 		$this->load_files();
 		$classes = array(
 			'ScBlocks\Block_Assets',

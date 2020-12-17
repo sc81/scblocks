@@ -77,7 +77,6 @@ class Fonts {
 					if ( $variants ) {
 						$variants = explode( ',', $variants );
 						$variants = array_flip( $variants );
-						array_walk( $variants, array( $this, 'change_value_to_true' ) );
 
 						if ( ! empty( $font_variants[ $font_family ] ) ) {
 							$font_variants[ $font_family ] = $font_variants[ $font_family ] + $variants;
@@ -92,15 +91,6 @@ class Fonts {
 			'fonts'    => $fonts,
 			'variants' => $font_variants,
 		);
-	}
-
-	/**
-	 * The function sets the value to true.
-	 *
-	 * @param mixed $item Reference to the value of an array parameter.
-	 */
-	private function change_value_to_true( &$item ) {
-		$item = true;
 	}
 
 	/**

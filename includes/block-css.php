@@ -16,26 +16,6 @@ class Block_Css {
 	/** @var string */
 	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
 
-	/**
-	 * Our css.
-	 *
-	 * @var string
-	 */
-	private $inline_css;
-
-	/**
-	 * The request URI to Google Fonts
-	 *
-	 * @var string
-	 */
-	private $google_fonts_uri = '';
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		add_option( 'scblocks_css_write_time', time() );
-	}
 
 	/**
 	 * Hooks a function on to a specific action.
@@ -101,58 +81,55 @@ class Block_Css {
 		if ( empty( $post_settings ) || empty( $post_settings['css_version'] ) ) {
 			return '';
 		}
-		if ( ! empty( $post_settings['google_fonts'] ) ) {
-			$array = array(
-				'fonts' => $post_settings['google_fonts'],
-			);
-			if ( ! empty( $post_settings['google_fonts_variants'] ) ) {
-				$array['variants'] = $post_settings['google_fonts_variants'];
-			}
-			// assign fonts uri
-			$fonts = new Fonts();
-
-			$this->google_fonts_uri = $fonts->build_google_fonts_uri( $array );
-
-		}
 		if ( 'file' === $this->mode() ) {
 			return $this->file( 'uri' );
 
 		}
 		return '';
 	}
+
+	/**
+	 * Get google fonts uri.
+	 *
+	 * @return string
+	 */
+	public function google_fonts_uri() : string {
+		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
+
+		$fonts = new Fonts( $blocks_attr );
+
+		return $fonts->build_google_fonts_uri();
+	}
+
 	/**
 	 * Gets an inline CSS.
 	 *
 	 * @return string
 	 */
-	public function get_inline() : string {
-		// assign css
-		if ( ! isset( $this->inline_css ) ) {
+	public function inline() : string {
+		if ( Plugin::css_mode() === 'empty' ) {
+			return '';
+		}
+		if ( Plugin::css_mode() === 'tiny_css' ) {
+			return Plugin::css();
+		}
+		if ( Plugin::css_mode() === 'write_to_file_fail' ) {
+			return Plugin::css();
+		}
+		if ( Plugin::css_mode() === 'inline' ) {
 			$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
 
-			$composer = new Css();
+			$css_composer = new Css();
 
-			$this->inline_css = $composer->compose( $blocks_attr );
-			if ( $this->inline_css ) {
-				$this->inline_css = Initial_Css::get() . $this->inline_css;
+			$css = $css_composer->compose( $blocks_attr );
+			if ( $css ) {
+				$css = Initial_Css::get() . $css;
 			}
-
-			// assign fonts uri
-			$fonts = new Fonts( $blocks_attr );
-
-			$this->google_fonts_uri = $fonts->build_google_fonts_uri();
+			return $css;
 		}
-		return $this->inline_css;
+		return '';
 	}
 
-	/**
-	 * Gets the request URI to Google Fonts.
-	 *
-	 * @return string
-	 */
-	public function get_google_fonts_uri() : string {
-		return $this->google_fonts_uri;
-	}
 	/**
 	 * Determine if we're using file mode or inline mode.
 	 *
@@ -162,6 +139,7 @@ class Block_Css {
 		$mode = Plugin::option( 'css_print_method' );
 
 		if ( is_customize_preview() || is_preview() ) {
+			Plugin::set_css_mode( 'inline' );
 			return 'inline';
 		}
 		// Additional checks for file mode.
@@ -180,7 +158,7 @@ class Block_Css {
 				}
 			}
 		}
-
+		Plugin::set_css_mode( $mode );
 		return $mode;
 
 	}
@@ -233,33 +211,27 @@ class Block_Css {
 
 		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
 
-		$composer = new Css();
-		$css      = $composer->compose( $blocks_attr );
+		$css_composer = new Css();
+
+		$css = $css_composer->compose( $blocks_attr );
 
 		if ( ! $css ) {
+			Plugin::set_css_mode( 'empty' );
 			return false;
 		}
 		$css = Initial_Css::get() . $css;
-		// assign css to prop
-		$this->inline_css = $css;
-
-		// assign fonts uri
-		$fonts                  = new Fonts( $blocks_attr );
-		$google_fonts_data      = $fonts->get_google_fonts_data();
-		$this->google_fonts_uri = $fonts->build_google_fonts_uri();
 
 		// If we only have a little CSS, we should inline it.
 		$css_size = strlen( $css );
 
 		if ( $css_size < (int) apply_filters( 'scblocks_max_inline_css', 500 ) ) {
+			Plugin::memorize_css( $css );
+			Plugin::set_css_mode( 'tiny_css' );
 			return false;
 		}
 
 		global $wp_filesystem;
 		$this->initialize_wp_filesystem();
-
-		// Strip protocols.
-		$css = str_replace( array( 'https://', 'http://' ), '//', $css );
 
 		$is_saved = $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $css ), FS_CHMOD_FILE );
 		if ( $is_saved ) {
@@ -269,21 +241,19 @@ class Block_Css {
 			$settings['update_time']     = $update_time;
 			$settings['css_version']     = SCBLOCKS_CSS_VERSION;
 
-			if ( ! empty( $google_fonts_data ) && ! empty( $google_fonts_data['fonts'] ) ) {
-				$settings['google_fonts'] = $google_fonts_data['fonts'];
-
-				if ( ! empty( $google_fonts_data['variants'] ) ) {
-					$settings['google_fonts_variants'] = $google_fonts_data['variants'];
-				}
-			}
 			update_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, wp_slash( wp_json_encode( $settings ) ) );
-			update_option( 'scblocks_css_write_time', time() );
+
+			Plugin::update_css_write_time();
+
+			Plugin::set_css_mode( 'file' );
 
 			// Success!
 			return true;
 
 		} else {
-			// Fail!
+			// Fail to write
+			Plugin::memorize_css( $css );
+			Plugin::set_css_mode( 'write_to_file_fail' );
 			return false;
 		}
 	}
@@ -545,8 +515,8 @@ class Block_Css {
 				$timestamp = '?ver=' . filemtime( $file_path );
 			}
 			$css_uri = trailingslashit( $upload_dir['baseurl'] ) . 'scblocks/' . $file_name;
-			// Strip protocols.
-			$css_uri = str_replace( array( 'https://', 'http://' ), '//', $css_uri );
+
+			$css_uri = set_url_scheme( $css_uri );
 
 			return $css_uri . $timestamp;
 		}
