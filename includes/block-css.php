@@ -494,6 +494,7 @@ class Block_Css {
 	 * @return string
 	 */
 	public function file_name( int $post_id = -1 ): string {
+		global $blog_id;
 		// If this is a multisite installation, append the blogid to the filename.
 		$css_blog_id = '';
 		if ( is_multisite() && $blog_id > 1 ) {
