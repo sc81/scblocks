@@ -50,6 +50,7 @@ In most cases, #1 will work fine and is way easier.
 
 = 1.1.0 =
 * New: Use apiVersion 2
+* New: Dynamically generate default css for blocks
 * Tweak: Remove scblocks-select-control class from typography controls
 * Fix: Use ToolbarGroup instead of Toolbar
 * Fix: Icon style in Icon Library
