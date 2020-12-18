@@ -85,6 +85,17 @@ class Initial_Css {
 						'height: 1em',
 						'fill: currentColor',
 					),
+					//shapes
+					'.scb-container .scb-shape' => array(
+						'position: absolute',
+						'overflow: hidden',
+						'pointer-events: none',
+						'line-height: 0',
+					),
+					'.scb-container .scb-shape svg' => array(
+						'width: calc(100% + 1.3px)',
+						'fill: currentColor',
+					),
 				),
 			)
 		);
