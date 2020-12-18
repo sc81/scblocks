@@ -36,10 +36,10 @@ class Icons {
 			case 1:
 				include_once SCBLOCKS_PLUGIN_DIR . 'includes/font-awesome.php';
 
-				return rest_ensure_response( wp_json_encode( get_font_awesome_icons() ) );
+				return rest_ensure_response( wp_json_encode( FONT_AWESOME ) );
 
 			default:
-				return new WP_Error( 'no_icons', 'Invalid id', array( 'status' => 404 ) );
+				return new \WP_Error( 'no_icons', 'Invalid id', array( 'status' => 404 ) );
 		}
 
 	}
