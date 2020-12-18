@@ -96,14 +96,11 @@ class Fonts {
 	/**
 	 * Build the Google Font request URI from blocks attributes.
 	 *
-	 * @param array $fonts_data Array of Google Fonts and fonts variants.
-	 *
 	 * @return string URI to Google fonts
 	 */
-	public function build_google_fonts_uri( array $fonts_data = array() ) : string {
-		if ( empty( $fonts_data ) ) {
-			$fonts_data = $this->get_google_fonts_data();
-		}
+	public function build_google_fonts_uri() : string {
+		$fonts_data = $this->get_google_fonts_data();
+
 		if ( empty( $fonts_data ) || empty( $fonts_data['fonts'] ) ) {
 			return '';
 		}

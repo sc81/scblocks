@@ -59,7 +59,9 @@ class Block_Assets {
 		return $allowed_blocks;
 	}
 	/**
-	 * Editor assets.
+	 * Enqueue editor assets.
+	 *
+	 * @return void
 	 */
 	public function editor_assets() {
 		$style_controls_asset = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'styleControls.asset.php';
@@ -102,13 +104,13 @@ class Block_Assets {
 			$utils_asset['version'],
 			true
 		);
-		$asset_file   = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'index.asset.php';
-		$dependencies = $asset_file['dependencies'];
+		$main_file    = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'index.asset.php';
+		$dependencies = $main_file['dependencies'];
 		wp_enqueue_script(
 			'scblocks',
 			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'index.js',
 			apply_filters( 'scblocks_editor_blocks_dependencies', $dependencies ),
-			$asset_file['version'],
+			$main_file['version'],
 			true
 		);
 
@@ -116,7 +118,7 @@ class Block_Assets {
 			'scblocks',
 			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'index.css',
 			array(),
-			$asset_file['version']
+			$main_file['version']
 		);
 
 		wp_add_inline_style( 'scblocks', Initial_Css::get() );
@@ -124,7 +126,9 @@ class Block_Assets {
 		wp_set_script_translations( 'scblocks-editor', 'scblocks' );
 	}
 	/**
-	 * Frontend assets.
+	 * Enqueue frontend assets.
+	 *
+	 * @return void
 	 */
 	public function frontend_assets() {
 		$dynamic_css_priority = apply_filters( 'scblocks_dynamic_css_priority', 10 );
@@ -134,6 +138,13 @@ class Block_Assets {
 		add_action( 'wp_enqueue_scripts', array( $this, 'google_fonts' ) );
 	}
 
+	/**
+	 * Enqueue css file
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return void
+	 */
 	public function css_from_file() {
 		$block_css    = new Block_Css();
 		$css_file_uri = $block_css->file_uri();
@@ -142,6 +153,13 @@ class Block_Assets {
 		}
 	}
 
+	/**
+	 * Print inline css
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return void
+	 */
 	public function print_inline_css() {
 		$block_css  = new Block_Css();
 		$inline_css = $block_css->inline();
@@ -153,6 +171,13 @@ class Block_Assets {
 		}
 	}
 
+	/**
+	 * Enqueue google fonts uri
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return void
+	 */
 	public function google_fonts() {
 		$block_css = new Block_Css();
 		$uri       = $block_css->google_fonts_uri();

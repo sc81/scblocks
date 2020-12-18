@@ -17,8 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'SCBLOCKS_VERSION', '1.0' );
 
-define( 'SCBLOCKS_CSS_VERSION', '1.0' );
-
 define( 'SCBLOCKS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 define( 'SCBLOCKS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

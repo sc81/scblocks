@@ -11,8 +11,18 @@ class Plugin {
 
 	private static $instance;
 
+	/**
+	 * Memorized css
+	 *
+	 * @var string
+	 */
 	private static $css = '';
 
+	/**
+	 * Css mode
+	 *
+	 * @var string
+	 */
 	private static $css_mode = '';
 
 	/**
@@ -76,6 +86,8 @@ class Plugin {
 	/**
 	 * Memorize css
 	 *
+	 * @since 1.1.0
+	 *
 	 * @param string $css Our css
 	 *
 	 * @return void
@@ -86,17 +98,43 @@ class Plugin {
 	/**
 	 * Get memorized css.
 	 *
+	 * @since 1.1.0
+	 *
 	 * @return string
 	 */
 	public static function css() : string {
 		return self::$css;
 	}
+	/**
+	 * Set css mode
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $value
+	 *
+	 * @return void
+	 */
 	public static function set_css_mode( string $value ) {
 		self::$css_mode = $value;
 	}
-	public static function css_mode() {
+	/**
+	 * Get css mode
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return string
+	 */
+	public static function css_mode() : string {
 		return self::$css_mode;
 	}
+
+	/**
+	 * Updates the job completion time for the file writer.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return void
+	 */
 	public static function update_css_write_time() {
 		update_option( 'scblocks_css_write_time', time() );
 	}
@@ -116,6 +154,9 @@ class Plugin {
 	}
 
 	private function __construct() {
+		/**
+		 * The 'scblocks_css_write_time' option holds the time the file writer was last used.
+		 */
 		add_option( 'scblocks_css_write_time', time() );
 
 		$this->load_files();

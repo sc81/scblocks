@@ -91,9 +91,21 @@ class Block_Css {
 	/**
 	 * Get google fonts uri.
 	 *
+	 * @since 1.1.0
+	 *
 	 * @return string
 	 */
 	public function google_fonts_uri() : string {
+		$post_id = $this->get_post_id();
+
+		if ( ! $post_id ) {
+			return '';
+		}
+		$post_settings = $this->post_settings( $post_id );
+
+		if ( empty( $post_settings ) ) {
+			return '';
+		}
 		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
 
 		$fonts = new Fonts( $blocks_attr );
@@ -103,6 +115,8 @@ class Block_Css {
 
 	/**
 	 * Gets an inline CSS.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -239,7 +253,7 @@ class Block_Css {
 			$settings                    = $this->post_settings( $post_id );
 			$settings['old_update_time'] = $update_time;
 			$settings['update_time']     = $update_time;
-			$settings['css_version']     = SCBLOCKS_CSS_VERSION;
+			$settings['css_version']     = SCBLOCKS_VERSION;
 
 			update_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, wp_slash( wp_json_encode( $settings ) ) );
 
@@ -282,7 +296,7 @@ class Block_Css {
 		}
 		// new css version
 		if ( isset( $post_settings['css_version'] ) &&
-		SCBLOCKS_CSS_VERSION !== $post_settings['css_version'] ) {
+		SCBLOCKS_VERSION !== $post_settings['css_version'] ) {
 			return true;
 		}
 		// post has been updated
@@ -377,7 +391,7 @@ class Block_Css {
 			} else {
 				$next_settings['old_update_time'] = $old_settings['update_time'];
 			}
-			$next_settings['css_version'] = SCBLOCKS_CSS_VERSION;
+			$next_settings['css_version'] = SCBLOCKS_VERSION;
 			$next_settings['update_time'] = time();
 		}
 		if ( ! empty( $stored_reusable_blocks ) ) {
