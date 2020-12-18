@@ -7,13 +7,12 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { ControlWrapper } from '@scblocks/components';
+import { ControlWrapper, propertyService } from '@scblocks/components';
 
 /**
  * Internal dependencies
  */
 import { names } from './constants';
-import propertyService from '../property-service';
 
 const options = [
 	{ label: __( 'Default', 'scblocks' ), value: '' },

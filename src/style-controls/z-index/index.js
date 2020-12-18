@@ -8,11 +8,7 @@ import { __ } from '@wordpress/i18n';
  * ScBlocks dependencies
  */
 import { ALL_DEVICES } from '@scblocks/constants';
-
-/**
- * Internal dependencies
- */
-import propertyService from '../property-service';
+import { propertyService } from '@scblocks/components';
 
 const propName = 'zIndex';
 

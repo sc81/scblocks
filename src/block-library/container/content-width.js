@@ -11,12 +11,7 @@ import { useSelect } from '@wordpress/data';
  */
 import { BLOCK_SELECTOR } from '@scblocks/block';
 import { CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
-import { NumberUnit, Separator } from '@scblocks/components';
-
-/**
- * Internal dependencies
- */
-import propertyService from '../../style-controls/property-service';
+import { NumberUnit, Separator, propertyService } from '@scblocks/components';
 
 export default function ContentWidth( props ) {
 	const { propValue, onChange } = propertyService( {
