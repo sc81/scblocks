@@ -10,8 +10,8 @@ export default function ShapeDividers( { attributes: { shapeDividers } } ) {
 				return (
 					<div
 						key={ index }
-						className={ `${ BLOCK_CLASSES.container.shape } ${ BLOCK_CLASSES.container.shape }-${ element.id }` }
-						data-id={ element.id }
+						className={ `${ BLOCK_CLASSES.container.shape } ${ BLOCK_CLASSES.container.shape }-${ element.dataId }` }
+						data-id={ element.dataId }
 						dangerouslySetInnerHTML={ {
 							__html: element.shape,
 						} }

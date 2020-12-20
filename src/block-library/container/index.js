@@ -55,7 +55,7 @@ export const settings = {
 					type: 'string',
 					source: 'html',
 				},
-				id: {
+				dataId: {
 					type: 'string',
 					source: 'attribute',
 					attribute: 'data-id',

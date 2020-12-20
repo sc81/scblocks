@@ -26,7 +26,6 @@ import {
 	setPropValue,
 } from '@scblocks/css-utils';
 import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
-import { BLOCK_SELECTOR } from '@scblocks/block';
 
 /**
  * Internal dependencies
@@ -129,21 +128,17 @@ export default function ShapeDividerControls( {
 		const shapes = [ ...shapeDividers ];
 		shapes.splice( index, 1 );
 		setAttributes( { shapeDividers: shapes } );
-		const shapeId = shapeDividers[ index ].id;
 		removeSelectors( {
 			attributes,
 			setAttributes,
-			selectors: [
-				BLOCK_SELECTOR.container.shape.alias( shapeId ),
-				BLOCK_SELECTOR.container.shapeSvg.alias( shapeId ),
-			],
+			selectors: [ shapeSelector, shapeSvgSelector ],
 		} );
 	}
 	function replaceShape( shape ) {
 		const shapes = [ ...shapeDividers ];
 		shapes[ index ] = {
 			...shapes[ index ],
-			shape,
+			...shape,
 		};
 		setAttributes( {
 			shapeDividers: shapes,
