@@ -59,7 +59,7 @@ export default function ShapeLibrary( { onRequestClose, onSelectShape } ) {
 								isLarge
 								onClick={ () => onSelectShape( element ) }
 							>
-								<DangerouslyPasteIcon icon={ element } />
+								<DangerouslyPasteIcon icon={ element.shape } />
 							</Button>
 						);
 					} ) }

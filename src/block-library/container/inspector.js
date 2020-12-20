@@ -25,10 +25,6 @@ import ContentWidth from './content-width';
 import ShapeDividerControls from './shape-divider-controls';
 import OpenShapeLibrary from './open-shape-library';
 
-function getUid() {
-	return Math.random().toString( 16 ).substr( 2, 7 );
-}
-
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
 	const { tag, shapeDividers } = attributes;
@@ -37,25 +33,21 @@ export default function Inspector( props ) {
 	}
 	function onSelectShape( shape ) {
 		const shapes = [ ...shapeDividers ];
-		const shapeId = getUid();
-		shapes.push( {
-			shape,
-			id: shapeId,
-		} );
+		shapes.push( shape );
 		setAttributes( { shapeDividers: shapes } );
 		setPropsForVariousSelectors( {
 			attributes,
 			setAttributes,
 			devices: DESKTOP_DEVICE,
 			props: {
-				[ BLOCK_SELECTOR.container.shapeSvg.alias( shapeId ) ]: {
+				[ BLOCK_SELECTOR.container.shapeSvg.alias( shape.id ) ]: {
 					height: '100px',
 					position: 'relative',
 					left: '50%',
 					transform: 'translateX(-50%)',
 					minWidth: '100%',
 				},
-				[ BLOCK_SELECTOR.container.shape.alias( shapeId ) ]: {
+				[ BLOCK_SELECTOR.container.shape.alias( shape.id ) ]: {
 					left: '0',
 					right: '0',
 					bottom: '-1px',
