@@ -33,7 +33,60 @@ class Initial_Css {
 	public static function get() : string {
 		$css_array = apply_filters(
 			'scblocks_initial_css',
-			array()
+			array(
+				'desktop' => array(
+					//buttons
+					'.scb-buttons' => array(
+						'display: flex',
+						'flex-wrap: wrap',
+					),
+					//button
+					'.scb-button' => array(
+						'display: flex',
+						'align-items: center',
+						'justify-content: center',
+						'text-decoration: none',
+					),
+					//columns
+					'.scb-columns' => array(
+						'display: flex',
+						'flex-wrap: wrap',
+					),
+					//column
+					'.scb-column' => array(
+						'box-sizing: border-box',
+					),
+					'.scb-inner-column' => array(
+						'display: flex',
+						'height: 100%',
+						'flex-direction: column',
+					),
+					//container
+					'.scb-container.scb-root-container' => array(
+						'max-width: unset !important',
+						'margin: 0',
+						'width: 100% !important',
+					),
+					'.scb-container.scb-root-container > .scb-container-content' => array(
+						'margin-left: auto',
+						'margin-right: auto',
+					),
+					//heading
+					'.scb-heading mark' => array(
+						'background: none',
+					),
+					//icon
+					'.scb-icon' => array(
+						'display: inline-flex',
+						'line-height: 0',
+					),
+					'.scb-icon svg' => array(
+						'width: 1em',
+						'height: 1em',
+						'fill: currentColor',
+					),
+				),
+			)
 		);
 		return self::build( $css_array );
 	}

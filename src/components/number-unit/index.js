@@ -8,9 +8,13 @@ import { merge } from 'lodash';
 import { useMemo, useState } from '@wordpress/element';
 
 /**
+ * ScBlocks dependencies
+ */
+import { PLUGIN_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
 import SelectDevices from '../select-devices';
 import ButtonClear from '../button-clear';
 import DropdownUnits from '../dropdown-units';

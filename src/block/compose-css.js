@@ -1,5 +1,5 @@
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
 import {
 	ALL_DEVICES,
@@ -7,8 +7,11 @@ import {
 	MOBILE_DEVICE,
 	PLUGIN_NAME,
 	DESKTOP_DEVICE,
-} from '../constants';
-import { BLOCK_SELECTOR } from './constants';
+} from '@scblocks/constants';
+/**
+ * Internal dependencies
+ */
+import { BLOCK_SELECTOR } from './block-selector';
 
 function standardizeName( name ) {
 	if ( name.includes( 'Custom' ) ) {
@@ -40,13 +43,13 @@ function composeSelectors( selectorsObj, blockName, uidClass ) {
 		const finalSelector = BLOCK_SELECTOR[ blockName ][
 			selectorAlias
 		].fullSelector( uidClass );
-		css += `${ finalSelector }{${ composePropValue(
+		css += `.editor-styles-wrapper ${ finalSelector }{${ composePropValue(
 			selectorsObj[ selectorAlias ]
 		) }}`;
 	}
 	return css;
 }
-export function composeCss( {
+export default function composeCss( {
 	css: cssState,
 	blockName,
 	uidClass,

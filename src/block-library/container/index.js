@@ -4,19 +4,23 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { SHARED_ATTRIBUTES } from '@scblocks/block';
+import { PLUGIN_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
-
 import edit from './edit';
 import save from './save';
 import icon from './icon';
 import { variations } from './variations';
-import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 
 export const name = `${ PLUGIN_NAME }/container`;
 
 export const settings = {
+	apiVersion: 2,
 	title: __( 'Container', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
@@ -47,7 +51,6 @@ export const settings = {
 	supports: {
 		className: false,
 		html: false,
-		lightBlockWrapper: true,
 		customClassName: false,
 	},
 	edit,

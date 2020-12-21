@@ -4,10 +4,10 @@
 import { __ } from '@wordpress/i18n';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
-import { BLOCK_SELECTOR } from '../../block/constants';
+import { BLOCK_SELECTOR } from '@scblocks/block';
+import { PLUGIN_NAME } from '@scblocks/constants';
 
 export const BUTTONS_BLOCK_NAME = `${ PLUGIN_NAME }/buttons`;
 

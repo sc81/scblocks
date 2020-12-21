@@ -8,28 +8,35 @@ import classnames from 'classnames';
  */
 import { useSelect } from '@wordpress/data';
 import {
-	InnerBlocks,
-	__experimentalBlock as Block,
+	useBlockProps,
+	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
 	InspectorControls,
 } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { BUTTONS_SELECTORS_SETTINGS } from './utils';
+import {
+	useDynamicCss,
+	useBlockMemo,
+	BLOCK_CLASSES,
+	BLOCK_SELECTOR,
+	VariationsPicker,
+	IdClassesControls,
+	ControlsManager,
+} from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
 	CORE_BLOCK_EDITOR_STORE_NAME,
-} from '../../constants';
-import useDynamicCss from '../../hooks/use-dynamic-css';
-import { useBlockMemo } from '../../hooks/use-block-memo';
-import VariationsPicker from '../../block/variations-picker';
+} from '@scblocks/constants';
+
+/**
+ * Internal dependencies
+ */
+import { BUTTONS_SELECTORS_SETTINGS } from './utils';
 import { BUTTON_BLOCK_NAME } from '../button/utils';
-import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
-import ControlsManager from '../../components/controls-manager';
-import IdClassesControls from '../../block/id-classes-controls';
 
 const ALLOWED_BLOCKS = [ BUTTON_BLOCK_NAME ];
 
@@ -57,18 +64,24 @@ export default function Edit( props ) {
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	const style = useDynamicCss( props, devices );
 
-	const htmlAttributes = applyFilters(
-		'scblocks.buttons.htmlAttributes',
-		{
-			id: !! htmlId ? htmlId : undefined,
-			className: classnames( {
-				[ BLOCK_CLASSES.buttons.main ]: true,
-				[ uidClass ]: true,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
-			} ),
-		},
-		attributes
+	const blockProps = useBlockProps(
+		applyFilters(
+			'scblocks.buttons.htmlAttributes',
+			{
+				id: !! htmlId ? htmlId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.buttons.main ]: true,
+					[ uidClass ]: true,
+					[ `${ htmlClass }` ]: '' !== htmlClass,
+				} ),
+			},
+			attributes
+		)
 	);
+	const innerBlocksProps = useInnerBlocksProps( blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		renderAppender: false,
+	} );
 
 	return (
 		<>
@@ -94,17 +107,10 @@ export default function Edit( props ) {
 					) }
 				/>
 			</InspectorControls>
-			{ buttonCount > 0 && (
-				<InnerBlocks
-					{ ...htmlAttributes }
-					allowedBlocks={ ALLOWED_BLOCKS }
-					orientation="horizontal"
-					__experimentalTagName={ Block.div }
-					__experimentalPassedProps={ htmlAttributes }
-					renderAppender={ false }
-				/>
+			{ buttonCount > 0 && <div { ...innerBlocksProps } /> }
+			{ buttonCount === 0 && (
+				<VariationsPicker { ...props } blockProps={ blockProps } />
 			) }
-			{ buttonCount === 0 && <VariationsPicker { ...props } /> }
 		</>
 	);
 }

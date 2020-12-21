@@ -4,19 +4,24 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { SHARED_ATTRIBUTES } from '@scblocks/block';
+import { PLUGIN_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../../constants';
 import save from './save';
 import edit from './edit';
 import { variations } from './variations';
 import { COLUMNS_NAME } from './utils';
 import icon from './icon';
-import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 
 export const name = COLUMNS_NAME;
 
 export const settings = {
+	apiVersion: 2,
 	title: __( 'Columns', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
@@ -32,7 +37,6 @@ export const settings = {
 	supports: {
 		html: false,
 		className: false,
-		lightBlockWrapper: true,
 		customClassName: false,
 	},
 	edit,

@@ -5,11 +5,14 @@ import { SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { ControlWrapper, propertyService } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
-import ControlWrapper from '../../components/control-wrapper';
 import { names } from './constants';
-import propertyService from '../property-service';
 
 const options = [
 	{ label: __( 'Default', 'scblocks' ), value: '' },

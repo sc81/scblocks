@@ -5,15 +5,19 @@ import { G, Path, SVG } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 
 /**
+ * ScBlocks dependencies
+ */
+import { getLastActivePanel, setLastActivePanel } from '@scblocks/css-utils';
+import { PLUGIN_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
 import Panels from './panels';
-import { PLUGIN_NAME } from '../constants';
-import {
-	getLastActivePanel,
-	setLastActivePanel,
-} from '../hooks/use-block-memo';
-import { isActiveSelector } from '../hooks/use-selector-activity';
+
+function isActiveSelector( activityState, selectorId ) {
+	return activityState.current[ selectorId ];
+}
 
 export function StyleControls( props ) {
 	const { selectorsSettings, selectorsActivity, blockMemo } = props;

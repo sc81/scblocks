@@ -1,5 +1,9 @@
-@import "./style.scss";
 
-.#{$pluginAlias}-buttons [data-type="scblocks/button"] {
+.editor-styles-wrapper .#{$pluginAlias}-buttons.wp-block {
 	margin: 0;
+	max-width: unset;
+}
+.editor-styles-wrapper .#{$pluginAlias}-button.wp-block {
+	margin: 0;
+	max-width: unset;
 }

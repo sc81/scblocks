@@ -5,12 +5,19 @@ import { FocalPointPicker, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import {
+	getPropValue,
+	setPropValue,
+	setCssMemoValue,
+} from '@scblocks/css-utils';
+import { ControlWrapper } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
-import { setPropValue, getPropValue } from '../../utils';
 import { names } from './constants';
-import ControlWrapper from '../../components/control-wrapper';
-import { setCssMemoValue } from '../../hooks/use-block-memo';
 
 function retriveFocalPoint( value ) {
 	const focalPoint = {

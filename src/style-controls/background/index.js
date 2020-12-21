@@ -4,29 +4,29 @@
 import { useState } from '@wordpress/element';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
 import {
-	setPropsForVariousDevices,
 	getPropValue,
+	setPropsForVariousDevices,
 	getPropsForEveryDevice,
-} from '../../utils';
+	getMemoBackgroundImageIds,
+	getCssMemoValue,
+} from '@scblocks/css-utils';
+import { ALL_DEVICES } from '@scblocks/constants';
+
+/**
+ * Internal dependencies
+ */
 import {
 	names,
 	IMAGE_BACKGROUND_TYPE,
 	GRADIENT_BACKGROUND_TYPE,
 } from './constants';
-
-import { ALL_DEVICES } from '../../constants';
-
 import SelectBackgroundType from './select-background-type';
 import Image from './image';
 import Gradient from './gradient';
 import Color from '../color';
-import {
-	getMemoBackgroundImageIds,
-	getCssMemoValue,
-} from '../../hooks/use-block-memo';
 import retriveUrl from './utils';
 
 export default function Normal( props ) {

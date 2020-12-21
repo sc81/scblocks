@@ -8,24 +8,32 @@ import classnames from 'classnames';
  */
 import {
 	InnerBlocks,
-	__experimentalBlock as Block,
+	useBlockProps,
+	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
+ * ScBlocks dependencies
+ */
+import {
+	useDynamicCss,
+	useBlockMemo,
+	BLOCK_CLASSES,
+	BLOCK_SELECTOR,
+	GoogleFontsLink,
+} from '@scblocks/block';
+import {
+	CORE_EDIT_POST_STORE_NAME,
+	CORE_BLOCK_EDITOR_STORE_NAME,
+} from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
 import { COLUMN_SELECTORS_SETTINGS } from './utils';
-import {
-	CORE_BLOCK_EDITOR_STORE_NAME,
-	CORE_EDIT_POST_STORE_NAME,
-} from '../../constants';
-import useDynamicCss from '../../hooks/use-dynamic-css';
-import { useBlockMemo } from '../../hooks/use-block-memo';
 import Inspector from './inspector';
-import { BLOCK_CLASSES, BLOCK_SELECTOR } from '../../block/constants';
-import GoogleFontsLink from '../../block/google-fonts-link';
 
 export default function Edit( props ) {
 	const { attributes, clientId } = props;
@@ -51,17 +59,30 @@ export default function Edit( props ) {
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	const style = useDynamicCss( props, devices );
 
-	const htmlAttributes = applyFilters(
-		'scblocks.column.htmlAttributes',
+	const blockProps = useBlockProps(
+		applyFilters(
+			'scblocks.column.htmlAttributes',
+			{
+				id: !! htmlId ? htmlId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.column.main ]: true,
+					[ uidClass ]: true,
+					[ `${ htmlClass }` ]: '' !== htmlClass,
+				} ),
+			},
+			attributes
+		)
+	);
+	const innerBlocksProps = useInnerBlocksProps(
 		{
-			id: !! htmlId ? htmlId : undefined,
-			className: classnames( {
-				[ BLOCK_CLASSES.column.main ]: true,
-				[ uidClass ]: true,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
-			} ),
+			className: BLOCK_CLASSES.column.content,
 		},
-		attributes
+		{
+			templateLock: false,
+			renderAppender: hasChildBlocks
+				? undefined
+				: () => <InnerBlocks.ButtonBlockAppender />,
+		}
 	);
 
 	return (
@@ -73,7 +94,7 @@ export default function Edit( props ) {
 				devices={ devices }
 				selectorsSettings={ selectorsSettings }
 			/>
-			<Block.div { ...htmlAttributes }>
+			<div { ...blockProps }>
 				<GoogleFontsLink attributes={ attributes } />
 				<div className={ BLOCK_CLASSES.column.inner }>
 					{ applyFilters(
@@ -81,20 +102,9 @@ export default function Edit( props ) {
 						null,
 						attributes
 					) }
-					<InnerBlocks
-						templateLock={ false }
-						renderAppender={
-							hasChildBlocks
-								? undefined
-								: () => <InnerBlocks.ButtonBlockAppender />
-						}
-						__experimentalPassedProps={ {
-							className: BLOCK_CLASSES.column.content,
-						} }
-						__experimentalTagName="div"
-					/>
+					<div { ...innerBlocksProps } />
 				</div>
-			</Block.div>
+			</div>
 		</>
 	);
 }

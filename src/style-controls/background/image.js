@@ -11,20 +11,25 @@ import { __ } from '@wordpress/i18n';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 
 /**
+ * ScBlocks dependencies
+ */
+import {
+	getPropValue,
+	setCssMemoValue,
+	setMemoBackgroundImageId,
+	setPropsValue,
+} from '@scblocks/css-utils';
+import { PLUGIN_NAME } from '@scblocks/constants';
+import { ControlWrapper } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
-import { setPropsValue, getPropValue } from '../../utils';
-import { PLUGIN_NAME } from '../../constants';
 import { names } from './constants';
 import Position from './position';
 import Size from './size';
 import Repeat from './repeat';
 import Attachment from './attachment';
-import ControlWrapper from '../../components/control-wrapper';
-import {
-	setCssMemoValue,
-	setMemoBackgroundImageId,
-} from '../../hooks/use-block-memo';
 import retriveUrl from './utils';
 
 const propName = names.image;

@@ -5,14 +5,16 @@ import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import ControlWrapper from '../../components/control-wrapper';
-import NumberControl from '../../components/number-control';
-import { getPropValue, setPropsValue } from '../../utils';
-import SyncControls from '../../components/sync-controls';
-import DropdownUnits from '../../components/dropdown-units';
-import { PLUGIN_NAME } from '../../constants';
+import { getPropValue, setPropsValue } from '@scblocks/css-utils';
+import { PLUGIN_NAME } from '@scblocks/constants';
+import {
+	ControlWrapper,
+	NumberControl,
+	SyncControls,
+	DropdownUnits,
+} from '@scblocks/components';
 
 const labels = {
 	top: __( 'top', 'scblocks' ),

@@ -4,9 +4,8 @@
  * Plugin Name: ScBlocks
  * Description: A collection of Gutenberg Blocks that help you build WordPress sites.
  * Author: sc81
- * Version: 1.0
+ * Version: 1.1.0
  * Text Domain: scblocks
- * Tested up to: 5.5.3
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -15,9 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SCBLOCKS_VERSION', '1.0' );
-
-define( 'SCBLOCKS_CSS_VERSION', '1.0' );
+define( 'SCBLOCKS_VERSION', '1.1.0' );
 
 define( 'SCBLOCKS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 

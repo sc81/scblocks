@@ -4,9 +4,9 @@
 import { __ } from '@wordpress/i18n';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR } from '../../block/constants';
+import { BLOCK_SELECTOR } from '@scblocks/block';
 
 export const CONTAINER_SELECTORS_SETTINGS = [
 	{

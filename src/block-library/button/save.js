@@ -6,15 +6,15 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { RichText } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import { BLOCK_CLASSES } from '../../block/constants';
-import DangerouslyPasteIcon from '../../components/dangerously-paste-icon';
+import { BLOCK_CLASSES } from '@scblocks/block';
+import { DangerouslyPasteIcon } from '@scblocks/components';
 
 const placeholder = __( 'Button', 'scblocks' );
 
@@ -48,22 +48,24 @@ export default function Save( { attributes } ) {
 	const rel =
 		relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined;
 
-	const htmlAttributes = applyFilters(
-		'scblocks.button.htmlAttributes',
-		{
-			id: !! htmlId ? htmlId : undefined,
-			className: classnames( {
-				[ BLOCK_CLASSES.button.main ]: true,
-				[ uidClass ]: true,
-				[ BLOCK_CLASSES.button.text ]: ! icon,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
-			} ),
-			href: url,
-			target: target ? '_blank' : undefined,
-			rel,
-			'aria-label': !! ariaLabel ? ariaLabel : undefined,
-		},
-		attributes
+	const htmlAttributes = useBlockProps.save(
+		applyFilters(
+			'scblocks.button.htmlAttributes',
+			{
+				id: !! htmlId ? htmlId : undefined,
+				className: classnames( {
+					[ BLOCK_CLASSES.button.main ]: true,
+					[ uidClass ]: true,
+					[ BLOCK_CLASSES.button.text ]: ! icon,
+					[ `${ htmlClass }` ]: '' !== htmlClass,
+				} ),
+				href: url,
+				target: target ? '_blank' : undefined,
+				rel,
+				'aria-label': !! ariaLabel ? ariaLabel : undefined,
+			},
+			attributes
+		)
 	);
 	const Tag = url ? 'a' : 'span';
 	return (

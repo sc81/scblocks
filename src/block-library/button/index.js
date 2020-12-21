@@ -4,22 +4,24 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { BLOCK_SELECTOR, SHARED_ATTRIBUTES } from '@scblocks/block';
+import { PLUGIN_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-
 import { BUTTON_BLOCK_NAME } from './utils';
-import { PLUGIN_NAME } from '../../constants';
-
 import save from './save';
 import edit from './edit';
 import { BUTTONS_BLOCK_NAME } from '../buttons/utils';
-import { BLOCK_SELECTOR } from '../../block/constants';
-import { SHARED_ATTRIBUTES } from '../../block/shared-attributes';
 import icon from '../buttons/icon';
 
 export const name = BUTTON_BLOCK_NAME;
 
 export const settings = {
+	apiVersion: 2,
 	title: __( 'Button', 'scblocks' ),
 	description: __(
 		'Prompt visitors to take action with a button-style link.'
@@ -77,7 +79,6 @@ export const settings = {
 		className: false,
 		html: false,
 		reusable: false,
-		lightBlockWrapper: true,
 		customClassName: false,
 	},
 	parent: [ BUTTONS_BLOCK_NAME ],

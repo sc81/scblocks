@@ -6,12 +6,14 @@ import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import OpenColorPicker from '../../components/open-color-picker';
-import NumberUnit from '../../components/number-unit';
-import { PLUGIN_NAME } from '../../constants';
-import SyncControls from '../../components/sync-controls';
+import { PLUGIN_NAME } from '@scblocks/constants';
+import {
+	OpenColorPicker,
+	NumberUnit,
+	SyncControls,
+} from '@scblocks/components';
 
 const labels = {
 	top: __( 'Top', 'scblocks' ),

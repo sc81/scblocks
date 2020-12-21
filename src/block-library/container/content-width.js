@@ -7,13 +7,11 @@ import { useMemo } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import NumberUnit from '../../components/number-unit';
-import propertyService from '../../style-controls/property-service';
-import { CORE_BLOCK_EDITOR_STORE_NAME } from '../../constants';
-import { BLOCK_SELECTOR } from '../../block/constants';
-import Separator from '../../components/separator';
+import { BLOCK_SELECTOR } from '@scblocks/block';
+import { CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
+import { NumberUnit, Separator, propertyService } from '@scblocks/components';
 
 export default function ContentWidth( props ) {
 	const { propValue, onChange } = propertyService( {

@@ -5,10 +5,9 @@ import { ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import ControlWrapper from '../../components/control-wrapper';
-import propertyService from '../property-service';
+import { ControlWrapper, propertyService } from '@scblocks/components';
 
 const propName = 'display';
 

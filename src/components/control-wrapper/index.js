@@ -1,8 +1,11 @@
 /**
+ * ScBlocks dependencies
+ */
+import { PLUGIN_NAME } from '@scblocks/constants';
+/**
  * Internal dependencies
  */
 import SelectDevices from '../select-devices';
-import { PLUGIN_NAME } from '../../constants';
 import ButtonClear from '../button-clear';
 
 export default function ControlWrapper( {

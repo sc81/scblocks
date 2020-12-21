@@ -5,10 +5,13 @@ import { SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { ControlWrapper, propertyService } from '@scblocks/components';
+
+/**
  * Internal dependencies
  */
-import ControlWrapper from '../../components/control-wrapper';
-import propertyService from '../property-service';
 import { names } from './constants';
 
 const propName = names.attachment;

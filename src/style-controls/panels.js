@@ -6,19 +6,20 @@ import { useState, useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { getLastActivePanel, setLastActivePanel } from '@scblocks/css-utils';
+import { PLUGIN_NAME } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
-import { PLUGIN_NAME } from '../constants';
 import Background from './background/index';
 import Typography from './typography/index';
 import Space from './space/index';
 import ColorSet from './color-set';
 import BorderPanel from './border-panel';
 import PositionPanel from './position-panel';
-import {
-	getLastActivePanel,
-	setLastActivePanel,
-} from '../hooks/use-block-memo';
 
 function Panel( {
 	name,

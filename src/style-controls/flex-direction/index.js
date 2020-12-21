@@ -5,10 +5,9 @@ import { SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
- * Internal dependencies
+ * ScBlocks dependencies
  */
-import propertyService from '../property-service';
-import ControlWrapper from '../../components/control-wrapper';
+import { ControlWrapper, propertyService } from '@scblocks/components';
 
 export default function FlexDirection( props ) {
 	const { propValue, onChange } = propertyService( {

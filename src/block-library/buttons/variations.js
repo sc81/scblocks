@@ -4,11 +4,15 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * ScBlocks dependencies
+ */
+import { BLOCK_SELECTOR } from '@scblocks/block';
+import { DESKTOP_DEVICE, ALL_DEVICES } from '@scblocks/constants';
+
+/**
  * Internal dependencies
  */
 import { BUTTON_BLOCK_NAME } from '../button/utils';
-import { BLOCK_SELECTOR } from '../../block/constants';
-import { DESKTOP_DEVICE, ALL_DEVICES } from '../../constants';
 
 function getButton() {
 	return [
@@ -31,12 +35,8 @@ function getButton() {
 	];
 }
 
-/** @typedef {import('@wordpress/blocks').WPBlockVariation} WPBlockVariation */
-
 /**
  * Template option choices for predefined buttons layouts.
- *
- * @type {WPBlockVariation[]}
  */
 const variations = [
 	{
