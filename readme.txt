@@ -1,4 +1,4 @@
-=== Page Builder Gutenberg Blocks – ScBlocks ===
+=== ScBlocks - Page Builder Gutenberg Blocks ===
 Contributors: sc81
 Donate link: https://sc81.github.io/scblocks
 Tags: page builder, blocks, gutenberg, WordPress blocks, container
