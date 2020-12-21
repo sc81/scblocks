@@ -6,7 +6,7 @@
  * Author: sc81
  * Version: 1.0
  * Text Domain: scblocks
- * Tested up to: 5.5.3
+ * Tested up to: 5.6
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  */
