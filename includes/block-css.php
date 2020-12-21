@@ -182,7 +182,6 @@ class Block_Css {
 	 * @return bool
 	 */
 	public function can_write() : bool {
-		global $blog_id;
 		global $wp_filesystem;
 
 		$this->initialize_wp_filesystem();
