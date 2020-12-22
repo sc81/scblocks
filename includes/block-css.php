@@ -182,7 +182,6 @@ class Block_Css {
 	 * @return bool
 	 */
 	public function can_write() : bool {
-		global $blog_id;
 		global $wp_filesystem;
 
 		$this->initialize_wp_filesystem();
@@ -354,15 +353,15 @@ class Block_Css {
 		if ( '' === $post_content ) {
 			return array();
 		}
-		$reusable_blocks        = preg_match_all( '/wp:block {"ref":([^}]*)}/', $post_content, $matches );
-		$stored_reusable_blocks = array();
+		preg_match_all( '/wp:block {"ref":([^}]*)}/', $post_content, $matches );
+		$ids = array();
 
 		foreach ( $matches[1] as $match ) {
-			if ( ! in_array( $match, $stored_reusable_blocks, true ) ) {
-				$stored_reusable_blocks[] = $match;
+			if ( ! in_array( $match, $ids, true ) ) {
+				$ids[] = $match;
 			}
 		}
-		return $stored_reusable_blocks;
+		return $ids;
 	}
 
 	/**
