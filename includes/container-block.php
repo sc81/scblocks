@@ -8,13 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Render container block
  *
- * @since 1.1.0
+ * @since 1.2.0
  */
 class Container_Block {
 	/**
 	 * Register actions
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
 	 * @return void
 	 */
@@ -25,7 +25,7 @@ class Container_Block {
 	/**
 	 * Register our block.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 */
 	public function register() {
 		register_block_type(
@@ -38,7 +38,7 @@ class Container_Block {
 	/**
 	 * Render our block.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
 	 * @param array   $attributes The block attributes.
 	 * @param string  $content The inner blocks.

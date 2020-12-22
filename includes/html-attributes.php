@@ -8,14 +8,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Build html attributes
  *
- * @since 1.1.0
+ * @since 1.2.0
  */
 class Html_Attributes {
 
 	/**
 	 * The context, to build filter name.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 * @var string
 	 */
 	private $context;
@@ -23,7 +23,7 @@ class Html_Attributes {
 	/**
 	 * Html attributes.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 * @var array
 	 */
 	private $html_attributes;
@@ -31,7 +31,7 @@ class Html_Attributes {
 	/**
 	 * Block attributes.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 * @var array
 	 */
 	private $block_attributes;
@@ -39,7 +39,7 @@ class Html_Attributes {
 	/**
 	 * Constructor
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
 	 * @param string $context         The context to build filter.
 	 * @param array $html_attributes  Html attributes.
@@ -55,7 +55,7 @@ class Html_Attributes {
 	 *
 	 * The contextual filter is of the form `scblocks_attr_{context}_output`.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
 	 * @return string String of HTML attributes and values.
 	 */
@@ -88,7 +88,7 @@ class Html_Attributes {
 	 *
 	 * The contextual filter is of the form `scblocks_attr_{context}`.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 *
 	 * @return array Merged and filtered attributes.
 	 */
