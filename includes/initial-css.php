@@ -13,6 +13,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Initial_Css {
 
 	/**
+	 * Whether to get all css.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var bool
+	 */
+	public $take_all_css;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param bool $take_all_css Force to take all css
+	 */
+	public function __construct( bool $take_all_css = false ) {
+		$this->take_all_css = $take_all_css;
+	}
+
+	/**
 	 * Build our css from the array.
 	 *
 	 * @since 1.0.0
@@ -65,14 +85,14 @@ class Initial_Css {
 	 *
 	 * @return string
 	 */
-	public static function get() : string {
-		$css = self::button() .
-		self::buttons() .
-		self::column() .
-		self::columns() .
-		self::container() .
-		self::heading() .
-		self::icon();
+	public function get() : string {
+		$css = $this->button() .
+		$this->buttons() .
+		$this->column() .
+		$this->columns() .
+		$this->container() .
+		$this->heading() .
+		$this->icon();
 
 		return apply_filters(
 			'scblocks_blocks_default_css',
@@ -86,8 +106,8 @@ class Initial_Css {
 	 *
 	 * @return string
 	 */
-	public static function button() : string {
-		if ( ! Plugin::is_active_block( 'button' ) ) {
+	public function button() : string {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'button' ) ) {
 			return '';
 		}
 		$arr = apply_filters(
@@ -112,8 +132,8 @@ class Initial_Css {
 	 *
 	 * @return string
 	 */
-	public static function buttons() : string {
-		if ( ! Plugin::is_active_block( 'buttons' ) ) {
+	public function buttons() : string {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'buttons' ) ) {
 			return '';
 		}
 		$arr = apply_filters(
@@ -136,8 +156,8 @@ class Initial_Css {
 	 *
 	 * @return string
 	 */
-	public static function columns() {
-		if ( ! Plugin::is_active_block( 'columns' ) ) {
+	public function columns() : string {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'columns' ) ) {
 			return '';
 		}
 		$arr = apply_filters(
@@ -160,8 +180,8 @@ class Initial_Css {
 	 *
 	 * @return string
 	 */
-	public static function column() {
-		if ( ! Plugin::is_active_block( 'column' ) ) {
+	public function column() : string {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'column' ) ) {
 			return '';
 		}
 		$arr = apply_filters(
@@ -188,10 +208,10 @@ class Initial_Css {
 	 *
 	 * @return string
 	 */
-	public static function container() {
-		if ( ! Plugin::is_active_block( 'container' ) ) {
+	public function container() : string {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'container' ) ) {
 			return '';
-		}
+		}var_dump( Plugin::is_active_block( 'container' ) );
 		$arr = apply_filters(
 			'scblocks_container_default_css',
 			array(
@@ -217,8 +237,8 @@ class Initial_Css {
 	 *
 	 * @return string
 	 */
-	public static function heading() {
-		if ( ! Plugin::is_active_block( 'heading' ) ) {
+	public function heading() : string {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'heading' ) ) {
 			return '';
 		}
 		$arr = apply_filters(
@@ -241,8 +261,8 @@ class Initial_Css {
 	 *
 	 * @return string
 	 */
-	public static function icon() {
-		if ( ! Plugin::is_active_block( 'icon' ) ) {
+	public function icon() : string {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'icon' ) ) {
 			return '';
 		}
 		$arr = apply_filters(
