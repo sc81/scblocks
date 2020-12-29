@@ -63,7 +63,7 @@ export const settings = {
 				},
 			},
 			default: [],
-},
+		},
 		isDynamic: {
 			type: 'boolean',
 		},
