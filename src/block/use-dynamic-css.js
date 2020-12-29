@@ -7,14 +7,14 @@ import { select } from '@wordpress/data';
 /**
  * ScBlocks dependencies
  */
-import { CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
+import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
  */
 import composeCss from './compose-css';
 
-const memoizedUidClasses = [];
+const memorizedUids = [];
 
 const BLOCK_ALIAS = {
 	button: 'btn',
@@ -43,40 +43,14 @@ export default function useDynamicCss( props, device ) {
 			BLOCK_ALIAS[ blockName ]
 		}-${ clientId.substr( 2, 9 ).replace( '-', '' ) }`;
 
-		const blockRootClientId = select(
-			CORE_BLOCK_EDITOR_STORE_NAME
-		).getBlockRootClientId( clientId );
-
 		let finalUidClass;
 
-		// new block
-		if ( ! uidClass ) {
+		if ( ! uidClass || memorizedUids.includes( uidClass ) ) {
 			setAttributes( { uidClass: nextUidClass } );
-			memoizedUidClasses.push( nextUidClass );
+			memorizedUids.push( nextUidClass );
 			finalUidClass = nextUidClass;
-
-			// it's probably not a reusable block
-			// duplicate block
-		} else if (
-			blockRootClientId !== null &&
-			memoizedUidClasses.includes( uidClass )
-		) {
-			setAttributes( {
-				uidClass: nextUidClass,
-			} );
-			memoizedUidClasses.push( nextUidClass );
-			finalUidClass = nextUidClass;
-
-			// probably reusable block
-			// add reusable block uidClass only once
-		} else if ( blockRootClientId === null ) {
-			if ( ! memoizedUidClasses.includes( uidClass ) ) {
-				memoizedUidClasses.push( uidClass );
-				finalUidClass = uidClass;
-			}
-			// existing block
 		} else {
-			memoizedUidClasses.push( uidClass );
+			memorizedUids.push( uidClass );
 			finalUidClass = uidClass;
 		}
 		setStyle(
@@ -101,6 +75,19 @@ export default function useDynamicCss( props, device ) {
 			);
 		}
 	}, [ setStyle, composeCss, css, blockName, uidClass, device ] );
+
+	// unmout
+	useEffect(
+		() => () => {
+			// prevents the uidClass from being refreshed
+			// when switching editor mode between visual and text
+			const mode = select( CORE_EDIT_POST_STORE_NAME ).getEditorMode();
+			if ( mode === 'text' && memorizedUids.length ) {
+				memorizedUids.length = 0;
+			}
+		},
+		[]
+	);
 
 	return style;
 }
