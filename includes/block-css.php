@@ -137,7 +137,9 @@ class Block_Css {
 
 			$css = $css_composer->compose( $blocks_attr );
 			if ( $css ) {
-				$css = Initial_Css::get() . $css;
+				$initial_css = new Initial_Css();
+
+				$css = $initial_css->get() . $css;
 			}
 			return $css;
 		}
@@ -182,7 +184,6 @@ class Block_Css {
 	 * @return bool
 	 */
 	public function can_write() : bool {
-		global $blog_id;
 		global $wp_filesystem;
 
 		$this->initialize_wp_filesystem();
@@ -233,7 +234,9 @@ class Block_Css {
 			Plugin::set_css_mode( 'empty' );
 			return false;
 		}
-		$css = Initial_Css::get() . $css;
+		$initial_css = new Initial_Css();
+
+		$css = $initial_css->get() . $css;
 
 		// If we only have a little CSS, we should inline it.
 		$css_size = strlen( $css );
@@ -354,15 +357,15 @@ class Block_Css {
 		if ( '' === $post_content ) {
 			return array();
 		}
-		$reusable_blocks        = preg_match_all( '/wp:block {"ref":([^}]*)}/', $post_content, $matches );
-		$stored_reusable_blocks = array();
+		preg_match_all( '/wp:block {"ref":([^}]*)}/', $post_content, $matches );
+		$ids = array();
 
 		foreach ( $matches[1] as $match ) {
-			if ( ! in_array( $match, $stored_reusable_blocks, true ) ) {
-				$stored_reusable_blocks[] = $match;
+			if ( ! in_array( $match, $ids, true ) ) {
+				$ids[] = $match;
 			}
 		}
-		return $stored_reusable_blocks;
+		return $ids;
 	}
 
 	/**
@@ -466,6 +469,11 @@ class Block_Css {
 				$block_name = explode( '/', $block['blockName'] )[1];
 
 				$data[ $block_name ][] = $block['attrs'];
+
+				Plugin::set_is_active_block( $block_name );
+				if ( 'heading' === $block_name || 'button' === $block_name ) {
+					Plugin::set_is_active_block( 'icon' );
+				}
 			}
 			// reusable block
 			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] ) ) {

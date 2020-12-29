@@ -39,7 +39,7 @@ import ShapeDividers from './shape-dividers';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;
-	const { uidClass, htmlClass, htmlId } = attributes;
+	const { uidClass, htmlClass, htmlId, isDynamic } = attributes;
 	const { devices, innerBlockCount, isRootContainer } = useSelect(
 		( select ) => {
 			const { getBlockCount, getBlockHierarchyRootClientId } = select(
@@ -60,6 +60,12 @@ export default function Edit( props ) {
 	useEffect( () => {
 		setAttributes( { isRootContainer } );
 	}, [ isRootContainer, setAttributes ] );
+
+	useEffect( () => {
+		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
+			setAttributes( { isDynamic: true } );
+		}
+	}, [ isDynamic, setAttributes ] );
 
 	const selectorsSettings = applyFilters(
 		'scblocks.container.selectorsSettings',
@@ -98,6 +104,7 @@ export default function Edit( props ) {
 	return (
 		<>
 			<style>{ style }</style>
+			<GoogleFontsLink attributes={ attributes } />
 			<Inspector
 				{ ...props }
 				devices={ devices }
@@ -105,9 +112,8 @@ export default function Edit( props ) {
 				selectorsSettings={ selectorsSettings }
 			/>
 			<div { ...blockProps }>
-				<GoogleFontsLink attributes={ attributes } />
 				{ applyFilters(
-					'scblocks.container.inside',
+					'scblocks.container.afterOpen',
 					null,
 					attributes
 				) }
@@ -118,6 +124,11 @@ export default function Edit( props ) {
 						{ ...props }
 						blockProps={ innerBlocksProps }
 					/>
+				) }
+				{ applyFilters(
+					'scblocks.container.beforeClose',
+					null,
+					attributes
 				) }
 			</div>
 		</>

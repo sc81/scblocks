@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * ScBlocks dependencies
@@ -13,9 +14,9 @@ import { PLUGIN_NAME } from '@scblocks/constants';
  * Internal dependencies
  */
 import edit from './edit';
-import save from './save';
 import icon from './icon';
-import { variations } from './variations';
+import variations from './variations';
+import deprecated from './deprecated';
 
 export const name = `${ PLUGIN_NAME }/container`;
 
@@ -62,6 +63,9 @@ export const settings = {
 				},
 			},
 			default: [],
+},
+		isDynamic: {
+			type: 'boolean',
 		},
 	},
 	supports: {
@@ -70,6 +74,9 @@ export const settings = {
 		customClassName: false,
 	},
 	edit,
-	save,
+	save: () => {
+		return <InnerBlocks.Content />;
+	},
 	variations,
+	deprecated,
 };

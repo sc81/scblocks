@@ -121,7 +121,8 @@ class Block_Assets {
 			$main_file['version']
 		);
 
-		wp_add_inline_style( 'scblocks', Initial_Css::get() );
+		$initial_css = new Initial_Css( true );
+		wp_add_inline_style( 'scblocks', $initial_css->get() );
 
 		wp_set_script_translations( 'scblocks-editor', 'scblocks' );
 	}
