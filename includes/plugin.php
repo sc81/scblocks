@@ -26,6 +26,15 @@ class Plugin {
 	private static $css_mode = '';
 
 	/**
+	 * List of blocks in use.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var array
+	 */
+	private static $active_blocks = array();
+
+	/**
 	 * Gets defaults for option.
 	 *
 	 * @return array
@@ -126,6 +135,34 @@ class Plugin {
 	 */
 	public static function css_mode() : string {
 		return self::$css_mode;
+	}
+
+	/**
+	 * Checks whether the block is in use.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $block_name Block name.
+	 *
+	 * @return boolean
+	 */
+	public static function is_active_block( string $block_name ) : bool {
+		return in_array( $block_name, self::$active_blocks, true );
+	}
+
+	/**
+	 * Memorizes that the block is in use.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $block_name Block name.
+	 *
+	 * @return void
+	 */
+	public static function set_is_active_block( string $block_name ) {
+		if ( ! in_array( $block_name, self::$active_blocks, true ) ) {
+			self::$active_blocks[] = $block_name;
+		}
 	}
 
 	/**
