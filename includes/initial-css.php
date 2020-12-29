@@ -211,7 +211,7 @@ class Initial_Css {
 	public function container() : string {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'container' ) ) {
 			return '';
-		}var_dump( Plugin::is_active_block( 'container' ) );
+		}
 		$arr = apply_filters(
 			'scblocks_container_default_css',
 			array(
