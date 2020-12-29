@@ -16,6 +16,7 @@ import { PLUGIN_NAME } from '@scblocks/constants';
 import edit from './edit';
 import icon from './icon';
 import { variations } from './variations';
+import deprecated from './deprecated';
 
 export const name = `${ PLUGIN_NAME }/container`;
 
@@ -37,6 +38,7 @@ export const settings = {
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
 		...SHARED_ATTRIBUTES.bgImageIds,
+		...SHARED_ATTRIBUTES.googleFonts,
 		tag: {
 			type: 'string',
 			default: 'div',
@@ -45,12 +47,10 @@ export const settings = {
 			type: 'boolean',
 			default: false,
 		},
-		...SHARED_ATTRIBUTES.googleFonts,
 		isDynamic: {
 			type: 'boolean',
 		},
 	},
-
 	supports: {
 		className: false,
 		html: false,
@@ -61,4 +61,5 @@ export const settings = {
 		return <InnerBlocks.Content />;
 	},
 	variations,
+	deprecated,
 };
