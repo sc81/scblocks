@@ -188,6 +188,8 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/icons.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/plugin-settings.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/css.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/container-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/html-attributes.php';
 	}
 
 	private function __construct() {
@@ -203,6 +205,7 @@ class Plugin {
 			'ScBlocks\Block_Css',
 			'ScBlocks\Icons',
 			'ScBlocks\Plugin_Settings',
+			'ScBlocks\Container_Block',
 		);
 
 		foreach ( $classes as $class_name ) {
