@@ -31,7 +31,12 @@ const deprecated = [
 				default: false,
 			},
 			...SHARED_ATTRIBUTES.googleFonts,
-		},
+        },
+        supports: {
+            className: false,
+            html: false,
+            customClassName: false,
+        },
 		save( { attributes } ) {
 			const {
 				tag: Tag,
