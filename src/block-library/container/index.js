@@ -15,7 +15,7 @@ import { PLUGIN_NAME } from '@scblocks/constants';
  */
 import edit from './edit';
 import icon from './icon';
-import { variations } from './variations';
+import variations from './variations';
 import deprecated from './deprecated';
 
 export const name = `${ PLUGIN_NAME }/container`;

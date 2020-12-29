@@ -49,7 +49,7 @@ function containerCss() {
 /**
  * Template option choices for predefined columns layouts.
  */
-export const variations = [
+const variations = [
 	{
 		name: 'one-column',
 		title: __( '100', 'scblocks' ),
@@ -265,3 +265,5 @@ export const variations = [
 		scope: [ 'block' ],
 	},
 ];
+
+export default variations;
