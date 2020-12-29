@@ -138,7 +138,7 @@ export default function ShapeDividerControls( {
 		const shapes = [ ...shapeDividers ];
 		shapes[ index ] = {
 			...shapes[ index ],
-			...shape,
+			id: shape.id,
 		};
 		setAttributes( {
 			shapeDividers: shapes,

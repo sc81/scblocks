@@ -24,6 +24,7 @@ import { DESKTOP_DEVICE } from '@scblocks/constants';
 import ContentWidth from './content-width';
 import ShapeDividerControls from './shape-divider-controls';
 import OpenShapeLibrary from './open-shape-library';
+import useLoadShapes from './load-shapes';
 
 function getUid() {
 	return Math.random().toString( 16 ).substr( 2, 7 );
@@ -32,35 +33,41 @@ function getUid() {
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
 	const { tag, shapeDividers } = attributes;
+
+	const [ shapes, isLoaded ] = useLoadShapes();
+
 	function setTag( value ) {
 		setAttributes( { tag: value } );
 	}
 	function onSelectShape( shape ) {
-		const shapes = [ ...shapeDividers ];
-		const dataId = getUid();
-		shapes.push( {
-			...shape,
-			dataId,
+		const nextShapes = [ ...shapeDividers ];
+		const shapeUidClass = getUid();
+		nextShapes.push( {
+			id: shape.id,
+			uidClass: shapeUidClass,
 		} );
-		setAttributes( { shapeDividers: shapes } );
+		setAttributes( { shapeDividers: nextShapes } );
 		setPropsForVariousSelectors( {
 			attributes,
 			setAttributes,
 			devices: DESKTOP_DEVICE,
 			props: {
-				[ BLOCK_SELECTOR.container.shapeSvg.alias( dataId ) ]: {
+				[ BLOCK_SELECTOR.container.shapeSvg.alias( shapeUidClass ) ]: {
 					height: '100px',
 					position: 'relative',
 					left: '50%',
 					transform: 'translateX(-50%)',
 					minWidth: '100%',
 				},
-				[ BLOCK_SELECTOR.container.shape.alias( dataId ) ]: {
+				[ BLOCK_SELECTOR.container.shape.alias( shapeUidClass ) ]: {
 					left: '0',
 					right: '0',
 					bottom: '-1px',
 				},
 				[ BLOCK_SELECTOR.container.main.alias ]: {
+					position: 'relative',
+				},
+				[ BLOCK_SELECTOR.container.content.alias ]: {
 					position: 'relative',
 				},
 			},
@@ -87,31 +94,36 @@ export default function Inspector( props ) {
 				spacePanelAdditionalControls={ <ContentWidth { ...props } /> }
 				shapesPanelControls={
 					<>
-						{ shapeDividers.map( ( element, index ) => {
-							return (
-								<PanelBody
-									key={ index }
-									title={
-										<DangerouslyPasteIcon
-											icon={ element.shape }
-											className="scblocks-panel-title-icon"
+						{ isLoaded &&
+							shapeDividers.map( ( shapeDivider, index ) => {
+								const shape = shapes.find(
+									( element ) =>
+										element.id === shapeDivider.id
+								);
+								return (
+									<PanelBody
+										key={ index }
+										title={
+											<DangerouslyPasteIcon
+												icon={ shape.shape }
+												className="scblocks-panel-title-icon"
+											/>
+										}
+										initialOpen={ false }
+									>
+										<ShapeDividerControls
+											{ ...props }
+											shapeSelector={ BLOCK_SELECTOR.container.shape.alias(
+												shapeDivider.uidClass
+											) }
+											shapeSvgSelector={ BLOCK_SELECTOR.container.shapeSvg.alias(
+												shapeDivider.uidClass
+											) }
+											index={ index }
 										/>
-									}
-									initialOpen={ false }
-								>
-									<ShapeDividerControls
-										{ ...props }
-										shapeSelector={ BLOCK_SELECTOR.container.shape.alias(
-											element.dataId
-										) }
-										shapeSvgSelector={ BLOCK_SELECTOR.container.shapeSvg.alias(
-											element.dataId
-										) }
-										index={ index }
-									/>
-								</PanelBody>
-							);
-						} ) }
+									</PanelBody>
+								);
+							} ) }
 						<PanelBody opened>
 							<OpenShapeLibrary
 								label={ __( 'Add Shape', 'scblocks' ) }

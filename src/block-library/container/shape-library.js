@@ -2,9 +2,7 @@
  * WordPress dependencies
  */
 import { Spinner, Button, Modal } from '@wordpress/components';
-import { useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
 
 /**
  * ScBlocks dependencies
@@ -12,34 +10,13 @@ import apiFetch from '@wordpress/api-fetch';
 import { PLUGIN_NAME } from '@scblocks/constants';
 import { DangerouslyPasteIcon } from '@scblocks/components';
 
-let shapes;
-
-let isLocked = false;
+/**
+ * Internal dependencies
+ */
+import useLoadShapes from './load-shapes';
 
 export default function ShapeLibrary( { onRequestClose, onSelectShape } ) {
-	const [ isLoaded, setIsLoaded ] = useState( false );
-
-	useEffect( () => {
-		if ( ! isLocked ) {
-			if ( ! shapes ) {
-				apiFetch( {
-					path: `/${ PLUGIN_NAME }/v1/shape-dividers`,
-				} )
-					.then( ( resp ) => {
-						shapes = JSON.parse( resp );
-
-						isLocked = false;
-						setIsLoaded( true );
-					} )
-					.catch( () => {
-						isLocked = false;
-						setIsLoaded( true );
-					} );
-			} else {
-				setIsLoaded( true );
-			}
-		}
-	}, [] );
+	const [ shapes, isLoaded ] = useLoadShapes();
 	return (
 		<Modal
 			title={ __( 'Shape Library', 'scblocks' ) }

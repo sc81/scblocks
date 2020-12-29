@@ -7,7 +7,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
 /**
  * ScBlocks dependencies
  */
-import { SHARED_ATTRIBUTES, BLOCK_SELECTOR } from '@scblocks/block';
+import { SHARED_ATTRIBUTES } from '@scblocks/block';
 import { PLUGIN_NAME } from '@scblocks/constants';
 
 /**
@@ -49,19 +49,6 @@ export const settings = {
 		},
 		shapeDividers: {
 			type: 'array',
-			source: 'query',
-			selector: BLOCK_SELECTOR.container.shape.selector,
-			query: {
-				shape: {
-					type: 'string',
-					source: 'html',
-				},
-				dataId: {
-					type: 'string',
-					source: 'attribute',
-					attribute: 'data-id',
-				},
-			},
 			default: [],
 		},
 		isDynamic: {
