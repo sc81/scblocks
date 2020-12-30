@@ -22,10 +22,12 @@ import {
 	getPropertiesValue,
 	getPropValue,
 	removeSelectors,
+	setPropsForVariousSelectors,
 	setPropsValue,
 	setPropValue,
 } from '@scblocks/css-utils';
 import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
+import { BLOCK_SELECTOR } from '@scblocks/block';
 
 /**
  * Internal dependencies
@@ -128,11 +130,38 @@ export default function ShapeDividerControls( {
 		const shapes = [ ...shapeDividers ];
 		shapes.splice( index, 1 );
 		setAttributes( { shapeDividers: shapes.length ? shapes : undefined } );
-		removeSelectors( {
-			attributes,
-			setAttributes,
-			selectors: [ shapeSelector, shapeSvgSelector ],
-		} );
+		if ( ! shapes.length ) {
+			const attrs = {
+				css: {},
+			};
+			function setAttrs( next ) {
+				attrs.css = next.css;
+			}
+			setPropsForVariousSelectors( {
+				attributes,
+				setAttributes: setAttrs,
+				devices: ALL_DEVICES,
+				props: {
+					[ BLOCK_SELECTOR.container.main.alias ]: {
+						position: '',
+					},
+					[ BLOCK_SELECTOR.container.content.alias ]: {
+						position: '',
+					},
+				},
+			} );
+			removeSelectors( {
+				attributes: attrs,
+				setAttributes,
+				selectors: [ shapeSelector, shapeSvgSelector ],
+			} );
+		} else {
+			removeSelectors( {
+				attributes,
+				setAttributes,
+				selectors: [ shapeSelector, shapeSvgSelector ],
+			} );
+		}
 	}
 	function replaceShape( shape ) {
 		const shapes = [ ...shapeDividers ];
