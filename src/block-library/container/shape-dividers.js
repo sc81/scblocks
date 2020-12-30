@@ -15,6 +15,7 @@ export default function ShapeDividers( { attributes: { shapeDividers } } ) {
 	return (
 		<div className={ BLOCK_CLASSES.container.shapes }>
 			{ isLoaded &&
+				shapes.length &&
 				shapeDividers.map( ( shapeDivider, index ) => {
 					return (
 						<div
