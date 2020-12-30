@@ -20,6 +20,7 @@ class Shape_Dividers {
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_route' ) );
 		add_filter( 'scblocks_after_container_open', array( $this, 'build' ), 10, 2 );
+		add_filter( 'scblocks_container_default_css', array( $this, 'initial_css' ) );
 	}
 
 	/**
@@ -162,5 +163,25 @@ class Shape_Dividers {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Default CSS for shape dividers.
+	 *
+	 * @param array $container_default_css Container default CSS.
+	 * @return array
+	 */
+	public function initial_css( array $container_default_css ) : array {
+		$container_default_css['allDevices']['.scb-container .scb-shape']     = array(
+			'position: absolute',
+			'overflow: hidden',
+			'pointer-events: none',
+			'line-height: 0',
+		);
+		$container_default_css['allDevices']['.scb-container .scb-shape svg'] = array(
+			'width: calc(100% + 1.3px)',
+			'fill: currentColor',
+		);
+		return $container_default_css;
 	}
 }
