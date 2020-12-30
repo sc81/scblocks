@@ -16,7 +16,7 @@ import {
 } from '@scblocks/block';
 import { DangerouslyPasteIcon, SelectHtmlTag } from '@scblocks/components';
 import { setPropsForVariousSelectors } from '@scblocks/css-utils';
-import { DESKTOP_DEVICE } from '@scblocks/constants';
+import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
 
 /**
  * Internal dependencies
@@ -50,14 +50,36 @@ export default function Inspector( props ) {
 			uidClass: shapeUidClass,
 		} );
 		setAttributes( { shapeDividers: nextShapes } );
+
+		const attrs = {
+			css: {},
+		};
+		function setAttrs( next ) {
+			attrs.css = next.css;
+		}
 		setPropsForVariousSelectors( {
 			attributes,
+			setAttributes: setAttrs,
+			devices: ALL_DEVICES,
+			props: {
+				[ BLOCK_SELECTOR.container.main.alias ]: {
+					position: 'relative',
+				},
+				[ BLOCK_SELECTOR.container.content.alias ]: {
+					position: 'relative',
+				},
+				[ BLOCK_SELECTOR.container.shapeSvg.alias( shapeUidClass ) ]: {
+					position: 'relative',
+				},
+			},
+		} );
+		setPropsForVariousSelectors( {
+			attributes: attrs,
 			setAttributes,
 			devices: DESKTOP_DEVICE,
 			props: {
 				[ BLOCK_SELECTOR.container.shapeSvg.alias( shapeUidClass ) ]: {
 					height: '100px',
-					position: 'relative',
 					left: '50%',
 					transform: 'translateX(-50%)',
 					minWidth: '100%',
@@ -66,12 +88,6 @@ export default function Inspector( props ) {
 					left: '0',
 					right: '0',
 					bottom: '-1px',
-				},
-				[ BLOCK_SELECTOR.container.main.alias ]: {
-					position: 'relative',
-				},
-				[ BLOCK_SELECTOR.container.content.alias ]: {
-					position: 'relative',
 				},
 			},
 		} );
