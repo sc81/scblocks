@@ -127,7 +127,7 @@ export default function ShapeDividerControls( {
 	function removeShape() {
 		const shapes = [ ...shapeDividers ];
 		shapes.splice( index, 1 );
-		setAttributes( { shapeDividers: shapes } );
+		setAttributes( { shapeDividers: shapes.length ? shapes : undefined } );
 		removeSelectors( {
 			attributes,
 			setAttributes,

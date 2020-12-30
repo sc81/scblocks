@@ -40,7 +40,10 @@ export default function Inspector( props ) {
 		setAttributes( { tag: value } );
 	}
 	function onSelectShape( shape ) {
-		const nextShapes = [ ...shapeDividers ];
+		let nextShapes = [];
+		if ( shapeDividers ) {
+			nextShapes = [ ...shapeDividers ];
+		}
 		const shapeUidClass = getUid();
 		nextShapes.push( {
 			id: shape.id,
@@ -95,6 +98,7 @@ export default function Inspector( props ) {
 				shapesPanelControls={
 					<>
 						{ isLoaded &&
+							shapeDividers &&
 							shapeDividers.map( ( shapeDivider, index ) => {
 								const shape = shapes.find(
 									( element ) =>

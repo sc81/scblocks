@@ -40,8 +40,8 @@ export default function ShapeLibrary( { onRequestClose, onSelectShape } ) {
 							</Button>
 						);
 					} ) }
-					{ ! shapes && (
-						<p>{ __( 'No results found.', 'scblocks' ) }</p>
+					{ ! shapes.length && (
+						<p>{ __( 'Shapes not found.', 'scblocks' ) }</p>
 					) }
 				</div>
 			) }

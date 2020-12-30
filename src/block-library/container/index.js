@@ -49,7 +49,6 @@ export const settings = {
 		},
 		shapeDividers: {
 			type: 'array',
-			default: [],
 		},
 		isDynamic: {
 			type: 'boolean',

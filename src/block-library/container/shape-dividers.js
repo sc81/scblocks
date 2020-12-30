@@ -9,7 +9,9 @@ import useLoadShapes from './load-shapes';
 
 export default function ShapeDividers( { attributes: { shapeDividers } } ) {
 	const [ shapes, isLoaded ] = useLoadShapes();
-
+	if ( ! shapeDividers ) {
+		return null;
+	}
 	return (
 		<div className={ BLOCK_CLASSES.container.shapes }>
 			{ isLoaded &&
