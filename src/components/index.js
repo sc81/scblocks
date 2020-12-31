@@ -13,4 +13,5 @@ export { default as SelectHtmlTag } from './select-html-tag';
 export { default as SelectWithOptgroup } from './select-with-optgroup';
 export { default as Separator } from './separator';
 export { default as SyncControls } from './sync-controls';
+export { default as sanitizeSvg } from './sanitize-svg';
 export { default as propertyService } from './property-service';

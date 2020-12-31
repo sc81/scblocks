@@ -37,6 +37,7 @@ export const CONTAINER_SELECTORS_SETTINGS = [
 			position: {
 				zIndex: true,
 			},
+			shapes: true,
 		},
 	},
 ];

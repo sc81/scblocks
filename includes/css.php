@@ -84,10 +84,21 @@ class Css {
 	 * @return string
 	 */
 	public function compose_selectors( array $selectors, string $block_name, string $uid_class ) : string {
-		$css = '';
+		$css   = '';
+		$shape = 'shape-';
 
 		foreach ( $selectors as $selector_alias => $selector_props ) {
-			$final_selector = $this->block_selector[ $block_name ][ $selector_alias ]( $uid_class );
+			if ( substr( $selector_alias, 0, strlen( $shape ) ) === $shape ) {
+				$shape_class = 'scb-' . $selector_alias;
+				$temp_alias  = 'shape';
+				if ( substr( $selector_alias, 0, strlen( 'shape-svg' ) ) === 'shape-svg' ) {
+					$shape_class = 'scb-shape' . str_replace( 'shape-svg', '', $selector_alias ) . ' svg';
+					$temp_alias  = 'shapeSvg';
+				}
+				$final_selector = $this->block_selector[ $block_name ][ $temp_alias ]( $uid_class, $shape_class );
+			} else {
+				$final_selector = $this->block_selector[ $block_name ][ $selector_alias ]( $uid_class );
+			}
 
 			$css .= $final_selector . '{' . $this->compose_props( $selector_props ) . '}';
 		}
