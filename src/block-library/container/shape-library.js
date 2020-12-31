@@ -3,33 +3,32 @@
  */
 import { Spinner, Button, Modal } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { useSelect } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
  */
-import { PLUGIN_NAME } from '@scblocks/constants';
+import { PLUGIN_NAME, STORE_NAME } from '@scblocks/constants';
 import { DangerouslyPasteIcon } from '@scblocks/components';
 
-/**
- * Internal dependencies
- */
-import useLoadShapes from './load-shapes';
-
 export default function ShapeLibrary( { onRequestClose, onSelectShape } ) {
-	const [ shapes, isLoaded ] = useLoadShapes();
+	const svgShapes = useSelect(
+		( select ) => select( STORE_NAME ).getSvgShapes(),
+		[]
+	);
 	return (
 		<Modal
 			title={ __( 'Shape Library', 'scblocks' ) }
 			onRequestClose={ onRequestClose }
 		>
-			{ ! isLoaded && (
+			{ ! svgShapes && (
 				<div className={ `${ PLUGIN_NAME }-shape-library-spinner` }>
 					<Spinner />
 				</div>
 			) }
-			{ isLoaded && (
+			{ svgShapes && (
 				<div className={ `${ PLUGIN_NAME }-shape-library-list` }>
-					{ shapes.map( ( element, index ) => {
+					{ svgShapes.map( ( element, index ) => {
 						return (
 							<Button
 								key={ index }
@@ -40,7 +39,7 @@ export default function ShapeLibrary( { onRequestClose, onSelectShape } ) {
 							</Button>
 						);
 					} ) }
-					{ ! shapes.length && (
+					{ ! svgShapes.length && (
 						<p>{ __( 'Shapes not found.', 'scblocks' ) }</p>
 					) }
 				</div>

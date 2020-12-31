@@ -24,17 +24,14 @@ import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
 import ContentWidth from './content-width';
 import ShapeDividerControls from './shape-divider-controls';
 import OpenShapeLibrary from './open-shape-library';
-import useLoadShapes from './load-shapes';
 
 function getUid() {
 	return Math.random().toString( 16 ).substr( 2, 7 );
 }
 
 export default function Inspector( props ) {
-	const { attributes, setAttributes } = props;
+	const { attributes, setAttributes, svgShapes } = props;
 	const { tag, shapeDividers } = attributes;
-
-	const [ shapes, isLoaded ] = useLoadShapes();
 
 	function setTag( value ) {
 		setAttributes( { tag: value } );
@@ -113,10 +110,11 @@ export default function Inspector( props ) {
 				spacePanelAdditionalControls={ <ContentWidth { ...props } /> }
 				shapesPanelControls={
 					<>
-						{ isLoaded &&
+						{ svgShapes &&
+							svgShapes.length &&
 							shapeDividers &&
 							shapeDividers.map( ( shapeDivider, index ) => {
-								const shape = shapes.find(
+								const shape = svgShapes.find(
 									( element ) =>
 										element.id === shapeDivider.id
 								);
