@@ -76,4 +76,19 @@ class Buttons_Block {
 
 		return $output;
 	}
+
+	public function initial_css() {
+		$css = apply_filters(
+			'scblocks_buttons_default_css',
+			array(
+				'allDevices' => array(
+					'.scb-buttons' => array(
+						'display: flex',
+						'flex-wrap: wrap',
+					),
+				),
+			)
+		);
+		return $css;
+	}
 }
