@@ -114,6 +114,7 @@ class Plugin {
 		);
 		return $data[ $type ];
 	}
+	
 	/**
 	 * Memorize css
 	 *
@@ -126,6 +127,7 @@ class Plugin {
 	public static function memorize_css( string $css ) {
 		self::$css = $css;
 	}
+
 	/**
 	 * Get memorized css.
 	 *
@@ -136,6 +138,7 @@ class Plugin {
 	public static function css() : string {
 		return self::$css;
 	}
+
 	/**
 	 * Set css mode
 	 *
@@ -148,6 +151,7 @@ class Plugin {
 	public static function set_css_mode( string $value ) {
 		self::$css_mode = $value;
 	}
+
 	/**
 	 * Get css mode
 	 *
