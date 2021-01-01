@@ -76,8 +76,14 @@ class Buttons_Block {
 
 		return $output;
 	}
-
-	public function initial_css() {
+	/**
+	 * Default css.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return array
+	 */
+	public function initial_css() : array {
 		$css = apply_filters(
 			'scblocks_buttons_default_css',
 			array(
