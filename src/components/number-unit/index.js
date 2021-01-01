@@ -123,7 +123,11 @@ export default function NumberUnit( {
 					/>
 				</div>
 			</div>
-			<div className={ `${ PLUGIN_NAME }-number-unit-content` }>
+			<div
+				className={ `${ PLUGIN_NAME }-number-unit-content${
+					withoutSlider ? ' without-slider' : ''
+				}` }
+			>
 				{ ! withoutSlider && (
 					<input
 						type="range"

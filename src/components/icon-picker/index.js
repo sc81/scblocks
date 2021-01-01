@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import dompurify from 'dompurify';
-
-/**
  * WordPress dependencies
  */
 import { Button, TextControl } from '@wordpress/components';
@@ -20,12 +15,7 @@ import { PLUGIN_NAME } from '@scblocks/constants';
  */
 import IconLibrary from './icon-library';
 import ControlWrapper from '../control-wrapper';
-
-function sanitizeSVG( svg ) {
-	return dompurify.sanitize( svg, {
-		USE_PROFILES: { svg: true, svgFilters: true },
-	} );
-}
+import sanitizeSVG from '../sanitize-svg';
 
 export default function IconPicker( { icon, onSelect, onClear } ) {
 	const [ isOpen, setIsOpen ] = useState( false );

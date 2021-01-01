@@ -1,14 +1,14 @@
 {
 	"name": "scblocks",
 	"title": "ScBlocks",
-	"version": "1.0.0",
+	"version": "1.2.0",
 	"description": "Custom blocks for the new WordPress editor.",
 	"author": "sc81",
 	"license": "GPL-2.0",
 	"dependencies": {
 		"@wordpress/icons": "^2.4.0",
 		"classnames": "2.2.6",
-		"dompurify": "^2.0.15",
+		"dompurify": "^2.2.6",
 		"immer": "^3.3.0"
 	},
 	"devDependencies": {

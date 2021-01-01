@@ -28,7 +28,11 @@ export default function NumberControl( {
 					<ButtonClear onClear={ () => onChange( '' ) } />
 				) }
 			</div>
-			<div className={ `${ PLUGIN_NAME }-number-control-content` }>
+			<div
+				className={ `${ PLUGIN_NAME }-number-control-content${
+					! hasSlider ? ' without-slider' : ''
+				}` }
+			>
 				{ hasSlider && (
 					<input
 						type="range"

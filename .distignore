@@ -14,7 +14,9 @@
 .stylelintrc.json
 composer.json
 composer.lock
+jsconfig.json
 package-lock.json
 package.json
 phpcs.xml
 README.md
+webpack.config.js

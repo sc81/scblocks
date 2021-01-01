@@ -101,6 +101,7 @@ export default function Panels( props ) {
 		selectorsSettings,
 		blockMemo,
 		spacePanelAdditionalControls = null,
+		shapesPanelControls,
 	} = props;
 
 	const index = useMemo( () => {
@@ -223,6 +224,17 @@ export default function Panels( props ) {
 						{ ...props }
 						selectorSettings={ selectorsSettings[ index ] }
 					/>
+				</Panel>
+			) }
+			{ isVisiblePanel.shapes && (
+				<Panel
+					name="shapes"
+					label={ __( 'Shapes', 'scblocks' ) }
+					onClickPanel={ onClickPanel }
+					openedPanel={ openedPanel }
+					panelCount={ panelCount }
+				>
+					{ shapesPanelControls }
 				</Panel>
 			) }
 		</>

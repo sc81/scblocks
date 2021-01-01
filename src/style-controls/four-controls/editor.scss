@@ -2,13 +2,25 @@
 	display: flex;
 	justify-content: center;
 	margin-bottom: 5px;
+
+	div {
+		width: 100px;
+	}
 }
 .scblocks-four-controls-left-right {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 5px;
+
+	div {
+		width: 100px;
+	}
 }
 .scblocks-four-controls-bottom {
 	display: flex;
 	justify-content: center;
+
+	div {
+		width: 100px;
+	}
 }

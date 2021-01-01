@@ -78,6 +78,7 @@ export const BLOCK_SELECTOR = {
 		main: {
 			fullSelector: ( uidClass ) => `.scb-container.${ uidClass }`,
 			alias: 'main',
+			selector: '.scb-container',
 		},
 		content: {
 			fullSelector: ( uidClass ) =>
@@ -91,6 +92,24 @@ export const BLOCK_SELECTOR = {
 		linkHover: {
 			fullSelector: ( uidClass ) => `.${ uidClass } a:hover`,
 			alias: 'linkHover',
+		},
+		shapes: {
+			fullSelector: ( uidClass ) =>
+				`.scb-container.${ uidClass } > .scb-shapes`,
+			alias: 'shapes',
+			selector: '.scb-shapes',
+		},
+		shape: {
+			fullSelector: ( uidClass, shapeClass ) =>
+				`.scb-container.${ uidClass } > .scb-shapes .${ shapeClass }`,
+			alias: ( shapeId ) => `shape-${ shapeId }`,
+			selector: '.scb-shape',
+		},
+		shapeSvg: {
+			fullSelector: ( uidClass, shapeClass ) =>
+				`.scb-container.${ uidClass } > .scb-shapes .${ shapeClass }`,
+			alias: ( shapeId ) => `shape-svg-${ shapeId }`,
+			selector: '.scb-shape svg',
 		},
 	},
 	heading: {

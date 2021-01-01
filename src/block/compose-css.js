@@ -38,11 +38,27 @@ function composePropValue( selectorProps ) {
 }
 
 function composeSelectors( selectorsObj, blockName, uidClass ) {
-	let css = '';
+	let css = '',
+		finalSelector;
 	for ( const selectorAlias in selectorsObj ) {
-		const finalSelector = BLOCK_SELECTOR[ blockName ][
-			selectorAlias
-		].fullSelector( uidClass );
+		if ( selectorAlias.startsWith( 'shape-' ) ) {
+			let shapeClass = 'scb-' + selectorAlias;
+			let tempAlias = 'shape';
+			if ( selectorAlias.startsWith( 'shape-svg' ) ) {
+				shapeClass = `scb-shape${ selectorAlias.replace(
+					'shape-svg',
+					''
+				) } svg`;
+				tempAlias = 'shapeSvg';
+			}
+			finalSelector = BLOCK_SELECTOR[ blockName ][
+				tempAlias
+			].fullSelector( uidClass, shapeClass );
+		} else {
+			finalSelector = BLOCK_SELECTOR[ blockName ][
+				selectorAlias
+			].fullSelector( uidClass );
+		}
 		css += `.editor-styles-wrapper ${ finalSelector }{${ composePropValue(
 			selectorsObj[ selectorAlias ]
 		) }}`;

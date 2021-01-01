@@ -21,6 +21,8 @@ export const BLOCK_CLASSES = {
 		videoWrapper: 'scb-bg-video-wrapper',
 		video: 'scb-bg-video',
 		rootContainer: 'scb-root-container',
+		shapes: 'scb-shapes',
+		shape: 'scb-shape',
 	},
 	heading: {
 		main: 'scb-heading',
