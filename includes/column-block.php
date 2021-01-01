@@ -91,4 +91,29 @@ class Column_Block {
 
 		return $output;
 	}
+	/**
+	 * Default CSS.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return array
+	 */
+	public function initial_css() : array {
+		$css = apply_filters(
+			'scblocks_column_default_css',
+			array(
+				'allDevices' => array(
+					'.scb-column' => array(
+						'box-sizing: border-box',
+					),
+					'.scb-inner-column' => array(
+						'display: flex',
+						'height: 100%',
+						'flex-direction: column',
+					),
+				),
+			)
+		);
+		return $css;
+	}
 }
