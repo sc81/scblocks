@@ -21,7 +21,6 @@ class Columns_Block {
 	public function register_actions() {
 		add_action( 'init', array( $this, 'register' ) );
 	}
-
 	/**
 	 * Register our block.
 	 *
@@ -75,5 +74,26 @@ class Columns_Block {
 		$output .= '</div>';
 
 		return $output;
+	}
+	/**
+	 * Default CSS.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return array
+	 */
+	public function initial_css() : array {
+		$css = apply_filters(
+			'scblocks_columns_default_css',
+			array(
+				'allDevices' => array(
+					'.scb-columns' => array(
+						'display: flex',
+						'flex-wrap: wrap',
+					),
+				),
+			)
+		);
+		return $css;
 	}
 }

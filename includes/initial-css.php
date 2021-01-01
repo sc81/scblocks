@@ -160,18 +160,8 @@ class Initial_Css {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'columns' ) ) {
 			return '';
 		}
-		$arr = apply_filters(
-			'scblocks_columns_default_css',
-			array(
-				'allDevices' => array(
-					'.scb-columns' => array(
-						'display: flex',
-						'flex-wrap: wrap',
-					),
-				),
-			)
-		);
-		return self::build( $arr );
+		$columns = new Columns_Block();
+		return self::build( $columns->initial_css() );
 	}
 	/**
 	 * Default css for Column Block.
