@@ -4,7 +4,7 @@ Donate link: https://sc81.github.io/scblocks
 Tags: page builder, blocks, gutenberg, WordPress blocks, container
 Requires at least: 5.5
 Tested up to: 5.6
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 Requires PHP: 7.0
 License: GPL-2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -47,6 +47,9 @@ There's two ways to install ScBlocks.
 In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
+
+= 1.1.1 =
+* Fix: ButtonBlockAppender in column
 
 = 1.1.0 =
 * New: Use apiVersion 2
