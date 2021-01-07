@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * ScBlocks dependencies
@@ -12,11 +13,11 @@ import { PLUGIN_NAME } from '@scblocks/constants';
 /**
  * Internal dependencies
  */
-import save from './save';
 import edit from './edit';
 import variations from './variations';
 import { BUTTONS_BLOCK_NAME } from './utils';
 import icon from './icon';
+import deprecated from './deprecated';
 
 export const name = BUTTONS_BLOCK_NAME;
 
@@ -33,6 +34,9 @@ export const settings = {
 		...SHARED_ATTRIBUTES.required,
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
+		isDynamic: {
+			type: 'boolean',
+		},
 	},
 	supports: {
 		alignWide: false,
@@ -40,6 +44,9 @@ export const settings = {
 		customClassName: false,
 	},
 	edit,
-	save,
+	save: () => {
+		return <InnerBlocks.Content />;
+	},
 	variations,
+	deprecated,
 };

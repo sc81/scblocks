@@ -136,18 +136,8 @@ class Initial_Css {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'buttons' ) ) {
 			return '';
 		}
-		$arr = apply_filters(
-			'scblocks_buttons_default_css',
-			array(
-				'allDevices' => array(
-					'.scb-buttons' => array(
-						'display: flex',
-						'flex-wrap: wrap',
-					),
-				),
-			)
-		);
-		return self::build( $arr );
+		$buttons = new Buttons_Block();
+		return self::build( $buttons->initial_css() );
 	}
 	/**
 	 * Default css for Columns Block.
