@@ -150,18 +150,8 @@ class Initial_Css {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'columns' ) ) {
 			return '';
 		}
-		$arr = apply_filters(
-			'scblocks_columns_default_css',
-			array(
-				'allDevices' => array(
-					'.scb-columns' => array(
-						'display: flex',
-						'flex-wrap: wrap',
-					),
-				),
-			)
-		);
-		return self::build( $arr );
+		$columns = new Columns_Block();
+		return self::build( $columns->initial_css() );
 	}
 	/**
 	 * Default css for Column Block.
@@ -174,22 +164,8 @@ class Initial_Css {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'column' ) ) {
 			return '';
 		}
-		$arr = apply_filters(
-			'scblocks_column_default_css',
-			array(
-				'allDevices' => array(
-					'.scb-column' => array(
-						'box-sizing: border-box',
-					),
-					'.scb-inner-column' => array(
-						'display: flex',
-						'height: 100%',
-						'flex-direction: column',
-					),
-				),
-			)
-		);
-		return self::build( $arr );
+		$column = new Column_Block();
+		return self::build( $column->initial_css() );
 	}
 	/**
 	 * Default css for Container Block.
@@ -202,23 +178,8 @@ class Initial_Css {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'container' ) ) {
 			return '';
 		}
-		$arr = apply_filters(
-			'scblocks_container_default_css',
-			array(
-				'allDevices' => array(
-					'.scb-container.scb-root-container' => array(
-						'max-width: unset !important',
-						'margin: 0',
-						'width: 100% !important',
-					),
-					'.scb-container.scb-root-container > .scb-container-content' => array(
-						'margin-left: auto',
-						'margin-right: auto',
-					),
-				),
-			)
-		);
-		return self::build( $arr );
+		$container = new Container_Block();
+		return self::build( $container->initial_css() );
 	}
 	/**
 	 * Default css for Heading Block.
