@@ -293,7 +293,8 @@ class Block_Css {
 			return false;
 		}
 		// force css file update
-		if ( (int) Plugin::option( 'force_regenerate_css_files' ) >= (int) $post_settings['update_time'] ) {
+		if ( isset( $post_settings['update_time'] ) &&
+		(int) Plugin::option( 'force_regenerate_css_files' ) >= (int) $post_settings['update_time'] ) {
 			return true;
 		}
 		// new css version
@@ -302,81 +303,16 @@ class Block_Css {
 			return true;
 		}
 		// post has been updated
-		if ( $post_settings['old_update_time'] !== $post_settings['update_time'] ) {
+		if ( isset( $post_settings['update_time'] ) && $post_settings['old_update_time'] !== $post_settings['update_time'] ) {
 			return true;
 		}
-
 		// check if any reusable block has been updated
-		if ( ! empty( $post_settings['reusable_blocks'] ) &&
-		(int) Plugin::option( 'reusable_blocks_update_time' ) >= (int) $post_settings['update_time'] &&
-		$this->is_any_reusable_block_updated( $post_settings['reusable_blocks'], $post_settings['update_time'] ) ) {
-				return true;
+		if ( isset( $post_settings['update_time'] ) &&
+		(int) Plugin::option( 'reusable_blocks_update_time' ) >= (int) $post_settings['update_time'] ) {
+			return true;
 
-		} else {
-			// update the update time so you don't have to check reusable block again
-			if ( (int) Plugin::option( 'reusable_blocks_update_time' ) >= (int) $post_settings['update_time'] ) {
-				$update_time = time();
-
-				$post_settings['old_update_time'] = $update_time;
-				$post_settings['update_time']     = $update_time;
-
-				update_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, wp_slash( wp_json_encode( $post_settings ) ) );
-
-			}
 		}
 		return false;
-	}
-	/**
-	 * Checks if any reusable block has been updated after updating the post.
-	 *
-	 * @param array $reusable_blocks
-	 * @param int $post_update_time
-	 *
-	 * @return bool
-	 */
-	public function is_any_reusable_block_updated( array $reusable_blocks, int $post_update_time ) : bool {
-		foreach ( $reusable_blocks as $block_id ) {
-			$settings = $this->post_settings( $block_id );
-			if ( empty( $settings ) ) {
-				continue;
-			}
-			//reusable block updated
-			if ( isset( $settings['update_time'] ) && (int) $post_update_time <= (int) $settings['update_time'] ) {
-				return true;
-			}
-			if ( empty( $settings['reusable_blocks'] ) ) {
-				continue;
-			}
-			// if the reusable block has a reusable block
-			if ( $this->is_any_reusable_block_updated(
-				$settings['reusable_blocks'],
-				$post_update_time
-			) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-	/**
-	 * Gets the reusable block ids.
-	 *
-	 * @param string $post_content wp block content
-	 *
-	 * @return array An array of reusable block id
-	 */
-	public function reusable_block_ids( $post_content ) {
-		if ( '' === $post_content ) {
-			return array();
-		}
-		preg_match_all( '/wp:block {"ref":([^}]*)}/', $post_content, $matches );
-		$ids = array();
-
-		foreach ( $matches[1] as $match ) {
-			if ( ! in_array( $match, $ids, true ) ) {
-				$ids[] = $match;
-			}
-		}
-		return $ids;
 	}
 
 	/**
@@ -397,25 +333,17 @@ class Block_Css {
 		$old_settings  = $this->post_settings( $post_id );
 		$next_settings = array();
 
-		$reusable_blocks = $this->reusable_block_ids( $post->post_content );
+		$next_settings['old_update_time'] = $old_settings['update_time'] ?? '0';
 
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
-			if ( empty( $old_settings ) ) {
-				$next_settings['old_update_time'] = '0';
-			} else {
-				$next_settings['old_update_time'] = $old_settings['update_time'];
-			}
+
 			$next_settings['css_version'] = SCBLOCKS_VERSION;
 			$next_settings['update_time'] = time();
 		}
-		if ( ! empty( $reusable_blocks ) ) {
-			if ( empty( $old_settings ) ) {
-				$next_settings['old_update_time'] = '0';
-			} else {
-				$next_settings['old_update_time'] = $old_settings['update_time'];
-			}
-			$next_settings['update_time']     = time();
-			$next_settings['reusable_blocks'] = $reusable_blocks;
+		if ( strpos( $post->post_content, 'wp:block' ) !== false ) {
+
+			$next_settings['update_time'] = time();
+			$next_settings['css_version'] = SCBLOCKS_VERSION;
 		}
 		if ( ! empty( $next_settings ) ) {
 			update_post_meta(
@@ -583,36 +511,12 @@ class Block_Css {
 			return $post_id;
 		}
 
-		$options       = Plugin::options();
-		$next_settings = $this->post_settings( $post_id );
-		$time          = time();
-		$has_scblocks  = strpos( $post->post_content, 'wp:scblocks' ) !== false;
+		$options = Plugin::options();
 
-		if ( $has_scblocks ) {
-			$options['reusable_blocks_update_time'] = $time;
-			$next_settings['update_time']           = $time;
+		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
+			$options['reusable_blocks_update_time'] = time();
 		}
 
-		$ids = $this->reusable_block_ids( $post->post_content );
-		if ( ! empty( $ids ) ) {
-			$next_settings['reusable_blocks']       = $ids;
-			$options['reusable_blocks_update_time'] = $time;
-		} else {
-			unset( $next_settings['reusable_blocks'] );
-		}
-		if ( ! $has_scblocks && empty( $ids ) ) {
-			unset( $next_settings['update_time'] );
-		}
-
-		if ( ! empty( $next_settings ) ) {
-			update_post_meta(
-				$post_id,
-				self::POST_SETTINGS_POST_META_NAME,
-				wp_slash( wp_json_encode( $next_settings ) )
-			);
-		} else {
-			delete_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME );
-		}
 		// deprecated since 1.2.0
 		unset( $options['wp_block_update_time'] );
 		unset( $options['wp_block_in_wp_block'] );
