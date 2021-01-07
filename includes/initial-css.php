@@ -174,22 +174,8 @@ class Initial_Css {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'column' ) ) {
 			return '';
 		}
-		$arr = apply_filters(
-			'scblocks_column_default_css',
-			array(
-				'allDevices' => array(
-					'.scb-column' => array(
-						'box-sizing: border-box',
-					),
-					'.scb-inner-column' => array(
-						'display: flex',
-						'height: 100%',
-						'flex-direction: column',
-					),
-				),
-			)
-		);
-		return self::build( $arr );
+		$column = new Column_Block();
+		return self::build( $column->initial_css() );
 	}
 	/**
 	 * Default css for Container Block.
