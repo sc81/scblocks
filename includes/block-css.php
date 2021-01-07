@@ -77,7 +77,7 @@ class Block_Css {
 		}
 		$post_settings = $this->post_settings( $post_id );
 
-		if ( empty( $post_settings ) || empty( $post_settings['css_version'] ) ) {
+		if ( empty( $post_settings ) || empty( $post_settings['update_time'] ) ) {
 			return '';
 		}
 		if ( 'file' === $this->mode() ) {
@@ -345,15 +345,12 @@ class Block_Css {
 			$next_settings['update_time'] = time();
 			$next_settings['css_version'] = SCBLOCKS_VERSION;
 		}
-		if ( ! empty( $next_settings ) ) {
-			update_post_meta(
-				$post_id,
-				self::POST_SETTINGS_POST_META_NAME,
-				wp_slash( wp_json_encode( $next_settings ) )
-			);
-		} else {
-			delete_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME );
-		}
+
+		update_post_meta(
+			$post_id,
+			self::POST_SETTINGS_POST_META_NAME,
+			wp_slash( wp_json_encode( $next_settings ) )
+		);
 	}
 
 	/**
