@@ -16,6 +16,7 @@ import { useSelect, dispatch, select } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { useEffect } from '@wordpress/element';
 
 /**
  * ScBlocks dependencies
@@ -43,8 +44,8 @@ import Inspector from './inspector';
 const ALLOWED_BLOCKS = [ COLUMN_NAME ];
 
 export default function Edit( props ) {
-	const { attributes, clientId } = props;
-	const { uidClass, htmlClass, htmlId } = attributes;
+	const { attributes, clientId, setAttributes } = props;
+	const { uidClass, htmlClass, htmlId, isDynamic } = attributes;
 
 	const { devices, columnCount } = useSelect(
 		( store ) => {
@@ -59,6 +60,12 @@ export default function Edit( props ) {
 		},
 		[ clientId ]
 	);
+	useEffect( () => {
+		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
+			setAttributes( { isDynamic: true } );
+		}
+	}, [] );
+
 	const selectorsSettings = applyFilters(
 		'scblocks.columns.selectorsSettings',
 		COLUMNS_SELECTORS_SETTINGS,

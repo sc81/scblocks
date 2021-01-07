@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * ScBlocks dependencies
@@ -13,9 +14,9 @@ import { PLUGIN_NAME } from '@scblocks/constants';
  * Internal dependencies
  */
 import edit from './edit';
-import save from './save';
 import { COLUMN_NAME } from './utils';
 import icon from './icon';
+import deprecated from './deprecated';
 
 export const name = COLUMN_NAME;
 
@@ -31,11 +32,14 @@ export const settings = {
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
 		...SHARED_ATTRIBUTES.bgImageIds,
+		...SHARED_ATTRIBUTES.googleFonts,
 		tag: {
 			type: 'string',
 			default: 'div',
 		},
-		...SHARED_ATTRIBUTES.googleFonts,
+		isDynamic: {
+			type: 'boolean',
+		},
 	},
 	supports: {
 		inserter: false,
@@ -45,5 +49,8 @@ export const settings = {
 		customClassName: false,
 	},
 	edit,
-	save,
+	save: () => {
+		return <InnerBlocks.Content />;
+	},
+	deprecated,
 };

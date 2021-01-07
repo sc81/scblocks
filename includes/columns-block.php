@@ -6,11 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Render container block
+ * Render Columns Block
  *
  * @since 1.2.0
  */
-class Container_Block {
+class Columns_Block {
 	/**
 	 * Register actions
 	 *
@@ -21,7 +21,6 @@ class Container_Block {
 	public function register_actions() {
 		add_action( 'init', array( $this, 'register' ) );
 	}
-
 	/**
 	 * Register our block.
 	 *
@@ -29,7 +28,7 @@ class Container_Block {
 	 */
 	public function register() {
 		register_block_type(
-			'scblocks/container',
+			'scblocks/columns',
 			array(
 				'render_callback' => array( $this, 'render' ),
 			)
@@ -50,23 +49,15 @@ class Container_Block {
 		}
 		$output      = '';
 		$class_names = array(
-			'scb-container',
+			'scb-columns',
 			$attributes['uidClass'],
 		);
-		if ( ! empty( $attributes['isRootContainer'] ) ) {
-			$class_names[] = 'scb-root-container';
-		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
-		if ( empty( $attributes['tag'] ) ) {
-			$tag = 'div';
-		}
-
-		$tag_name = apply_filters( 'scblocks_container_tagname', $tag, $attributes );
 
 		$html_attr = new Html_Attributes(
-			'container',
+			'columns',
 			array(
 				'id'    => isset( $attributes['htmlId'] ) ? $attributes['htmlId'] : null,
 				'class' => implode( ' ', $class_names ),
@@ -75,21 +66,12 @@ class Container_Block {
 		);
 
 		$output .= sprintf(
-			'<%1$s %2$s>',
-			$tag_name,
+			'<div %s>',
 			$html_attr->build()
 		);
 
-		$output  = apply_filters( 'scblocks_after_container_open', $output, $attributes );
-		$output .= '<div class="scb-container-content">';
 		$output .= $content;
 		$output .= '</div>';
-		$output  = apply_filters( 'scblocks_before_container_close', $output, $attributes );
-
-		$output .= sprintf(
-			'</%s>',
-			$tag_name
-		);
 
 		return $output;
 	}
@@ -102,17 +84,12 @@ class Container_Block {
 	 */
 	public function initial_css() : array {
 		$css = apply_filters(
-			'scblocks_container_default_css',
+			'scblocks_columns_default_css',
 			array(
 				'allDevices' => array(
-					'.scb-container.scb-root-container' => array(
-						'max-width: unset !important',
-						'margin: 0',
-						'width: 100% !important',
-					),
-					'.scb-container.scb-root-container > .scb-container-content' => array(
-						'margin-left: auto',
-						'margin-right: auto',
+					'.scb-columns' => array(
+						'display: flex',
+						'flex-wrap: wrap',
 					),
 				),
 			)

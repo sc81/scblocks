@@ -28,6 +28,7 @@ import {
 import {
 	CORE_EDIT_POST_STORE_NAME,
 	CORE_BLOCK_EDITOR_STORE_NAME,
+	STORE_NAME,
 } from '@scblocks/constants';
 
 /**
@@ -35,11 +36,12 @@ import {
  */
 import { CONTAINER_SELECTORS_SETTINGS } from './utils';
 import Inspector from './inspector';
+import ShapeDividers from './shape-dividers';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;
 	const { uidClass, htmlClass, htmlId, isDynamic } = attributes;
-	const { devices, innerBlockCount, isRootContainer } = useSelect(
+	const { devices, innerBlockCount, isRootContainer, svgShapes } = useSelect(
 		( select ) => {
 			const { getBlockCount, getBlockHierarchyRootClientId } = select(
 				CORE_BLOCK_EDITOR_STORE_NAME
@@ -51,9 +53,12 @@ export default function Edit( props ) {
 					.toLowerCase(),
 				isRootContainer:
 					getBlockHierarchyRootClientId( clientId ) === clientId,
+				svgShapes: attributes.shapeDividers
+					? select( STORE_NAME ).getSvgShapes()
+					: undefined,
 			};
 		},
-		[ clientId ]
+		[ clientId, attributes.shapeDividers ]
 	);
 
 	useEffect( () => {
@@ -109,6 +114,7 @@ export default function Edit( props ) {
 				devices={ devices }
 				blockMemo={ blockMemo }
 				selectorsSettings={ selectorsSettings }
+				svgShapes={ svgShapes }
 			/>
 			<div { ...blockProps }>
 				{ applyFilters(
@@ -116,6 +122,7 @@ export default function Edit( props ) {
 					null,
 					attributes
 				) }
+				<ShapeDividers { ...props } svgShapes={ svgShapes } />
 				{ innerBlockCount > 0 && <div { ...innerBlocksProps } /> }
 				{ innerBlockCount === 0 && (
 					<VariationsPicker

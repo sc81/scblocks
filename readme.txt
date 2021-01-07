@@ -48,6 +48,9 @@ In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
 
+= 1.1.1 =
+* Fix: ButtonBlockAppender in column
+
 = 1.1.0 =
 * New: Use apiVersion 2
 * New: Dynamically generate default css for blocks
