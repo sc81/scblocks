@@ -66,7 +66,7 @@ class Columns_Block {
 		);
 
 		$output .= sprintf(
-			'<div %$s>',
+			'<div %s>',
 			$html_attr->build()
 		);
 
