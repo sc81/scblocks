@@ -192,6 +192,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/container-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/html-attributes.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/column-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/columns-block.php';
 	}
 
 	private function __construct() {
@@ -210,6 +211,7 @@ class Plugin {
 			'ScBlocks\Shape_Dividers',
 			'ScBlocks\Container_Block',
 			'ScBlocks\Column_Block',
+			'ScBlocks\Columns_Block',
 		);
 
 		foreach ( $classes as $class_name ) {
