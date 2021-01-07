@@ -93,4 +93,30 @@ class Container_Block {
 
 		return $output;
 	}
+	/**
+	 * Default CSS.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return array
+	 */
+	public function initial_css() : array {
+		$css = apply_filters(
+			'scblocks_container_default_css',
+			array(
+				'allDevices' => array(
+					'.scb-container.scb-root-container' => array(
+						'max-width: unset !important',
+						'margin: 0',
+						'width: 100% !important',
+					),
+					'.scb-container.scb-root-container > .scb-container-content' => array(
+						'margin-left: auto',
+						'margin-right: auto',
+					),
+				),
+			)
+		);
+		return $css;
+	}
 }
