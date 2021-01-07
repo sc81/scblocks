@@ -81,7 +81,7 @@ export default function Edit( props ) {
 			templateLock: false,
 			renderAppender: hasChildBlocks
 				? undefined
-				: () => <InnerBlocks.ButtonBlockAppender />,
+				: InnerBlocks.ButtonBlockAppender,
 		}
 	);
 
