@@ -43,10 +43,9 @@ class Plugin {
 		return apply_filters(
 			'scblocks_option_defaults',
 			array(
-				'css_print_method'           => 'file',
-				'force_regenerate_css_files' => '0',
-				'wp_block_in_wp_block'       => array(),
-				'wp_block_update_time'       => array(),
+				'css_print_method'            => 'file',
+				'force_regenerate_css_files'  => '0',
+				'reusable_blocks_update_time' => '0',
 			)
 		);
 	}
