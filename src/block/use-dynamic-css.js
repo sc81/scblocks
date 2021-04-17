@@ -7,14 +7,17 @@ import { select } from '@wordpress/data';
 /**
  * ScBlocks dependencies
  */
-import { CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
+import {
+	CORE_BLOCK_EDITOR_STORE_NAME,
+	CORE_EDIT_POST_STORE_NAME,
+} from '@scblocks/constants';
 
 /**
  * Internal dependencies
  */
 import composeCss from './compose-css';
 
-const memoizedUidClasses = [];
+const storedUidClass = {};
 
 const BLOCK_ALIAS = {
 	button: 'btn',
@@ -24,6 +27,19 @@ const BLOCK_ALIAS = {
 	container: 'con',
 	heading: 'h',
 };
+
+function isBlockInsideReusableBlock( clientId ) {
+	const { getBlockParents, getBlockName } = select(
+		CORE_BLOCK_EDITOR_STORE_NAME
+	);
+
+	for ( const id of getBlockParents( clientId ) ) {
+		if ( getBlockName( id ) === 'core/block' ) {
+			return true;
+		}
+	}
+	return false;
+}
 
 export default function useDynamicCss( props, device ) {
 	const {
@@ -39,45 +55,22 @@ export default function useDynamicCss( props, device ) {
 
 	// mount
 	useEffect( () => {
+		let finalUidClass;
 		const nextUidClass = `scb-${
 			BLOCK_ALIAS[ blockName ]
 		}-${ clientId.substr( 2, 9 ).replace( '-', '' ) }`;
 
-		const blockRootClientId = select(
-			CORE_BLOCK_EDITOR_STORE_NAME
-		).getBlockRootClientId( clientId );
-
-		let finalUidClass;
-
-		// new block
-		if ( ! uidClass ) {
-			setAttributes( { uidClass: nextUidClass } );
-			memoizedUidClasses.push( nextUidClass );
-			finalUidClass = nextUidClass;
-
-			// it's probably not a reusable block
-			// duplicate block
-		} else if (
-			blockRootClientId !== null &&
-			memoizedUidClasses.includes( uidClass )
-		) {
-			setAttributes( {
-				uidClass: nextUidClass,
-			} );
-			memoizedUidClasses.push( nextUidClass );
-			finalUidClass = nextUidClass;
-
-			// probably reusable block
-			// add reusable block uidClass only once
-		} else if ( blockRootClientId === null ) {
-			if ( ! memoizedUidClasses.includes( uidClass ) ) {
-				memoizedUidClasses.push( uidClass );
+		if ( ! isBlockInsideReusableBlock( clientId ) ) {
+			if ( ! uidClass || storedUidClass[ uidClass ] !== undefined ) {
+				finalUidClass = nextUidClass;
+				setAttributes( { uidClass: nextUidClass } );
+				storedUidClass[ nextUidClass ] = true;
+			} else {
+				storedUidClass[ uidClass ] = true;
 				finalUidClass = uidClass;
 			}
-			// existing block
-		} else {
-			memoizedUidClasses.push( uidClass );
-			finalUidClass = uidClass;
+		} else if ( ! uidClass ) {
+			setAttributes( { uidClass: nextUidClass } );
 		}
 		setStyle(
 			composeCss( {
@@ -88,6 +81,7 @@ export default function useDynamicCss( props, device ) {
 			} )
 		);
 	}, [] );
+
 	// update
 	useEffect( () => {
 		if ( uidClass ) {
@@ -101,6 +95,21 @@ export default function useDynamicCss( props, device ) {
 			);
 		}
 	}, [ setStyle, composeCss, css, blockName, uidClass, device ] );
+
+	// unmout
+	useEffect(
+		() => () => {
+			// prevents the uidClass from being refreshed
+			// when switching editor mode between visual and text
+			const mode = select( CORE_EDIT_POST_STORE_NAME ).getEditorMode();
+			if ( mode === 'text' && Object.keys( storedUidClass ).length > 0 ) {
+				Object.keys( storedUidClass ).forEach(
+					( id ) => delete storedUidClass[ id ]
+				);
+			}
+		},
+		[]
+	);
 
 	return style;
 }
