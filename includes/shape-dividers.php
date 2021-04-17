@@ -58,7 +58,7 @@ class Shape_Dividers {
 	 * @param array $shapes Array of shapes.
 	 * @param string $id Element id.
 	 *
-	 * @return array SVG element.
+	 * @return string SVG element.
 	 */
 	public function search_svg( array $shapes, string $id ) : string {
 		foreach ( $shapes as $shape ) {
