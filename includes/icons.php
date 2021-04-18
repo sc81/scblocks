@@ -38,6 +38,11 @@ class Icons {
 
 				return rest_ensure_response( wp_json_encode( FONT_AWESOME ) );
 
+			case 2:
+				include_once SCBLOCKS_PLUGIN_DIR . 'includes/dashicons.php';
+
+				return rest_ensure_response( wp_json_encode( DASHICONS ) );
+
 			default:
 				return new \WP_Error( 'no_icons', 'Invalid id', array( 'status' => 404 ) );
 		}
