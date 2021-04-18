@@ -11,6 +11,8 @@ import { STORE_NAME, PLUGIN_NAME } from '@scblocks/constants';
 
 const DEFAULT_STATE = {
 	svgShapes: undefined,
+	dashicons: undefined,
+	fontAwesome: undefined,
 };
 
 const actions = {
@@ -18,6 +20,18 @@ const actions = {
 		return {
 			type: 'SET_SVG_SHAPES',
 			svgShapes,
+		};
+	},
+	setDashicons( dashicons ) {
+		return {
+			type: 'SET_DASHICONS',
+			dashicons,
+		};
+	},
+	setFontAwesome( fontAwesome ) {
+		return {
+			type: 'SET_FONT_AWESOME',
+			fontAwesome,
 		};
 	},
 	fetchFromAPI( path ) {
@@ -36,6 +50,16 @@ registerStore( STORE_NAME, {
 					...state,
 					svgShapes: [ ...action.svgShapes ],
 				};
+			case 'SET_DASHICONS':
+				return {
+					...state,
+					dashicons: { ...action.dashicons },
+				};
+			case 'SET_FONT_AWESOME':
+				return {
+					...state,
+					fontAwesome: { ...action.fontAwesome },
+				};
 		}
 
 		return state;
@@ -44,6 +68,12 @@ registerStore( STORE_NAME, {
 	selectors: {
 		getSvgShapes( state ) {
 			return state.svgShapes;
+		},
+		getDashicons( state ) {
+			return state.dashicons;
+		},
+		getFontAwesome( state ) {
+			return state.fontAwesome;
 		},
 	},
 	controls: {
@@ -61,6 +91,18 @@ registerStore( STORE_NAME, {
 			} catch ( e ) {
 				throw e;
 			}
+		},
+		*getDashicons() {
+			const path = `/${ PLUGIN_NAME }/v1/icons/2`;
+			let icons = yield actions.fetchFromAPI( path );
+			icons = JSON.parse( icons );
+			return actions.setDashicons( icons );
+		},
+		*getFontAwesome() {
+			const path = `/${ PLUGIN_NAME }/v1/icons/1`;
+			let icons = yield actions.fetchFromAPI( path );
+			icons = JSON.parse( icons );
+			return actions.setFontAwesome( icons );
 		},
 	},
 } );
