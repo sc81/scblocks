@@ -9,6 +9,7 @@ import { useState } from '@wordpress/element';
  * ScBlocks dependencies
  */
 import { NumberUnit, OpenColorPicker } from '@scblocks/components';
+import { PLUGIN_NAME } from '@scblocks/constants';
 
 export default function BoxShadowControl( { value, onChange } ) {
 	const [ state, setState ] = useState( () => {
@@ -140,7 +141,7 @@ export default function BoxShadowControl( { value, onChange } ) {
 				onChange={ ( v ) => onChangeValue( v, 'spread' ) }
 				withoutSelectDevices
 			/>
-			<BaseControl>
+			<BaseControl className={ `${ PLUGIN_NAME }-box-shadow-position` }>
 				<BaseControl.VisualLabel>
 					{ __( 'Position', 'scblocks' ) }
 				</BaseControl.VisualLabel>

@@ -4,8 +4,11 @@
 }
 .#{$pluginName}-dropdown-content .components-popover__content {
 	padding: 10px;
+	min-width: 300px;
 }
 .#{$pluginName}-popover-content > div {
 	margin-bottom: 8px !important;
 }
-
+.#{$pluginName}-dropdown-content-edit-button .dashicon {
+	margin: 0 !important;
+}
