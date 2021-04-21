@@ -153,7 +153,9 @@ class Block_Css {
 	public function mode() : string {
 		$mode = Plugin::option( 'css_print_method' );
 
-		if ( is_customize_preview() || is_preview() ) {
+		if ( is_customize_preview() || is_preview() ||
+		// inline CSS for AMP
+		( function_exists( 'amp_is_request' ) && amp_is_request() ) ) {
 			Plugin::set_css_mode( 'inline' );
 			return 'inline';
 		}
