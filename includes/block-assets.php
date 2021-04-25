@@ -28,7 +28,7 @@ class Block_Assets {
 	}
 
 	/**
-	 * Registers a category for blocks.
+	 * Registers a category for our blocks.
 	 *
 	 * @param array $categories Default array of block categories.
 	 *
@@ -36,13 +36,13 @@ class Block_Assets {
 	 */
 	public function register_category( array $categories ) : array {
 		return array_merge(
-			$categories,
 			array(
 				array(
 					'slug'  => 'scblocks',
 					'title' => __( 'ScBlocks', 'scblocks' ),
 				),
-			)
+			),
+			$categories
 		);
 	}
 	/**
