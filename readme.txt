@@ -49,22 +49,22 @@ In most cases, #1 will work fine and is way easier.
 == Changelog ==
 
 = 1.2.0 =
-* New: Shape dividers in the Container block
+* New: Shape Dividers in the Container block
 * New: Filter default css for all blocks
-* New: Build the Container Block on the server side
-* New: Build the Columns Block on the server side
-* New: Build the Column Block on the server side
-* New: Build the Buttons Block on the server side
-* Fix: Prevent infinite reconstruction of blocks in a reusable block
-* Fix: After selecting from the icon library, there is no HTML for Dashicon
-* Fix: Too narrow box-shadow popover
-* Minor fixes
+* Tweak: Build the Container Block on the server side
+* Tweak: Build the Columns Block on the server side
+* Tweak: Build the Column Block on the server side
+* Tweak: Build the Buttons Block on the server side
 * Tweak: Do not store reusable block ids in the database
 * Tweak: Always inline CSS on AMP pages
 * Tweak: Move the blocks to the top of the inserter
 * Tweak: Update DOMPurify
 * Tweak: Update @wordpress/scripts
 * Tweak: Update immer
+* Fix: Prevent infinite reconstruction of blocks in a reusable block
+* Fix: After selecting from the icon library, there is no HTML for Dashicon
+* Fix: Too narrow box-shadow popover
+* Minor fixes
 
 = 1.1.1 =
 * Fix: ButtonBlockAppender in column
