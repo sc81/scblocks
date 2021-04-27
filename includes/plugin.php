@@ -26,6 +26,15 @@ class Plugin {
 	private static $css_mode = '';
 
 	/**
+	 * List of blocks in use.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var array
+	 */
+	private static $active_blocks = array();
+
+	/**
 	 * Gets defaults for option.
 	 *
 	 * @return array
@@ -34,10 +43,9 @@ class Plugin {
 		return apply_filters(
 			'scblocks_option_defaults',
 			array(
-				'css_print_method'           => 'file',
-				'force_regenerate_css_files' => '0',
-				'wp_block_in_wp_block'       => array(),
-				'wp_block_update_time'       => array(),
+				'css_print_method'            => 'file',
+				'force_regenerate_css_files'  => '0',
+				'reusable_blocks_update_time' => '0',
 			)
 		);
 	}
@@ -129,6 +137,34 @@ class Plugin {
 	}
 
 	/**
+	 * Checks whether the block is in use.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $block_name Block name.
+	 *
+	 * @return boolean
+	 */
+	public static function is_active_block( string $block_name ) : bool {
+		return in_array( $block_name, self::$active_blocks, true );
+	}
+
+	/**
+	 * Memorizes that the block is in use.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $block_name Block name.
+	 *
+	 * @return void
+	 */
+	public static function set_is_active_block( string $block_name ) {
+		if ( ! in_array( $block_name, self::$active_blocks, true ) ) {
+			self::$active_blocks[] = $block_name;
+		}
+	}
+
+	/**
 	 * Updates the job completion time for the file writer.
 	 *
 	 * @since 1.1.0
@@ -151,6 +187,12 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/icons.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/plugin-settings.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/css.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/shape-dividers.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/container-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/html-attributes.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/buttons-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/column-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/columns-block.php';
 	}
 
 	private function __construct() {
@@ -166,6 +208,11 @@ class Plugin {
 			'ScBlocks\Block_Css',
 			'ScBlocks\Icons',
 			'ScBlocks\Plugin_Settings',
+			'ScBlocks\Shape_Dividers',
+			'ScBlocks\Container_Block',
+			'ScBlocks\Buttons_Block',
+			'ScBlocks\Column_Block',
+			'ScBlocks\Columns_Block',
 		);
 
 		foreach ( $classes as $class_name ) {

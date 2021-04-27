@@ -76,6 +76,15 @@ function get_block_selector() {
 					'linkHover' => function( $uid_class ) {
 						return ".$uid_class a:hover";
 					},
+					'shapes' => function( $uid_class ) {
+						return ".scb-container.$uid_class > .scb-shapes";
+					},
+					'shape' => function( $uid_class, $shape_class ) {
+						return ".scb-container.$uid_class > .scb-shapes .$shape_class";
+					},
+					'shapeSvg' => function( $uid_class, $shape_class ) {
+						return ".scb-container.$uid_class > .scb-shapes .$shape_class";
+					},
 				),
 				'heading' => array(
 					'main' => function( $uid_class ) {

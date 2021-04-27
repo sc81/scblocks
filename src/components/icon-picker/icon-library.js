@@ -1,8 +1,4 @@
 /**
- * External dependencies
- */
-import { isEmpty } from 'lodash';
-/**
  * WordPress dependencies
  */
 import {
@@ -10,261 +6,154 @@ import {
 	Button,
 	RadioControl,
 	TextControl,
-	Dashicon,
 	Spinner,
 } from '@wordpress/components';
-import { Component, renderToString } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
+import { renderToString, useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { useSelect } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
  */
-import { PLUGIN_NAME } from '@scblocks/constants';
+import { PLUGIN_NAME, STORE_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
  */
 import FontAwesomeIcon from './font-awesome-icon';
-import {
-	icons,
-	iconsCategories,
-	DASHICON_NAME,
-	FONT_AWESOME_NAME,
-} from './utils';
+import Dashicon from './dashicon';
 
-let isLocked = false;
+export const FONT_AWESOME_NAME = 'fontawesome';
+export const DASHICON_NAME = 'dashicons';
 
-export default class IconLibrary extends Component {
-	constructor( props ) {
-		super( props );
-		this.state = this.initState();
-	}
-	initState() {
-		const { iconPath } = this.props;
-
-		const parts = iconPath
-			? iconPath.split( '/' )
-			: [ DASHICON_NAME, 'all', '' ];
-
-		const currentFamily = parts[ 0 ];
-		const currentCategory = parts[ 1 ];
-		let currentIconPaths;
-
-		if (
-			currentFamily === DASHICON_NAME ||
-			( currentFamily === FONT_AWESOME_NAME &&
-				isEmpty( icons[ FONT_AWESOME_NAME ] ) )
-		) {
-			currentIconPaths = icons[ DASHICON_NAME ].map(
-				( name ) => `${ DASHICON_NAME }/all/${ name }`
+function icon( iconPath, { dashicons, fontAwesome } ) {
+	const iconPathParts = iconPath.split( '/' );
+	switch ( iconPathParts[ 0 ] ) {
+		case DASHICON_NAME: {
+			return <Dashicon d={ dashicons[ iconPathParts[ 2 ] ] } />;
+		}
+		case FONT_AWESOME_NAME: {
+			return (
+				<FontAwesomeIcon
+					iconAttr={
+						fontAwesome[ iconPathParts[ 1 ] ][ iconPathParts[ 2 ] ]
+					}
+				/>
 			);
-		} else {
-			currentIconPaths = Object.keys(
-				icons[ currentFamily ][ currentCategory ]
-			).map( ( name ) => {
-				return `${ currentFamily }/${ currentCategory }/${ name }`;
-			} );
-		}
-
-		return {
-			currentFamily,
-			currentCategory,
-			currentIconPaths,
-			searchValue: '',
-			isLoaded: false,
-		};
-	}
-	componentDidMount() {
-		this.componentExist = true;
-		if ( isLocked ) {
-			return;
-		}
-		if ( isEmpty( icons[ FONT_AWESOME_NAME ] ) ) {
-			isLocked = true;
-
-			apiFetch( {
-				path: `/${ PLUGIN_NAME }/v1/icons/1`,
-			} )
-				.then( ( resp ) => {
-					icons[ FONT_AWESOME_NAME ] = JSON.parse( resp );
-					iconsCategories[ FONT_AWESOME_NAME ] = Object.keys(
-						icons[ FONT_AWESOME_NAME ]
-					);
-
-					isLocked = false;
-					if ( this.componentExist ) {
-						this.setState( {
-							isLoaded: true,
-						} );
-					}
-				} )
-				.catch( () => {
-					isLocked = false;
-					if ( this.componentExist ) {
-						this.setState( {
-							isLoaded: true,
-						} );
-					}
-				} );
-		} else {
-			this.setState( {
-				isLoaded: true,
-			} );
 		}
 	}
-	componentWillUnmount() {
-		this.componentExist = false;
+}
+function isIconNameInSearchValue( iconName, searchValue ) {
+	return searchValue
+		? iconName.toLowerCase().search( searchValue.toLowerCase() ) !== -1
+		: true;
+}
+function filteredIconList( family, category, value, icons ) {
+	const filteredList = [];
+
+	if ( family === DASHICON_NAME ) {
+		Object.keys( icons.dashicons ).forEach( ( name ) => {
+			if ( isIconNameInSearchValue( name, value ) ) {
+				filteredList.push(
+					`${ DASHICON_NAME }/${ category }/${ name }`
+				);
+			}
+		} );
+		return filteredList;
 	}
-	filterIconList( family, category, value ) {
-		const filterdList = [];
-
-		function condition( iconName, searchValue ) {
-			return searchValue
-				? iconName.toLowerCase().search( searchValue.toLowerCase() ) !==
-						-1
-				: true;
-		}
-
-		if ( family === DASHICON_NAME ) {
-			icons[ DASHICON_NAME ].forEach( ( name ) => {
-				if ( condition( name, value ) ) {
-					filterdList.push(
-						`${ DASHICON_NAME }/${ category }/${ name }`
+	if ( category === 'all' ) {
+		Object.keys( icons.fontAwesome ).forEach( ( cat ) => {
+			Object.keys( icons.fontAwesome[ cat ] ).forEach( ( name ) => {
+				if ( isIconNameInSearchValue( name, value ) ) {
+					filteredList.push(
+						`${ FONT_AWESOME_NAME }/${ cat }/${ name }`
 					);
 				}
 			} );
-		} else if ( category === 'all' ) {
-			iconsCategories[ family ].forEach( ( cat ) => {
-				Object.keys( icons[ family ][ cat ] ).forEach( ( name ) => {
-					if ( condition( name, value ) ) {
-						filterdList.push( `${ family }/${ cat }/${ name }` );
-					}
-				} );
-			} );
-		} else {
-			Object.keys( icons[ family ][ category ] ).forEach( ( name ) => {
-				if ( condition( name, value ) ) {
-					filterdList.push( `${ family }/${ category }/${ name }` );
-				}
-			} );
-		}
-
-		this.setState( {
-			currentIconPaths: filterdList,
-			searchValue: value,
+		} );
+	} else {
+		Object.keys( icons.fontAwesome[ category ] ).forEach( ( name ) => {
+			if ( isIconNameInSearchValue( name, value ) ) {
+				filteredList.push(
+					`${ FONT_AWESOME_NAME }/${ category }/${ name }`
+				);
+			}
 		} );
 	}
-	icon( iconPathParts ) {
-		switch ( iconPathParts[ 0 ] ) {
-			case DASHICON_NAME: {
-				return <Dashicon icon={ iconPathParts[ 2 ] } />;
-			}
-			case FONT_AWESOME_NAME: {
-				return (
-					<FontAwesomeIcon
-						iconAttr={
-							icons[ FONT_AWESOME_NAME ][ iconPathParts[ 1 ] ][
-								iconPathParts[ 2 ]
-							]
-						}
-					/>
-				);
-			}
-		}
-	}
-	onSelectIcon( path ) {
-		const icon = renderToString( this.icon( path.split( '/' ) ) );
-		this.props.onSelectIcon( icon );
-	}
 
-	iconList() {
-		const { currentIconPaths } = this.state;
-		let pathParts;
-		return currentIconPaths.length > 0 ? (
-			currentIconPaths.map( ( path ) => {
-				pathParts = path.split( '/' );
-				return (
-					<Button
-						key={ path }
-						isLarge
-						onClick={ () => this.onSelectIcon( path ) }
-						showTooltip
-						label={ pathParts[ 2 ] }
-					>
-						{ this.icon( pathParts ) }
-						<span>{ pathParts[ 2 ] }</span>
-					</Button>
-				);
+	return filteredList;
+}
+
+export default function IconLibrary( { onSelectIcon, onRequestClose } ) {
+	const { dashicons, fontAwesome } = useSelect( ( select ) => {
+		return {
+			dashicons: select( STORE_NAME ).getDashicons(),
+			fontAwesome: select( STORE_NAME ).getFontAwesome(),
+		};
+	}, [] );
+	const [ currentCategory, setCurrentCategory ] = useState( 'all' );
+	const [ currentFamily, setCurrentFamily ] = useState( DASHICON_NAME );
+	const [ currentIconPaths, setCurrentIconPaths ] = useState( '' );
+	const [ searchValue, setSearchValue ] = useState( '' );
+
+	const isLoaded = !! dashicons && !! fontAwesome;
+
+	// show Dashicons in initial view
+	useEffect( () => {
+		if ( isLoaded ) {
+			setCurrentIconPaths(
+				filteredIconList( DASHICON_NAME, 'all', '', {
+					dashicons,
+					fontAwesome,
+				} )
+			);
+		}
+	}, [ isLoaded ] );
+
+	function onSelect( path ) {
+		onSelectIcon(
+			renderToString( icon( path, { dashicons, fontAwesome } ) )
+		);
+	}
+	function onChangeCategory( value ) {
+		const [ family, category ] = value.split( '|' );
+
+		setCurrentFamily( family );
+		setCurrentCategory( category );
+		setCurrentIconPaths(
+			filteredIconList( family, category, searchValue, {
+				dashicons,
+				fontAwesome,
 			} )
-		) : (
-			<p>{ __( 'No results found.', 'scblocks' ) }</p>
 		);
 	}
 
-	onChangeCategory( value ) {
-		const [ family, category ] = value.split( '|' );
-		this.setState( {
-			currentFamily: family,
-			currentCategory: category,
-		} );
-		this.filterIconList( family, category, this.state.searchValue );
-	}
-
-	render() {
-		const { onRequestClose } = this.props;
-		const {
-			currentFamily,
-			currentCategory,
-			searchValue,
-			isLoaded,
-		} = this.state;
-
-		return (
-			<Modal
-				title={ __( 'Icon Library', 'scblocks' ) }
-				onRequestClose={ onRequestClose }
-			>
-				<div className={ `${ PLUGIN_NAME }-icon-library` }>
-					<div className={ `${ PLUGIN_NAME }-icon-library-main` }>
-						<div
-							className={ `${ PLUGIN_NAME }-icon-library-search` }
-						>
-							<TextControl
-								autoComplete="off"
-								label={ __(
-									'Enter text to search for the icon'
-								) }
-								value={ searchValue }
-								onChange={ ( value ) =>
-									this.filterIconList(
+	return (
+		<Modal
+			title={ __( 'Icon Library', 'scblocks' ) }
+			onRequestClose={ onRequestClose }
+		>
+			<div className={ `${ PLUGIN_NAME }-icon-library` }>
+				<div className={ `${ PLUGIN_NAME }-icon-library-main` }>
+					<div className={ `${ PLUGIN_NAME }-icon-library-search` }>
+						<TextControl
+							autoComplete="off"
+							label={ __( 'Enter text to search for the icon' ) }
+							value={ searchValue }
+							onChange={ ( value ) => {
+								setCurrentIconPaths(
+									filteredIconList(
 										currentFamily,
 										currentCategory,
-										value
+										value,
+										{ fontAwesome, dashicons }
 									)
-								}
-							/>
-						</div>
-						<div
-							className={ `${ PLUGIN_NAME }-icon-library-content` }
-						>
-							{ ! isLoaded && (
-								<div
-									className={ `${ PLUGIN_NAME }-icon-library-spinner` }
-								>
-									<Spinner />
-								</div>
-							) }
-							{ isLoaded && (
-								<div
-									className={ `${ PLUGIN_NAME }-icon-library-list` }
-								>
-									{ this.iconList() }
-								</div>
-							) }
-						</div>
+								);
+								setSearchValue( value );
+							} }
+						/>
 					</div>
-					<div className={ `${ PLUGIN_NAME }-icon-library-sidebar` }>
+					<div className={ `${ PLUGIN_NAME }-icon-library-content` }>
 						{ ! isLoaded && (
 							<div
 								className={ `${ PLUGIN_NAME }-icon-library-spinner` }
@@ -273,51 +162,93 @@ export default class IconLibrary extends Component {
 							</div>
 						) }
 						{ isLoaded && (
-							<RadioControl
-								className={ `${ PLUGIN_NAME }-icon-library-categories` }
-								selected={ `${ currentFamily }|${ currentCategory }` }
-								options={ [
-									{
-										label: __( 'Dashicons', 'scblocks' ),
-										value: `${ DASHICON_NAME }|all`,
-									},
-									{
-										label: __(
-											'Font Awesome - All',
+							<div
+								className={ `${ PLUGIN_NAME }-icon-library-list` }
+							>
+								{ currentIconPaths.length > 0 ? (
+									currentIconPaths.map( ( path ) => {
+										const pathParts = path.split( '/' );
+										return (
+											<Button
+												key={ path }
+												isLarge
+												onClick={ () =>
+													onSelect( path )
+												}
+												showTooltip
+												label={ pathParts[ 2 ] }
+											>
+												{ icon( path, {
+													dashicons,
+													fontAwesome,
+												} ) }
+												<span>{ pathParts[ 2 ] }</span>
+											</Button>
+										);
+									} )
+								) : (
+									<p>
+										{ __(
+											'No results found.',
 											'scblocks'
-										),
-										value: `${ FONT_AWESOME_NAME }|all`,
-									},
-									{
-										label: __(
-											'Font Awesome - Regular',
-											'scblocks'
-										),
-										value: `${ FONT_AWESOME_NAME }|regular`,
-									},
-									{
-										label: __(
-											'Font Awesome - Solid',
-											'scblocks'
-										),
-										value: `${ FONT_AWESOME_NAME }|solid`,
-									},
-									{
-										label: __(
-											'Font Awesome - Brand',
-											'scblocks'
-										),
-										value: `${ FONT_AWESOME_NAME }|brand`,
-									},
-								] }
-								onChange={ ( value ) =>
-									this.onChangeCategory( value )
-								}
-							/>
+										) }
+									</p>
+								) }
+							</div>
 						) }
 					</div>
 				</div>
-			</Modal>
-		);
-	}
+				<div className={ `${ PLUGIN_NAME }-icon-library-sidebar` }>
+					{ ! isLoaded && (
+						<div
+							className={ `${ PLUGIN_NAME }-icon-library-spinner` }
+						>
+							<Spinner />
+						</div>
+					) }
+					{ isLoaded && (
+						<RadioControl
+							className={ `${ PLUGIN_NAME }-icon-library-categories` }
+							selected={ `${ currentFamily }|${ currentCategory }` }
+							options={ [
+								{
+									label: __( 'Dashicons', 'scblocks' ),
+									value: `${ DASHICON_NAME }|all`,
+								},
+								{
+									label: __(
+										'Font Awesome - All',
+										'scblocks'
+									),
+									value: `${ FONT_AWESOME_NAME }|all`,
+								},
+								{
+									label: __(
+										'Font Awesome - Regular',
+										'scblocks'
+									),
+									value: `${ FONT_AWESOME_NAME }|regular`,
+								},
+								{
+									label: __(
+										'Font Awesome - Solid',
+										'scblocks'
+									),
+									value: `${ FONT_AWESOME_NAME }|solid`,
+								},
+								{
+									label: __(
+										'Font Awesome - Brand',
+										'scblocks'
+									),
+									value: `${ FONT_AWESOME_NAME }|brand`,
+								},
+							] }
+							onChange={ ( value ) => onChangeCategory( value ) }
+						/>
+					) }
+				</div>
+			</div>
+		</Modal>
+	);
 }

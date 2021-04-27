@@ -1,23 +1,23 @@
 {
 	"name": "scblocks",
 	"title": "ScBlocks",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"description": "Custom blocks for the new WordPress editor.",
 	"author": "sc81",
 	"license": "GPL-2.0",
 	"dependencies": {
 		"@wordpress/icons": "^2.4.0",
 		"classnames": "2.2.6",
-		"dompurify": "^2.0.15",
-		"immer": "^3.3.0"
+		"dompurify": "^2.2.7",
+		"immer": "^9.0.1"
 	},
 	"devDependencies": {
 		"@testing-library/react": "^10.4.7",
 		"@wordpress/components": "^10.0.3",
-		"@wordpress/scripts": "^12.1.1"
+		"@wordpress/scripts": "^12.6.1"
 	},
 	"scripts": {
-		"setup": "composer install && npm install && npm run build",
+		"setup": "composer install && npm ci && npm run build",
 		"start": "wp-scripts start",
 		"build": "wp-scripts build",
 		"build:dist": "wp-scripts build --output-path=dist",

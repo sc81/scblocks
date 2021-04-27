@@ -43,6 +43,7 @@ export default function DropdownComponent( {
 							</Button>
 						) }
 						<Button
+							className={ `${ PLUGIN_NAME }-dropdown-content-edit-button` }
 							icon="edit"
 							isSmall
 							isSecondary

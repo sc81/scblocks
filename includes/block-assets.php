@@ -28,7 +28,7 @@ class Block_Assets {
 	}
 
 	/**
-	 * Registers a category for blocks.
+	 * Registers a category for our blocks.
 	 *
 	 * @param array $categories Default array of block categories.
 	 *
@@ -36,13 +36,13 @@ class Block_Assets {
 	 */
 	public function register_category( array $categories ) : array {
 		return array_merge(
-			$categories,
 			array(
 				array(
 					'slug'  => 'scblocks',
 					'title' => __( 'ScBlocks', 'scblocks' ),
 				),
-			)
+			),
+			$categories
 		);
 	}
 	/**
@@ -121,7 +121,8 @@ class Block_Assets {
 			$main_file['version']
 		);
 
-		wp_add_inline_style( 'scblocks', Initial_Css::get() );
+		$initial_css = new Initial_Css( true );
+		wp_add_inline_style( 'scblocks', $initial_css->get() );
 
 		wp_set_script_translations( 'scblocks-editor', 'scblocks' );
 	}

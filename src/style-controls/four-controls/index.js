@@ -337,46 +337,54 @@ export default function FourControls( props ) {
 		>
 			<SyncControls value={ syncControls } onChange={ setSyncControls } />
 			<div className={ `${ PLUGIN_NAME }-four-controls-top` }>
-				<NumberControl
-					label={ getLabel( 'top', propName ) }
-					value={ top }
-					onChange={ ( value ) => onChange( value, 'top' ) }
-					withoutSelectDevices
-					clearButton={ false }
-					hasSlider={ false }
-					{ ...getMinMaxStep( propName, unit ) }
-				/>
+				<div>
+					<NumberControl
+						label={ getLabel( 'top', propName ) }
+						value={ top }
+						onChange={ ( value ) => onChange( value, 'top' ) }
+						withoutSelectDevices
+						clearButton={ false }
+						hasSlider={ false }
+						{ ...getMinMaxStep( propName, unit ) }
+					/>
+				</div>
 			</div>
 			<div className={ `${ PLUGIN_NAME }-four-controls-left-right` }>
-				<NumberControl
-					label={ getLabel( 'left', propName ) }
-					value={ left }
-					onChange={ ( value ) => onChange( value, 'left' ) }
-					withoutSelectDevices
-					clearButton={ false }
-					hasSlider={ false }
-					{ ...getMinMaxStep( propName, unit ) }
-				/>
-				<NumberControl
-					label={ getLabel( 'right', propName ) }
-					value={ right }
-					onChange={ ( value ) => onChange( value, 'right' ) }
-					withoutSelectDevices
-					clearButton={ false }
-					hasSlider={ false }
-					{ ...getMinMaxStep( propName, unit ) }
-				/>
+				<div>
+					<NumberControl
+						label={ getLabel( 'left', propName ) }
+						value={ left }
+						onChange={ ( value ) => onChange( value, 'left' ) }
+						withoutSelectDevices
+						clearButton={ false }
+						hasSlider={ false }
+						{ ...getMinMaxStep( propName, unit ) }
+					/>
+				</div>
+				<div>
+					<NumberControl
+						label={ getLabel( 'right', propName ) }
+						value={ right }
+						onChange={ ( value ) => onChange( value, 'right' ) }
+						withoutSelectDevices
+						clearButton={ false }
+						hasSlider={ false }
+						{ ...getMinMaxStep( propName, unit ) }
+					/>
+				</div>
 			</div>
 			<div className={ `${ PLUGIN_NAME }-four-controls-bottom` }>
-				<NumberControl
-					label={ getLabel( 'bottom', propName ) }
-					value={ bottom }
-					onChange={ ( value ) => onChange( value, 'bottom' ) }
-					withoutSelectDevices
-					clearButton={ false }
-					hasSlider={ false }
-					{ ...getMinMaxStep( propName, unit ) }
-				/>
+				<div>
+					<NumberControl
+						label={ getLabel( 'bottom', propName ) }
+						value={ bottom }
+						onChange={ ( value ) => onChange( value, 'bottom' ) }
+						withoutSelectDevices
+						clearButton={ false }
+						hasSlider={ false }
+						{ ...getMinMaxStep( propName, unit ) }
+					/>
+				</div>
 			</div>
 		</ControlWrapper>
 	);
