@@ -10,6 +10,7 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useRef } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
@@ -21,9 +22,14 @@ export default function OpenColorPicker( {
 	onChange,
 	label,
 } ) {
-	const colors = useSelect( ( select ) => {
+	const themeColors = useSelect( ( select ) => {
 		return select( CORE_EDITOR_STORE_NAME ).getEditorSettings().colors;
 	}, [] );
+
+	const colors = applyFilters( 'scblocks.colorPicker.value', {
+		currentColor: value,
+		themeColors,
+	} );
 
 	const pickerKey = useRef( 1 );
 
@@ -38,7 +44,7 @@ export default function OpenColorPicker( {
 				<div className={ `${ PLUGIN_NAME }-inline-elements` }>
 					<span>{ label }</span>
 					<div className={ `${ PLUGIN_NAME }-inline-buttons` }>
-						{ value && (
+						{ colors.currentColor && (
 							<Button
 								isSmall
 								isSecondary
@@ -61,7 +67,9 @@ export default function OpenColorPicker( {
 						>
 							<span
 								className={ `${ PLUGIN_NAME }-color-picker-indicator` }
-								style={ { backgroundColor: value } }
+								style={ {
+									backgroundColor: colors.currentColor,
+								} }
 							/>
 						</button>
 					</div>
@@ -71,7 +79,7 @@ export default function OpenColorPicker( {
 				<div className="components-color-picker">
 					<ColorPicker
 						key={ pickerKey.current }
-						color={ value }
+						color={ colors.currentColor }
 						onChangeComplete={ ( color ) => {
 							let next;
 							const { r, g, b, a } = color.rgb;
@@ -86,16 +94,24 @@ export default function OpenColorPicker( {
 					<div
 						className={ `components-color-picker__body ${ PLUGIN_NAME }-color-picker-body` }
 					>
-						<ColorPalette
-							colors={ colors }
-							value={ value }
-							onChange={ ( color ) => {
-								onChange( color );
-								pickerKey.current++;
-							} }
-							disableCustomColors={ true }
-							clearable={ false }
-						/>
+						{ applyFilters(
+							'scblocks.colorPicker.palette',
+							<ColorPalette
+								colors={ themeColors }
+								value={ colors.currentColor }
+								onChange={ ( color ) => {
+									onChange( color );
+									pickerKey.current++;
+								} }
+								disableCustomColors={ true }
+								clearable={ false }
+							/>,
+							{
+								colors,
+								onChange,
+							},
+							pickerKey
+						) }
 					</div>
 				</div>
 			) }
