@@ -231,6 +231,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/buttons-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/column-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/columns-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-block-metadata.php';
 	}
 
 	private function __construct() {
@@ -243,7 +244,7 @@ class Plugin {
 		$classes = array(
 			'ScBlocks\Block_Assets',
 			'ScBlocks\Fonts',
-			'ScBlocks\Block_Css',
+			'ScBlocks\Update_Block_Metadata',
 			'ScBlocks\Icons',
 			'ScBlocks\Plugin_Settings',
 			'ScBlocks\Shape_Dividers',
