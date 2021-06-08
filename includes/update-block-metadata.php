@@ -38,23 +38,22 @@ class Update_Block_Metadata {
 			return $post_id;
 		}
 
-		$old_settings  = Plugin::post_settings_post_meta( $post_id );
-		$next_settings = array();
+		$settings = Plugin::post_settings_post_meta( $post_id );
 
-		$next_settings['old_update_time'] = $old_settings['update_time'] ?? '0';
+		$settings['old_update_time'] = $settings['update_time'] ?? '0';
 
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
 
-			$next_settings['css_version'] = SCBLOCKS_VERSION;
-			$next_settings['update_time'] = time();
+			$settings['css_version'] = SCBLOCKS_VERSION;
+			$settings['update_time'] = time();
 		}
 		if ( strpos( $post->post_content, 'wp:block' ) !== false ) {
 
-			$next_settings['update_time'] = time();
-			$next_settings['css_version'] = SCBLOCKS_VERSION;
+			$settings['update_time'] = time();
+			$settings['css_version'] = SCBLOCKS_VERSION;
 		}
 
-		Plugin::update_post_settings_post_meta( $post_id, $next_settings );
+		Plugin::update_post_settings_post_meta( $post_id, $settings );
 	}
 
 	/**
