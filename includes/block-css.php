@@ -332,26 +332,25 @@ class Block_Css {
 			return $post_id;
 		}
 
-		$old_settings  = $this->post_settings( $post_id );
-		$next_settings = array();
+		$settings = $this->post_settings( $post_id );
 
-		$next_settings['old_update_time'] = $old_settings['update_time'] ?? '0';
+		$settings['old_update_time'] = $settings['update_time'] ?? '0';
 
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
 
-			$next_settings['css_version'] = SCBLOCKS_VERSION;
-			$next_settings['update_time'] = time();
+			$settings['css_version'] = SCBLOCKS_VERSION;
+			$settings['update_time'] = time();
 		}
 		if ( strpos( $post->post_content, 'wp:block' ) !== false ) {
 
-			$next_settings['update_time'] = time();
-			$next_settings['css_version'] = SCBLOCKS_VERSION;
+			$settings['update_time'] = time();
+			$settings['css_version'] = SCBLOCKS_VERSION;
 		}
 
 		update_post_meta(
 			$post_id,
 			self::POST_SETTINGS_POST_META_NAME,
-			wp_slash( wp_json_encode( $next_settings ) )
+			wp_slash( wp_json_encode( $settings ) )
 		);
 	}
 
