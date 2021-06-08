@@ -48,7 +48,12 @@ export default function OpenColorPicker( {
 							<Button
 								isSmall
 								isSecondary
-								onClick={ () => onChange( '' ) }
+								onClick={ () => {
+									onChange( '' );
+									if ( isOpen ) {
+										onToggle();
+									}
+								} }
 							>
 								{ __( 'Clear', 'scblocks' ) }
 							</Button>
