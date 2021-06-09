@@ -9,6 +9,9 @@ class Plugin {
 	/** @var string */
 	const OPTION_NAME = 'scblocks';
 
+	/** @var string */
+	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
+
 	private static $instance;
 
 	/**
@@ -165,6 +168,41 @@ class Plugin {
 	}
 
 	/**
+	 * Gets and decodes the _scblocks_post_settings meta field.
+	 *
+	 * @param int $post_id Post ID.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return array
+	 */
+	public static function post_settings_post_meta( int $post_id ) : array {
+		$value = get_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, true );
+		if ( $value ) {
+			return json_decode( $value, true );
+		}
+		return array();
+	}
+
+	/**
+	 * Updates the _scblocks_post_settings meta field.
+	 *
+	 * @param int $post_id Post ID.
+	 * @param array $settings New settings.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return array
+	 */
+	public static function update_post_settings_post_meta( int $post_id, array $settings ) {
+		return update_post_meta(
+			$post_id,
+			self::POST_SETTINGS_POST_META_NAME,
+			wp_slash( wp_json_encode( $settings ) )
+		);
+	}
+
+	/**
 	 * Updates the job completion time for the file writer.
 	 *
 	 * @since 1.1.0
@@ -193,6 +231,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/buttons-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/column-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/columns-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-blocks-metadata.php';
 	}
 
 	private function __construct() {
@@ -205,7 +244,7 @@ class Plugin {
 		$classes = array(
 			'ScBlocks\Block_Assets',
 			'ScBlocks\Fonts',
-			'ScBlocks\Block_Css',
+			'ScBlocks\Update_Blocks_Metadata',
 			'ScBlocks\Icons',
 			'ScBlocks\Plugin_Settings',
 			'ScBlocks\Shape_Dividers',

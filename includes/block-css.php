@@ -6,24 +6,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Creates and manages CSS
+ * Creates and manages CSS for our blocks.
  */
 class Block_Css {
 
 	/** @var string */
 	const BLOCK_NAMESPACE = 'scblocks';
 
-	/** @var string */
-	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
-
+	/**
+	 * Post ID.
+	 *
+	 * @since 1.3.0
+	 * @var int
+	 */
+	private $post_id;
 
 	/**
-	 * Hooks a function on to a specific action.
+	 * Post settings.
+	 *
+	 * @since 1.3.0
+	 * @var array
 	 */
-	public function register_actions() {
-		add_action( 'save_post', array( $this, 'update_post_settings' ), 10, 2 );
-		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ), 10, 2 );
+	private $post_settings;
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.3.0
+	 */
+	public function __construct() {
+		$this->post_id       = $this->get_post_id();
+		$this->post_settings = Plugin::post_settings_post_meta( $this->post_id );
 	}
+
 	/**
 	 * Get the current page ID.
 	 *
@@ -70,14 +85,11 @@ class Block_Css {
 	 * @return string
 	 */
 	public function file_uri() : string {
-		$post_id = $this->get_post_id();
-
-		if ( ! $post_id ) {
+		if ( ! $this->post_id ) {
 			return '';
 		}
-		$post_settings = $this->post_settings( $post_id );
 
-		if ( empty( $post_settings ) || empty( $post_settings['update_time'] ) ) {
+		if ( empty( $this->post_settings ) || empty( $this->post_settings['update_time'] ) ) {
 			return '';
 		}
 		if ( 'file' === $this->mode() ) {
@@ -95,14 +107,11 @@ class Block_Css {
 	 * @return string
 	 */
 	public function google_fonts_uri() : string {
-		$post_id = $this->get_post_id();
-
-		if ( ! $post_id ) {
+		if ( ! $this->post_id ) {
 			return '';
 		}
-		$post_settings = $this->post_settings( $post_id );
 
-		if ( empty( $post_settings ) ) {
+		if ( empty( $this->post_settings ) ) {
 			return '';
 		}
 		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
@@ -110,6 +119,36 @@ class Block_Css {
 		$fonts = new Fonts( $blocks_attr );
 
 		return $fonts->build_google_fonts_uri();
+	}
+
+	/**
+	 * Creates CSS for our blocks.
+	 *
+	 * Uses the scblocks_css filter.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return string
+	 */
+	public function create() : string {
+		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
+
+		$css_composer = new Css();
+		$css          = $css_composer->compose( $blocks_attr );
+
+		if ( $css ) {
+			$initial_css = new Initial_Css();
+			$css         = $initial_css->get() . $css;
+		}
+		/**
+		 * Filters CSS for our blocks.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @param string $css CSS.
+		 * @param int $post_id Post ID.
+		 */
+		return apply_filters( 'scblocks_css', $css, $this->post_id );
 	}
 
 	/**
@@ -130,17 +169,8 @@ class Block_Css {
 			return Plugin::css();
 		}
 		if ( Plugin::css_mode() === 'inline' ) {
-			$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
 
-			$css_composer = new Css();
-
-			$css = $css_composer->compose( $blocks_attr );
-			if ( $css ) {
-				$initial_css = new Initial_Css();
-
-				$css = $initial_css->get() . $css;
-			}
-			return $css;
+			return $this->create();
 		}
 		return '';
 	}
@@ -223,21 +253,12 @@ class Block_Css {
 	 * @return bool True on success, false on failure.
 	 */
 	public function write_to_file() : bool {
-		$post_id = $this->get_post_id();
-
-		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
-
-		$css_composer = new Css();
-
-		$css = $css_composer->compose( $blocks_attr );
+		$css = $this->create();
 
 		if ( ! $css ) {
 			Plugin::set_css_mode( 'empty' );
 			return false;
 		}
-		$initial_css = new Initial_Css();
-
-		$css = $initial_css->get() . $css;
 
 		// If we only have a little CSS, we should inline it.
 		$css_size = strlen( $css );
@@ -253,13 +274,15 @@ class Block_Css {
 
 		$is_saved = $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $css ), FS_CHMOD_FILE );
 		if ( $is_saved ) {
-			$update_time                 = time();
-			$settings                    = $this->post_settings( $post_id );
+			$update_time = time();
+
+			$settings = $this->post_settings;
+
 			$settings['old_update_time'] = $update_time;
 			$settings['update_time']     = $update_time;
 			$settings['css_version']     = SCBLOCKS_VERSION;
 
-			update_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, wp_slash( wp_json_encode( $settings ) ) );
+			Plugin::update_post_settings_post_meta( $this->post_id, $settings );
 
 			Plugin::update_css_write_time();
 
@@ -285,32 +308,31 @@ class Block_Css {
 		if ( ! file_exists( $this->file( 'path' ) ) ) {
 			return true;
 		}
-		$post_id = $this->get_post_id();
-		if ( ! $post_id ) {
+		if ( ! $this->post_id ) {
 			return false;
 		}
-		$post_settings = $this->post_settings( $post_id );
-
-		if ( empty( $post_settings ) ) {
+		if ( empty( $this->post_settings ) ) {
 			return false;
 		}
 		// force css file update
-		if ( isset( $post_settings['update_time'] ) &&
-		(int) Plugin::option( 'force_regenerate_css_files' ) >= (int) $post_settings['update_time'] ) {
+		if ( isset( $this->post_settings['update_time'] ) &&
+		(int) Plugin::option( 'force_regenerate_css_files' ) >= (int) $this->post_settings['update_time'] ) {
 			return true;
 		}
 		// new css version
-		if ( isset( $post_settings['css_version'] ) &&
-		SCBLOCKS_VERSION !== $post_settings['css_version'] ) {
+		if ( isset( $this->post_settings['css_version'] ) &&
+		SCBLOCKS_VERSION !== $this->post_settings['css_version'] ) {
 			return true;
 		}
 		// post has been updated
-		if ( isset( $post_settings['update_time'] ) && $post_settings['old_update_time'] !== $post_settings['update_time'] ) {
+		if ( isset( $this->post_settings['update_time'] ) &&
+		isset( $this->post_settings['old_update_time'] ) &&
+		$this->post_settings['old_update_time'] !== $this->post_settings['update_time'] ) {
 			return true;
 		}
 		// check if any reusable block has been updated
-		if ( isset( $post_settings['update_time'] ) &&
-		(int) Plugin::option( 'reusable_blocks_update_time' ) >= (int) $post_settings['update_time'] ) {
+		if ( isset( $this->post_settings['update_time'] ) &&
+		(int) Plugin::option( 'reusable_blocks_update_time' ) >= (int) $this->post_settings['update_time'] ) {
 			return true;
 
 		}
@@ -318,65 +340,12 @@ class Block_Css {
 	}
 
 	/**
-	 * Updates the _scblocks_post_settings post meta field when a post is saved.
-	 *
-	 * @param int     $post_id Post ID.
-	 * @param WP_Post $post Post object.
-	 */
-	public function update_post_settings( int $post_id, \WP_Post $post ) {
-		if ( wp_is_post_autosave( $post_id ) ||
-			wp_is_post_revision( $post_id ) ||
-			! current_user_can( 'edit_post', $post_id ) ||
-			'attachment' === $post->post_type ||
-			'wp_block' === $post->post_type ) {
-			return $post_id;
-		}
-
-		$settings = $this->post_settings( $post_id );
-
-		$settings['old_update_time'] = $settings['update_time'] ?? '0';
-
-		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
-
-			$settings['css_version'] = SCBLOCKS_VERSION;
-			$settings['update_time'] = time();
-		}
-		if ( strpos( $post->post_content, 'wp:block' ) !== false ) {
-
-			$settings['update_time'] = time();
-			$settings['css_version'] = SCBLOCKS_VERSION;
-		}
-
-		update_post_meta(
-			$post_id,
-			self::POST_SETTINGS_POST_META_NAME,
-			wp_slash( wp_json_encode( $settings ) )
-		);
-	}
-
-	/**
-	 * Gets and decodes the _scblocks_post_settings post meta field.
-	 *
-	 * @param int $post_id Post ID.
-	 *
-	 * @return array
-	 */
-	public function post_settings( int $post_id ) : array {
-		$value = get_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, true );
-		if ( $value ) {
-			return json_decode( $value, true );
-		}
-		return array();
-	}
-
-	/**
-	 * Gets the blocks parsed.
+	 * Parses blocks out of a content string.
 	 *
 	 * @return array
 	 */
 	public function parsed_content() : array {
-		$post_id = $this->get_post_id();
-		if ( ! $post_id ) {
+		if ( ! $this->post_id ) {
 			return array();
 		}
 		if ( $this->is_woo_shop() ) {
@@ -434,22 +403,17 @@ class Block_Css {
 	/**
 	 * Gets the css file name
 	 *
-	 * @param $post_id Optional. Post ID.
-	 *
 	 * @return string
 	 */
-	public function file_name( int $post_id = -1 ): string {
+	public function file_name(): string {
 		global $blog_id;
 		// If this is a multisite installation, append the blogid to the filename.
 		$css_blog_id = '';
 		if ( is_multisite() && $blog_id > 1 ) {
 			$css_blog_id = '_blog-' . $blog_id;
 		}
-		if ( -1 === $post_id ) {
-			$post_id = $this->get_post_id();
-		}
 
-		return 'style' . $css_blog_id . '-' . $post_id . '.css';
+		return 'style' . $css_blog_id . '-' . $this->post_id . '.css';
 	}
 	/**
 	 * Gets the path or url to the stylesheet
@@ -494,30 +458,5 @@ class Block_Css {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
-	}
-
-	/**
-	 * Updates the update time of a reusable block.
-	 *
-	 * @param int       $post_id The current post ID.
-	 * @param WP_Post   $post Post object.
-	 */
-	public function wp_block_update( int $post_id, \WP_Post $post ) {
-		if ( wp_is_post_autosave( $post_id ) ||
-			wp_is_post_revision( $post_id ) ||
-			! current_user_can( 'edit_post', $post_id ) ) {
-			return $post_id;
-		}
-
-		$options = Plugin::options();
-
-		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
-			$options['reusable_blocks_update_time'] = time();
-		}
-
-		// deprecated since 1.2.0
-		unset( $options['wp_block_update_time'] );
-		unset( $options['wp_block_in_wp_block'] );
-		Plugin::update_options( $options );
 	}
 }
