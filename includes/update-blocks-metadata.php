@@ -6,11 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Updates block metadata.
+ * Updates blocks metadata.
  *
  * @since 1.3.0
  */
-class Update_Block_Metadata {
+class Update_Blocks_Metadata {
 	/**
 	 * Hooks a function on to a specific action.
 	 *
