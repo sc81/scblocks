@@ -1,11 +1,11 @@
 export const BLOCK_SELECTOR = {
 	button: {
 		main: {
-			fullSelector: ( uidClass ) => `.scb-button.${ uidClass }`,
+			fullSelector: ( uidClass ) => `.${ uidClass }`,
 			alias: 'main',
 		},
 		mainHover: {
-			fullSelector: ( uidClass ) => `.scb-button.${ uidClass }:hover`,
+			fullSelector: ( uidClass ) => `.${ uidClass }:hover`,
 			alias: 'mainHover',
 		},
 		text: {
@@ -13,13 +13,13 @@ export const BLOCK_SELECTOR = {
 		},
 		icon: {
 			selector: '.scb-icon',
-			fullSelector: ( uidClass ) => `.scb-button.${ uidClass } .scb-icon`,
+			fullSelector: ( uidClass ) => `.${ uidClass } .scb-icon`,
 			alias: 'icon',
 		},
 	},
 	buttons: {
 		main: {
-			fullSelector: ( uidClass ) => `.scb-buttons.${ uidClass }`,
+			fullSelector: ( uidClass ) => `.${ uidClass }`,
 			alias: 'main',
 		},
 		button: {
@@ -37,17 +37,16 @@ export const BLOCK_SELECTOR = {
 	},
 	column: {
 		main: {
-			fullSelector: ( uidClass ) => `.scb-column.${ uidClass }`,
+			fullSelector: ( uidClass ) => `.${ uidClass }`,
 			alias: 'main',
 		},
 		content: {
 			fullSelector: ( uidClass ) =>
-				`.scb-column.${ uidClass } > .scb-inner-column > .scb-column-content`,
+				`.${ uidClass } > .scb-inner-column > .scb-column-content`,
 			alias: 'content',
 		},
 		inner: {
-			fullSelector: ( uidClass ) =>
-				`.scb-column.${ uidClass } > .scb-inner-column`,
+			fullSelector: ( uidClass ) => `.${ uidClass } > .scb-inner-column`,
 			alias: 'inner',
 		},
 		link: {
@@ -61,7 +60,7 @@ export const BLOCK_SELECTOR = {
 	},
 	columns: {
 		main: {
-			fullSelector: ( uidClass ) => `.scb-columns.${ uidClass }`,
+			fullSelector: ( uidClass ) => `.${ uidClass }`,
 			alias: 'main',
 		},
 		column: {
@@ -76,13 +75,13 @@ export const BLOCK_SELECTOR = {
 	},
 	container: {
 		main: {
-			fullSelector: ( uidClass ) => `.scb-container.${ uidClass }`,
+			fullSelector: ( uidClass ) => `.${ uidClass }`,
 			alias: 'main',
 			selector: '.scb-container',
 		},
 		content: {
 			fullSelector: ( uidClass ) =>
-				`.scb-container.${ uidClass } > .scb-container-content`,
+				`.${ uidClass } > .scb-container-content`,
 			alias: 'content',
 		},
 		link: {
@@ -94,44 +93,42 @@ export const BLOCK_SELECTOR = {
 			alias: 'linkHover',
 		},
 		shapes: {
-			fullSelector: ( uidClass ) =>
-				`.scb-container.${ uidClass } > .scb-shapes`,
+			fullSelector: ( uidClass ) => `.${ uidClass } > .scb-shapes`,
 			alias: 'shapes',
 			selector: '.scb-shapes',
 		},
 		shape: {
 			fullSelector: ( uidClass, shapeClass ) =>
-				`.scb-container.${ uidClass } > .scb-shapes .${ shapeClass }`,
+				`.${ uidClass } > .scb-shapes .${ shapeClass }`,
 			alias: ( shapeId ) => `shape-${ shapeId }`,
 			selector: '.scb-shape',
 		},
 		shapeSvg: {
 			fullSelector: ( uidClass, shapeClass ) =>
-				`.scb-container.${ uidClass } > .scb-shapes .${ shapeClass }`,
+				`.${ uidClass } > .scb-shapes .${ shapeClass }`,
 			alias: ( shapeId ) => `shape-svg-${ shapeId }`,
 			selector: '.scb-shape svg',
 		},
 	},
 	heading: {
 		main: {
-			fullSelector: ( uidClass ) => `.scb-heading.${ uidClass }`,
+			fullSelector: ( uidClass ) => `.${ uidClass }`,
 			alias: 'main',
 		},
 		link: {
-			fullSelector: ( uidClass ) => `.scb-heading.${ uidClass } a`,
+			fullSelector: ( uidClass ) => `.${ uidClass } a`,
 			alias: 'link',
 		},
 		linkHover: {
-			fullSelector: ( uidClass ) => `.scb-heading.${ uidClass } a:hover`,
+			fullSelector: ( uidClass ) => `.${ uidClass } a:hover`,
 			alias: 'linkHover',
 		},
 		highlightText: {
-			fullSelector: ( uidClass ) => `.scb-heading.${ uidClass } mark`,
+			fullSelector: ( uidClass ) => `.${ uidClass } mark`,
 			alias: 'highlightText',
 		},
 		icon: {
-			fullSelector: ( uidClass ) =>
-				`.scb-heading.${ uidClass } .scb-icon`,
+			fullSelector: ( uidClass ) => `.${ uidClass } .scb-icon`,
 			selector: '.scb-icon',
 			alias: 'icon',
 		},

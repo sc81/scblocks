@@ -19,15 +19,6 @@ import composeCss from './compose-css';
 
 const storedUidClass = {};
 
-const BLOCK_ALIAS = {
-	button: 'btn',
-	buttons: 'btns',
-	column: 'col',
-	columns: 'cols',
-	container: 'con',
-	heading: 'h',
-};
-
 function isBlockInsideReusableBlock( clientId ) {
 	const { getBlockParents, getBlockName } = select(
 		CORE_BLOCK_EDITOR_STORE_NAME
@@ -56,9 +47,9 @@ export default function useDynamicCss( props, device ) {
 	// mount
 	useEffect( () => {
 		let finalUidClass;
-		const nextUidClass = `scb-${
-			BLOCK_ALIAS[ blockName ]
-		}-${ clientId.substr( 2, 9 ).replace( '-', '' ) }`;
+		const nextUidClass = `scb-${ blockName }-${ clientId
+			.substr( 2, 9 )
+			.replace( '-', '' ) }`;
 
 		if ( ! isBlockInsideReusableBlock( clientId ) ) {
 			if ( ! uidClass || storedUidClass[ uidClass ] !== undefined ) {
