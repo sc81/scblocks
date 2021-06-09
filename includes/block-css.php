@@ -325,7 +325,9 @@ class Block_Css {
 			return true;
 		}
 		// post has been updated
-		if ( isset( $this->post_settings['update_time'] ) && $this->post_settings['old_update_time'] !== $this->post_settings['update_time'] ) {
+		if ( isset( $this->post_settings['update_time'] ) &&
+		isset( $this->post_settings['old_update_time'] ) &&
+		$this->post_settings['old_update_time'] !== $this->post_settings['update_time'] ) {
 			return true;
 		}
 		// check if any reusable block has been updated
