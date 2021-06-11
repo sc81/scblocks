@@ -104,6 +104,15 @@ class Block_Assets {
 			$utils_asset['version'],
 			true
 		);
+		$store_asset = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'store.asset.php';
+		wp_enqueue_script(
+			'scblocks-store',
+			SCBLOCKS_PLUGIN_URL . $this->dist_dir_name . 'store.js',
+			$store_asset['dependencies'],
+			$store_asset['version'],
+			true
+		);
+
 		$main_file    = include SCBLOCKS_PLUGIN_DIR . $this->dist_dir_name . 'index.asset.php';
 		$dependencies = $main_file['dependencies'];
 		wp_enqueue_script(

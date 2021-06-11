@@ -38,6 +38,42 @@ class Plugin {
 	private static $active_blocks = array();
 
 	/**
+	 * List of options with its sanitizing functions.
+	 *
+	 * @since 1.3.0
+	 * @var array
+	 */
+	private static $option_sanitize_action = array(
+		'css_print_method'            => 'sanitize_text_field',
+		'force_regenerate_css_files'  => 'sanitize_text_field',
+		'reusable_blocks_update_time' => 'sanitize_text_field',
+	);
+
+	/**
+	 * Gets the name of the sanitizing function for the specified option.
+	 *
+	 * @since 1.3.0
+	 * @param string $name Option name.
+	 * @return string|array
+	 */
+	public static function get_option_sanitizing_func( string $name ) {
+		return self::$option_sanitize_action[ $name ];
+	}
+
+	/**
+	 * Sets the name of the sanitizing function for the specified option.
+	 *
+	 * @since 1.3.0
+	 * @param string $name Option name.
+	 * @param string|array $action Function name as an string or
+	 *                             an array with the object and its method.
+	 * @return void
+	 */
+	public static function set_option_sanitizing_func( string $name, $action ) {
+		self::$option_sanitize_action[ $name ] = $action;
+	}
+
+	/**
 	 * Gets defaults for option.
 	 *
 	 * @return array
@@ -223,7 +259,6 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/fonts.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-css.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/icons.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/plugin-settings.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/css.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/shape-dividers.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/container-block.php';
@@ -232,6 +267,8 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/column-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/columns-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-blocks-metadata.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/admin/dashboard.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/admin/settings.php';
 	}
 
 	private function __construct() {
@@ -246,12 +283,13 @@ class Plugin {
 			'ScBlocks\Fonts',
 			'ScBlocks\Update_Blocks_Metadata',
 			'ScBlocks\Icons',
-			'ScBlocks\Plugin_Settings',
 			'ScBlocks\Shape_Dividers',
 			'ScBlocks\Container_Block',
 			'ScBlocks\Buttons_Block',
 			'ScBlocks\Column_Block',
 			'ScBlocks\Columns_Block',
+			'ScBlocks\Dashboard',
+			'ScBlocks\Settings',
 		);
 
 		foreach ( $classes as $class_name ) {

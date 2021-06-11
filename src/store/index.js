@@ -34,6 +34,19 @@ const actions = {
 			fontAwesome,
 		};
 	},
+	setSettings( settings ) {
+		return {
+			type: 'SET_SETTINGS',
+			settings,
+		};
+	},
+	setOption( name, value ) {
+		return {
+			type: 'SET_OPTION',
+			name,
+			value,
+		};
+	},
 	fetchFromAPI( path ) {
 		return {
 			type: 'FETCH_FROM_API',
@@ -60,6 +73,19 @@ registerStore( STORE_NAME, {
 					...state,
 					fontAwesome: { ...action.fontAwesome },
 				};
+			case 'SET_SETTINGS':
+				return {
+					...state,
+					settings: { ...action.settings },
+				};
+			case 'SET_OPTION':
+				return {
+					...state,
+					settings: {
+						...state.settings,
+						[ action.name ]: action.value,
+					},
+				};
 		}
 
 		return state;
@@ -74,6 +100,9 @@ registerStore( STORE_NAME, {
 		},
 		getFontAwesome( state ) {
 			return state.fontAwesome;
+		},
+		getSettings( state ) {
+			return state.settings;
 		},
 	},
 	controls: {
@@ -103,6 +132,11 @@ registerStore( STORE_NAME, {
 			let icons = yield actions.fetchFromAPI( path );
 			icons = JSON.parse( icons );
 			return actions.setFontAwesome( icons );
+		},
+		*getSettings() {
+			const path = `/${ PLUGIN_NAME }/v1/settings`;
+			const settings = yield actions.fetchFromAPI( path );
+			return actions.setSettings( settings );
 		},
 	},
 } );
