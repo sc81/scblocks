@@ -52,6 +52,12 @@ class Settings {
 			$assets['version'],
 			true
 		);
+		wp_enqueue_style(
+			'scblocks-settings',
+			SCBLOCKS_PLUGIN_URL . 'assets/css/dashboard-settings.css',
+			array( 'wp-components' ),
+			filemtime( SCBLOCKS_PLUGIN_DIR . 'assets/css/dashboard-settings.css' )
+		);
 	}
 
 	/**
