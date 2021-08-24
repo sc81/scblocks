@@ -48,12 +48,7 @@ module.exports = {
 			'components',
 			'index.js'
 		),
-		store: path.resolve(
-			process.cwd(),
-			'src',
-			'store',
-			'index.js'
-		),
+		store: path.resolve( process.cwd(), 'src', 'store', 'index.js' ),
 		dashboard: path.resolve(
 			process.cwd(),
 			'src',

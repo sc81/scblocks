@@ -22,7 +22,6 @@ import { PLUGIN_NAME, STORE_NAME } from '@scblocks/constants';
 
 const noticeText = {
 	saving: __( 'Saving…', 'scblocks' ),
-	saved: __( 'Saved!', 'scblocks' ),
 	failed: __( 'Failed to save', 'scblocks' ),
 };
 
@@ -53,9 +52,9 @@ function Settings() {
 				settings: select( STORE_NAME ).getSettings(),
 			},
 		} )
-			.then( () => {
+			.then( ( response ) => {
 				setIsSaving( false );
-				setNotice( noticeText.saved );
+				setNotice( response.text );
 				hideNotice();
 			} )
 			.catch( () => {

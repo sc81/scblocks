@@ -136,18 +136,19 @@ class Settings {
 	 * @return mixed
 	 */
 	public function update( \WP_REST_Request $request ) {
-		$current_settings  = Plugin::options();
-		$incoming_settings = $request->get_param( 'settings' );
-		$next_settings     = array();
+		$current_settings = Plugin::options();
+		$next_settings    = $request->get_param( 'settings' );
+		$response         = array();
 
-		foreach ( $incoming_settings as $name => $value ) {
+		foreach ( $next_settings as $name => $value ) {
 			// Only save options that we know about.
 			if ( ! array_key_exists( $name, Plugin::option_defaults() ) ) {
+				unset( $next_settings[ $name ] );
 				continue;
 			}
 			// The option hasn't changed.
-			if ( wp_json_encode( $current_settings[ $name ] ) === wp_json_encode( $incoming_settings[ $name ] ) ) {
-				$next_settings[ $name ] = $value;
+			if ( wp_json_encode( $current_settings[ $name ] ) === wp_json_encode( $next_settings[ $name ] ) ) {
+				unset( $next_settings[ $name ] );
 				continue;
 			}
 
@@ -156,15 +157,13 @@ class Settings {
 		}
 
 		if ( empty( $next_settings ) ) {
-			return rest_ensure_response( __( 'No changes found.', 'scblocks' ) );
+			$response['text'] = __( 'No changes found.', 'scblocks' );
+		} else {
+			$response['text'] = __( 'Settings saved.', 'scblocks' );
+			Plugin::update_options( array_merge( $current_settings, $next_settings ) );
 		}
 
-		$is_saved = Plugin::update_options( $next_settings );
-
-		if ( ! $is_saved ) {
-			return new \WP_Error( 'failed_to_save', 'Failed to save settings', array( 'status' => 500 ) );
-		}
-		return rest_ensure_response( __( 'Settings saved.', 'scblocks' ) );
+		return rest_ensure_response( $response );
 	}
 
 	public function page() {
