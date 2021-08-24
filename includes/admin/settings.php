@@ -28,8 +28,8 @@ class Settings {
 	}
 
 	public function enqueue_scripts() {
-		$assets      = include SCBLOCKS_PLUGIN_DIR . 'build/dashboard.asset.php';
-		$const_asset = include SCBLOCKS_PLUGIN_DIR . 'build/constants.asset.php';
+		$settings_asset = include SCBLOCKS_PLUGIN_DIR . 'build/settings.asset.php';
+		$const_asset    = include SCBLOCKS_PLUGIN_DIR . 'build/constants.asset.php';
 		wp_enqueue_script(
 			'scblocks-constants',
 			SCBLOCKS_PLUGIN_URL . 'build/constants.js',
@@ -47,16 +47,16 @@ class Settings {
 		);
 		wp_enqueue_script(
 			'scblocks-settings',
-			SCBLOCKS_PLUGIN_URL . 'build/dashboard.js',
-			$assets['dependencies'],
-			$assets['version'],
+			SCBLOCKS_PLUGIN_URL . 'build/settings.js',
+			$settings_asset['dependencies'],
+			$settings_asset['version'],
 			true
 		);
 		wp_enqueue_style(
 			'scblocks-settings',
-			SCBLOCKS_PLUGIN_URL . 'build/dashboard.css',
+			SCBLOCKS_PLUGIN_URL . 'build/settings.css',
 			array( 'wp-components' ),
-			$assets['version']
+			$settings_asset['version']
 		);
 	}
 

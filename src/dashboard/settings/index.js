@@ -1,3 +1,6 @@
+// styles
+import './index.scss';
+
 /**
  * WordPress dependencies
  */

@@ -49,10 +49,11 @@ module.exports = {
 			'index.js'
 		),
 		store: path.resolve( process.cwd(), 'src', 'store', 'index.js' ),
-		dashboard: path.resolve(
+		settings: path.resolve(
 			process.cwd(),
 			'src',
 			'dashboard',
+			'settings',
 			'index.js'
 		),
 	},
