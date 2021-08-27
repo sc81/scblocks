@@ -10,6 +10,16 @@
 	justify-content: space-between;
 	align-items: center;
 }
+.scblocks-dashboard-header-title {
+	display: flex;
+	align-items: center;
+}
+.scblocks-dashboard-header-title svg {
+	fill: var(--wp-admin-theme-color-darker-10);
+	width: 2em;
+	height: 2em;
+	margin-right: 10px;
+}
 .scblocks-dashboard-wrap {
 	margin: 0;
 	overflow: hidden;
