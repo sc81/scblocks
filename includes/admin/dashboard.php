@@ -50,8 +50,8 @@ class Dashboard {
 
 		add_submenu_page(
 			'scblocks',
-			__( 'Dashboard', 'scblocks' ),
-			__( 'Dashboard', 'scblocks' ),
+			__( 'Info', 'scblocks' ),
+			__( 'Info', 'scblocks' ),
 			'manage_options',
 			'scblocks'
 		);
@@ -59,7 +59,7 @@ class Dashboard {
 		add_action( "admin_print_styles-$dashboard", array( $this, 'styles' ) );
 	}
 	/**
-	 * Enqueue styles for submenu page.
+	 * Enqueue styles for the Info page.
 	 *
 	 * @since 1.3.0
 	 * @return void
@@ -67,9 +67,9 @@ class Dashboard {
 	public function styles() {
 		wp_enqueue_style(
 			'scblocks-dashboard',
-			SCBLOCKS_PLUGIN_URL . 'assets/css/dashboard.css',
+			SCBLOCKS_PLUGIN_URL . 'assets/css/dashboard-info.css',
 			array( 'wp-components' ),
-			filemtime( SCBLOCKS_PLUGIN_DIR . 'assets/css/dashboard.css' )
+			SCBLOCKS_VERSION
 		);
 	}
 
@@ -85,7 +85,7 @@ class Dashboard {
 				'scblocks-dashboard-global',
 				SCBLOCKS_PLUGIN_URL . 'assets/css/dashboard-global.css',
 				array( 'wp-components' ),
-				filemtime( SCBLOCKS_PLUGIN_DIR . 'assets/css/dashboard-global.css' )
+				SCBLOCKS_VERSION
 			);
 		}
 	}
@@ -172,7 +172,7 @@ class Dashboard {
 			'scblocks_dashboard_tabs',
 			array(
 				'dashboard' => array(
-					'name'  => __( 'Dashboard', 'scblocks' ),
+					'name'  => __( 'Info', 'scblocks' ),
 					'url'   => admin_url( 'admin.php?page=scblocks' ),
 					'class' => 'toplevel_page_scblocks' === $screen->id ? 'active' : '',
 				),
@@ -201,7 +201,7 @@ class Dashboard {
 	}
 
 	/**
-	 * Output our Dashboard HTML.
+	 * Output our Info page HTML.
 	 *
 	 * @since 1.3.0
 	 *
@@ -212,6 +212,10 @@ class Dashboard {
 		<div class="wrap scblocks-dashboard-wrap">
 			<div class="scblocks-dashboard-intro">
 				<?php esc_html_e( 'Build WordPress sites easily and quickly with ScBlocks', 'scblocks' ); ?>
+				<div class="scblocks-invitation-buttons">
+					<a class="button" href="https://sc81.github.io/scblocks/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Visit our site', 'scblocks' ); ?></a>
+					<a class="button" href="https://github.com/sc81/scblocks" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Plugin repository', 'scblocks' ); ?></a>
+				</div>
 			</div>
 		</div>
 		<?php
