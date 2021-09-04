@@ -124,7 +124,9 @@ class Block_Css {
 	/**
 	 * Creates CSS for our blocks.
 	 *
-	 * Uses the scblocks_css filter.
+	 * Uses the scblocks_css filter hook.
+	 * 
+	 * Uses the scblocks_initial_css filter hook.
 	 *
 	 * @since 1.3.0
 	 *
@@ -138,7 +140,14 @@ class Block_Css {
 
 		if ( $css ) {
 			$initial_css = new Initial_Css();
-			$css         = $initial_css->get() . $css;
+			/**
+			 * Filters initial CSS for our blocks.
+			 *
+			 * @since 1.3.0
+			 * @param string $css CSS.
+			 */
+			$i_css = apply_filters( 'scblocks_initial_css', $initial_css->get() );
+			$css   = $i_css . $css;
 		}
 		/**
 		 * Filters CSS for our blocks.
