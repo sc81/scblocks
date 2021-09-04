@@ -404,7 +404,7 @@ class Block_Css {
 				 * @since 1.3.0
 				 * @param array $block_attrs Block attributes.
 				 */
-				do_action( 'scblocks_collecting_block_attrs', $block );
+				do_action( 'scblocks_collecting_block_attrs', $block['attrs'] );
 			}
 			// reusable block
 			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] ) ) {
