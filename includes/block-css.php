@@ -125,7 +125,7 @@ class Block_Css {
 	 * Creates CSS for our blocks.
 	 *
 	 * Uses the scblocks_css filter hook.
-	 * 
+	 *
 	 * Uses the scblocks_initial_css filter hook.
 	 *
 	 * @since 1.3.0
@@ -311,6 +311,8 @@ class Block_Css {
 	/**
 	 * Checks if we need to update the css file.
 	 *
+	 * Uses the scblocks_css_needs_update filter.
+	 *
 	 * @return bool
 	 */
 	public function needs_update() : bool {
@@ -345,7 +347,13 @@ class Block_Css {
 			return true;
 
 		}
-		return false;
+		/**
+		 * Filters whether the CSS of blocks should be updated.
+		 *
+		 * @since 1.3.0
+		 * @param bool $needs_update
+		 */
+		return apply_filters( 'scblocks_css_needs_update', false );
 	}
 
 	/**
