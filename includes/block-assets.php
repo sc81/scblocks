@@ -21,7 +21,12 @@ class Block_Assets {
 	}
 
 	public function register_actions() {
-		add_filter( 'block_categories', array( $this, 'register_category' ), 10, 1 );
+		// In the WP 5.8 widget area, our blocks are uncategorized.
+		if ( version_compare( $GLOBALS['wp_version'], '5.8', '<' ) ) {
+			add_filter( 'block_categories', array( $this, 'register_category' ) );
+		} else {
+			add_filter( 'block_categories_all', array( $this, 'register_category' ) );
+		}
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 		add_action( 'init', array( $this, 'frontend_assets' ) );
 		add_filter( 'excerpt_allowed_blocks', array( $this, 'set_excerpt_allowed_blocks' ) );
