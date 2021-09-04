@@ -352,8 +352,9 @@ class Block_Css {
 		 *
 		 * @since 1.3.0
 		 * @param bool $needs_update
+		 * @param array $post_settings
 		 */
-		return apply_filters( 'scblocks_css_needs_update', false );
+		return apply_filters( 'scblocks_css_needs_update', false, $this->post_settings );
 	}
 
 	/**
