@@ -124,7 +124,9 @@ class Block_Css {
 	/**
 	 * Creates CSS for our blocks.
 	 *
-	 * Uses the scblocks_css filter.
+	 * Uses the scblocks_css filter hook.
+	 *
+	 * Uses the scblocks_initial_css filter hook.
 	 *
 	 * @since 1.3.0
 	 *
@@ -138,7 +140,14 @@ class Block_Css {
 
 		if ( $css ) {
 			$initial_css = new Initial_Css();
-			$css         = $initial_css->get() . $css;
+			/**
+			 * Filters initial CSS for our blocks.
+			 *
+			 * @since 1.3.0
+			 * @param string $css CSS.
+			 */
+			$i_css = apply_filters( 'scblocks_initial_css', $initial_css->get() );
+			$css   = $i_css . $css;
 		}
 		/**
 		 * Filters CSS for our blocks.
@@ -302,6 +311,8 @@ class Block_Css {
 	/**
 	 * Checks if we need to update the css file.
 	 *
+	 * Uses the scblocks_css_needs_update filter.
+	 *
 	 * @return bool
 	 */
 	public function needs_update() : bool {
@@ -336,7 +347,14 @@ class Block_Css {
 			return true;
 
 		}
-		return false;
+		/**
+		 * Filters whether the CSS of blocks should be updated.
+		 *
+		 * @since 1.3.0
+		 * @param bool $needs_update
+		 * @param array $post_settings
+		 */
+		return apply_filters( 'scblocks_css_needs_update', false, $this->post_settings );
 	}
 
 	/**
@@ -380,6 +398,13 @@ class Block_Css {
 				if ( 'heading' === $block_name || 'button' === $block_name ) {
 					Plugin::set_is_active_block( 'icon' );
 				}
+				/**
+				 * Fires while collecting block attributes.
+				 *
+				 * @since 1.3.0
+				 * @param array $block Block data.
+				 */
+				do_action( 'scblocks_collecting_block_attrs', $block );
 			}
 			// reusable block
 			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] ) ) {
