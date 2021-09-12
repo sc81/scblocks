@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Default css for blocks
+ * Default CSS for blocks.
  *
  * @since 1.0.0
  */
 class Initial_Css {
 
 	/**
-	 * Whether to get all css.
+	 * Whether to get all CSS.
 	 *
 	 * @since 1.2.0
 	 *
@@ -26,7 +26,7 @@ class Initial_Css {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param bool $take_all_css Force to take all css
+	 * @param bool $take_all_css Force to take all CSS
 	 */
 	public function __construct( bool $take_all_css = false ) {
 		$this->take_all_css = $take_all_css;
@@ -37,80 +37,95 @@ class Initial_Css {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $arr_css Our css.
+	 * @param array $arr_css Our CSS.
 	 *
 	 * @return string
 	 */
-	public static function build( array $arr_css ) : string {
+	public function build( array $arr_css ) : string {
 		$desktop = '';
 		$tablet  = '';
 		$mobile  = '';
 		$all     = '';
 		if ( isset( $arr_css['allDevices'] ) ) {
-			$all = self::compose_selectors( $arr_css['allDevices'] );
+			$all = $this->compose_selectors( $arr_css['allDevices'] );
 		}
 		if ( isset( $arr_css['desktop'] ) ) {
-			$desktop = '@media(min-width: 1025px){' . self::compose_selectors( $arr_css['desktop'] ) . '}';
+			$desktop = '@media(min-width: 1025px){' . $this->compose_selectors( $arr_css['desktop'] ) . '}';
 		}
 		if ( isset( $arr_css['tablet'] ) ) {
-			$tablet = '@media(max-width: 1024px){' . self::compose_selectors( $arr_css['tablet'] ) . '}';
+			$tablet = '@media(max-width: 1024px){' . $this->compose_selectors( $arr_css['tablet'] ) . '}';
 		}
 		if ( isset( $arr_css['mobile'] ) ) {
-			$mobile = '@media(max-width: 767px){' . self::compose_selectors( $arr_css['mobile'] ) . '}';
+			$mobile = '@media(max-width: 767px){' . $this->compose_selectors( $arr_css['mobile'] ) . '}';
 		}
 		return $all . $desktop . $tablet . $mobile;
 	}
 
 	/**
-	 * Build a css for a specific device.
+	 * Build a CSS for a specific device.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array $arr Our css.
+	 * @param array $arr_css Our CSS.
 	 *
 	 * @return string
 	 */
-	public static function compose_selectors( array $arr ) : string {
+	public function compose_selectors( array $arr_css ) : string {
 		$css = '';
-		foreach ( $arr as $selector => $props ) {
+		foreach ( $arr_css as $selector => $props ) {
 			$css .= $selector . '{' . implode( ';', $props ) . ';}';
 		}
 		return $css;
 	}
 
 	/**
-	 * Get the default css for blocks in use.
+	 * Get the default CSS for blocks in use.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return string
 	 */
 	public function get() : string {
-		$css = $this->button() .
-		$this->buttons() .
-		$this->column() .
-		$this->columns() .
-		$this->container() .
-		$this->heading() .
-		$this->icon();
-
-		return apply_filters(
-			'scblocks_blocks_default_css',
-			$css
+		$css_array = array(
+			'button'    => $this->button(),
+			'buttons'   => $this->buttons(),
+			'column'    => $this->column(),
+			'columns'   => $this->columns(),
+			'container' => $this->container(),
+			'heading'   => $this->heading(),
+			'icon'      => $this->icon(),
 		);
+		/**
+		 * Filters default CSS for all blocks.
+		 *
+		 * @since 1.3.0
+		 * @param array $css_array Default CSS for all blocks.
+		 * @param bool $take_all_css Whether to get all CSS.
+		 */
+		$css_array = apply_filters(
+			'scblocks_blocks_default_css',
+			$css_array,
+			$this->take_all_css
+		);
+
+		$css = '';
+		foreach ( $css_array as $block_css ) {
+			$css .= $this->build( $block_css );
+		}
+		return $css;
 	}
 	/**
-	 * Default css for Button Block.
+	 * Default CSS for Button Block.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function button() : string {
+	public function button() : array {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'button' ) ) {
-			return '';
+			return array();
 		}
-		$arr = apply_filters(
+		return apply_filters(
 			'scblocks_button_default_css',
 			array(
 				'allDevices' => array(
@@ -123,76 +138,75 @@ class Initial_Css {
 				),
 			)
 		);
-		return self::build( $arr );
 	}
 	/**
-	 * Default css for Buttons Block.
+	 * Default CSS for Buttons Block.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function buttons() : string {
+	public function buttons() : array {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'buttons' ) ) {
-			return '';
+			return array();
 		}
 		$buttons = new Buttons_Block();
-		return self::build( $buttons->initial_css() );
+		return $buttons->initial_css();
 	}
 	/**
-	 * Default css for Columns Block.
+	 * Default CSS for Columns Block.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function columns() : string {
+	public function columns() : array {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'columns' ) ) {
-			return '';
+			return array();
 		}
 		$columns = new Columns_Block();
-		return self::build( $columns->initial_css() );
+		return $columns->initial_css();
 	}
 	/**
-	 * Default css for Column Block.
+	 * Default CSS for Column Block.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function column() : string {
+	public function column() : array {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'column' ) ) {
-			return '';
+			return array();
 		}
 		$column = new Column_Block();
-		return self::build( $column->initial_css() );
+		return $column->initial_css();
 	}
 	/**
-	 * Default css for Container Block.
+	 * Default CSS for Container Block.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function container() : string {
+	public function container() : array {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'container' ) ) {
-			return '';
+			return array();
 		}
 		$container = new Container_Block();
-		return self::build( $container->initial_css() );
+		return $container->initial_css();
 	}
 	/**
-	 * Default css for Heading Block.
+	 * Default CSS for Heading Block.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function heading() : string {
+	public function heading() : array {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'heading' ) ) {
-			return '';
+			return array();
 		}
-		$arr = apply_filters(
+		return apply_filters(
 			'scblocks_heading_default_css',
 			array(
 				'allDevices' => array(
@@ -202,21 +216,20 @@ class Initial_Css {
 				),
 			)
 		);
-		return self::build( $arr );
 	}
 
 	/**
-	 * Default css for icon.
+	 * Default CSS for icon.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function icon() : string {
+	public function icon() : array {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'icon' ) ) {
-			return '';
+			return array();
 		}
-		$arr = apply_filters(
+		return apply_filters(
 			'scblocks_icon_default_css',
 			array(
 				'allDevices' => array(
@@ -232,6 +245,5 @@ class Initial_Css {
 				),
 			)
 		);
-		return self::build( $arr );
 	}
 }
