@@ -98,6 +98,7 @@ class Initial_Css {
 		/**
 		 * Filters default CSS for all blocks.
 		 *
+		 * @since 1.3.0
 		 * @param array $css_array Default CSS for all blocks.
 		 * @param bool $take_all_css Whether to get all CSS.
 		 */
