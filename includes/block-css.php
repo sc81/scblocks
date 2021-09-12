@@ -138,6 +138,11 @@ class Block_Css {
 		$css_composer = new Css();
 		$css          = $css_composer->compose( $blocks_attr );
 
+		$widget_styling     = new Widget_Styles();
+		$widget_blocks_attr = $this->blocks_attrs( $widget_styling->parsed_blocks() );
+
+		$css .= $css_composer->compose( $widget_blocks_attr );
+
 		if ( $css ) {
 			$initial_css = new Initial_Css();
 			/**
