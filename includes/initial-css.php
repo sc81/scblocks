@@ -87,13 +87,13 @@ class Initial_Css {
 	 */
 	public function get() : string {
 		$css_array = array(
-			$this->button(),
-			$this->buttons(),
-			$this->column(),
-			$this->columns(),
-			$this->container(),
-			$this->heading(),
-			$this->icon(),
+			'button'    => $this->button(),
+			'buttons'   => $this->buttons(),
+			'column'    => $this->column(),
+			'columns'   => $this->columns(),
+			'container' => $this->container(),
+			'heading'   => $this->heading(),
+			'icon'      => $this->icon(),
 		);
 		/**
 		 * Filters default CSS for all blocks.
