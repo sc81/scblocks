@@ -232,6 +232,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/column-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/columns-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-blocks-metadata.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/widget-styles.php';
 	}
 
 	private function __construct() {
@@ -252,6 +253,7 @@ class Plugin {
 			'ScBlocks\Buttons_Block',
 			'ScBlocks\Column_Block',
 			'ScBlocks\Columns_Block',
+			'ScBlocks\Widget_Styles',
 		);
 
 		foreach ( $classes as $class_name ) {

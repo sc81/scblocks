@@ -138,6 +138,11 @@ class Block_Css {
 		$css_composer = new Css();
 		$css          = $css_composer->compose( $blocks_attr );
 
+		$widget_styling     = new Widget_Styles();
+		$widget_blocks_attr = $this->blocks_attrs( $widget_styling->parsed_blocks() );
+
+		$css .= $css_composer->compose( $widget_blocks_attr );
+
 		if ( $css ) {
 			$initial_css = new Initial_Css();
 			/**
@@ -178,7 +183,11 @@ class Block_Css {
 			return Plugin::css();
 		}
 		if ( Plugin::css_mode() === 'inline' ) {
-
+			return $this->create();
+		}
+		// when there is no post content and we have blocks in the widget area,
+		// for example on a category or archive page
+		if ( Plugin::css_mode() === '' ) {
 			return $this->create();
 		}
 		return '';
