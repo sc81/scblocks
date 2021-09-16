@@ -186,7 +186,7 @@ class Block_Css {
 			return $this->create();
 		}
 		// when there is no post content and we have blocks in the widget area,
-		// for example on the categories or archive page
+		// for example on a category or archive page
 		if ( Plugin::css_mode() === '' ) {
 			return $this->create();
 		}
