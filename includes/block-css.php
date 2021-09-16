@@ -183,7 +183,11 @@ class Block_Css {
 			return Plugin::css();
 		}
 		if ( Plugin::css_mode() === 'inline' ) {
-
+			return $this->create();
+		}
+		// when there is no post content and we have blocks in the widget area,
+		// for example on the categories or archive page
+		if ( Plugin::css_mode() === '' ) {
 			return $this->create();
 		}
 		return '';
