@@ -21,7 +21,7 @@ class Widget_Styles {
 	public function register_actions() {
 		add_filter(
 			'widget_update_callback',
-			array( $this, 'force_update_css_file' )
+			array( $this, 'force_update_css_files' )
 		);
 	}
 
@@ -32,7 +32,7 @@ class Widget_Styles {
 	 *
 	 * @param array $instance The current widget instance's settings.
 	 */
-	public function force_update_css_file( array $instance ) : array {
+	public function force_update_css_files( array $instance ) : array {
 		if ( function_exists( 'wp_use_widgets_block_editor' ) && wp_use_widgets_block_editor() ) {
 			$settings = Plugin::options();
 
