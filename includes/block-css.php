@@ -10,9 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Block_Css {
 
-	/** @var string */
-	const BLOCK_NAMESPACE = 'scblocks';
-
 	/**
 	 * Post ID.
 	 *
@@ -114,7 +111,7 @@ class Block_Css {
 		if ( empty( $this->post_settings ) ) {
 			return '';
 		}
-		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
+		$blocks_attr = Plugin::blocks_attrs( $this->parsed_content() );
 
 		$fonts = new Fonts( $blocks_attr );
 
@@ -133,7 +130,7 @@ class Block_Css {
 	 * @return string
 	 */
 	public function create() : string {
-		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
+		$blocks_attr = Plugin::blocks_attrs( $this->parsed_content() );
 
 		$css_composer = new Css();
 		$css          = $css_composer->compose( $blocks_attr );
@@ -373,56 +370,6 @@ class Block_Css {
 		}
 		$blocks = parse_blocks( $post->post_content );
 		return $blocks;
-	}
-
-	/**
-	 * Retrive attributes from blocks.
-	 *
-	 * @param array $parsed_blocks Array of parsed block objects.
-	 * @param array $data Data used when we use recursion.
-	 *
-	 * @return array
-	 */
-	public function blocks_attrs( array $parsed_blocks, array $data = array() ) : array {
-		if ( empty( $parsed_blocks ) ) {
-			return $data;
-		}
-
-		foreach ( $parsed_blocks as $block ) {
-			if ( isset( $block['blockName'] ) && strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
-				$block_name = explode( '/', $block['blockName'] )[1];
-
-				$data[ $block_name ][] = $block['attrs'];
-
-				Plugin::set_is_active_block( $block_name );
-				if ( 'heading' === $block_name || 'button' === $block_name ) {
-					Plugin::set_is_active_block( 'icon' );
-				}
-				/**
-				 * Fires while collecting block attributes.
-				 *
-				 * @since 1.3.0
-				 * @param array $block Block data.
-				 */
-				do_action( 'scblocks_collecting_block_attrs', $block );
-			}
-			// reusable block
-			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] ) ) {
-				$reusable_block = get_post( $block['attrs']['ref'] );
-
-				if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
-					$parsed_reusable_block = parse_blocks( $reusable_block->post_content );
-
-					$data = $this->blocks_attrs( $parsed_reusable_block, $data );
-
-				}
-			}
-			// inner blocks
-			if ( ! empty( $block['innerBlocks'] ) ) {
-				$data = $this->blocks_attrs( $block['innerBlocks'], $data );
-			}
-		}
-		return $data;
 	}
 
 	/**

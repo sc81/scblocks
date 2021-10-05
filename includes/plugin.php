@@ -12,6 +12,9 @@ class Plugin {
 	/** @var string */
 	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
 
+	/** @var string */
+	const BLOCK_NAMESPACE = 'scblocks';
+
 	private static $instance;
 
 	/**
@@ -200,6 +203,56 @@ class Plugin {
 			self::POST_SETTINGS_POST_META_NAME,
 			wp_slash( wp_json_encode( $settings ) )
 		);
+	}
+
+	/**
+	 * Retrive attributes from blocks.
+	 *
+	 * @param array $parsed_blocks Array of parsed block objects.
+	 * @param array $data Data used when we use recursion.
+	 *
+	 * @return array
+	 */
+	public static function blocks_attrs( array $parsed_blocks, array $data = array() ) : array {
+		if ( empty( $parsed_blocks ) ) {
+			return $data;
+		}
+
+		foreach ( $parsed_blocks as $block ) {
+			if ( isset( $block['blockName'] ) && strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
+				$block_name = explode( '/', $block['blockName'] )[1];
+
+				$data[ $block_name ][] = $block['attrs'];
+
+				self::set_is_active_block( $block_name );
+				if ( 'heading' === $block_name || 'button' === $block_name ) {
+					self::set_is_active_block( 'icon' );
+				}
+				/**
+				 * Fires while collecting block attributes.
+				 *
+				 * @since 1.3.0
+				 * @param array $block Block data.
+				 */
+				do_action( 'scblocks_collecting_block_attrs', $block );
+			}
+			// reusable block
+			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] ) ) {
+				$reusable_block = get_post( $block['attrs']['ref'] );
+
+				if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
+					$parsed_reusable_block = parse_blocks( $reusable_block->post_content );
+
+					$data = self::blocks_attrs( $parsed_reusable_block, $data );
+
+				}
+			}
+			// inner blocks
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$data = self::blocks_attrs( $block['innerBlocks'], $data );
+			}
+		}
+		return $data;
 	}
 
 	/**
