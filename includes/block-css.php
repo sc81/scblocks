@@ -135,6 +135,16 @@ class Block_Css {
 		$css_composer = new Css();
 		$css          = $css_composer->compose( $blocks_attr );
 
+		/**
+		 * Filters CSS for our blocks.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @param string $css CSS.
+		 * @param int $post_id Post ID.
+		 */
+		$css = apply_filters( 'scblocks_css', $css, $this->post_id );
+
 		if ( $css ) {
 			$initial_css = new Initial_Css();
 			/**
@@ -146,15 +156,7 @@ class Block_Css {
 			$i_css = apply_filters( 'scblocks_initial_css', $initial_css->get() );
 			$css   = $i_css . $css;
 		}
-		/**
-		 * Filters CSS for our blocks.
-		 *
-		 * @since 1.3.0
-		 *
-		 * @param string $css CSS.
-		 * @param int $post_id Post ID.
-		 */
-		return apply_filters( 'scblocks_css', $css, $this->post_id );
+		return $css;
 	}
 
 	/**
@@ -175,7 +177,10 @@ class Block_Css {
 			return Plugin::css();
 		}
 		if ( Plugin::css_mode() === 'inline' ) {
-
+			return $this->create();
+		}
+		// when the mode is set to file and we have blocks on blog main page, archive page, etc.
+		if ( Plugin::css_mode() === '' ) {
 			return $this->create();
 		}
 		return '';
