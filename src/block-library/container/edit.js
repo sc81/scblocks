@@ -24,6 +24,7 @@ import {
 	BLOCK_SELECTOR,
 	VariationsPicker,
 	GoogleFontsLink,
+	getUidClass,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -39,8 +40,8 @@ import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, clientId } = props;
-	const { uidClass, htmlClass, htmlId, isDynamic } = attributes;
+	const { attributes, setAttributes, clientId, name } = props;
+	const { htmlClass, htmlId, isDynamic } = attributes;
 	const { devices, innerBlockCount, isRootContainer, svgShapes } = useSelect(
 		( select ) => {
 			const { getBlockCount, getBlockHierarchyRootClientId } = select(
@@ -88,7 +89,7 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.container.main ]: true,
-					[ uidClass ]: true,
+					[ getUidClass( name, clientId ) ]: true,
 					[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),

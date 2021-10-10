@@ -24,6 +24,7 @@ import {
 	GoogleFontsLink,
 	useSelectorsActivity,
 	setSelectorActivity,
+	getUidClass,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 import { DangerouslyPasteIcon } from '@scblocks/components';
@@ -37,15 +38,8 @@ import { name as blockName } from '.';
 import Inspector from './inspector';
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, onReplace } = props;
-	const {
-		text,
-		tagName: Tag,
-		uidClass,
-		icon,
-		htmlClass,
-		htmlId,
-	} = attributes;
+	const { attributes, setAttributes, onReplace, clientId, name } = props;
+	const { text, tagName: Tag, icon, htmlClass, htmlId } = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -75,7 +69,7 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.heading.main ]: true,
-					[ uidClass ]: true,
+					[ getUidClass( name, clientId ) ]: true,
 					[ BLOCK_CLASSES.heading.text ]: ! icon,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),

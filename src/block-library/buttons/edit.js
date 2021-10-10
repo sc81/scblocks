@@ -27,6 +27,7 @@ import {
 	VariationsPicker,
 	IdClassesControls,
 	ControlsManager,
+	getUidClass,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -42,8 +43,8 @@ import { BUTTON_BLOCK_NAME } from '../button/utils';
 const ALLOWED_BLOCKS = [ BUTTON_BLOCK_NAME ];
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, clientId } = props;
-	const { htmlClass, htmlId, uidClass, isDynamic } = attributes;
+	const { attributes, setAttributes, clientId, name } = props;
+	const { htmlClass, htmlId, isDynamic } = attributes;
 	const { devices, buttonCount } = useSelect(
 		( select ) => {
 			return {
@@ -78,7 +79,7 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.buttons.main ]: true,
-					[ uidClass ]: true,
+					[ getUidClass( name, clientId ) ]: true,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 			},
