@@ -45,11 +45,11 @@ class Update_Blocks_Metadata {
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
 
 			$settings['css_version'] = SCBLOCKS_VERSION;
-			$settings['update_time'] = time();
+			$settings['update_time'] = Plugin::get_microtime();
 		}
 		if ( strpos( $post->post_content, 'wp:block' ) !== false ) {
 
-			$settings['update_time'] = time();
+			$settings['update_time'] = Plugin::get_microtime();
 			$settings['css_version'] = SCBLOCKS_VERSION;
 		}
 
@@ -74,7 +74,7 @@ class Update_Blocks_Metadata {
 		$options = Plugin::options();
 
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
-			$options['reusable_blocks_update_time'] = time();
+			$options['reusable_blocks_update_time'] = Plugin::get_microtime();
 		}
 
 		// deprecated since 1.2.0

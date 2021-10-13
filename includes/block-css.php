@@ -285,7 +285,7 @@ class Block_Css {
 
 		$is_saved = $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $css ), FS_CHMOD_FILE );
 		if ( $is_saved ) {
-			$update_time = time();
+			$update_time = Plugin::get_microtime();
 
 			$settings = $this->post_settings;
 
@@ -329,7 +329,7 @@ class Block_Css {
 		}
 		// force css file update
 		if ( isset( $this->post_settings['update_time'] ) &&
-		(int) Plugin::option( 'force_regenerate_css_files' ) >= (int) $this->post_settings['update_time'] ) {
+		Plugin::compare_microtimes( Plugin::option( 'force_regenerate_css_files' ), $this->post_settings['update_time'] ) ) {
 			return true;
 		}
 		// new css version
@@ -340,12 +340,12 @@ class Block_Css {
 		// post has been updated
 		if ( isset( $this->post_settings['update_time'] ) &&
 		isset( $this->post_settings['old_update_time'] ) &&
-		$this->post_settings['old_update_time'] !== $this->post_settings['update_time'] ) {
+		Plugin::compare_microtimes( $this->post_settings['update_time'], $this->post_settings['old_update_time'] ) ) {
 			return true;
 		}
 		// check if any reusable block has been updated
 		if ( isset( $this->post_settings['update_time'] ) &&
-		(int) Plugin::option( 'reusable_blocks_update_time' ) >= (int) $this->post_settings['update_time'] ) {
+		Plugin::compare_microtimes( Plugin::option( 'reusable_blocks_update_time' ), $this->post_settings['update_time'] ) ) {
 			return true;
 
 		}
