@@ -84,27 +84,45 @@ class Update_Blocks_Metadata {
 		Plugin::update_options( $options );
 	}
 
+	/**
+	 * Change the uidClass of all our blocks when saving the post.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param int $post_id
+	 * @param \WP_Post $post
+	 *
+	 * @return void
+	 */
 	public function change_uid_class_on_save( int $post_id, \WP_Post $post ) {
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) || ! $post->post_content ) {
 			return;
 		}
-		if ( $post->post_content ) {
-			$blocks = parse_blocks( $post->post_content );
-			$this->update_uid_class( $blocks, $post_id );
-			$content = serialize_blocks( $blocks );
+		$blocks = parse_blocks( $post->post_content );
+		$this->update_uid_class( $blocks, $post_id );
+		$content = serialize_blocks( $blocks );
 
-			remove_action( 'save_post', array( $this, 'change_uid_class_on_save' ), 100, 2 );
+		remove_action( 'save_post', array( $this, 'change_uid_class_on_save' ), 100, 2 );
 
-			wp_update_post(
-				array(
-					'ID'           => $post_id,
-					'post_content' => $content,
-				)
-			);
+		wp_update_post(
+			array(
+				'ID'           => $post_id,
+				'post_content' => $content,
+			)
+		);
 
-			add_action( 'save_post', array( $this, 'change_uid_class_on_save' ), 100, 2 );
-		}
+		add_action( 'save_post', array( $this, 'change_uid_class_on_save' ), 100, 2 );
 	}
+	/**
+	 * Update uidClass for blocks.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $blocks
+	 * @param int $post_id
+	 *
+	 * @return void
+	 */
 	public function update_uid_class( array &$blocks, int $post_id ) {
 		foreach ( $blocks as $index => $block ) {
 			if ( isset( $block['blockName'] ) &&
@@ -118,7 +136,16 @@ class Update_Blocks_Metadata {
 			}
 		}
 	}
-
+	/**
+	 * Create a uidClass for the block.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $block_name
+	 * @param int $post_id
+	 *
+	 * @return string
+	 */
 	public function create_uid_class( string $block_name, int $post_id ) : string {
 		$block_name = explode( '/', $block_name )[1];
 		return 'scb-' . $block_name . '-' . $post_id . bin2hex( random_bytes( 4 ) );
