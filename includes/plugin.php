@@ -254,6 +254,26 @@ class Plugin {
 		}
 		return $data;
 	}
+	/**
+	 * Return current Unix timestamp with microseconds as a string.
+	 *
+	 * @since 1.3.0
+	 * @return string
+	 */
+	public static function get_microtime() : string {
+		return number_format( microtime( true ), 9, '.', '' );
+	}
+	/**
+	 * Check if the first number is larger than the second.
+	 *
+	 * @since 1.3.0
+	 * @param string $num1 Number as a string.
+	 * @param string $num2 Number as a string.
+	 * @return bool
+	 */
+	public static function compare_microtimes( string $num1, string $num2 ) : bool {
+		return bccomp( $num1, $num2, 9 ) === 1;
+	}
 
 	/**
 	 * Updates the job completion time for the file writer.
