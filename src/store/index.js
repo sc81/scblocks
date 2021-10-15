@@ -34,6 +34,12 @@ const actions = {
 			fontAwesome,
 		};
 	},
+	setUsedIcons( usedIcons ) {
+		return {
+			type: 'SET_USED_ICONS',
+			usedIcons,
+		};
+	},
 	fetchFromAPI( path ) {
 		return {
 			type: 'FETCH_FROM_API',
@@ -60,6 +66,11 @@ registerStore( STORE_NAME, {
 					...state,
 					fontAwesome: { ...action.fontAwesome },
 				};
+			case 'SET_USED_ICONS':
+				return {
+					...state,
+					usedIcons: { ...action.usedIcons },
+				};
 		}
 
 		return state;
@@ -74,6 +85,9 @@ registerStore( STORE_NAME, {
 		},
 		getFontAwesome( state ) {
 			return state.fontAwesome;
+		},
+		usedIcons( state ) {
+			return state.usedIcons;
 		},
 	},
 	controls: {
@@ -103,6 +117,11 @@ registerStore( STORE_NAME, {
 			let icons = yield actions.fetchFromAPI( path );
 			icons = JSON.parse( icons );
 			return actions.setFontAwesome( icons );
+		},
+		*usedIcons() {
+			const path = `/${ PLUGIN_NAME }/v1/icons/3`;
+			const icons = yield actions.fetchFromAPI( path );
+			return actions.setUsedIcons( icons );
 		},
 	},
 } );
