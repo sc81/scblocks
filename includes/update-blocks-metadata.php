@@ -19,7 +19,7 @@ class Update_Blocks_Metadata {
 	public function register_actions() {
 		add_action( 'save_post', array( $this, 'update_post_settings' ), 10, 2 );
 		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ), 10, 2 );
-		add_action( 'save_post', array( $this, 'change_uid_class_on_save' ), 100, 2 );
+		add_action( 'wp_insert_post_data', array( $this, 'change_uid_class_on_save' ), 10, 2 );
 	}
 
 	/**
@@ -89,29 +89,22 @@ class Update_Blocks_Metadata {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param int $post_id
-	 * @param \WP_Post $post
+	 * @param array $data An array of slashed, sanitized, and processed post data.
+	 * @param array $postarr An array of sanitized (and slashed) but otherwise unmodified post data.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function change_uid_class_on_save( int $post_id, \WP_Post $post ) {
-		if ( ! current_user_can( 'edit_post', $post_id ) || ! $post->post_content ) {
-			return;
+	public function change_uid_class_on_save( array $data, array $postarr ) : array {
+		if ( ! current_user_can( 'edit_post', $postarr['ID'] ) || empty( $data['post_content'] ) ) {
+			return $data;
 		}
-		$blocks = parse_blocks( $post->post_content );
-		$this->update_uid_class( $blocks, $post_id );
-		$content = serialize_blocks( $blocks );
+		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
 
-		remove_action( 'save_post', array( $this, 'change_uid_class_on_save' ), 100, 2 );
+		$this->update_uid_class( $blocks, $postarr['ID'] );
 
-		wp_update_post(
-			array(
-				'ID'           => $post_id,
-				'post_content' => $content,
-			)
-		);
+		$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
 
-		add_action( 'save_post', array( $this, 'change_uid_class_on_save' ), 100, 2 );
+		return $data;
 	}
 	/**
 	 * Update uidClass for blocks.
