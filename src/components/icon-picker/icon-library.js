@@ -27,7 +27,7 @@ export const FONT_AWESOME_NAME = 'fontawesome';
 export const DASHICON_NAME = 'dashicons';
 
 function icon( iconPath, { dashicons, fontAwesome } ) {
-	const iconPathParts = iconPath.split( '/' );
+	const iconPathParts = iconPath.split( '|' );
 	switch ( iconPathParts[ 0 ] ) {
 		case DASHICON_NAME: {
 			return <Dashicon d={ dashicons[ iconPathParts[ 2 ] ] } />;
@@ -55,7 +55,7 @@ function filteredIconList( family, category, value, icons ) {
 		Object.keys( icons.dashicons ).forEach( ( name ) => {
 			if ( isIconNameInSearchValue( name, value ) ) {
 				filteredList.push(
-					`${ DASHICON_NAME }/${ category }/${ name }`
+					`${ DASHICON_NAME }|${ category }|${ name }`
 				);
 			}
 		} );
@@ -66,7 +66,7 @@ function filteredIconList( family, category, value, icons ) {
 			Object.keys( icons.fontAwesome[ cat ] ).forEach( ( name ) => {
 				if ( isIconNameInSearchValue( name, value ) ) {
 					filteredList.push(
-						`${ FONT_AWESOME_NAME }/${ cat }/${ name }`
+						`${ FONT_AWESOME_NAME }|${ cat }|${ name }`
 					);
 				}
 			} );
@@ -75,7 +75,7 @@ function filteredIconList( family, category, value, icons ) {
 		Object.keys( icons.fontAwesome[ category ] ).forEach( ( name ) => {
 			if ( isIconNameInSearchValue( name, value ) ) {
 				filteredList.push(
-					`${ FONT_AWESOME_NAME }/${ category }/${ name }`
+					`${ FONT_AWESOME_NAME }|${ category }|${ name }`
 				);
 			}
 		} );
@@ -112,6 +112,7 @@ export default function IconLibrary( { onSelectIcon, onRequestClose } ) {
 
 	function onSelect( path ) {
 		onSelectIcon(
+			path,
 			renderToString( icon( path, { dashicons, fontAwesome } ) )
 		);
 	}
@@ -167,7 +168,7 @@ export default function IconLibrary( { onSelectIcon, onRequestClose } ) {
 							>
 								{ currentIconPaths.length > 0 ? (
 									currentIconPaths.map( ( path ) => {
-										const pathParts = path.split( '/' );
+										const pathParts = path.split( '|' );
 										return (
 											<Button
 												key={ path }

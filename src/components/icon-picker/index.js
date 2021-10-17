@@ -20,8 +20,8 @@ import sanitizeSVG from '../sanitize-svg';
 export default function IconPicker( { icon, onSelect, onClear } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 
-	function onSelectIcon( nextIcon ) {
-		onSelect( nextIcon );
+	function onSelectIcon( iconName, nextIcon ) {
+		onSelect( iconName, nextIcon );
 		setIsOpen( false );
 	}
 	return (

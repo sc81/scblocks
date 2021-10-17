@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Icons {
-	private $post_type = 'scblocks_svg';
+	public static $post_type = 'scblocks_svg';
 
 	private $used_icons_post_id_option_name = 'used_icons_post_id';
 
@@ -37,7 +37,7 @@ class Icons {
 
 	public function register_post() {
 		register_post_type(
-			$this->post_type,
+			self::$post_type,
 			array(
 				'show_ui'      => false,
 				'show_in_menu' => false,
@@ -65,9 +65,9 @@ class Icons {
 				$prepared   = array();
 				foreach ( $used_icons as $icon ) {
 					if ( isset( $icon['attrs'] ) &&
-					isset( $icon['attrs']['name'] ) &&
+					isset( $icon['attrs']['iconName'] ) &&
 					isset( $icon['innerHTML'] ) ) {
-						$prepared[ $icon['attrs']['name'] ] = $icon['innerHTML'];
+						$prepared[ $icon['attrs']['iconName'] ] = $icon['innerHTML'];
 					}
 				}
 
@@ -82,7 +82,8 @@ class Icons {
 		if ( wp_is_post_autosave( $post_id ) ||
 			wp_is_post_revision( $post_id ) ||
 			! current_user_can( 'edit_post', $post_id ) ||
-			! $post->post_content ) {
+			! $post->post_content ||
+			self::$post_type === $post->post_type ) {
 			return;
 		}
 		$blocks = parse_blocks( $post->post_content );
@@ -97,8 +98,9 @@ class Icons {
 		$used_icons_post_id = Plugin::option( $this->used_icons_post_id_option_name );
 		if ( ! $used_icons_post_id ) {
 			$args = array(
-				'post_type'    => $this->post_type,
+				'post_type'    => self::$post_type,
 				'post_content' => $icons,
+				'post_name'    => 'used_icons_by_posts',
 			);
 			$id   = wp_insert_post( $args );
 			if ( ! ! $id && ! is_wp_error( $id ) ) {
@@ -123,8 +125,8 @@ class Icons {
 			if ( isset( $block['blockName'] ) &&
 			in_array( $block['blockName'], $block_names, true ) &&
 			isset( $block['attrs'] ) &&
-			isset( $block['attrs']['name'] ) ) {
-				$names[] = $block['attrs']['name'];
+			isset( $block['attrs']['iconName'] ) ) {
+				$names[] = $block['attrs']['iconName'];
 			}
 		}
 		return $names;
@@ -164,15 +166,13 @@ class Icons {
 	}
 	public function do_block( string $icon_name, string $content ) : string {
 		$block = array(
-			'blockName' => 'scblocks/used-icon',
-			'attrs'     => array(
-				'name' => $icon_name,
+			'blockName'    => 'scblocks/used-icon',
+			'attrs'        => array(
+				'iconName' => $icon_name,
 			),
-			'innerHTML' => $content,
+			'innerContent' => array( $content ),
 		);
-		$block = new \WP_Block( $block );
-
-		return $block->render( array( 'dynamic' => false ) );
+		return serialize_block( $block );
 	}
 	public function build_dashicon( string $path_definition ) : string {
 		$icon  = '<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">';

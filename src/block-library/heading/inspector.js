@@ -5,6 +5,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
+import { useSelect, dispatch } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
@@ -14,7 +15,7 @@ import {
 	IdClassesControls,
 	ControlsManager,
 } from '@scblocks/block';
-import { ALL_DEVICES } from '@scblocks/constants';
+import { ALL_DEVICES, STORE_NAME } from '@scblocks/constants';
 import {
 	removeSelectors,
 	setPropsForVariousDevices,
@@ -24,10 +25,20 @@ import { IconPicker } from '@scblocks/components';
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
-	const { tagName, icon } = attributes;
+	const { tagName, iconName } = attributes;
+	const icon = useSelect(
+		( select ) => {
+			const icons = select( STORE_NAME ).usedIcons();
+			if ( icons && icons[ iconName ] ) {
+				return icons[ iconName ];
+			}
+			return '';
+		},
+		[ iconName ]
+	);
 	function onRemoveIcon() {
 		setAttributes( {
-			icon: '',
+			iconName: '',
 		} );
 		const attrs = {
 			css: {},
@@ -52,8 +63,8 @@ export default function Inspector( props ) {
 			selectors: [ BLOCK_SELECTOR.heading.icon.alias ],
 		} );
 	}
-	function onSelectIcon( value ) {
-		setAttributes( { icon: value } );
+	function onSelectIcon( name, iconAsString ) {
+		setAttributes( { iconName: name } );
 		setPropValue( {
 			attributes,
 			setAttributes,
@@ -62,6 +73,7 @@ export default function Inspector( props ) {
 			propName: 'display',
 			value: 'flex',
 		} );
+		dispatch( STORE_NAME ).addUsedIcon( name, iconAsString );
 	}
 	return (
 		<InspectorControls>

@@ -40,6 +40,13 @@ const actions = {
 			usedIcons,
 		};
 	},
+	addUsedIcon( name, icon ) {
+		return {
+			type: 'ADD_USED_ICON',
+			name,
+			icon,
+		};
+	},
 	fetchFromAPI( path ) {
 		return {
 			type: 'FETCH_FROM_API',
@@ -70,6 +77,14 @@ registerStore( STORE_NAME, {
 				return {
 					...state,
 					usedIcons: { ...action.usedIcons },
+				};
+			case 'ADD_USED_ICON':
+				return {
+					...state,
+					usedIcons: {
+						...state.usedIcons,
+						[ action.name ]: action.icon,
+					},
 				};
 		}
 

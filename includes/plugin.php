@@ -304,9 +304,9 @@ class Plugin {
 			$icons  = array();
 			foreach ( $blocks as $block ) {
 				if ( isset( $block['attrs'] ) &&
-				! empty( $block['attrs']['name'] ) &&
+				! empty( $block['attrs']['iconName'] ) &&
 				! empty( $block['innerHTML'] ) ) {
-					$icons[ $block['attrs']['name'] ] = $block['innerHTML'];
+					$icons[ $block['attrs']['iconName'] ] = $block['innerHTML'];
 				}
 			}
 			self::$used_icons_by_posts = $icons;
