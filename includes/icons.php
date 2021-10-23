@@ -6,8 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Icons {
+	/**
+	 * @since 1.3.0
+	 * @var string
+	 */
 	public static $post_type = 'scblocks_svg';
 
+	/**
+	 * @since 1.3.0
+	 * @var string
+	 */
 	private $used_icons_post_id_option_name = 'used_icons_post_id';
 
 	public function __construct() {
@@ -16,6 +24,11 @@ class Icons {
 		add_action( 'save_post', array( $this, 'update_used_by_posts' ), 10, 2 );
 	}
 
+	/**
+	 * Register route.
+	 *
+	 * @return void
+	 */
 	public function register_routes() {
 		register_rest_route(
 			'scblocks/v1',
@@ -35,6 +48,12 @@ class Icons {
 		);
 	}
 
+	/**
+	 * Register post.
+	 *
+	 * @since 1.3.0
+	 * @return void
+	 */
 	public function register_post() {
 		register_post_type(
 			self::$post_type,
@@ -47,6 +66,14 @@ class Icons {
 		);
 	}
 
+	/**
+	 * Get icons for the admin area.
+	 *
+	 * @since 1.3.0
+	 * @param mixed $data
+	 *
+	 * @return void
+	 */
 	public function get_for_admin_area( $data ) {
 
 		switch ( $data['id'] ) {
@@ -78,6 +105,16 @@ class Icons {
 		}
 
 	}
+	/**
+	 * Update a post that includes the icons used by the posts.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param int $post_id
+	 * @param \WP_Post $post
+	 *
+	 * @return void
+	 */
 	public function update_used_by_posts( int $post_id, \WP_Post $post ) {
 		if ( wp_is_post_autosave( $post_id ) ||
 			wp_is_post_revision( $post_id ) ||
@@ -118,6 +155,16 @@ class Icons {
 		}
 	}
 
+	/**
+	 * Get icon names from block attributes.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $blocks
+	 * @param array $block_names
+	 *
+	 * @return array
+	 */
 	public function retrive_icon_names( array $blocks, array $block_names ) : array {
 		$names = array();
 
@@ -132,6 +179,13 @@ class Icons {
 		return $names;
 	}
 
+	/**
+	 * Return an array of icons used by posts.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return array Array of parsed block objects.
+	 */
 	public function used_by_posts() : array {
 		$post_id = Plugin::option( 'used_icons_post_id' );
 		if ( ! $post_id ) {
@@ -143,6 +197,15 @@ class Icons {
 		}
 		return parse_blocks( $post->post_content );
 	}
+	/**
+	 * Build HTML markup for icons.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $icons_data
+	 *
+	 * @return string
+	 */
 	public function build_icons( array $icons_data ) : string {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/font-awesome.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/dashicons.php';
@@ -161,6 +224,16 @@ class Icons {
 		}
 		return $icons;
 	}
+	/**
+	 * Wrap content with comment delimiters and serialize all attributes.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $icon_name
+	 * @param string $content
+	 *
+	 * @return string
+	 */
 	public function do_block( string $icon_name, string $content ) : string {
 		$block = array(
 			'blockName'    => 'scblocks/used-icon',
@@ -171,12 +244,30 @@ class Icons {
 		);
 		return serialize_block( $block );
 	}
+	/**
+	 * Build HTML markup for the DASHICON icon.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $path_definition
+	 *
+	 * @return string
+	 */
 	public function build_dashicon( string $path_definition ) : string {
 		$icon  = '<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">';
 		$icon .= sprintf( '<path d="%s"></path>', $path_definition );
 		$icon .= '</svg>';
 		return $icon;
 	}
+	/**
+	 * Build HTML markup for the FONTAWESOME icon.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $icon_data
+	 *
+	 * @return string
+	 */
 	public function build_fontawesome( string $icon_data ) : string {
 		$parts           = explode( '|', $icon_data );
 		$view_box        = $parts[0];
