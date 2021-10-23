@@ -151,15 +151,12 @@ class Icons {
 
 		foreach ( $icons_data as $icon_name ) {
 			$name_parts = explode( '|', $icon_name );
-			if ( 'dashicons' === $name_parts[0] ) {
-				if ( isset( DASHICONS[ $name_parts[2] ] ) ) {
-					$icons .= $this->do_block( $icon_name, $this->build_dashicon( DASHICONS[ $name_parts[2] ] ) );
-				}
-			} elseif ( 'fontawesome' === $name_parts[0] ) {
-				if ( isset( FONTAWESOME[ $name_parts[1] ] ) &&
-				isset( FONTAWESOME[ $name_parts[1] ][ $name_parts[2] ] ) ) {
-					$icons .= $this->do_block( $icon_name, $this->build_fontawesome( FONTAWESOME[ $name_parts[1] ][ $name_parts[2] ] ) );
-				}
+			if ( 'dashicons' === $name_parts[0] && isset( DASHICONS[ $name_parts[2] ] ) ) {
+				$icons .= $this->do_block( $icon_name, $this->build_dashicon( DASHICONS[ $name_parts[2] ] ) );
+			} elseif ( 'fontawesome' === $name_parts[0] &&
+			isset( FONTAWESOME[ $name_parts[1] ] ) &&
+			isset( FONTAWESOME[ $name_parts[1] ][ $name_parts[2] ] ) ) {
+				$icons .= $this->do_block( $icon_name, $this->build_fontawesome( FONTAWESOME[ $name_parts[1] ][ $name_parts[2] ] ) );
 			}
 		}
 		return $icons;
