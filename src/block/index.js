@@ -15,3 +15,4 @@ export {
 } from './use-selector-activity';
 export { default as getUidClass } from './get-uid-class';
 export { default as PasteUsedIcon } from './paste-used-icon';
+export { default as getUidForIcon } from './get-uid-for-icon';

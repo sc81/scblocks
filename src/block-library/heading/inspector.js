@@ -14,6 +14,7 @@ import {
 	BLOCK_SELECTOR,
 	IdClassesControls,
 	ControlsManager,
+	getUidForIcon,
 } from '@scblocks/block';
 import { ALL_DEVICES, STORE_NAME } from '@scblocks/constants';
 import {
@@ -22,20 +23,6 @@ import {
 	setPropValue,
 } from '@scblocks/css-utils';
 import { IconPicker } from '@scblocks/components';
-
-function getRandomNumberAsString() {
-	return ( Math.random() + '' ).replace( '0.', '' );
-}
-
-function getIdForIcon( icons ) {
-	const id = getRandomNumberAsString();
-	for ( const uid in icons ) {
-		if ( uid === id ) {
-			return getIdForIcon( icons );
-		}
-	}
-	return id;
-}
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
@@ -99,7 +86,7 @@ export default function Inspector( props ) {
 			iconAttrs.iconName = '';
 			iconAttrs.iconHtml = '';
 		} else {
-			newIconId = getIdForIcon( icons );
+			newIconId = getUidForIcon( icons );
 			iconAttrs.iconId = newIconId;
 			if ( name === 'user-icon' ) {
 				iconAttrs.iconName = 'user|free-version|' + newIconId;
