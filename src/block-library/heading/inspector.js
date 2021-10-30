@@ -5,7 +5,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { useSelect, dispatch } from '@wordpress/data';
+import { useSelect, dispatch, select } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
@@ -23,21 +23,37 @@ import {
 } from '@scblocks/css-utils';
 import { IconPicker } from '@scblocks/components';
 
+function getRandomNumberAsString() {
+	return ( Math.random() + '' ).replace( '0.', '' );
+}
+
+function getIdForIcon( icons ) {
+	const id = getRandomNumberAsString();
+	for ( const uid in icons ) {
+		if ( uid === id ) {
+			return getIdForIcon( icons );
+		}
+	}
+	return id;
+}
+
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
-	const { tagName, iconName } = attributes;
+	const { tagName, iconId } = attributes;
 	const icon = useSelect(
-		( select ) => {
-			const icons = select( STORE_NAME ).usedIcons();
-			if ( icons && icons[ iconName ] ) {
-				return icons[ iconName ];
+		( store ) => {
+			const icons = store( STORE_NAME ).usedIcons();
+			if ( icons && icons[ iconId ] ) {
+				return icons[ iconId ];
 			}
 			return '';
 		},
-		[ iconName ]
+		[ iconId ]
 	);
 	function onRemoveIcon() {
 		setAttributes( {
+			iconId: '',
+			iconHtml: '',
 			iconName: '',
 		} );
 		const attrs = {
@@ -64,7 +80,36 @@ export default function Inspector( props ) {
 		} );
 	}
 	function onSelectIcon( name, iconAsString ) {
-		setAttributes( { iconName: name } );
+		if ( ! iconAsString ) {
+			onRemoveIcon();
+			return;
+		}
+		const icons = select( STORE_NAME ).usedIcons();
+		let id;
+
+		for ( const uid in icons ) {
+			if ( icons[ uid ] === iconAsString ) {
+				id = uid;
+			}
+		}
+		const iconAttrs = {};
+		let newIconId;
+		if ( id ) {
+			iconAttrs.iconId = id;
+			iconAttrs.iconName = '';
+			iconAttrs.iconHtml = '';
+		} else {
+			newIconId = getIdForIcon( icons );
+			iconAttrs.iconId = newIconId;
+			if ( name === 'user-icon' ) {
+				iconAttrs.iconName = 'user|free-version|' + newIconId;
+			} else {
+				iconAttrs.iconName = name;
+			}
+			iconAttrs.iconHtml = iconAsString;
+		}
+
+		setAttributes( iconAttrs );
 		setPropValue( {
 			attributes,
 			setAttributes,
@@ -73,7 +118,9 @@ export default function Inspector( props ) {
 			propName: 'display',
 			value: 'flex',
 		} );
-		dispatch( STORE_NAME ).addUsedIcon( name, iconAsString );
+		if ( newIconId ) {
+			dispatch( STORE_NAME ).addUsedIcon( newIconId, iconAsString );
+		}
 	}
 	return (
 		<InspectorControls>

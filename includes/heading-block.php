@@ -102,9 +102,9 @@ class Heading_Block {
 
 		$text = isset( $attributes['text'] ) ? wp_kses_post( $attributes['text'] ) : '';
 
-		if ( ! empty( $attributes['iconName'] ) ) {
+		if ( ! empty( $attributes['iconId'] ) ) {
 			$icons   = Plugin::used_icons();
-			$icon    = isset( $icons[ $attributes['iconName'] ] ) ? $icons[ $attributes['iconName'] ] : '';
+			$icon    = isset( $icons[ $attributes['iconId'] ] ) ? $icons[ $attributes['iconId'] ] : '';
 			$output .= '<span class="scb-icon">' . $icon . '</span>';
 
 			$output .= '<span class="scb-heading-text">' . $text . '</span>';

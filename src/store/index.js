@@ -40,10 +40,10 @@ const actions = {
 			usedIcons,
 		};
 	},
-	addUsedIcon( name, icon ) {
+	addUsedIcon( id, icon ) {
 		return {
 			type: 'ADD_USED_ICON',
-			name,
+			id,
 			icon,
 		};
 	},
@@ -83,7 +83,7 @@ registerStore( STORE_NAME, {
 					...state,
 					usedIcons: {
 						...state.usedIcons,
-						[ action.name ]: action.icon,
+						[ action.id ]: action.icon,
 					},
 				};
 		}

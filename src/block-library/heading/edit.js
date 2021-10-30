@@ -42,7 +42,7 @@ export default function Edit( props ) {
 	const {
 		text,
 		tagName: Tag,
-		iconName,
+		iconId,
 		htmlClass,
 		htmlId,
 		isDynamic,
@@ -66,8 +66,8 @@ export default function Edit( props ) {
 	const selectorsActivity = useSelectorsActivity( selectorsSettings );
 
 	useEffect( () => {
-		setSelectorActivity( selectorsActivity, 'icon', iconName );
-	}, [ selectorsActivity, iconName ] );
+		setSelectorActivity( selectorsActivity, 'icon', iconId );
+	}, [ selectorsActivity, iconId ] );
 
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
@@ -83,7 +83,7 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.heading.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
-					[ BLOCK_CLASSES.heading.text ]: ! iconName,
+					[ BLOCK_CLASSES.heading.text ]: ! iconId,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 			},
@@ -104,14 +104,12 @@ export default function Edit( props ) {
 			<GoogleFontsLink attributes={ attributes } />
 			<Tag { ...blockProps }>
 				<PasteUsedIcon
-					iconName={ iconName }
+					iconId={ iconId }
 					className={ BLOCK_CLASSES.heading.icon }
 				/>
 				<RichText
 					tagName="span"
-					className={
-						!! iconName ? BLOCK_CLASSES.heading.text : null
-					}
+					className={ !! iconId ? BLOCK_CLASSES.heading.text : null }
 					value={ text }
 					onChange={ ( value ) => setAttributes( { text: value } ) }
 					placeholder={ __( 'Heading', 'scblocks' ) }

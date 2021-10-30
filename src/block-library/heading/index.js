@@ -34,16 +34,13 @@ export const settings = {
 			type: 'string',
 			default: '',
 		},
-		iconName: {
-			type: 'string',
-			default: '',
-		},
 		isDynamic: {
 			type: 'boolean',
 		},
 		...SHARED_ATTRIBUTES.googleFonts,
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
+		...SHARED_ATTRIBUTES.icon,
 	},
 	supports: {
 		anchor: false,

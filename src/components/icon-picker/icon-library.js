@@ -8,7 +8,7 @@ import {
 	TextControl,
 	Spinner,
 } from '@wordpress/components';
-import { renderToString, useState, useEffect } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
@@ -26,13 +26,33 @@ import Dashicon from './dashicon';
 export const FONT_AWESOME_NAME = 'fontawesome';
 export const DASHICON_NAME = 'dashicons';
 
-function icon( iconPath, { dashicons, fontAwesome } ) {
+function getIcon( iconPath, { dashicons, fontAwesome }, getAsString ) {
 	const iconPathParts = iconPath.split( '|' );
 	switch ( iconPathParts[ 0 ] ) {
 		case DASHICON_NAME: {
+			if ( getAsString ) {
+				let icon =
+					'<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">';
+				icon += `<path d="${
+					dashicons[ iconPathParts[ 2 ] ]
+				}"></path>`;
+				icon += '</svg>';
+				return icon;
+			}
 			return <Dashicon d={ dashicons[ iconPathParts[ 2 ] ] } />;
 		}
 		case FONT_AWESOME_NAME: {
+			if ( getAsString ) {
+				const iconAttr =
+					fontAwesome[ iconPathParts[ 1 ] ][ iconPathParts[ 2 ] ];
+				const parts = iconAttr.split( '|', 2 );
+				const viewBox = parts[ 0 ];
+				const d = parts[ 1 ];
+				let icon = `<svg viewBox="${ viewBox }" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">`;
+				icon += `<path d="${ d }"></path>`;
+				icon += '</svg>';
+				return icon;
+			}
 			return (
 				<FontAwesomeIcon
 					iconAttr={
@@ -111,10 +131,7 @@ export default function IconLibrary( { onSelectIcon, onRequestClose } ) {
 	}, [ isLoaded ] );
 
 	function onSelect( path ) {
-		onSelectIcon(
-			path,
-			renderToString( icon( path, { dashicons, fontAwesome } ) )
-		);
+		onSelectIcon( path, getIcon( path, { dashicons, fontAwesome }, true ) );
 	}
 	function onChangeCategory( value ) {
 		const [ family, category ] = value.split( '|' );
@@ -179,7 +196,7 @@ export default function IconLibrary( { onSelectIcon, onRequestClose } ) {
 												showTooltip
 												label={ pathParts[ 2 ] }
 											>
-												{ icon( path, {
+												{ getIcon( path, {
 													dashicons,
 													fontAwesome,
 												} ) }

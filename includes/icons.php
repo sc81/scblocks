@@ -14,18 +14,31 @@ class Icons {
 
 	/**
 	 * @since 1.3.0
+	 * @var array
+	 */
+	public static $blocks_with_icon = array( 'scblocks/heading', 'scblocks/button' );
+
+	/**
+	 * @since 1.3.0
 	 * @var string
 	 */
 	private $used_icons_post_id_option_name = 'used_icons_post_id';
 
-	public function __construct() {
+	/**
+	 * Register actions
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return void
+	 */
+	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		add_action( 'init', array( $this, 'register_post' ) );
-		add_action( 'save_post', array( $this, 'update_used_by_posts' ), 10, 2 );
+		add_action( 'wp_insert_post_data', array( $this, 'update_used_by_posts' ), 10, 2 );
 	}
 
 	/**
-	 * Register route.
+	 * Register routes.
 	 *
 	 * @return void
 	 */
@@ -34,7 +47,7 @@ class Icons {
 			'scblocks/v1',
 			'/icons/(?P<id>\d+)',
 			array(
-				'methods'             => 'GET',
+				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_for_admin_area' ),
 				'args'                => array(
 					'id' => array(
@@ -92,9 +105,9 @@ class Icons {
 				$prepared   = array();
 				foreach ( $used_icons as $icon ) {
 					if ( isset( $icon['attrs'] ) &&
-					isset( $icon['attrs']['iconName'] ) &&
+					isset( $icon['attrs']['id'] ) &&
 					isset( $icon['innerHTML'] ) ) {
-						$prepared[ $icon['attrs']['iconName'] ] = $icon['innerHTML'];
+						$prepared[ $icon['attrs']['id'] ] = $icon['innerHTML'];
 					}
 				}
 
@@ -110,29 +123,26 @@ class Icons {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param int $post_id
-	 * @param \WP_Post $post
+	 * @param array $data An array of slashed, sanitized, and processed post data.
+	 * @param array $postarr An array of sanitized (and slashed) but otherwise unmodified post data.
 	 *
 	 * @return void
 	 */
-	public function update_used_by_posts( int $post_id, \WP_Post $post ) {
-		if ( wp_is_post_autosave( $post_id ) ||
-			wp_is_post_revision( $post_id ) ||
-			! current_user_can( 'edit_post', $post_id ) ||
-			! $post->post_content ||
-			self::$post_type === $post->post_type ) {
-			return;
+	public function update_used_by_posts( array $data, array $postarr ) : array {
+		if ( wp_is_post_autosave( $postarr['ID'] ) ||
+			wp_is_post_revision( $postarr['ID'] ) ||
+			! current_user_can( 'edit_post', $postarr['ID'] ) ||
+			! $data['post_content'] ||
+			self::$post_type === $data['post_type'] ) {
+			return $data;
 		}
-		$blocks = parse_blocks( $post->post_content );
+		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
 
-		$post_icons = $this->retrive_icon_names( $blocks, array( 'scblocks/heading', 'scblocks/button' ) );
-		$used_icons = $this->retrive_icon_names( $this->used_by_posts(), array( 'scblocks/used-icon' ) );
-		array_push( $used_icons, ...$post_icons );
-		$next_used_icons = array_unique( $used_icons );
-
-		$icons = $this->build_icons( $next_used_icons );
+		$icons = $this->build_icons( $blocks );
 
 		$used_icons_post_id = Plugin::option( $this->used_icons_post_id_option_name );
+
+		$is_updated = false;
 		if ( ! $used_icons_post_id ) {
 			$args = array(
 				'post_type'    => self::$post_type,
@@ -144,39 +154,103 @@ class Icons {
 				$options = Plugin::options();
 				$options[ $this->used_icons_post_id_option_name ] = (string) $id;
 				Plugin::update_options( $options );
+				$is_updated = true;
 			}
 		} else {
-			wp_update_post(
+			$id = wp_update_post(
 				array(
 					'ID'           => $used_icons_post_id,
 					'post_content' => $icons,
 				)
 			);
+			if ( ! ! $id && ! is_wp_error( $id ) ) {
+				$is_updated = true;
+			}
 		}
+		if ( ! $is_updated ) {
+			return $data;
+		}
+		$this->remove_redundant_attrs( $blocks );
+
+		$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
+
+		return $data;
 	}
 
 	/**
-	 * Get icon names from block attributes.
+	 * Remove redundant icon attributes.
 	 *
 	 * @since 1.3.0
 	 *
 	 * @param array $blocks
-	 * @param array $block_names
+	 *
+	 * @return void
+	 */
+	public function remove_redundant_attrs( array &$blocks ) {
+		foreach ( $blocks as $index => $block ) {
+			if ( isset( $block['blockName'] ) &&
+			in_array( $block['blockName'], self::$blocks_with_icon, true ) &&
+			isset( $block['attrs'] ) ) {
+				unset( $blocks[ $index ]['attrs']['iconHtml'] );
+				unset( $blocks[ $index ]['attrs']['iconName'] );
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$this->remove_redundant_attrs( $blocks[ $index ]['innerBlocks'] );
+			}
+		}
+	}
+
+	/**
+	 * Get icons data from block attributes.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $blocks
+	 * @param array $icons
 	 *
 	 * @return array
 	 */
-	public function retrive_icon_names( array $blocks, array $block_names ) : array {
-		$names = array();
-
+	public function retrive_icons_data_from_blocks( array $blocks, array $icons = array() ) : array {
 		foreach ( $blocks as $block ) {
 			if ( isset( $block['blockName'] ) &&
-			in_array( $block['blockName'], $block_names, true ) &&
+			in_array( $block['blockName'], self::$blocks_with_icon, true ) &&
 			isset( $block['attrs'] ) &&
-			isset( $block['attrs']['iconName'] ) ) {
-				$names[] = $block['attrs']['iconName'];
+			isset( $block['attrs']['iconName'] ) &&
+			isset( $block['attrs']['iconHtml'] ) &&
+			isset( $block['attrs']['iconId'] ) &&
+			! $this->is_icon_with_id( $block['attrs']['iconId'], $icons ) ) {
+				$icons[] = array(
+					'name' => $block['attrs']['iconName'],
+					'html' => $block['attrs']['iconHtml'],
+					'id'   => $block['attrs']['iconId'],
+				);
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$icons = $this->retrive_icons_data_from_blocks( $block['innerBlocks'], $icons );
 			}
 		}
-		return $names;
+		return $icons;
+	}
+
+	/**
+	 * Get data from icon blocks.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $blocks
+	 * @param array $icons
+	 *
+	 * @return array
+	 */
+	public function retrive_data_from_icon_blocks( array $blocks, array $icons = array() ) : array {
+		foreach ( $blocks as $block ) {
+				$icons[] = array(
+					'id'   => $block['attrs']['id'],
+					'name' => $block['attrs']['name'],
+					'html' => $block['innerHTML'],
+				);
+		}
+		return $icons;
 	}
 
 	/**
@@ -197,29 +271,47 @@ class Icons {
 		}
 		return parse_blocks( $post->post_content );
 	}
+
+	/**
+	 * Checks if an icon set contains an icon with the specified ID.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $id Icon ID
+	 * @param array $icons Icons to check.
+	 *
+	 * @return bool
+	 */
+	public function is_icon_with_id( string $id, array $icons ) : bool {
+		foreach ( $icons as $icon ) {
+			if ( $icon['id'] === $id ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Build HTML markup for icons.
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param array $icons_data
+	 * @param array $blocks
 	 *
 	 * @return string
 	 */
-	public function build_icons( array $icons_data ) : string {
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/font-awesome.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/dashicons.php';
+	public function build_icons( array $blocks ) : string {
+		$used_icons = $this->retrive_data_from_icon_blocks( $this->used_by_posts() );
+		$post_icons = $this->retrive_icons_data_from_blocks( $blocks );
 
+		$icons_data = array_merge( $used_icons, $post_icons );
+
+		$ids   = array();
 		$icons = '';
-
-		foreach ( $icons_data as $icon_name ) {
-			$name_parts = explode( '|', $icon_name );
-			if ( 'dashicons' === $name_parts[0] && isset( DASHICONS[ $name_parts[2] ] ) ) {
-				$icons .= $this->do_block( $icon_name, $this->build_dashicon( DASHICONS[ $name_parts[2] ] ) );
-			} elseif ( 'fontawesome' === $name_parts[0] &&
-			isset( FONTAWESOME[ $name_parts[1] ] ) &&
-			isset( FONTAWESOME[ $name_parts[1] ][ $name_parts[2] ] ) ) {
-				$icons .= $this->do_block( $icon_name, $this->build_fontawesome( FONTAWESOME[ $name_parts[1] ][ $name_parts[2] ] ) );
+		foreach ( $icons_data as $icon ) {
+			if ( ! in_array( $icon['id'], $ids, true ) ) {
+				$ids[]  = $icon['id'];
+				$icons .= $this->do_block( $icon['name'], $icon['id'], $icon['html'] );
 			}
 		}
 		return $icons;
@@ -230,51 +322,20 @@ class Icons {
 	 * @since 1.3.0
 	 *
 	 * @param string $icon_name
+	 * @param string $icon_id
 	 * @param string $content
 	 *
 	 * @return string
 	 */
-	public function do_block( string $icon_name, string $content ) : string {
+	public function do_block( string $icon_name, string $icon_id, string $content ) : string {
 		$block = array(
 			'blockName'    => 'scblocks/used-icon',
 			'attrs'        => array(
-				'iconName' => $icon_name,
+				'name' => $icon_name,
+				'id'   => $icon_id,
 			),
 			'innerContent' => array( $content ),
 		);
 		return serialize_block( $block );
-	}
-	/**
-	 * Build HTML markup for the DASHICON icon.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param string $path_definition
-	 *
-	 * @return string
-	 */
-	public function build_dashicon( string $path_definition ) : string {
-		$icon  = '<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">';
-		$icon .= sprintf( '<path d="%s"></path>', $path_definition );
-		$icon .= '</svg>';
-		return $icon;
-	}
-	/**
-	 * Build HTML markup for the FONTAWESOME icon.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param string $icon_data
-	 *
-	 * @return string
-	 */
-	public function build_fontawesome( string $icon_data ) : string {
-		$parts           = explode( '|', $icon_data );
-		$view_box        = $parts[0];
-		$path_definition = $parts[1];
-		$icon            = sprintf( '<svg viewBox="%s" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">', $view_box );
-		$icon           .= sprintf( '<path d="%s"></path>', $path_definition );
-		$icon           .= '</svg>';
-		return $icon;
 	}
 }
