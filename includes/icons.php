@@ -210,7 +210,7 @@ class Icons {
 	 *
 	 * @return array
 	 */
-	public function retrive_icons_data_from_blocks( array $blocks, array $icons = array() ) : array {
+	public function get_icons_data_from_blocks( array $blocks, array $icons = array() ) : array {
 		foreach ( $blocks as $block ) {
 			if ( isset( $block['blockName'] ) &&
 			in_array( $block['blockName'], self::$blocks_with_icon, true ) &&
@@ -226,7 +226,7 @@ class Icons {
 				);
 			}
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$icons = $this->retrive_icons_data_from_blocks( $block['innerBlocks'], $icons );
+				$icons = $this->get_icons_data_from_blocks( $block['innerBlocks'], $icons );
 			}
 		}
 		return $icons;
@@ -242,7 +242,7 @@ class Icons {
 	 *
 	 * @return array
 	 */
-	public function retrive_data_from_icon_blocks( array $blocks, array $icons = array() ) : array {
+	public function get_data_from_icon_blocks( array $blocks, array $icons = array() ) : array {
 		foreach ( $blocks as $block ) {
 				$icons[] = array(
 					'id'   => $block['attrs']['id'],
@@ -301,8 +301,8 @@ class Icons {
 	 * @return string
 	 */
 	public function build_icons( array $blocks ) : string {
-		$used_icons = $this->retrive_data_from_icon_blocks( $this->used_by_posts() );
-		$post_icons = $this->retrive_icons_data_from_blocks( $blocks );
+		$used_icons = $this->get_data_from_icon_blocks( $this->used_by_posts() );
+		$post_icons = $this->get_icons_data_from_blocks( $blocks );
 
 		$icons_data = array_merge( $used_icons, $post_icons );
 
