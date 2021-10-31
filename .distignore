@@ -2,6 +2,8 @@
 /.git
 /.github
 /src
+/phpunit
+/bin
 
 .distignore
 .editorconfig
@@ -20,3 +22,5 @@ package.json
 phpcs.xml
 README.md
 webpack.config.js
+phpunit.xml.dist
+phpunit-watcher.yml.dist

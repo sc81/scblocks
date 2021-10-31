@@ -2,3 +2,5 @@ build
 node_modules
 vendor
 dist
+bin
+phpunit
