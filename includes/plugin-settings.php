@@ -59,7 +59,7 @@ class Plugin_Settings {
 			}
 			$regenerate_css = '';
 			if ( isset( $values['force_regenerate_css_files'] ) ) {
-				$settings['force_regenerate_css_files'] = time();
+				$settings['force_regenerate_css_files'] = Plugin::get_microtime();
 
 				$regenerate_css = '&css-files-regenerate=true';
 			}
