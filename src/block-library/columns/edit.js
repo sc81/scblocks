@@ -27,6 +27,7 @@ import {
 	BLOCK_CLASSES,
 	BLOCK_SELECTOR,
 	VariationsPicker,
+	getUidClass,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -44,8 +45,8 @@ import Inspector from './inspector';
 const ALLOWED_BLOCKS = [ COLUMN_NAME ];
 
 export default function Edit( props ) {
-	const { attributes, clientId, setAttributes } = props;
-	const { uidClass, htmlClass, htmlId, isDynamic } = attributes;
+	const { attributes, clientId, setAttributes, name } = props;
+	const { htmlClass, htmlId, isDynamic } = attributes;
 
 	const { devices, columnCount } = useSelect(
 		( store ) => {
@@ -81,7 +82,7 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.columns.main ]: true,
-					[ uidClass ]: true,
+					[ getUidClass( name, clientId ) ]: true,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 			},

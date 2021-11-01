@@ -24,6 +24,7 @@ import {
 	BLOCK_CLASSES,
 	BLOCK_SELECTOR,
 	GoogleFontsLink,
+	getUidClass,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -37,8 +38,8 @@ import { COLUMN_SELECTORS_SETTINGS } from './utils';
 import Inspector from './inspector';
 
 export default function Edit( props ) {
-	const { attributes, clientId, setAttributes } = props;
-	const { htmlId, htmlClass, uidClass, isDynamic } = attributes;
+	const { attributes, clientId, setAttributes, name } = props;
+	const { htmlId, htmlClass, isDynamic } = attributes;
 	const { devices, hasChildBlocks } = useSelect(
 		( store ) => {
 			return {
@@ -73,7 +74,7 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.column.main ]: true,
-					[ uidClass ]: true,
+					[ getUidClass( name, clientId ) ]: true,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 			},

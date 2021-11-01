@@ -23,6 +23,7 @@ import {
 	GoogleFontsLink,
 	BLOCK_CLASSES,
 	BLOCK_SELECTOR,
+	getUidClass,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 import { DangerouslyPasteIcon } from '@scblocks/components';
@@ -35,11 +36,10 @@ import Inspector from './inspector';
 import URLPicker from './url-picker';
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, isSelected } = props;
+	const { attributes, setAttributes, isSelected, clientId, name } = props;
 	const {
 		text,
 		icon,
-		uidClass,
 		url,
 		withoutText,
 		htmlClass,
@@ -98,7 +98,7 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.button.main ]: true,
-					[ uidClass ]: true,
+					[ getUidClass( name, clientId ) ]: true,
 					[ BLOCK_CLASSES.button.text ]: ! icon,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),

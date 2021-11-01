@@ -13,3 +13,4 @@ export {
 	useSelectorsActivity,
 	setSelectorActivity,
 } from './use-selector-activity';
+export { default as getUidClass } from './get-uid-class';
