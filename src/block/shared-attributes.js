@@ -45,4 +45,18 @@ export const SHARED_ATTRIBUTES = {
 			default: '',
 		},
 	},
+	icon: {
+		iconName: {
+			type: 'string',
+			default: '',
+		},
+		iconId: {
+			type: 'string',
+			default: '',
+		},
+		iconHtml: {
+			type: 'string',
+			default: '',
+		},
+	},
 };

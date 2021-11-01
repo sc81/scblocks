@@ -20,8 +20,8 @@ import sanitizeSVG from '../sanitize-svg';
 export default function IconPicker( { icon, onSelect, onClear } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 
-	function onSelectIcon( nextIcon ) {
-		onSelect( nextIcon );
+	function onSelectIcon( iconName, nextIcon ) {
+		onSelect( iconName, nextIcon );
 		setIsOpen( false );
 	}
 	return (
@@ -33,7 +33,9 @@ export default function IconPicker( { icon, onSelect, onClear } ) {
 		>
 			<TextControl
 				value={ icon }
-				onChange={ ( value ) => onSelectIcon( sanitizeSVG( value ) ) }
+				onChange={ ( value ) =>
+					onSelectIcon( 'user-icon', sanitizeSVG( value ) )
+				}
 				help={ __(
 					'Paste the icon here or choose from the Icon Library',
 					'scblocks'

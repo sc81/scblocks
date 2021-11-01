@@ -95,7 +95,9 @@ class Update_Blocks_Metadata {
 	 * @return array
 	 */
 	public function change_uid_class_on_save( array $data, array $postarr ) : array {
-		if ( ! current_user_can( 'edit_post', $postarr['ID'] ) || empty( $data['post_content'] ) ) {
+		if ( ! current_user_can( 'edit_post', $postarr['ID'] ) ||
+		empty( $data['post_content'] ) ||
+		Icons::POST_TYPE_NAME === $data['post_type'] ) {
 			return $data;
 		}
 		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );

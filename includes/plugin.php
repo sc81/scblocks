@@ -41,6 +41,14 @@ class Plugin {
 	private static $active_blocks = array();
 
 	/**
+	 * An array of used icons by posts or null.
+	 *
+	 * @since 1.3.0
+	 * @var null|array
+	 */
+	private static $used_icons_by_posts;
+
+	/**
 	 * Gets defaults for option.
 	 *
 	 * @return array
@@ -52,6 +60,7 @@ class Plugin {
 				'css_print_method'            => 'file',
 				'force_regenerate_css_files'  => '0',
 				'reusable_blocks_update_time' => '0',
+				'used_icons_post_id'          => '',
 			)
 		);
 	}
@@ -276,6 +285,21 @@ class Plugin {
 	}
 
 	/**
+	 * Get icons used by posts.
+	 *
+	 * @since 1.3.0
+	 * @return array
+	 */
+	public static function used_icons() : array {
+		if ( is_null( self::$used_icons_by_posts ) ) {
+			$icons = new Icons();
+
+			self::$used_icons_by_posts = $icons->extract_id_and_content( $icons->used_by_posts() );
+		}
+		return self::$used_icons_by_posts;
+	}
+
+	/**
 	 * Updates the job completion time for the file writer.
 	 *
 	 * @since 1.1.0
@@ -304,6 +328,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/buttons-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/column-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/columns-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/heading-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-blocks-metadata.php';
 	}
 
@@ -325,6 +350,7 @@ class Plugin {
 			'ScBlocks\Buttons_Block',
 			'ScBlocks\Column_Block',
 			'ScBlocks\Columns_Block',
+			'ScBlocks\Heading_Block',
 		);
 
 		foreach ( $classes as $class_name ) {
