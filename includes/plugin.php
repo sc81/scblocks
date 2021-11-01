@@ -41,12 +41,12 @@ class Plugin {
 	private static $active_blocks = array();
 
 	/**
-	 * An array of used icons by posts.
+	 * An array of used icons by posts or null.
 	 *
 	 * @since 1.3.0
-	 * @var array
+	 * @var null|array
 	 */
-	private static $used_icons_by_posts = array();
+	private static $used_icons_by_posts;
 
 	/**
 	 * Gets defaults for option.
@@ -291,25 +291,10 @@ class Plugin {
 	 * @return array
 	 */
 	public static function used_icons() : array {
-		if ( empty( self::$used_icons_by_posts ) ) {
-			$post_id = self::option( Icons::USED_ICONS_POST_ID_OPTION_NAME );
-			if ( ! $post_id ) {
-				return array();
-			}
-			$post = get_post( (int) $post_id );
-			if ( ! $post || ! $post->post_content ) {
-				return array();
-			}
-			$blocks = parse_blocks( $post->post_content );
-			$icons  = array();
-			foreach ( $blocks as $block ) {
-				if ( isset( $block['attrs'] ) &&
-				! empty( $block['attrs']['id'] ) &&
-				! empty( $block['innerHTML'] ) ) {
-					$icons[ $block['attrs']['id'] ] = $block['innerHTML'];
-				}
-			}
-			self::$used_icons_by_posts = $icons;
+		if ( is_null( self::$used_icons_by_posts ) ) {
+			$icons = new Icons();
+
+			self::$used_icons_by_posts = $icons->extract_id_and_content( $icons->used_by_posts() );
 		}
 		return self::$used_icons_by_posts;
 	}

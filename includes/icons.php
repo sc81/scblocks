@@ -101,17 +101,7 @@ class Icons {
 				return rest_ensure_response( wp_json_encode( DASHICONS ) );
 
 			case 3:
-				$used_icons = $this->used_by_posts();
-				$prepared   = array();
-				foreach ( $used_icons as $icon ) {
-					if ( isset( $icon['attrs'] ) &&
-					isset( $icon['attrs']['id'] ) &&
-					isset( $icon['innerHTML'] ) ) {
-						$prepared[ $icon['attrs']['id'] ] = $icon['innerHTML'];
-					}
-				}
-
-				return rest_ensure_response( $prepared );
+				return rest_ensure_response( $this->extract_id_and_content( $this->used_by_posts() ) );
 
 			default:
 				return new \WP_Error( 'no_icons', 'Invalid id', array( 'status' => 404 ) );
@@ -270,6 +260,25 @@ class Icons {
 			return array();
 		}
 		return parse_blocks( $post->post_content );
+	}
+
+	/**
+	 * Extract the ID and HTML code of the icon.
+	 *
+	 * @param array $icons
+	 *
+	 * @return array Icons data [ [ 'id' => 'html' ] ]
+	 */
+	public function extract_id_and_content( array $icons ) : array {
+		$prepared = array();
+		foreach ( $icons as $icon ) {
+			if ( isset( $icon['attrs'] ) &&
+			isset( $icon['attrs']['id'] ) &&
+			isset( $icon['innerHTML'] ) ) {
+				$prepared[ $icon['attrs']['id'] ] = $icon['innerHTML'];
+			}
+		}
+		return $prepared;
 	}
 
 	/**
