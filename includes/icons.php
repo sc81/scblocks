@@ -280,7 +280,7 @@ class Icons {
 	}
 
 	/**
-	 * Extract the ID and HTML code of the icon.
+	 * Extract the ID and HTML code of the icons.
 	 *
 	 * @param array $icons
 	 *
