@@ -292,7 +292,7 @@ class Plugin {
 	 */
 	public static function used_icons() : array {
 		if ( empty( self::$used_icons_by_posts ) ) {
-			$post_id = self::option( 'used_icons_post_id' );
+			$post_id = self::option( Icons::USED_ICONS_POST_ID_OPTION_NAME );
 			if ( ! $post_id ) {
 				return array();
 			}

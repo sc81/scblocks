@@ -10,19 +10,19 @@ class Icons {
 	 * @since 1.3.0
 	 * @var string
 	 */
-	public static $post_type = 'scblocks_svg';
+	const POST_TYPE_NAME = 'scblocks_svg';
 
 	/**
 	 * @since 1.3.0
 	 * @var array
 	 */
-	public static $blocks_with_icon = array( 'scblocks/heading', 'scblocks/button' );
+	const BLOCKS_WITH_ICON = array( 'scblocks/heading', 'scblocks/button' );
 
 	/**
 	 * @since 1.3.0
 	 * @var string
 	 */
-	private $used_icons_post_id_option_name = 'used_icons_post_id';
+	const USED_ICONS_POST_ID_OPTION_NAME = 'used_icons_post_id';
 
 	/**
 	 * Register actions
@@ -69,7 +69,7 @@ class Icons {
 	 */
 	public function register_post() {
 		register_post_type(
-			self::$post_type,
+			self::POST_TYPE_NAME,
 			array(
 				'show_ui'      => false,
 				'show_in_menu' => false,
@@ -133,26 +133,26 @@ class Icons {
 			wp_is_post_revision( $postarr['ID'] ) ||
 			! current_user_can( 'edit_post', $postarr['ID'] ) ||
 			! $data['post_content'] ||
-			self::$post_type === $data['post_type'] ) {
+			self::POST_TYPE_NAME === $data['post_type'] ) {
 			return $data;
 		}
 		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
 
 		$icons = $this->build_icons( $blocks );
 
-		$used_icons_post_id = Plugin::option( $this->used_icons_post_id_option_name );
+		$used_icons_post_id = Plugin::option( self::USED_ICONS_POST_ID_OPTION_NAME );
 
 		$is_updated = false;
 		if ( ! $used_icons_post_id ) {
 			$args = array(
-				'post_type'    => self::$post_type,
+				'post_type'    => self::POST_TYPE_NAME,
 				'post_content' => $icons,
-				'post_name'    => 'used_icons_by_posts',
+				'post_name'    => self::USED_ICONS_POST_ID_OPTION_NAME,
 			);
 			$id   = wp_insert_post( $args );
 			if ( ! ! $id && ! is_wp_error( $id ) ) {
 				$options = Plugin::options();
-				$options[ $this->used_icons_post_id_option_name ] = (string) $id;
+				$options[ self::USED_ICONS_POST_ID_OPTION_NAME ] = (string) $id;
 				Plugin::update_options( $options );
 				$is_updated = true;
 			}
@@ -189,7 +189,7 @@ class Icons {
 	public function remove_redundant_attrs( array &$blocks ) {
 		foreach ( $blocks as $index => $block ) {
 			if ( isset( $block['blockName'] ) &&
-			in_array( $block['blockName'], self::$blocks_with_icon, true ) &&
+			in_array( $block['blockName'], self::BLOCKS_WITH_ICON, true ) &&
 			isset( $block['attrs'] ) ) {
 				unset( $blocks[ $index ]['attrs']['iconHtml'] );
 				unset( $blocks[ $index ]['attrs']['iconName'] );
@@ -213,7 +213,7 @@ class Icons {
 	public function get_icons_data_from_blocks( array $blocks, array $icons = array() ) : array {
 		foreach ( $blocks as $block ) {
 			if ( isset( $block['blockName'] ) &&
-			in_array( $block['blockName'], self::$blocks_with_icon, true ) &&
+			in_array( $block['blockName'], self::BLOCKS_WITH_ICON, true ) &&
 			isset( $block['attrs'] ) &&
 			isset( $block['attrs']['iconName'] ) &&
 			isset( $block['attrs']['iconHtml'] ) &&
@@ -261,7 +261,7 @@ class Icons {
 	 * @return array Array of parsed block objects.
 	 */
 	public function used_by_posts() : array {
-		$post_id = Plugin::option( 'used_icons_post_id' );
+		$post_id = Plugin::option( self::USED_ICONS_POST_ID_OPTION_NAME );
 		if ( ! $post_id ) {
 			return array();
 		}
