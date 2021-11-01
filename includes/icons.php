@@ -34,7 +34,7 @@ class Icons {
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		add_action( 'init', array( $this, 'register_post' ) );
-		add_action( 'wp_insert_post_data', array( $this, 'update_used_by_posts' ), 10, 2 );
+		add_action( 'wp_insert_post_data', array( $this, 'update_icons_data' ), 10, 2 );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Icons {
 	 * @since 1.3.0
 	 * @param mixed $data
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function get_for_admin_area( $data ) {
 
@@ -109,16 +109,16 @@ class Icons {
 
 	}
 	/**
-	 * Update a post that includes the icons used by the posts.
+	 * Update icons data.
 	 *
 	 * @since 1.3.0
 	 *
 	 * @param array $data An array of slashed, sanitized, and processed post data.
 	 * @param array $postarr An array of sanitized (and slashed) but otherwise unmodified post data.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function update_used_by_posts( array $data, array $postarr ) : array {
+	public function update_icons_data( array $data, array $postarr ) : array {
 		if ( wp_is_post_autosave( $postarr['ID'] ) ||
 			wp_is_post_revision( $postarr['ID'] ) ||
 			! current_user_can( 'edit_post', $postarr['ID'] ) ||
@@ -127,6 +127,30 @@ class Icons {
 			return $data;
 		}
 		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
+
+		$is_updated = $this->update_used_by_posts( $blocks );
+		if ( ! $is_updated ) {
+			return $data;
+		}
+		$this->remove_redundant_attrs( $blocks );
+
+		$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
+
+		return $data;
+	}
+	/**
+	 * Update a post that includes the icons used by the posts.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $blocks Array of parsed block objects.
+	 *
+	 * @return bool Whether the post has been updated or not
+	 */
+	public function update_used_by_posts( array $blocks ) : bool {
+		if ( empty( $blocks ) ) {
+			return false;
+		}
 
 		$icons = $this->build_icons( $blocks );
 
@@ -157,14 +181,7 @@ class Icons {
 				$is_updated = true;
 			}
 		}
-		if ( ! $is_updated ) {
-			return $data;
-		}
-		$this->remove_redundant_attrs( $blocks );
-
-		$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
-
-		return $data;
+		return $is_updated;
 	}
 
 	/**
