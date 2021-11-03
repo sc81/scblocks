@@ -4,7 +4,11 @@
 
 	<file>./includes</file>
 	<file>./scblocks.php</file>
+	<file>./phpunit</file>
 
+	<exclude-pattern>./phpunit/bootstrap.php</exclude-pattern>
+
+	<rule ref="PHPCompatibility"/>
 	<config name="testVersion" value="7.0-"/>
 
 	<rule ref="WordPress-Extra">
