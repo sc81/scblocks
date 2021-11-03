@@ -2,26 +2,26 @@
 namespace ScBlocks;
 
 class IconsTest extends \WP_UnitTestCase {
-	public static function wpSetUpBeforeClass() {
-		add_action( 'wp_insert_post_data', array( __CLASS__, 'update_icons_data' ), 10, 2 );
-	}
-	public static function wpTearDownAfterClass() {
-		remove_action( 'wp_insert_post_data', array( __CLASS__, 'update_icons_data' ), 10, 2 );
-	}
-	public static function update_icons_data( array $data, array $postarr ) {
-		if ( wp_is_post_autosave( $postarr['ID'] ) ||
-			wp_is_post_revision( $postarr['ID'] ) ||
-			Icons::POST_TYPE_NAME === $data['post_type'] ) {
-			return $data;
-		}
-		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
-		$icons  = new Icons();
-		$icons->update_used_by_posts( $blocks );
-		$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
-
-		return $data;
-	}
 	public function test_saving_icons_data_into_db() {
+		add_action(
+			'wp_insert_post_data',
+			function ( array $data, array $postarr ) {
+				if ( wp_is_post_autosave( $postarr['ID'] ) ||
+				wp_is_post_revision( $postarr['ID'] ) ||
+				Icons::POST_TYPE_NAME === $data['post_type'] ) {
+					return $data;
+				}
+				$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
+				$icons  = new Icons();
+				$icons->update_used_by_posts( $blocks );
+				$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
+
+				return $data;
+			},
+			10,
+			2
+		);
+
 		$content = '<!-- wp:scblocks/heading {"iconId":"1","iconName":"icon name","iconHtml":"svg"} /-->';
 		wp_insert_post(
 			array(
