@@ -48,6 +48,7 @@ export default function Edit( props ) {
 		target,
 		htmlId,
 		ariaLabel,
+		isDynamic,
 	} = attributes;
 
 	const devices = useSelect(
@@ -74,6 +75,11 @@ export default function Edit( props ) {
 			!! iconId
 		);
 	}, [ selectorsActivity, iconId ] );
+	useEffect( () => {
+		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
+			setAttributes( { isDynamic: true } );
+		}
+	}, [ isDynamic, setAttributes ] );
 
 	const relAttributes = [];
 
