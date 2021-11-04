@@ -14,7 +14,7 @@ import {
 	BLOCK_SELECTOR,
 	IdClassesControls,
 	ControlsManager,
-	getUidForIcon,
+	getIconAttrs,
 } from '@scblocks/block';
 import { ALL_DEVICES, STORE_NAME } from '@scblocks/constants';
 import {
@@ -72,29 +72,7 @@ export default function Inspector( props ) {
 			return;
 		}
 		const icons = select( STORE_NAME ).usedIcons();
-		let id;
-
-		for ( const uid in icons ) {
-			if ( icons[ uid ] === iconAsString ) {
-				id = uid;
-			}
-		}
-		const iconAttrs = {};
-		let newIconId;
-		if ( id ) {
-			iconAttrs.iconId = id;
-			iconAttrs.iconName = '';
-			iconAttrs.iconHtml = '';
-		} else {
-			newIconId = getUidForIcon( icons );
-			iconAttrs.iconId = newIconId;
-			if ( name === 'user-icon' ) {
-				iconAttrs.iconName = 'user|free-version|' + newIconId;
-			} else {
-				iconAttrs.iconName = name;
-			}
-			iconAttrs.iconHtml = iconAsString;
-		}
+		const iconAttrs = getIconAttrs( name, iconAsString, icons );
 
 		setAttributes( iconAttrs );
 		setPropValue( {
@@ -105,8 +83,11 @@ export default function Inspector( props ) {
 			propName: 'display',
 			value: 'flex',
 		} );
-		if ( newIconId ) {
-			dispatch( STORE_NAME ).addUsedIcon( newIconId, iconAsString );
+		if ( iconAttrs.iconHtml ) {
+			dispatch( STORE_NAME ).addUsedIcon(
+				iconAttrs.iconId,
+				iconAsString
+			);
 		}
 	}
 	return (
