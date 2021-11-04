@@ -72,7 +72,7 @@ export default function Inspector( props ) {
 					'scblocks.button.mainControls',
 					<PanelBody opened>
 						<IconPicker
-							icon={ iconId }
+							icon={ icon }
 							onSelect={ onSelectIcon }
 							onClear={ onClearIcon }
 						/>
