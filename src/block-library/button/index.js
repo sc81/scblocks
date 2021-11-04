@@ -6,17 +6,17 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR, SHARED_ATTRIBUTES } from '@scblocks/block';
+import { SHARED_ATTRIBUTES } from '@scblocks/block';
 import { PLUGIN_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
  */
 import { BUTTON_BLOCK_NAME } from './utils';
-import save from './save';
 import edit from './edit';
 import { BUTTONS_BLOCK_NAME } from '../buttons/utils';
 import icon from '../buttons/icon';
+import deprecated from './deprecated';
 
 export const name = BUTTON_BLOCK_NAME;
 
@@ -35,14 +35,11 @@ export const settings = {
 		...SHARED_ATTRIBUTES.classes,
 		url: {
 			type: 'string',
-			source: 'attribute',
-			selector: 'a',
-			attribute: 'href',
+			default: '',
 		},
 		text: {
 			type: 'string',
-			source: 'html',
-			selector: BLOCK_SELECTOR.button.text.selector,
+			default: '',
 		},
 		target: {
 			type: 'boolean',
@@ -56,23 +53,19 @@ export const settings = {
 			type: 'boolean',
 			default: false,
 		},
-		icon: {
-			type: 'string',
-			source: 'html',
-			selector: BLOCK_SELECTOR.button.icon.selector,
-			default: '',
-		},
 		withoutText: {
 			type: 'boolean',
 			default: false,
 		},
 		ariaLabel: {
 			type: 'string',
-			source: 'attribute',
-			selector: 'a',
-			attribute: 'aria-label',
+			default: '',
+		},
+		isDynamic: {
+			type: 'boolean',
 		},
 		...SHARED_ATTRIBUTES.googleFonts,
+		...SHARED_ATTRIBUTES.icon,
 	},
 	supports: {
 		alignWide: false,
@@ -83,5 +76,5 @@ export const settings = {
 	},
 	parent: [ BUTTONS_BLOCK_NAME ],
 	edit,
-	save,
+	deprecated,
 };

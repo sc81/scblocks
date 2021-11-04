@@ -24,9 +24,9 @@ import {
 	BLOCK_CLASSES,
 	BLOCK_SELECTOR,
 	getUidClass,
+	PasteUsedIcon,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
-import { DangerouslyPasteIcon } from '@scblocks/components';
 
 /**
  * Internal dependencies
@@ -39,7 +39,7 @@ export default function Edit( props ) {
 	const { attributes, setAttributes, isSelected, clientId, name } = props;
 	const {
 		text,
-		icon,
+		iconId,
 		url,
 		withoutText,
 		htmlClass,
@@ -71,9 +71,9 @@ export default function Edit( props ) {
 		setSelectorActivity(
 			selectorsActivity,
 			BLOCK_SELECTOR.button.icon.alias,
-			!! icon
+			!! iconId
 		);
-	}, [ selectorsActivity, icon ] );
+	}, [ selectorsActivity, iconId ] );
 
 	const relAttributes = [];
 
@@ -99,7 +99,7 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.button.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
-					[ BLOCK_CLASSES.button.text ]: ! icon,
+					[ BLOCK_CLASSES.button.text ]: ! iconId,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 				href: url,
@@ -125,13 +125,13 @@ export default function Edit( props ) {
 			<GoogleFontsLink attributes={ attributes } />
 			{ /* eslint-disable  jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */ }
 			<Tag { ...blockProps } onClick={ ( e ) => e.preventDefault() }>
-				<DangerouslyPasteIcon
-					icon={ icon }
+				<PasteUsedIcon
+					iconId={ iconId }
 					className={ BLOCK_CLASSES.button.icon }
 				/>
 				{ ! withoutText && (
 					<RichText
-						className={ !! icon ? BLOCK_CLASSES.button.text : '' }
+						className={ !! iconId ? BLOCK_CLASSES.button.text : '' }
 						value={ text }
 						onChange={ ( value ) =>
 							setAttributes( { text: value } )

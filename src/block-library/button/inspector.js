@@ -5,6 +5,7 @@ import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
+import { useSelect, dispatch, select } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
@@ -13,17 +14,31 @@ import {
 	BLOCK_SELECTOR,
 	IdClassesControls,
 	ControlsManager,
+	getIconAttrs,
 } from '@scblocks/block';
 import { removeSelectors } from '@scblocks/css-utils';
 import { IconPicker } from '@scblocks/components';
+import { STORE_NAME } from '@scblocks/constants';
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
-	const { icon, withoutText, ariaLabel } = attributes;
+	const { iconId, withoutText, ariaLabel } = attributes;
+	const icon = useSelect(
+		( store ) => {
+			const icons = store( STORE_NAME ).usedIcons();
+			if ( icons && icons[ iconId ] ) {
+				return icons[ iconId ];
+			}
+			return '';
+		},
+		[ iconId ]
+	);
 
 	function onClearIcon() {
 		setAttributes( {
-			icon: '',
+			iconId: '',
+			iconHtml: '',
+			iconName: '',
 			withoutText: false,
 			ariaLabel: '',
 		} );
@@ -32,6 +47,21 @@ export default function Inspector( props ) {
 			setAttributes,
 			selectors: [ BLOCK_SELECTOR.button.icon.alias ],
 		} );
+	}
+	function onSelectIcon( name, iconAsString ) {
+		if ( ! iconAsString ) {
+			onClearIcon();
+			return;
+		}
+		const icons = select( STORE_NAME ).usedIcons();
+		const iconAttrs = getIconAttrs( name, iconAsString, icons );
+		setAttributes( iconAttrs );
+		if ( iconAttrs.iconHtml ) {
+			dispatch( STORE_NAME ).addUsedIcon(
+				iconAttrs.iconId,
+				iconAsString
+			);
+		}
 	}
 
 	return (
@@ -42,10 +72,8 @@ export default function Inspector( props ) {
 					'scblocks.button.mainControls',
 					<PanelBody opened>
 						<IconPicker
-							icon={ icon }
-							onSelect={ ( value ) => {
-								setAttributes( { icon: value } );
-							} }
+							icon={ iconId }
+							onSelect={ onSelectIcon }
 							onClear={ onClearIcon }
 						/>
 						{ !! icon && (
