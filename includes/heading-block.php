@@ -70,7 +70,7 @@ class Heading_Block {
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
-		if ( empty( $attributes['iconName'] ) ) {
+		if ( empty( $attributes['iconId'] ) ) {
 			$class_names[] = 'scb-heading-text';
 		}
 
