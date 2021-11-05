@@ -50,8 +50,10 @@ class Button_Block {
 		}
 		$class_names = array(
 			'scb-button',
-			$attributes['uidClass'],
 		);
+		if ( ! empty( $attributes['uidClass'] ) ) {
+			$class_names[] = $attributes['uidClass'];
+		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
@@ -72,12 +74,12 @@ class Button_Block {
 		$html_attr = new Html_Attributes(
 			'button',
 			array(
+				'class'      => implode( ' ', $class_names ),
+				'id'         => ! empty( $attributes['htmlId'] ) ? $attributes['htmlId'] : null,
 				'href'       => ! empty( $attributes['url'] ) ? $attributes['url'] : null,
 				'target'     => ! empty( $attributes['target'] ) ? '_blank' : null,
 				'aria-label' => ! empty( $attributes['ariaLabel'] ) ? $attributes['ariaLabel'] : null,
 				'rel'        => ! empty( $rel_attr ) ? implode( ' ', $rel_attr ) : null,
-				'id'         => ! empty( $attributes['htmlId'] ) ? $attributes['htmlId'] : null,
-				'class'      => implode( ' ', $class_names ),
 			),
 			$attributes
 		);
@@ -90,14 +92,15 @@ class Button_Block {
 			$html_attr->build()
 		);
 
-		$text = isset( $attributes['text'] ) && empty( $attributes['withoutText'] ) ? $attributes['text'] : '';
+		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
 
 		if ( ! empty( $attributes['iconId'] ) ) {
 			$icons   = Plugin::used_icons();
 			$icon    = isset( $icons[ $attributes['iconId'] ] ) ? $icons[ $attributes['iconId'] ] : '';
 			$output .= '<span class="scb-icon">' . $icon . '</span>';
-
-			$output .= '<span class="scb-button-text">' . $text . '</span>';
+			if ( ! ! $text && empty( $attributes['withoutText'] ) ) {
+				$output .= '<span class="scb-button-text">' . $text . '</span>';
+			}
 		} else {
 			$output .= $text;
 		}
