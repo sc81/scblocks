@@ -100,7 +100,7 @@ class Heading_Block {
 			$html_attr->build()
 		);
 
-		$text = isset( $attributes['text'] ) ? wp_kses_post( $attributes['text'] ) : '';
+		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
 
 		if ( ! empty( $attributes['iconId'] ) ) {
 			$icons   = Plugin::used_icons();
