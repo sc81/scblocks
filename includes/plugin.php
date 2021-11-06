@@ -310,59 +310,15 @@ class Plugin {
 		update_option( 'scblocks_css_write_time', time() );
 	}
 
-	/**
-	 * Loads required files.
-	 */
-	private function load_files() {
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/initial-css.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-selector.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-assets.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/fonts.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-css.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/icons.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/plugin-settings.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/css.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/shape-dividers.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/container-block.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/html-attributes.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/buttons-block.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/column-block.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/columns-block.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/heading-block.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-blocks-metadata.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/button-block.php';
-	}
-
 	private function __construct() {
 		/**
 		 * The 'scblocks_css_write_time' option holds the time the file writer was last used.
 		 */
 		add_option( 'scblocks_css_write_time', time() );
 
-		$this->load_files();
-		$classes = array(
-			'ScBlocks\Block_Assets',
-			'ScBlocks\Fonts',
-			'ScBlocks\Update_Blocks_Metadata',
-			'ScBlocks\Icons',
-			'ScBlocks\Plugin_Settings',
-			'ScBlocks\Shape_Dividers',
-			'ScBlocks\Container_Block',
-			'ScBlocks\Buttons_Block',
-			'ScBlocks\Column_Block',
-			'ScBlocks\Columns_Block',
-			'ScBlocks\Heading_Block',
-			'ScBlocks\Button_Block',
-		);
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/loader.php';
 
-		foreach ( $classes as $class_name ) {
-			if ( class_exists( $class_name ) ) {
-				$inst = new $class_name();
-				if ( method_exists( $inst, 'register_actions' ) ) {
-					$inst->register_actions();
-				}
-			}
-		}
+		Loader::load();
 	}
 
 	public static function instance() {
