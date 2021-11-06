@@ -24,9 +24,10 @@ import {
 	GoogleFontsLink,
 	useSelectorsActivity,
 	setSelectorActivity,
+	getUidClass,
+	PasteUsedIcon,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
-import { DangerouslyPasteIcon } from '@scblocks/components';
 
 /**
  * Internal dependencies
@@ -37,14 +38,14 @@ import { name as blockName } from '.';
 import Inspector from './inspector';
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, onReplace } = props;
+	const { attributes, setAttributes, onReplace, clientId, name } = props;
 	const {
 		text,
 		tagName: Tag,
-		uidClass,
-		icon,
+		iconId,
 		htmlClass,
 		htmlId,
+		isDynamic,
 	} = attributes;
 
 	const devices = useSelect(
@@ -65,8 +66,14 @@ export default function Edit( props ) {
 	const selectorsActivity = useSelectorsActivity( selectorsSettings );
 
 	useEffect( () => {
-		setSelectorActivity( selectorsActivity, 'icon', icon );
-	}, [ selectorsActivity, icon ] );
+		setSelectorActivity( selectorsActivity, 'icon', iconId );
+	}, [ selectorsActivity, iconId ] );
+
+	useEffect( () => {
+		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
+			setAttributes( { isDynamic: true } );
+		}
+	}, [ isDynamic, setAttributes ] );
 
 	const blockProps = useBlockProps(
 		applyFilters(
@@ -75,8 +82,8 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.heading.main ]: true,
-					[ uidClass ]: true,
-					[ BLOCK_CLASSES.heading.text ]: ! icon,
+					[ getUidClass( name, clientId ) ]: true,
+					[ BLOCK_CLASSES.heading.text ]: ! iconId,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 			},
@@ -96,13 +103,13 @@ export default function Edit( props ) {
 			/>
 			<GoogleFontsLink attributes={ attributes } />
 			<Tag { ...blockProps }>
-				<DangerouslyPasteIcon
-					icon={ icon }
+				<PasteUsedIcon
+					iconId={ iconId }
 					className={ BLOCK_CLASSES.heading.icon }
 				/>
 				<RichText
 					tagName="span"
-					className={ !! icon ? BLOCK_CLASSES.heading.text : null }
+					className={ !! iconId ? BLOCK_CLASSES.heading.text : null }
 					value={ text }
 					onChange={ ( value ) => setAttributes( { text: value } ) }
 					placeholder={ __( 'Heading', 'scblocks' ) }

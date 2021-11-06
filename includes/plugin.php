@@ -12,6 +12,9 @@ class Plugin {
 	/** @var string */
 	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
 
+	/** @var string */
+	const BLOCK_NAMESPACE = 'scblocks';
+
 	private static $instance;
 
 	/**
@@ -72,6 +75,14 @@ class Plugin {
 	public static function set_option_sanitizing_func( string $name, $action ) {
 		self::$option_sanitize_action[ $name ] = $action;
 	}
+	
+	/**
+	 * An array of used icons by posts or null.
+	 *
+	 * @since 1.3.0
+	 * @var null|array
+	 */
+	private static $used_icons_by_posts;
 
 	/**
 	 * Gets defaults for option.
@@ -85,6 +96,7 @@ class Plugin {
 				'css_print_method'            => 'file',
 				'force_regenerate_css_files'  => '0',
 				'reusable_blocks_update_time' => '0',
+				'used_icons_post_id'          => '',
 			)
 		);
 	}
@@ -239,6 +251,91 @@ class Plugin {
 	}
 
 	/**
+	 * Retrive attributes from blocks.
+	 *
+	 * @param array $parsed_blocks Array of parsed block objects.
+	 * @param array $data Data used when we use recursion.
+	 *
+	 * @return array
+	 */
+	public static function blocks_attrs( array $parsed_blocks, array $data = array() ) : array {
+		if ( empty( $parsed_blocks ) ) {
+			return $data;
+		}
+
+		foreach ( $parsed_blocks as $block ) {
+			if ( isset( $block['blockName'] ) && strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
+				$block_name = explode( '/', $block['blockName'] )[1];
+
+				$data[ $block_name ][] = $block['attrs'];
+
+				self::set_is_active_block( $block_name );
+				if ( 'heading' === $block_name || 'button' === $block_name ) {
+					self::set_is_active_block( 'icon' );
+				}
+				/**
+				 * Fires while collecting block attributes.
+				 *
+				 * @since 1.3.0
+				 * @param array $block Block data.
+				 */
+				do_action( 'scblocks_collecting_block_attrs', $block );
+			}
+			// reusable block
+			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] ) ) {
+				$reusable_block = get_post( $block['attrs']['ref'] );
+
+				if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
+					$parsed_reusable_block = parse_blocks( $reusable_block->post_content );
+
+					$data = self::blocks_attrs( $parsed_reusable_block, $data );
+
+				}
+			}
+			// inner blocks
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$data = self::blocks_attrs( $block['innerBlocks'], $data );
+			}
+		}
+		return $data;
+	}
+	/**
+	 * Return current Unix timestamp with microseconds as a string.
+	 *
+	 * @since 1.3.0
+	 * @return string
+	 */
+	public static function get_microtime() : string {
+		return number_format( microtime( true ), 9, '.', '' );
+	}
+	/**
+	 * Check if the first number is larger than the second.
+	 *
+	 * @since 1.3.0
+	 * @param string $num1 Number as a string.
+	 * @param string $num2 Number as a string.
+	 * @return bool
+	 */
+	public static function compare_microtimes( string $num1, string $num2 ) : bool {
+		return bccomp( $num1, $num2, 9 ) === 1;
+	}
+
+	/**
+	 * Get icons used by posts.
+	 *
+	 * @since 1.3.0
+	 * @return array
+	 */
+	public static function used_icons() : array {
+		if ( is_null( self::$used_icons_by_posts ) ) {
+			$icons = new Icons();
+
+			self::$used_icons_by_posts = $icons->extract_id_and_content( $icons->used_by_posts() );
+		}
+		return self::$used_icons_by_posts;
+	}
+
+	/**
 	 * Updates the job completion time for the file writer.
 	 *
 	 * @since 1.1.0
@@ -266,9 +363,11 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/buttons-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/column-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/columns-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/heading-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-blocks-metadata.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/admin/dashboard.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/admin/settings.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/button-block.php';
 	}
 
 	private function __construct() {
@@ -290,6 +389,8 @@ class Plugin {
 			'ScBlocks\Columns_Block',
 			'ScBlocks\Dashboard',
 			'ScBlocks\Settings',
+			'ScBlocks\Heading_Block',
+			'ScBlocks\Button_Block',
 		);
 
 		foreach ( $classes as $class_name ) {

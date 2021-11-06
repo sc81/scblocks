@@ -10,9 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Block_Css {
 
-	/** @var string */
-	const BLOCK_NAMESPACE = 'scblocks';
-
 	/**
 	 * Post ID.
 	 *
@@ -114,7 +111,7 @@ class Block_Css {
 		if ( empty( $this->post_settings ) ) {
 			return '';
 		}
-		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
+		$blocks_attr = Plugin::blocks_attrs( $this->parsed_content() );
 
 		$fonts = new Fonts( $blocks_attr );
 
@@ -133,10 +130,20 @@ class Block_Css {
 	 * @return string
 	 */
 	public function create() : string {
-		$blocks_attr = $this->blocks_attrs( $this->parsed_content() );
+		$blocks_attr = Plugin::blocks_attrs( $this->parsed_content() );
 
 		$css_composer = new Css();
 		$css          = $css_composer->compose( $blocks_attr );
+
+		/**
+		 * Filters CSS for our blocks.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @param string $css CSS.
+		 * @param int $post_id Post ID.
+		 */
+		$css = apply_filters( 'scblocks_css', $css, $this->post_id );
 
 		if ( $css ) {
 			$initial_css = new Initial_Css();
@@ -149,15 +156,7 @@ class Block_Css {
 			$i_css = apply_filters( 'scblocks_initial_css', $initial_css->get() );
 			$css   = $i_css . $css;
 		}
-		/**
-		 * Filters CSS for our blocks.
-		 *
-		 * @since 1.3.0
-		 *
-		 * @param string $css CSS.
-		 * @param int $post_id Post ID.
-		 */
-		return apply_filters( 'scblocks_css', $css, $this->post_id );
+		return $css;
 	}
 
 	/**
@@ -178,7 +177,10 @@ class Block_Css {
 			return Plugin::css();
 		}
 		if ( Plugin::css_mode() === 'inline' ) {
-
+			return $this->create();
+		}
+		// when the mode is set to file and we have blocks on blog main page, archive page, etc.
+		if ( Plugin::css_mode() === '' ) {
 			return $this->create();
 		}
 		return '';
@@ -283,7 +285,7 @@ class Block_Css {
 
 		$is_saved = $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $css ), FS_CHMOD_FILE );
 		if ( $is_saved ) {
-			$update_time = time();
+			$update_time = Plugin::get_microtime();
 
 			$settings = $this->post_settings;
 
@@ -327,7 +329,7 @@ class Block_Css {
 		}
 		// force css file update
 		if ( isset( $this->post_settings['update_time'] ) &&
-		(int) Plugin::option( 'force_regenerate_css_files' ) >= (int) $this->post_settings['update_time'] ) {
+		Plugin::compare_microtimes( Plugin::option( 'force_regenerate_css_files' ), $this->post_settings['update_time'] ) ) {
 			return true;
 		}
 		// new css version
@@ -338,12 +340,12 @@ class Block_Css {
 		// post has been updated
 		if ( isset( $this->post_settings['update_time'] ) &&
 		isset( $this->post_settings['old_update_time'] ) &&
-		$this->post_settings['old_update_time'] !== $this->post_settings['update_time'] ) {
+		Plugin::compare_microtimes( $this->post_settings['update_time'], $this->post_settings['old_update_time'] ) ) {
 			return true;
 		}
 		// check if any reusable block has been updated
 		if ( isset( $this->post_settings['update_time'] ) &&
-		(int) Plugin::option( 'reusable_blocks_update_time' ) >= (int) $this->post_settings['update_time'] ) {
+		Plugin::compare_microtimes( Plugin::option( 'reusable_blocks_update_time' ), $this->post_settings['update_time'] ) ) {
 			return true;
 
 		}
@@ -373,56 +375,6 @@ class Block_Css {
 		}
 		$blocks = parse_blocks( $post->post_content );
 		return $blocks;
-	}
-
-	/**
-	 * Retrive attributes from blocks.
-	 *
-	 * @param array $parsed_blocks Array of parsed block objects.
-	 * @param array $data Data used when we use recursion.
-	 *
-	 * @return array
-	 */
-	public function blocks_attrs( array $parsed_blocks, array $data = array() ) : array {
-		if ( empty( $parsed_blocks ) ) {
-			return $data;
-		}
-
-		foreach ( $parsed_blocks as $block ) {
-			if ( isset( $block['blockName'] ) && strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
-				$block_name = explode( '/', $block['blockName'] )[1];
-
-				$data[ $block_name ][] = $block['attrs'];
-
-				Plugin::set_is_active_block( $block_name );
-				if ( 'heading' === $block_name || 'button' === $block_name ) {
-					Plugin::set_is_active_block( 'icon' );
-				}
-				/**
-				 * Fires while collecting block attributes.
-				 *
-				 * @since 1.3.0
-				 * @param array $block Block data.
-				 */
-				do_action( 'scblocks_collecting_block_attrs', $block );
-			}
-			// reusable block
-			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] ) ) {
-				$reusable_block = get_post( $block['attrs']['ref'] );
-
-				if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
-					$parsed_reusable_block = parse_blocks( $reusable_block->post_content );
-
-					$data = $this->blocks_attrs( $parsed_reusable_block, $data );
-
-				}
-			}
-			// inner blocks
-			if ( ! empty( $block['innerBlocks'] ) ) {
-				$data = $this->blocks_attrs( $block['innerBlocks'], $data );
-			}
-		}
-		return $data;
 	}
 
 	/**

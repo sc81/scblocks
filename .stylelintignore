@@ -4,3 +4,5 @@ build
 vendor
 *.js
 dist
+phpunit
+bin

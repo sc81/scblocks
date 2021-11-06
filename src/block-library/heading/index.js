@@ -6,16 +6,16 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR, SHARED_ATTRIBUTES } from '@scblocks/block';
+import { SHARED_ATTRIBUTES } from '@scblocks/block';
 import { PLUGIN_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
  */
 import edit from './edit';
-import save from './save';
 import { HEADING_BLOCK_NAME } from './utils';
 import icon from './icon';
+import deprecated from './deprecated';
 
 export const name = HEADING_BLOCK_NAME;
 
@@ -32,19 +32,15 @@ export const settings = {
 		},
 		text: {
 			type: 'string',
-			source: 'html',
-			selector: BLOCK_SELECTOR.heading.text.selector,
 			default: '',
 		},
-		icon: {
-			type: 'string',
-			source: 'html',
-			selector: BLOCK_SELECTOR.heading.icon.selector,
-			default: '',
+		isDynamic: {
+			type: 'boolean',
 		},
 		...SHARED_ATTRIBUTES.googleFonts,
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
+		...SHARED_ATTRIBUTES.icon,
 	},
 	supports: {
 		anchor: false,
@@ -53,5 +49,5 @@ export const settings = {
 		customClassName: false,
 	},
 	edit,
-	save,
+	deprecated,
 };

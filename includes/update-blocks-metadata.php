@@ -19,6 +19,7 @@ class Update_Blocks_Metadata {
 	public function register_actions() {
 		add_action( 'save_post', array( $this, 'update_post_settings' ), 10, 2 );
 		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ), 10, 2 );
+		add_action( 'wp_insert_post_data', array( $this, 'change_uid_class_on_save' ), 10, 2 );
 	}
 
 	/**
@@ -45,11 +46,11 @@ class Update_Blocks_Metadata {
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
 
 			$settings['css_version'] = SCBLOCKS_VERSION;
-			$settings['update_time'] = time();
+			$settings['update_time'] = Plugin::get_microtime();
 		}
 		if ( strpos( $post->post_content, 'wp:block' ) !== false ) {
 
-			$settings['update_time'] = time();
+			$settings['update_time'] = Plugin::get_microtime();
 			$settings['css_version'] = SCBLOCKS_VERSION;
 		}
 
@@ -74,12 +75,74 @@ class Update_Blocks_Metadata {
 		$options = Plugin::options();
 
 		if ( strpos( $post->post_content, 'wp:scblocks' ) !== false ) {
-			$options['reusable_blocks_update_time'] = time();
+			$options['reusable_blocks_update_time'] = Plugin::get_microtime();
 		}
 
 		// deprecated since 1.2.0
 		unset( $options['wp_block_update_time'] );
 		unset( $options['wp_block_in_wp_block'] );
 		Plugin::update_options( $options );
+	}
+
+	/**
+	 * Change the uidClass of all our blocks when saving the post.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $data An array of slashed, sanitized, and processed post data.
+	 * @param array $postarr An array of sanitized (and slashed) but otherwise unmodified post data.
+	 *
+	 * @return array
+	 */
+	public function change_uid_class_on_save( array $data, array $postarr ) : array {
+		if ( ! current_user_can( 'edit_post', $postarr['ID'] ) ||
+		empty( $data['post_content'] ) ||
+		Icons::POST_TYPE_NAME === $data['post_type'] ) {
+			return $data;
+		}
+		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
+
+		$this->update_uid_class( $blocks, $postarr['ID'] );
+
+		$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
+
+		return $data;
+	}
+	/**
+	 * Update uidClass for blocks.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $blocks
+	 * @param int $post_id
+	 *
+	 * @return void
+	 */
+	public function update_uid_class( array &$blocks, int $post_id ) {
+		foreach ( $blocks as $index => $block ) {
+			if ( isset( $block['blockName'] ) &&
+			strpos( $block['blockName'], Plugin::BLOCK_NAMESPACE ) === 0 &&
+			isset( $block['attrs'] ) ) {
+
+				$blocks[ $index ]['attrs']['uidClass'] = $this->create_uid_class( $block['blockName'], $post_id );
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$this->update_uid_class( $blocks[ $index ]['innerBlocks'], $post_id );
+			}
+		}
+	}
+	/**
+	 * Create a uidClass for the block.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $block_name
+	 * @param int $post_id
+	 *
+	 * @return string
+	 */
+	public function create_uid_class( string $block_name, int $post_id ) : string {
+		$block_name = explode( '/', $block_name )[1];
+		return 'scb-' . $block_name . '-' . $post_id . bin2hex( random_bytes( 4 ) );
 	}
 }
