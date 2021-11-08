@@ -331,6 +331,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/heading-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-blocks-metadata.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/button-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/template-styling.php';
 	}
 
 	private function __construct() {
@@ -353,6 +354,7 @@ class Plugin {
 			'ScBlocks\Columns_Block',
 			'ScBlocks\Heading_Block',
 			'ScBlocks\Button_Block',
+			'ScBlocks\Template_Styling',
 		);
 
 		foreach ( $classes as $class_name ) {
