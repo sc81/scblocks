@@ -41,42 +41,6 @@ class Plugin {
 	private static $active_blocks = array();
 
 	/**
-	 * List of options with its sanitizing functions.
-	 *
-	 * @since 1.3.0
-	 * @var array
-	 */
-	private static $option_sanitize_action = array(
-		'css_print_method'            => 'sanitize_text_field',
-		'force_regenerate_css_files'  => 'sanitize_text_field',
-		'reusable_blocks_update_time' => 'sanitize_text_field',
-	);
-
-	/**
-	 * Gets the name of the sanitizing function for the specified option.
-	 *
-	 * @since 1.3.0
-	 * @param string $name Option name.
-	 * @return string|array
-	 */
-	public static function get_option_sanitizing_func( string $name ) {
-		return self::$option_sanitize_action[ $name ];
-	}
-
-	/**
-	 * Sets the name of the sanitizing function for the specified option.
-	 *
-	 * @since 1.3.0
-	 * @param string $name Option name.
-	 * @param string|array $action Function name as an string or
-	 *                             an array with the object and its method.
-	 * @return void
-	 */
-	public static function set_option_sanitizing_func( string $name, $action ) {
-		self::$option_sanitize_action[ $name ] = $action;
-	}
-	
-	/**
 	 * An array of used icons by posts or null.
 	 *
 	 * @since 1.3.0

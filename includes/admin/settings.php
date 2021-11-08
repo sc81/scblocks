@@ -119,11 +119,17 @@ class Settings {
 	 * @return mixed
 	 */
 	public function sanitize_value( string $name, $value ) {
+		$callbacks = apply_filters(
+			'scblocks_option_sanitize_func_names',
+			array(
+				'css_print_method'            => 'sanitize_text_field',
+				'force_regenerate_css_files'  => 'sanitize_text_field',
+				'reusable_blocks_update_time' => 'sanitize_text_field',
+			)
+		);
 
-		$callback = Plugin::get_option_sanitizing_func( $name );
-
-		if ( is_callable( $callback ) ) {
-			return call_user_func( $callback, $value );
+		if ( is_callable( $callbacks[ $name ] ) ) {
+			return call_user_func( $callbacks[ $name ], $value );
 		}
 		return sanitize_text_field( $value );
 	}
