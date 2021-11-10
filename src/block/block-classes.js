@@ -9,8 +9,6 @@ export const BLOCK_CLASSES = {
 	},
 	column: {
 		main: 'scb-column',
-		content: 'scb-column-content',
-		inner: 'scb-inner-column',
 	},
 	columns: {
 		main: 'scb-columns',
