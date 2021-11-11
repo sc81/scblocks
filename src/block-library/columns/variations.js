@@ -25,7 +25,7 @@ function getColumnState( width ) {
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.column.main.alias ]: [
-						`width:${ width }%`,
+						`flexBasis:${ width }%`,
 					],
 				},
 			},
@@ -56,7 +56,7 @@ export const variations = [
 			</SVG>
 		),
 		isDefault: true,
-		innerBlocks: [ getColumnState( 50 ), getColumnState( 50 ) ],
+		innerBlocks: [ getColumnState(), getColumnState() ],
 		scope: [ 'block' ],
 	},
 	{
@@ -124,11 +124,7 @@ export const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [
-			getColumnState( 33.33 ),
-			getColumnState( 33.33 ),
-			getColumnState( 33.33 ),
-		],
+		innerBlocks: [ getColumnState(), getColumnState(), getColumnState() ],
 		scope: [ 'block' ],
 	},
 	{
@@ -205,10 +201,10 @@ export const variations = [
 			</svg>
 		),
 		innerBlocks: [
-			getColumnState( 25 ),
-			getColumnState( 25 ),
-			getColumnState( 25 ),
-			getColumnState( 25 ),
+			getColumnState(),
+			getColumnState(),
+			getColumnState(),
+			getColumnState(),
 		],
 		scope: [ 'block' ],
 	},

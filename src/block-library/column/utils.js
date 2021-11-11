@@ -34,6 +34,7 @@ export const COLUMN_SELECTORS_SETTINGS = [
 				margin: true,
 				padding: true,
 				minHeight: true,
+				flex: true,
 			},
 			position: {
 				order: true,

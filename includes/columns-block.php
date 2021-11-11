@@ -89,7 +89,6 @@ class Columns_Block {
 				'allDevices' => array(
 					'.scb-columns' => array(
 						'display: flex',
-						'flex-wrap: wrap',
 					),
 				),
 			)
