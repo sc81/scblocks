@@ -98,7 +98,12 @@ export default function Space( props ) {
 					<Separator />
 				</>
 			) }
-			{ flex && <Flex { ...props } selector={ propSelector.flex } /> }
+			{ flex && (
+				<>
+					<Flex { ...props } selector={ propSelector.flex } />
+					<Separator />
+				</>
+			) }
 			{ margin && (
 				<>
 					<FourControls

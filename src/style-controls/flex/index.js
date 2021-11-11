@@ -18,7 +18,7 @@ export default function Flex( {
 	} );
 	function onChange( name, value ) {
 		if ( name === 'flexBasis' ) {
-			value = value.replace( /[^0-9a-z.%-]*/g, '' );
+			value = value.replace( /[^0-9a-z.%-]/g, '' );
 		}
 		setValues( {
 			flexBasis,
@@ -68,14 +68,13 @@ export default function Flex( {
 					type="number"
 					autoComplete="off"
 				/>
-				<div className="scblocks-flex-controls-basis">
-					<TextControl
-						label={ __( 'Basis', 'scblocks' ) }
-						value={ flexBasis }
-						onChange={ ( value ) => onChange( 'flexBasis', value ) }
-						autoComplete="off"
-					/>
-				</div>
+				<TextControl
+					className="scblocks-flex-controls-basis"
+					label={ __( 'Basis', 'scblocks' ) }
+					value={ flexBasis }
+					onChange={ ( value ) => onChange( 'flexBasis', value ) }
+					autoComplete="off"
+				/>
 			</div>
 		</ControlWrapper>
 	);
