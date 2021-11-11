@@ -18,6 +18,7 @@ import FourControls from '../four-controls';
 import { getControlSelector } from '../utils';
 import NumberProperty from '../number-property';
 import Gap from '../gap';
+import Flex from '../flex';
 
 const spaceProps = [
 	'margin',
@@ -31,6 +32,7 @@ const spaceProps = [
 	'fontSize', // icon size
 	'flexGrow',
 	'gap',
+	'flex',
 ];
 
 export default function Space( props ) {
@@ -47,6 +49,7 @@ export default function Space( props ) {
 		fontSize,
 		flexGrow,
 		gap,
+		flex,
 	} = usePanelActiveControl( selectorSettings, spaceProps, 'space' );
 
 	const propSelector = useMemo( () => {
@@ -101,6 +104,12 @@ export default function Space( props ) {
 			{ gap && (
 				<>
 					<Gap { ...props } selector={ propSelector.gap } />
+					<Separator />
+				</>
+			) }
+			{ flex && (
+				<>
+					<Flex { ...props } selector={ propSelector.flex } />
 					<Separator />
 				</>
 			) }

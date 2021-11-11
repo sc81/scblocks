@@ -1,0 +1,13 @@
+.scblocks-flex-controls {
+	display: flex;
+	column-gap: 2px;
+
+	.scblocks-flex-controls-basis {
+		flex-basis: 50%;
+	}
+	.scblocks-flex-controls-shrink,
+	.scblocks-flex-controls-grow {
+		flex-basis: 25%;
+		margin-bottom: 8px;
+	}
+}
