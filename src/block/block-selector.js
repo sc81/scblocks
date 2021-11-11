@@ -136,4 +136,10 @@ export const BLOCK_SELECTOR = {
 			selector: '.scb-heading-text',
 		},
 	},
+	grid: {
+		main: {
+			fullSelector: ( uidClass ) => `.${ uidClass }`,
+			alias: 'main',
+		},
+	},
 };

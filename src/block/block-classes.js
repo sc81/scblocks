@@ -29,4 +29,7 @@ export const BLOCK_CLASSES = {
 		text: 'scb-heading-text',
 		icon: 'scb-icon',
 	},
+	grid: {
+		main: 'scb-grid',
+	},
 };

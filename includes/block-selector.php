@@ -103,6 +103,11 @@ function get_block_selector() {
 					return ".$uid_class .scb-icon";
 				},
 			),
+			'grid' => array(
+				'main' => function( $uid_class ) {
+					return ".$uid_class";
+				},
+			),
 		)
 	);
 }

@@ -94,6 +94,7 @@ class Initial_Css {
 			'container' => $this->container(),
 			'heading'   => $this->heading(),
 			'icon'      => $this->icon(),
+			'grid'      => $this->grid(),
 		);
 		/**
 		 * Filters default CSS for all blocks.
@@ -245,5 +246,19 @@ class Initial_Css {
 				),
 			)
 		);
+	}
+	/**
+	 * Default CSS for Grid Block.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return array
+	 */
+	public function grid() : array {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'column' ) ) {
+			return array();
+		}
+		$grid = new Grid_Block();
+		return $grid->initial_css();
 	}
 }

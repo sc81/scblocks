@@ -13,8 +13,9 @@ import * as column from './column';
 import * as columns from './columns';
 import * as container from './container';
 import * as heading from './heading';
+import * as grid from './grid';
 
-[ button, buttons, column, columns, container, heading ].forEach(
+[ button, buttons, column, columns, container, heading, grid ].forEach(
 	( { name, settings } ) => {
 		const blockName = name.replace( 'scblocks/', '' );
 		registerBlockType(
