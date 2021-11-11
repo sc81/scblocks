@@ -17,6 +17,10 @@ export const GRID_SELECTORS_SETTINGS = [
 			space: {
 				gap: true,
 			},
+			position: {
+				alignItems: true,
+				justifyContent: true,
+			},
 		},
 	},
 ];
