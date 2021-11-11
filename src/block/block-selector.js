@@ -58,11 +58,6 @@ export const BLOCK_SELECTOR = {
 			fullSelector: ( uidClass ) => `.${ uidClass } > .scb-column`,
 			alias: 'column',
 		},
-		columnContent: {
-			fullSelector: ( uidClass ) =>
-				`.${ uidClass } > .scb-column > .scb-column-content`,
-			alias: 'columnContent',
-		},
 	},
 	container: {
 		main: {
