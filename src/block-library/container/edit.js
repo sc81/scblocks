@@ -41,7 +41,7 @@ import ShapeDividers from './shape-dividers';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
-	const { htmlClass, htmlId, isDynamic } = attributes;
+	const { htmlClass, htmlId, isDynamic, isGridItem } = attributes;
 	const { devices, innerBlockCount, isRootContainer, svgShapes } = useSelect(
 		( select ) => {
 			const { getBlockCount, getBlockHierarchyRootClientId } = select(
@@ -91,6 +91,7 @@ export default function Edit( props ) {
 					[ BLOCK_CLASSES.container.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
 					[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
+					[ BLOCK_CLASSES.container.gridItem ]: isGridItem,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 			},

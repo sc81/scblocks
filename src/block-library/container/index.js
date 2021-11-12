@@ -53,6 +53,10 @@ export const settings = {
 		isDynamic: {
 			type: 'boolean',
 		},
+		isGridItem: {
+			type: 'boolean',
+			default: false,
+		},
 	},
 	supports: {
 		className: false,

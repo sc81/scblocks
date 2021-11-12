@@ -23,6 +23,7 @@ export const BLOCK_CLASSES = {
 		rootContainer: 'scb-root-container',
 		shapes: 'scb-shapes',
 		shape: 'scb-shape',
+		gridItem: 'scb-grid-item',
 	},
 	heading: {
 		main: 'scb-heading',

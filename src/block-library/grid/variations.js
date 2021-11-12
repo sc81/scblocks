@@ -13,7 +13,7 @@ import { DESKTOP_DEVICE } from '@scblocks/constants';
 function getContainer() {
 	return [
 		'scblocks/container',
-		{},
+		{ isGridItem: true },
 		[ [ 'core/paragraph', { placeholder: 'Paragraph in the container' } ] ],
 	];
 }

@@ -51,10 +51,15 @@ class Container_Block {
 		$output      = '';
 		$class_names = array(
 			'scb-container',
-			$attributes['uidClass'],
 		);
+		if ( ! empty( $attributes['uidClass'] ) ) {
+			$class_names[] = $attributes['uidClass'];
+		}
 		if ( ! empty( $attributes['isRootContainer'] ) ) {
 			$class_names[] = 'scb-root-container';
+		}
+		if ( ! empty( $attributes['isGridItem'] ) ) {
+			$class_names[] = 'scb-grid-item';
 		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
