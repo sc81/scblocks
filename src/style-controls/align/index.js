@@ -58,7 +58,7 @@ export default function Align( props ) {
 		<ControlWrapper label={ props.label }>
 			<SelectControl
 				value={ propValue }
-				options={ options[ props.propSufix ] }
+				options={ options[ props.propSuffix ] }
 				onChange={ onChange }
 			/>
 		</ControlWrapper>

@@ -14,7 +14,7 @@ export default function AlignItems( props ) {
 			{ ...props }
 			label={ __( 'Align-items', 'scblocks' ) }
 			propName="alignItems"
-			propSufix="items"
+			propSuffix="items"
 		/>
 	);
 }
