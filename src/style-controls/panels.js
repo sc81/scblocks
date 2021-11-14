@@ -20,6 +20,7 @@ import Space from './space/index';
 import ColorSet from './color-set';
 import BorderPanel from './border-panel';
 import PositionPanel from './position-panel';
+import GridPanel from './grid-panel';
 
 function Panel( {
 	name,
@@ -179,6 +180,20 @@ export default function Panels( props ) {
 					panelCount={ panelCount }
 				>
 					<Background { ...props } />
+				</Panel>
+			) }
+			{ isVisiblePanel.grid && (
+				<Panel
+					name="grid"
+					label={ __( 'Grid', 'scblocks' ) }
+					onClickPanel={ onClickPanel }
+					openedPanel={ openedPanel }
+					panelCount={ panelCount }
+				>
+					<GridPanel
+						{ ...props }
+						selectorSettings={ selectorsSettings[ index ] }
+					/>
 				</Panel>
 			) }
 			{ isVisiblePanel.space && (
