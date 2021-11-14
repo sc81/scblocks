@@ -51,7 +51,7 @@ const options = {
 	],
 };
 
-export default function Align( props ) {
+export default function Adjust( props ) {
 	const { propValue, onChange } = propertyService( props );
 
 	return (
