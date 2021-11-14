@@ -6,11 +6,11 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import Align from '../align';
+import Adjust from '../adjust';
 
 export default function AlignItems( props ) {
 	return (
-		<Align
+		<Adjust
 			{ ...props }
 			label={ __( 'Align-items', 'scblocks' ) }
 			propName="alignItems"
