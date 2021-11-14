@@ -11,6 +11,10 @@ import usePanelActiveControl from '../use-panel-active-control';
 import { getControlSelector } from '../utils';
 import TextProperty from '../text-property';
 import Gap from '../gap';
+import Adjust from '../adjust';
+import AlignItems from '../align-items';
+import JustifyContent from '../justify-content';
+import Order from '../order';
 
 const gridProps = [
 	'gridTemplateColumns',
@@ -22,7 +26,14 @@ const gridProps = [
 	'gridAutoFlow',
 	'gridAutoColumns',
 	'gridAutoRows',
-	'gridArea'
+	'gridArea',
+	'justifyItems',
+	'alignItems',
+	'justifyContent',
+	'alignContent',
+	'justifySelf',
+	'alignSelf',
+	'order',
 ];
 
 export default function GridPanel( props ) {
@@ -37,7 +48,14 @@ export default function GridPanel( props ) {
 		gridAutoFlow,
 		gridAutoColumns,
 		gridAutoRows,
-		gridArea
+		gridArea,
+		justifyItems,
+		alignItems,
+		justifyContent,
+		alignContent,
+		justifySelf,
+		alignSelf,
+		order,
 	} = usePanelActiveControl( selectorSettings, gridProps, 'grid' );
 
 	const propSelector = useMemo( () => {
@@ -127,6 +145,52 @@ export default function GridPanel( props ) {
 					propName="gridArea"
 				/>
 			) }
+			{ justifyItems && (
+				<Adjust
+					{ ...props }
+					selector={ propSelector.justifyItems }
+					label={ __( 'Justify-items', 'scblocks' ) }
+					propName="justifyItems"
+					propSuffix="items"
+				/>
+			) }
+			{ alignItems && (
+				<AlignItems { ...props } selector={ propSelector.alignItems } />
+			) }
+			{ justifyContent && (
+				<JustifyContent
+					{ ...props }
+					selector={ propSelector.justifyContent }
+				/>
+			) }
+			{ alignContent && (
+				<Adjust
+					{ ...props }
+					selector={ propSelector.alignContent }
+					label={ __( 'Align-Content', 'scblocks' ) }
+					propName="alignContent"
+					propSuffix="content"
+				/>
+			) }
+			{ justifySelf && (
+				<Adjust
+					{ ...props }
+					selector={ propSelector.justifySelf }
+					label={ __( 'Justify-Self', 'scblocks' ) }
+					propName="justifySelf"
+					propSuffix="self"
+				/>
+			) }
+			{ alignSelf && (
+				<Adjust
+					{ ...props }
+					selector={ propSelector.alignSelf }
+					label={ __( 'Align-Self', 'scblocks' ) }
+					propName="alignSelf"
+					propSuffix="self"
+				/>
+			) }
+			{ order && <Order { ...props } selector={ propSelector.order } /> }
 		</>
 	);
 }
