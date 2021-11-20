@@ -16,9 +16,6 @@ import { DESKTOP_DEVICE } from '@scblocks/constants';
 import { COLUMN_NAME } from '../column/utils';
 
 function getColumnState( width ) {
-	if ( ! width ) {
-		return [ COLUMN_NAME ];
-	}
 	return [
 		COLUMN_NAME,
 		{
@@ -56,7 +53,7 @@ export const variations = [
 			</SVG>
 		),
 		isDefault: true,
-		innerBlocks: [ getColumnState(), getColumnState() ],
+		innerBlocks: [ getColumnState( 50 ), getColumnState( 50 ) ],
 		scope: [ 'block' ],
 	},
 	{
@@ -124,7 +121,11 @@ export const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumnState(), getColumnState(), getColumnState() ],
+		innerBlocks: [
+			getColumnState( 33.33 ),
+			getColumnState( 33.33 ),
+			getColumnState( 33.33 ),
+		],
 		scope: [ 'block' ],
 	},
 	{
@@ -201,10 +202,10 @@ export const variations = [
 			</svg>
 		),
 		innerBlocks: [
-			getColumnState(),
-			getColumnState(),
-			getColumnState(),
-			getColumnState(),
+			getColumnState( 25 ),
+			getColumnState( 25 ),
+			getColumnState( 25 ),
+			getColumnState( 25 ),
 		],
 		scope: [ 'block' ],
 	},
