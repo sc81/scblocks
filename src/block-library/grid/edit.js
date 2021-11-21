@@ -99,16 +99,12 @@ export default function Edit( props ) {
 								...select(
 									CORE_BLOCK_EDITOR_STORE_NAME
 								).getBlocks( clientId ),
-								createBlock(
-									'scblocks/container',
-									{ isGridItem: true },
-									[
-										createBlock( 'core/paragraph', {
-											placeholder:
-												'Paragraph in the container',
-										} ),
-									]
-								),
+								createBlock( 'scblocks/container', {}, [
+									createBlock( 'core/paragraph', {
+										placeholder:
+											'Paragraph in the container',
+									} ),
+								] ),
 							];
 							dispatch(
 								CORE_BLOCK_EDITOR_STORE_NAME

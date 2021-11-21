@@ -42,11 +42,24 @@ import ShapeDividers from './shape-dividers';
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
 	const { htmlClass, htmlId, isDynamic, isGridItem } = attributes;
-	const { devices, innerBlockCount, isRootContainer, svgShapes } = useSelect(
+	const {
+		devices,
+		innerBlockCount,
+		isRootContainer,
+		svgShapes,
+		isParentGridContainer,
+	} = useSelect(
 		( select ) => {
-			const { getBlockCount, getBlockHierarchyRootClientId } = select(
-				CORE_BLOCK_EDITOR_STORE_NAME
-			);
+			const {
+				getBlockCount,
+				getBlockHierarchyRootClientId,
+				getBlockParents,
+				getBlock,
+			} = select( CORE_BLOCK_EDITOR_STORE_NAME );
+			const parentBlockId = getBlockParents( clientId, true )[ 0 ];
+			const parentBlock = parentBlockId
+				? getBlock( parentBlockId )
+				: null;
 			return {
 				innerBlockCount: getBlockCount( clientId ),
 				devices: select( CORE_EDIT_POST_STORE_NAME )
@@ -57,6 +70,10 @@ export default function Edit( props ) {
 				svgShapes: attributes.shapeDividers
 					? select( STORE_NAME ).getSvgShapes()
 					: undefined,
+				isParentGridContainer:
+					parentBlock && 'scblocks/grid' === parentBlock.name
+						? true
+						: '',
 			};
 		},
 		[ clientId, attributes.shapeDividers ]
@@ -65,6 +82,10 @@ export default function Edit( props ) {
 	useEffect( () => {
 		setAttributes( { isRootContainer } );
 	}, [ isRootContainer, setAttributes ] );
+
+	useEffect( () => {
+		setAttributes( { isGridItem: isParentGridContainer } );
+	}, [ isParentGridContainer, setAttributes ] );
 
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
