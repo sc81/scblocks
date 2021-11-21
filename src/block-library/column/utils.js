@@ -14,8 +14,8 @@ export const COLUMN_NAME = `${ PLUGIN_NAME }/column`;
 export const COLUMN_SELECTORS_SETTINGS = [
 	{
 		label: __( 'Column Style', 'scblocks' ),
-		id: BLOCK_SELECTOR.column.inner.alias,
-		selector: BLOCK_SELECTOR.column.inner.alias,
+		id: BLOCK_SELECTOR.column.main.alias,
+		selector: BLOCK_SELECTOR.column.main.alias,
 		allowedPanels: {
 			typography: true,
 			colors: {
@@ -32,20 +32,14 @@ export const COLUMN_SELECTORS_SETTINGS = [
 			border: true,
 			space: {
 				margin: true,
-				padding: {
-					selector: BLOCK_SELECTOR.column.content.alias,
-				},
+				padding: true,
 				minHeight: true,
+				flex: true,
 			},
 			position: {
-				order: {
-					selector: BLOCK_SELECTOR.column.main.alias,
-				},
-				zIndex: {
-					selector: BLOCK_SELECTOR.column.main.alias,
-				},
-				alignItems: true,
-				justifyContent: true,
+				order: true,
+				zIndex: true,
+				alignSelf: true,
 			},
 		},
 	},

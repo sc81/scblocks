@@ -15,6 +15,11 @@ import FlexDirection from '../flex-direction';
 import AlignItems from '../align-items';
 import JustifyContent from '../justify-content';
 import { getControlSelector } from '../utils';
+import JustifySelf from '../justify-self';
+import JustifyItems from '../justify-items';
+import AlignSelf from '../align-self';
+import AlignContent from '../align-content';
+import FlexWrap from '../flex-wrap';
 
 const positionProps = [
 	'position',
@@ -22,8 +27,13 @@ const positionProps = [
 	'visibility',
 	'order',
 	'flexDirection',
+	'flexWrap',
 	'alignItems',
+	'alignContent',
+	'alignSelf',
 	'justifyContent',
+	'justifyItems',
+	'justifySelf',
 ];
 
 export default function PositionPanel( props ) {
@@ -34,8 +44,13 @@ export default function PositionPanel( props ) {
 		visibility,
 		order,
 		flexDirection,
+		flexWrap,
 		alignItems,
+		alignContent,
+		alignSelf,
 		justifyContent,
+		justifyItems,
+		justifySelf,
 	} = usePanelActiveControl( selectorSettings, positionProps, 'position' );
 
 	const propSelector = useMemo( () => {
@@ -65,13 +80,40 @@ export default function PositionPanel( props ) {
 					selector={ propSelector.flexDirection }
 				/>
 			) }
+			{ flexWrap && (
+				<FlexWrap
+					{ ...props }
+					selector={ propSelector.flexWrap }
+				/>
+			) }
 			{ alignItems && (
 				<AlignItems { ...props } selector={ propSelector.alignItems } />
+			) }
+			{ alignContent && (
+				<AlignContent
+					{ ...props }
+					selector={ propSelector.alignContent }
+				/>
+			) }
+			{ alignSelf && (
+				<AlignSelf { ...props } selector={ propSelector.alignSelf } />
 			) }
 			{ justifyContent && (
 				<JustifyContent
 					{ ...props }
 					selector={ propSelector.justifyContent }
+				/>
+			) }
+			{ justifyItems && (
+				<JustifyItems
+					{ ...props }
+					selector={ propSelector.justifyItems }
+				/>
+			) }
+			{ justifySelf && (
+				<JustifySelf
+					{ ...props }
+					selector={ propSelector.justifySelf }
 				/>
 			) }
 			{ visibility && (

@@ -16,16 +16,13 @@ import { DESKTOP_DEVICE } from '@scblocks/constants';
 import { COLUMN_NAME } from '../column/utils';
 
 function getColumnState( width ) {
-	if ( ! width ) {
-		return [ COLUMN_NAME ];
-	}
 	return [
 		COLUMN_NAME,
 		{
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.column.main.alias ]: [
-						`width:${ width }%`,
+						`flexBasis:${ width }%`,
 					],
 				},
 			},

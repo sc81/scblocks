@@ -39,12 +39,6 @@ function get_block_selector() {
 				'main' => function( $uid_class ) {
 					return ".$uid_class";
 				},
-				'content' => function( $uid_class ) {
-					return ".$uid_class > .scb-inner-column > .scb-column-content";
-				},
-				'inner' => function( $uid_class ) {
-					return ".$uid_class > .scb-inner-column";
-				},
 				'link' => function( $uid_class ) {
 					return ".$uid_class a";
 				},
@@ -58,9 +52,6 @@ function get_block_selector() {
 				},
 				'column' => function( $uid_class ) {
 					return ".$uid_class > .scb-column";
-				},
-				'columnContent' => function( $uid_class ) {
-					return ".$uid_class  > .scb-column > .scb-inner-column > .scb-column-content";
 				},
 			),
 			'container' => array(

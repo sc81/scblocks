@@ -51,16 +51,13 @@ class Column_Block {
 		$output      = '';
 		$class_names = array(
 			'scb-column',
-			$attributes['uidClass'],
 		);
+		if ( ! empty( $attributes['uidClass'] ) ) {
+			$class_names[] = $attributes['uidClass'];
+		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
-		if ( empty( $attributes['tag'] ) ) {
-			$tag = 'div';
-		}
-
-		$tag_name = apply_filters( 'scblocks_column_tagname', $tag, $attributes );
 
 		$html_attr = new Html_Attributes(
 			'column',
@@ -72,22 +69,11 @@ class Column_Block {
 		);
 
 		$output .= sprintf(
-			'<%1$s %2$s>',
-			$tag_name,
+			'<div %s>',
 			$html_attr->build()
 		);
-
-		$output .= '<div class="scb-inner-column">';
-		$output  = apply_filters( 'scblocks_inside_column', $output, $attributes );
-		$output .= '<div class="scb-column-content">';
 		$output .= $content;
 		$output .= '</div>';
-		$output .= '</div>';
-
-		$output .= sprintf(
-			'</%s>',
-			$tag_name
-		);
 
 		return $output;
 	}
@@ -104,12 +90,9 @@ class Column_Block {
 			array(
 				'allDevices' => array(
 					'.scb-column' => array(
-						'box-sizing: border-box',
-					),
-					'.scb-inner-column' => array(
-						'display: flex',
-						'height: 100%',
-						'flex-direction: column',
+						'flex: auto',
+						'overflow-wrap: break-word',
+						'word-break: break-word',
 					),
 				),
 			)

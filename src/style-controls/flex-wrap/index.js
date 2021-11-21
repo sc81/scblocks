@@ -9,28 +9,23 @@ import { __ } from '@wordpress/i18n';
  */
 import { ControlWrapper, propertyService } from '@scblocks/components';
 
-export default function FlexDirection( props ) {
+export default function FlexWrap( props ) {
 	const { propValue, onChange } = propertyService( {
 		...props,
-		propName: 'flexDirection',
+		propName: 'flexWrap',
 	} );
 
 	return (
-		<ControlWrapper label={ __( 'Flex-Direction', 'scblocks' ) }>
+		<ControlWrapper label={ __( 'Flex-Wrap', 'scblocks' ) }>
 			<SelectControl
 				value={ propValue }
 				onChange={ onChange }
 				options={ [
 					{ label: __( 'Default', 'scblocks' ), value: '' },
-					{ label: __( 'Column', 'scblocks' ), value: 'column' },
+					{ label: __( 'Wrap', 'scblocks' ), value: 'wrap' },
 					{
-						label: __( 'Column-reverse', 'scblocks' ),
-						value: 'column-reverse',
-					},
-					{ label: __( 'Row', 'scblocks' ), value: 'row' },
-					{
-						label: __( 'Row-reverse', 'scblocks' ),
-						value: 'row-reverse',
+						label: __( 'Wrap-Reverse', 'scblocks' ),
+						value: 'wrap-reverse',
 					},
 				] }
 			/>

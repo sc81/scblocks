@@ -81,38 +81,24 @@ export default function Edit( props ) {
 			attributes
 		)
 	);
-	const innerBlocksProps = useInnerBlocksProps(
-		{
-			className: BLOCK_CLASSES.column.content,
-		},
-		{
-			templateLock: false,
-			renderAppender: hasChildBlocks
-				? undefined
-				: InnerBlocks.ButtonBlockAppender,
-		}
-	);
+	const innerBlocksProps = useInnerBlocksProps( blockProps, {
+		templateLock: false,
+		renderAppender: hasChildBlocks
+			? undefined
+			: InnerBlocks.ButtonBlockAppender,
+	} );
 
 	return (
 		<>
 			<style>{ style }</style>
+			<GoogleFontsLink attributes={ attributes } />
 			<Inspector
 				{ ...props }
 				blockMemo={ blockMemo }
 				devices={ devices }
 				selectorsSettings={ selectorsSettings }
 			/>
-			<div { ...blockProps }>
-				<GoogleFontsLink attributes={ attributes } />
-				<div className={ BLOCK_CLASSES.column.inner }>
-					{ applyFilters(
-						'scblocks.column.inside',
-						null,
-						attributes
-					) }
-					<div { ...innerBlocksProps } />
-				</div>
-			</div>
+			<div { ...innerBlocksProps } />
 		</>
 	);
 }
