@@ -40,15 +40,6 @@ export const BLOCK_SELECTOR = {
 			fullSelector: ( uidClass ) => `.${ uidClass }`,
 			alias: 'main',
 		},
-		content: {
-			fullSelector: ( uidClass ) =>
-				`.${ uidClass } > .scb-inner-column > .scb-column-content`,
-			alias: 'content',
-		},
-		inner: {
-			fullSelector: ( uidClass ) => `.${ uidClass } > .scb-inner-column`,
-			alias: 'inner',
-		},
 		link: {
 			fullSelector: ( uidClass ) => `.${ uidClass } a`,
 			alias: 'link',
@@ -66,11 +57,6 @@ export const BLOCK_SELECTOR = {
 		column: {
 			fullSelector: ( uidClass ) => `.${ uidClass } > .scb-column`,
 			alias: 'column',
-		},
-		columnContent: {
-			fullSelector: ( uidClass ) =>
-				`.${ uidClass } > .scb-column > .scb-column-content`,
-			alias: 'columnContent',
 		},
 	},
 	container: {

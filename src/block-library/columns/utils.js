@@ -17,7 +17,9 @@ export const COLUMNS_SELECTORS_SETTINGS = [
 		id: BLOCK_SELECTOR.columns.main.alias,
 		selector: BLOCK_SELECTOR.columns.main.alias,
 		allowedPanels: {
-			space: true,
+			space: {
+				gap: true,
+			},
 			position: {
 				alignItems: true,
 				flexDirection: true,

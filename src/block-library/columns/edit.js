@@ -32,7 +32,6 @@ import {
 import {
 	CORE_EDIT_POST_STORE_NAME,
 	CORE_BLOCK_EDITOR_STORE_NAME,
-	DESKTOP_DEVICE,
 } from '@scblocks/constants';
 
 /**
@@ -107,14 +106,7 @@ export default function Edit( props ) {
 								...select(
 									CORE_BLOCK_EDITOR_STORE_NAME
 								).getBlocks( clientId ),
-								createBlock( 'scblocks/column', {
-									css: {
-										[ DESKTOP_DEVICE ]: {
-											[ BLOCK_SELECTOR.column.main
-												.alias ]: [ 'width:50%' ],
-										},
-									},
-								} ),
+								createBlock( 'scblocks/column' ),
 							];
 							dispatch(
 								CORE_BLOCK_EDITOR_STORE_NAME
