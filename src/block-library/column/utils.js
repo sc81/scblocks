@@ -39,8 +39,7 @@ export const COLUMN_SELECTORS_SETTINGS = [
 			position: {
 				order: true,
 				zIndex: true,
-				alignItems: true,
-				justifyContent: true,
+				alignSelf: true,
 			},
 		},
 	},

@@ -11,10 +11,13 @@ import usePanelActiveControl from '../use-panel-active-control';
 import { getControlSelector } from '../utils';
 import TextProperty from '../text-property';
 import Gap from '../gap';
-import Adjust from '../adjust';
 import AlignItems from '../align-items';
 import JustifyContent from '../justify-content';
 import Order from '../order';
+import JustifyItems from '../justify-items';
+import JustifySelf from '../justify-self';
+import AlignContent from '../align-content';
+import AlignSelf from '../align-self';
 
 const gridProps = [
 	'gridTemplateColumns',
@@ -146,12 +149,9 @@ export default function GridPanel( props ) {
 				/>
 			) }
 			{ justifyItems && (
-				<Adjust
+				<JustifyItems
 					{ ...props }
 					selector={ propSelector.justifyItems }
-					label={ __( 'Justify-items', 'scblocks' ) }
-					propName="justifyItems"
-					propSuffix="items"
 				/>
 			) }
 			{ alignItems && (
@@ -164,31 +164,19 @@ export default function GridPanel( props ) {
 				/>
 			) }
 			{ alignContent && (
-				<Adjust
+				<AlignContent
 					{ ...props }
 					selector={ propSelector.alignContent }
-					label={ __( 'Align-Content', 'scblocks' ) }
-					propName="alignContent"
-					propSuffix="content"
 				/>
 			) }
 			{ justifySelf && (
-				<Adjust
+				<JustifySelf
 					{ ...props }
 					selector={ propSelector.justifySelf }
-					label={ __( 'Justify-Self', 'scblocks' ) }
-					propName="justifySelf"
-					propSuffix="self"
 				/>
 			) }
 			{ alignSelf && (
-				<Adjust
-					{ ...props }
-					selector={ propSelector.alignSelf }
-					label={ __( 'Align-Self', 'scblocks' ) }
-					propName="alignSelf"
-					propSuffix="self"
-				/>
+				<AlignSelf { ...props } selector={ propSelector.alignSelf } />
 			) }
 			{ order && <Order { ...props } selector={ propSelector.order } /> }
 		</>

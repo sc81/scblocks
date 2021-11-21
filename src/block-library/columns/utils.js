@@ -22,7 +22,10 @@ export const COLUMNS_SELECTORS_SETTINGS = [
 			},
 			position: {
 				alignItems: true,
+				alignContent: true,
+				justifyContent: true,
 				flexDirection: true,
+				flexWrap: true,
 			},
 		},
 	},
