@@ -14,12 +14,19 @@ export const GRID_SELECTORS_SETTINGS = [
 		id: BLOCK_SELECTOR.grid.main.alias,
 		selector: BLOCK_SELECTOR.grid.main.alias,
 		allowedPanels: {
-			space: {
+			grid: {
+				gridTemplateColumns: true,
+				gridTemplateRows: true,
 				gap: true,
-			},
-			position: {
+				gridTemplateAreas: true,
+				gridAutoFlow: true,
+				gridAutoColumns: true,
+				gridAutoRows: true,
+				justifyItems: true,
 				alignItems: true,
 				justifyContent: true,
+				alignContent: true,
+				order: true,
 			},
 		},
 	},
