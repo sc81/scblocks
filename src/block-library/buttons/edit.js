@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import { useSelect } from '@wordpress/data';
 import {
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 	InspectorControls,
 } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
