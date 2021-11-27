@@ -81,10 +81,7 @@ export default function PositionPanel( props ) {
 				/>
 			) }
 			{ flexWrap && (
-				<FlexWrap
-					{ ...props }
-					selector={ propSelector.flexWrap }
-				/>
+				<FlexWrap { ...props } selector={ propSelector.flexWrap } />
 			) }
 			{ alignItems && (
 				<AlignItems { ...props } selector={ propSelector.alignItems } />

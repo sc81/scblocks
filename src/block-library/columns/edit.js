@@ -8,7 +8,7 @@ import classnames from 'classnames';
  */
 import {
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 	BlockControls,
 } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
