@@ -37,9 +37,6 @@ export const settings = {
 			type: 'string',
 			default: 'div',
 		},
-		isDynamic: {
-			type: 'boolean',
-		},
 	},
 	supports: {
 		inserter: false,

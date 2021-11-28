@@ -50,9 +50,6 @@ export const settings = {
 		shapeDividers: {
 			type: 'array',
 		},
-		isDynamic: {
-			type: 'boolean',
-		},
 	},
 	supports: {
 		className: false,

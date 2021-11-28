@@ -13,7 +13,6 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
-import { useEffect } from '@wordpress/element';
 
 /**
  * ScBlocks dependencies
@@ -38,8 +37,8 @@ import { COLUMN_SELECTORS_SETTINGS } from './utils';
 import Inspector from './inspector';
 
 export default function Edit( props ) {
-	const { attributes, clientId, setAttributes, name } = props;
-	const { htmlId, htmlClass, isDynamic } = attributes;
+	const { attributes, clientId, name } = props;
+	const { htmlId, htmlClass } = attributes;
 	const { devices, hasChildBlocks } = useSelect(
 		( store ) => {
 			return {
@@ -53,11 +52,6 @@ export default function Edit( props ) {
 		},
 		[ clientId ]
 	);
-	useEffect( () => {
-		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
-			setAttributes( { isDynamic: true } );
-		}
-	}, [] );
 
 	const selectorsSettings = applyFilters(
 		'scblocks.column.selectorsSettings',

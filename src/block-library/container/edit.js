@@ -38,7 +38,7 @@ import ShapeDividers from './shape-dividers';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
-	const { htmlClass, htmlId, isDynamic } = attributes;
+	const { htmlClass, htmlId } = attributes;
 	const { devices, innerBlockCount, isRootContainer, svgShapes } = useSelect(
 		( select ) => {
 			const { getBlockCount, getBlockHierarchyRootClientId } = select(
@@ -62,12 +62,6 @@ export default function Edit( props ) {
 	useEffect( () => {
 		setAttributes( { isRootContainer } );
 	}, [ isRootContainer, setAttributes ] );
-
-	useEffect( () => {
-		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
-			setAttributes( { isDynamic: true } );
-		}
-	}, [ isDynamic, setAttributes ] );
 
 	const selectorsSettings = applyFilters(
 		'scblocks.container.selectorsSettings',

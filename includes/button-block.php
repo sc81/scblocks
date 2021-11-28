@@ -41,13 +41,9 @@ class Button_Block {
 	 * @since 1.3.0
 	 *
 	 * @param array   $attributes The block attributes.
-	 * @param string  $content The inner blocks.
 	 * @return string
 	 */
-	public function render( array $attributes, string $content ) : string {
-		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
-			return $content;
-		}
+	public function render( array $attributes ) : string {
 		$class_names = array(
 			'scb-button',
 		);

@@ -14,7 +14,6 @@ import {
 } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
-import { useEffect } from '@wordpress/element';
 
 /**
  * ScBlocks dependencies
@@ -44,7 +43,7 @@ const ALLOWED_BLOCKS = [ BUTTON_BLOCK_NAME ];
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
-	const { htmlClass, htmlId, isDynamic } = attributes;
+	const { htmlClass, htmlId } = attributes;
 	const { devices, buttonCount } = useSelect(
 		( select ) => {
 			return {
@@ -58,11 +57,6 @@ export default function Edit( props ) {
 		},
 		[ clientId ]
 	);
-	useEffect( () => {
-		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
-			setAttributes( { isDynamic: true } );
-		}
-	}, [] );
 
 	const selectorsSettings = applyFilters(
 		'scblocks.buttons.selectorsSettings',

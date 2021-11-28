@@ -34,9 +34,6 @@ export const settings = {
 			type: 'string',
 			default: '',
 		},
-		isDynamic: {
-			type: 'boolean',
-		},
 		...SHARED_ATTRIBUTES.googleFonts,
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,

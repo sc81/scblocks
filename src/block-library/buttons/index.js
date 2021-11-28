@@ -34,9 +34,6 @@ export const settings = {
 		...SHARED_ATTRIBUTES.required,
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
-		isDynamic: {
-			type: 'boolean',
-		},
 	},
 	supports: {
 		alignWide: false,

@@ -39,14 +39,7 @@ import Inspector from './inspector';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace, clientId, name } = props;
-	const {
-		text,
-		tagName: Tag,
-		iconId,
-		htmlClass,
-		htmlId,
-		isDynamic,
-	} = attributes;
+	const { text, tagName: Tag, iconId, htmlClass, htmlId } = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -68,12 +61,6 @@ export default function Edit( props ) {
 	useEffect( () => {
 		setSelectorActivity( selectorsActivity, 'icon', iconId );
 	}, [ selectorsActivity, iconId ] );
-
-	useEffect( () => {
-		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
-			setAttributes( { isDynamic: true } );
-		}
-	}, [ isDynamic, setAttributes ] );
 
 	const blockProps = useBlockProps(
 		applyFilters(
