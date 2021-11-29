@@ -34,6 +34,7 @@ import {
 import getContainerSelectorsSettings from './utils';
 import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
+import { preVariations } from './variations';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
@@ -160,6 +161,7 @@ export default function Edit( props ) {
 					<VariationsPicker
 						{ ...props }
 						blockProps={ innerBlocksProps }
+						preVariations={ preVariations }
 					/>
 				) }
 				{ applyFilters(

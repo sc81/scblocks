@@ -16,14 +16,14 @@ import { DESKTOP_DEVICE } from '@scblocks/constants';
 import { COLUMN_NAME } from '../column/utils';
 import { COLUMNS_NAME } from '../columns/utils';
 
-function getColumnState( width ) {
+function getColumn( width ) {
 	return [
 		COLUMN_NAME,
 		{
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.column.main.alias ]: [
-						`width:${ width }%`,
+						`flexBasis:${ width }%`,
 					],
 				},
 			},
@@ -31,20 +31,92 @@ function getColumnState( width ) {
 	];
 }
 function getColumns( widths ) {
+	return [ COLUMNS_NAME, {}, widths.map( ( width ) => getColumn( width ) ) ];
+}
+
+function getContainer() {
 	return [
-		COLUMNS_NAME,
+		'scblocks/container',
 		{},
-		widths.map( ( width ) => getColumnState( width ) ),
+		[ [ 'core/paragraph', { placeholder: 'Paragraph in the container' } ] ],
 	];
 }
 
-function containerCss() {
-	return {
-		[ DESKTOP_DEVICE ]: {
-			[ BLOCK_SELECTOR.container.content.alias ]: [ 'padding:40px' ],
+function getGrid( widths, items ) {
+	return [
+		'scblocks/grid',
+		{
+			css: {
+				[ DESKTOP_DEVICE ]: {
+					[ BLOCK_SELECTOR.grid.main.alias ]: [
+						`gridTemplateColumns:${ widths }`,
+					],
+				},
+			},
 		},
-	};
+		Array.from( Array( items ), () => getContainer() ),
+	];
 }
+export const preVariations = [
+	{
+		name: 'columns',
+		title: __( 'Columns', 'scblocks' ),
+		description: __( 'Columns', 'scblocks' ),
+		type: 'columns',
+		icon: (
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="48"
+				height="48"
+				viewBox="0 0 48 48"
+				fill="none"
+			>
+				<rect
+					x="8"
+					y="11"
+					width="32"
+					height="26"
+					stroke="#007CBA"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					fill="none"
+				/>
+				<line
+					x1="16"
+					y1="12"
+					x2="16"
+					y2="36"
+					stroke="#007CBA"
+					strokeWidth="2"
+				/>
+				<line
+					x1="24"
+					y1="12"
+					x2="24"
+					y2="36"
+					stroke="#007CBA"
+					strokeWidth="2"
+				/>
+				<line
+					x1="32"
+					y1="12"
+					x2="32"
+					y2="36"
+					stroke="#007CBA"
+					strokeWidth="2"
+				/>
+			</svg>
+		),
+	},
+	{
+		name: 'grid',
+		title: __( 'Grid', 'scblocks' ),
+		description: __( 'Grid', 'scblocks' ),
+		icon: 'layout',
+		type: 'grid',
+	},
+];
 
 /**
  * Template option choices for predefined columns layouts.
@@ -77,12 +149,9 @@ const variations = [
 		innerBlocks: [
 			[
 				'core/paragraph',
-				{ content: __( 'Paragraph in the container', 'scblocks' ) },
+				{ placeholder: __( 'Paragraph in the container', 'scblocks' ) },
 			],
 		],
-		attributes: {
-			css: containerCss(),
-		},
 		scope: [ 'block' ],
 	},
 	{
@@ -103,10 +172,8 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumns( [ 50, 50 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
+		columns: [ getColumns( [ 50, 50 ] ) ],
+		grid: [ getGrid( '1fr 1fr', 2 ) ],
 		scope: [ 'block' ],
 	},
 	{
@@ -130,10 +197,8 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumns( [ 33.33, 66.66 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
+		columns: [ getColumns( [ 33.33, 66.66 ] ) ],
+		grid: [ getGrid( '1fr 2fr', 2 ) ],
 		scope: [ 'block' ],
 	},
 	{
@@ -157,10 +222,8 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumns( [ 66.66, 33.33 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
+		columns: [ getColumns( [ 66.66, 33.33 ] ) ],
+		grid: [ getGrid( '2fr 1fr', 2 ) ],
 		scope: [ 'block' ],
 	},
 	{
@@ -180,10 +243,8 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumns( [ 33.33, 33.33, 33.33 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
+		columns: [ getColumns( [ 33.33, 33.33, 33.33 ] ) ],
+		grid: [ getGrid( '1fr 1fr 1fr', 3 ) ],
 		scope: [ 'block' ],
 	},
 	{
@@ -203,10 +264,8 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumnState( [ 25, 50, 25 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
+		columns: [ getColumns( [ 25, 50, 25 ] ) ],
+		grid: [ getGrid( '1fr 2fr 1fr', 3 ) ],
 		scope: [ 'block' ],
 	},
 	{
@@ -258,10 +317,8 @@ const variations = [
 				/>
 			</svg>
 		),
-		innerBlocks: [ getColumns( [ 25, 25, 25, 25 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
+		colums: [ getColumns( [ 25, 25, 25, 25 ] ) ],
+		grid: [ getGrid( '1fr 1fr 1fr 1fr', 4 ) ],
 		scope: [ 'block' ],
 	},
 ];
