@@ -8,7 +8,7 @@ import classnames from 'classnames';
  */
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
@@ -18,7 +18,6 @@ import {
 	useDynamicCss,
 	useBlockMemo,
 	BLOCK_CLASSES,
-	BLOCK_SELECTOR,
 	VariationsPicker,
 	GoogleFontsLink,
 	getUidClass,
@@ -32,7 +31,7 @@ import {
 /**
  * Internal dependencies
  */
-import { CONTAINER_SELECTORS_SETTINGS } from './utils';
+import getContainerSelectorsSettings from './utils';
 import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
 
@@ -80,8 +79,27 @@ export default function Edit( props ) {
 		setAttributes( { isRootContainer } );
 	}, [ isRootContainer, setAttributes ] );
 
+	const [ selectorsSettings, setSelectorsSettings ] = useState(
+		getContainerSelectorsSettings()
+	);
+
 	useEffect( () => {
 		setAttributes( { isGridItem: isParentGridContainer } );
+
+		if ( ! isParentGridContainer ) {
+			setSelectorsSettings( getContainerSelectorsSettings() );
+		} else {
+			const settings = getContainerSelectorsSettings();
+			settings[ 0 ].allowedPanels.grid = {
+				gridColumn: true,
+				gridRow: true,
+				gridArea: true,
+				justifySelf: true,
+				alignSelf: true,
+				order: true,
+			};
+			setSelectorsSettings( settings );
+		}
 	}, [ isParentGridContainer, setAttributes ] );
 
 	useEffect( () => {
@@ -89,12 +107,6 @@ export default function Edit( props ) {
 			setAttributes( { isDynamic: true } );
 		}
 	}, [ isDynamic, setAttributes ] );
-
-	const selectorsSettings = applyFilters(
-		'scblocks.container.selectorsSettings',
-		CONTAINER_SELECTORS_SETTINGS,
-		BLOCK_SELECTOR
-	);
 
 	const style = useDynamicCss( props, devices );
 

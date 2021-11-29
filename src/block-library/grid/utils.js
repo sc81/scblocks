@@ -26,7 +26,6 @@ export const GRID_SELECTORS_SETTINGS = [
 				alignItems: true,
 				justifyContent: true,
 				alignContent: true,
-				order: true,
 			},
 		},
 	},
