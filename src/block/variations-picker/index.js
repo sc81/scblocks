@@ -97,7 +97,10 @@ export default function VariationsPicker( props ) {
 									nextVariation.innerBlocks
 								)
 							);
-						} else if (innerBlocksFor && nextVariation[ innerBlocksFor ] ) {
+						} else if (
+							innerBlocksFor &&
+							nextVariation[ innerBlocksFor ]
+						) {
 							replaceInnerBlocks(
 								props.clientId,
 								createBlocksFromInnerBlocksTemplate(
