@@ -47,7 +47,7 @@ export const variations = [
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.grid.main.alias ]: [
-						'grid-template-columns:1fr 1fr',
+						'gridTemplateColumns:1fr 1fr',
 					],
 				},
 			},
@@ -80,7 +80,7 @@ export const variations = [
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.grid.main.alias ]: [
-						'grid-template-columns:1fr 2fr',
+						'gridTemplateColumns:1fr 2fr',
 					],
 				},
 			},
@@ -113,7 +113,7 @@ export const variations = [
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.grid.main.alias ]: [
-						'grid-template-columns:2fr 1fr',
+						'gridTemplateColumns:2fr 1fr',
 					],
 				},
 			},
@@ -142,7 +142,7 @@ export const variations = [
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.grid.main.alias ]: [
-						'grid-template-columns:1fr 1fr 1fr',
+						'gridTemplateColumns:1fr 1fr 1fr',
 					],
 				},
 			},
@@ -171,7 +171,7 @@ export const variations = [
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.grid.main.alias ]: [
-						'grid-template-columns:1fr 2fr 1fr',
+						'gridTemplateColumns:1fr 2fr 1fr',
 					],
 				},
 			},
@@ -237,7 +237,7 @@ export const variations = [
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.grid.main.alias ]: [
-						'grid-template-columns:1fr 1fr 1fr 1fr',
+						'gridTemplateColumns:1fr 1fr 1fr 1fr',
 					],
 				},
 			},
