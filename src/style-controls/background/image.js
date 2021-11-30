@@ -13,12 +13,7 @@ import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 /**
  * ScBlocks dependencies
  */
-import {
-	getPropValue,
-	setCssMemoValue,
-	setMemoBackgroundImageId,
-	setPropsValue,
-} from '@scblocks/css-utils';
+import { getPropValue, setPropsValue } from '@scblocks/css-utils';
 import { PLUGIN_NAME } from '@scblocks/constants';
 import { ControlWrapper } from '@scblocks/components';
 
@@ -35,7 +30,7 @@ import retriveUrl from './utils';
 const propName = names.image;
 
 export default function Image( props ) {
-	const { attributes, setAttributes, devices, selector, blockMemo } = props;
+	const { attributes, setAttributes, devices, selector } = props;
 	const { backgroundImageIds } = attributes;
 	const id =
 		backgroundImageIds && backgroundImageIds[ devices ]
@@ -55,13 +50,6 @@ export default function Image( props ) {
 			return;
 		}
 		const nextUrl = `url(${ media.url })`;
-
-		setCssMemoValue( blockMemo, setPropsValue, {
-			devices,
-			selector,
-			props: { backgroundImage: nextUrl },
-		} );
-		setMemoBackgroundImageId( blockMemo, devices, media.id );
 
 		setPropsValue( {
 			selector,
@@ -88,20 +76,6 @@ export default function Image( props ) {
 		} );
 	}
 	function onRemoveImage() {
-		setCssMemoValue( blockMemo, setPropsValue, {
-			devices,
-			selector,
-			props: {
-				backgroundAttachment: '',
-				backgroundPosition: '',
-				backgroundRepeat: '',
-				backgroundSize: '',
-				backgroundImage: '',
-				opacity: '',
-			},
-		} );
-		setMemoBackgroundImageId( blockMemo, devices, '' );
-
 		setPropsValue( {
 			attributes,
 			setAttributes,

@@ -1,21 +1,14 @@
 /**
  * WordPress dependencies
  */
-import {
-	BaseControl,
-	__experimentalGradientPicker as GradientPicker,
-} from '@wordpress/components';
+import { BaseControl, GradientPicker } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
  */
-import {
-	setPropValue,
-	getPropValue,
-	setCssMemoValue,
-} from '@scblocks/css-utils';
+import { setPropValue, getPropValue } from '@scblocks/css-utils';
 import { CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
 
 /**
@@ -30,7 +23,6 @@ export default function Gradient( {
 	devices,
 	selector,
 	setAttributes,
-	blockMemo,
 } ) {
 	const gradient = getPropValue( {
 		attributes,
@@ -52,12 +44,6 @@ export default function Gradient( {
 			devices,
 			attributes,
 			setAttributes,
-			propName,
-			value,
-		} );
-		setCssMemoValue( blockMemo, setPropValue, {
-			selector,
-			devices,
 			propName,
 			value,
 		} );

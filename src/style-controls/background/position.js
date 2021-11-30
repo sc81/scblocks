@@ -7,11 +7,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import {
-	getPropValue,
-	setPropValue,
-	setCssMemoValue,
-} from '@scblocks/css-utils';
+import { getPropValue, setPropValue } from '@scblocks/css-utils';
 import { ControlWrapper } from '@scblocks/components';
 
 /**
@@ -59,7 +55,6 @@ export default function Position( {
 	devices,
 	selector,
 	url,
-	blockMemo,
 } ) {
 	const position = getPropValue( {
 		attributes,
@@ -97,12 +92,6 @@ export default function Position( {
 			propName,
 			value,
 		} );
-		setCssMemoValue( blockMemo, setPropValue, {
-			devices,
-			selector,
-			propName,
-			value,
-		} );
 	}
 	function onChangeSelect( value ) {
 		let nextValue;
@@ -116,12 +105,6 @@ export default function Position( {
 			devices,
 			attributes,
 			setAttributes,
-			propName,
-			value: nextValue,
-		} );
-		setCssMemoValue( blockMemo, setPropValue, {
-			devices,
-			selector,
 			propName,
 			value: nextValue,
 		} );

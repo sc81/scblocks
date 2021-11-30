@@ -17,13 +17,10 @@ import { names } from './constants';
 const propName = names.attachment;
 
 export default function Attachment( props ) {
-	const { propValue, onChange } = propertyService(
-		{
-			...props,
-			propName,
-		},
-		true
-	);
+	const { propValue, onChange } = propertyService( {
+		...props,
+		propName,
+	} );
 
 	return (
 		<ControlWrapper label={ __( 'Attachment', 'scblocks' ) } displayInline>
