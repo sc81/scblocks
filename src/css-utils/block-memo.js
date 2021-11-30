@@ -1,8 +1,3 @@
-/**
- * External dependencies
- */
-import { cloneDeep } from 'lodash';
-
 export function getCssMemoValue( blockMemo, type, callback, callbackProps ) {
 	return callback( {
 		...callbackProps,
@@ -27,28 +22,4 @@ export function setLastActivePanel( blockMemo, panelName, value ) {
 		...blockMemo.current.lastActivePanel,
 		[ panelName ]: value,
 	};
-}
-
-export function setMemoBackgroundImageId( blockMemo, device, id ) {
-	if ( ! blockMemo.current.backgroundImageIds && ! id ) {
-		return;
-	}
-	if ( ! blockMemo.current.backgroundImageIds ) {
-		blockMemo.current.backgroundImageIds = {};
-	}
-	if ( id ) {
-		blockMemo.current.backgroundImageIds = {
-			...blockMemo.current.backgroundImageIds,
-			[ device ]: id,
-		};
-	} else {
-		delete blockMemo.current.backgroundImageIds[ device ];
-	}
-}
-
-export function getMemoBackgroundImageIds( blockMemo ) {
-	if ( blockMemo.current.backgroundImageIds ) {
-		return cloneDeep( blockMemo.current.backgroundImageIds );
-	}
-	return null;
 }
