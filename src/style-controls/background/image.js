@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { Button } from '@wordpress/components';
+import { Button, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 
@@ -142,9 +142,7 @@ export default function Image( props ) {
 									className="editor-media-placeholder__button block-editor-media-placeholder__button"
 									onClick={ open }
 								>
-									{ url
-										? __( 'Edit', 'scblocks' )
-										: __( 'Media Library', 'scblocks' ) }
+									{ __( 'Media Library', 'scblocks' ) }
 								</Button>
 							) }
 						/>
@@ -160,6 +158,12 @@ export default function Image( props ) {
 					) }
 				</div>
 			</ControlWrapper>
+			<TextControl
+				label={ __( 'URL', 'scblocks' ) }
+				value={ url }
+				onChange={ ( value ) => onSelectMedia( { url: value } ) }
+				autocomplete="off"
+			/>
 			{ url && (
 				<>
 					<Position { ...props } url={ url } />
