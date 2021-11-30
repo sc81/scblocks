@@ -1,10 +1,7 @@
 /**
  * WordPress dependencies
  */
-import {
-	BaseControl,
-	__experimentalGradientPicker as GradientPicker,
-} from '@wordpress/components';
+import { BaseControl, GradientPicker } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
