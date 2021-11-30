@@ -45,11 +45,8 @@ export default function Image( props ) {
 	} );
 	const url = retriveUrl( backgroundImage );
 
-	function onSelectMedia( media ) {
-		if ( ! media || ! media.url ) {
-			return;
-		}
-		const nextUrl = `url(${ media.url })`;
+	function setImage( nextUrl, nextId ) {
+		nextUrl = `url(${ nextUrl })`;
 
 		setPropsValue( {
 			selector,
@@ -64,18 +61,25 @@ export default function Image( props ) {
 		if ( backgroundImageIds ) {
 			nextIds = {
 				...backgroundImageIds,
-				[ devices ]: media.id,
+				[ devices ]: nextId,
 			};
 		} else {
 			nextIds = {
-				[ devices ]: media.id,
+				[ devices ]: nextId,
 			};
 		}
 		setAttributes( {
 			backgroundImageIds: nextIds,
 		} );
 	}
-	function onRemoveImage() {
+
+	function onSelectMedia( media ) {
+		if ( ! media || ! media.url ) {
+			return;
+		}
+		setImage( media.url, media.id );
+	}
+	function removeImage() {
 		setPropsValue( {
 			attributes,
 			setAttributes,
@@ -98,6 +102,13 @@ export default function Image( props ) {
 		setAttributes( {
 			backgroundImageIds: nextIds,
 		} );
+	}
+	function onChangeUrl( value ) {
+		if ( value ) {
+			setImage( value );
+		} else {
+			removeImage();
+		}
 	}
 
 	return (
@@ -125,7 +136,7 @@ export default function Image( props ) {
 						<Button
 							isSecondary
 							isSmall
-							onClick={ () => onRemoveImage() }
+							onClick={ () => removeImage() }
 						>
 							{ __( 'Remove', 'scblocks' ) }
 						</Button>
@@ -135,7 +146,7 @@ export default function Image( props ) {
 			<TextControl
 				label={ __( 'URL', 'scblocks' ) }
 				value={ url }
-				onChange={ ( value ) => onSelectMedia( { url: value } ) }
+				onChange={ onChangeUrl }
 				autocomplete="off"
 			/>
 			{ url && (
