@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { isEmpty, get } from 'lodash';
+import { isEmpty, get, cloneDeep } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -10,12 +10,15 @@ import { Button, TextControl, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { useEffect } from '@wordpress/element';
+import { useSelect, dispatch } from '@wordpress/data';
+import { doAction } from '@wordpress/hooks';
 
 /**
  * ScBlocks dependencies
  */
 import { getPropValue, setPropsValue } from '@scblocks/css-utils';
 import { ControlWrapper } from '@scblocks/components';
+import { STORE_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
@@ -29,38 +32,49 @@ import retriveUrl from './utils';
 
 const propName = names.image;
 
-const imageSizes = [
-	'thumbnail',
-	'medium',
-	'medium_large',
-	'large',
-	'post-thumbnail',
-	'full',
-].map( ( value ) => {
-	return {
-		value,
-		label: value,
-	};
-} );
+const imageSizes = [ 'thumbnail', 'medium', 'large', 'full' ].map(
+	( value ) => {
+		return {
+			value,
+			label: value,
+		};
+	}
+);
 
 export default function Image( props ) {
 	const { attributes, setAttributes, devices, selector } = props;
-	const { bgImage, backgroundImageIds } = attributes;
+	const { bgImage = {}, backgroundImageIds } = attributes;
+
 	const idFromDeprecatedAttr = backgroundImageIds
 		? get( backgroundImageIds, [ devices ], -1 )
 		: -1;
 	const id = get( bgImage, [ devices, 'id' ], idFromDeprecatedAttr );
 	const imageSize = get( bgImage, [ devices, 'size' ], 'full' );
 
-	const backgroundImage = getPropValue( {
+	const imageUrls = useSelect(
+		( select ) => select( STORE_NAME ).imageUrls( [ id ] ),
+		[ id ]
+	);
+
+	const backgroundImageProp = getPropValue( {
 		attributes,
 		devices,
 		selector,
 		propName,
 	} );
-	const url = retriveUrl( backgroundImage );
+	let url = retriveUrl( backgroundImageProp );
+	if ( imageUrls[ id ] && imageUrls[ id ][ imageSize ] ) {
+		url = imageUrls[ id ][ imageSize ];
+	}
 	const isExternalImage = id === -1 && url;
 
+	useEffect( () => {
+		if ( url ) {
+			setImage( { id, size: imageSize, url } );
+		}
+	}, [ url ] );
+
+	// migrating from deprecated backgroundImageIds
 	useEffect( () => {
 		if ( backgroundImageIds && url ) {
 			setImage( {
@@ -84,29 +98,19 @@ export default function Image( props ) {
 				backgroundImage: nextUrl,
 			},
 		} );
-		let nextBgImage;
-		if ( bgImage ) {
-			nextBgImage = {
-				...bgImage,
-				[ devices ]: {
-					id: image.id,
-					size: image.size,
-				},
-			};
-		} else {
-			nextBgImage = {
-				[ devices ]: {
-					id: image.id,
-					size: image.size,
-				},
-			};
-		}
+		const nextBgImage = {
+			...bgImage,
+			[ devices ]: {
+				id: image.id,
+				size: image.size,
+			},
+		};
 		setAttributes( {
 			bgImage: nextBgImage,
 		} );
 	}
 
-	function onSelectMedia( media ) {
+	function onSelectImage( media ) {
 		if ( ! media || ! media.url ) {
 			return;
 		}
@@ -114,11 +118,21 @@ export default function Image( props ) {
 		if ( 'undefined' === typeof media.sizes[ size ] ) {
 			size = 'full';
 		}
+		const urls = {
+			[ media.id ]: {},
+		};
+		Object.keys( media.sizes ).forEach( ( name ) => {
+			urls[ media.id ][ name ] = media.sizes[ name ].url;
+		} );
+		dispatch( STORE_NAME ).setImageUrls( urls );
+
 		setImage( {
 			id: media.id,
 			size,
 			url: media.sizes[ size ].url,
 		} );
+
+		doAction( 'scblocks.afterSelectBgImage', media.id );
 	}
 	function removeImage() {
 		setPropsValue( {
@@ -132,13 +146,12 @@ export default function Image( props ) {
 				backgroundRepeat: '',
 				backgroundSize: '',
 				backgroundImage: '',
-				opacity: '',
 			},
 		} );
-		let nextBgImage = { ...bgImage };
+		let nextBgImage = cloneDeep( bgImage );
 		delete nextBgImage[ devices ];
 		if ( isEmpty( nextBgImage ) ) {
-			nextBgImage = null;
+			nextBgImage = '';
 		}
 		setAttributes( {
 			bgImage: nextBgImage,
@@ -162,7 +175,7 @@ export default function Image( props ) {
 				<div className="scblocks-inline-buttons">
 					<MediaUploadCheck>
 						<MediaUpload
-							onSelect={ onSelectMedia }
+							onSelect={ onSelectImage }
 							allowedTypes={ [ 'image' ] }
 							value={ id }
 							render={ ( { open } ) => (
