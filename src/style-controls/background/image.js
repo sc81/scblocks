@@ -9,9 +9,8 @@ import { isEmpty, get, cloneDeep } from 'lodash';
 import { Button, TextControl, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { useEffect } from '@wordpress/element';
-import { useSelect, dispatch } from '@wordpress/data';
-import { doAction } from '@wordpress/hooks';
+import { useEffect, useMemo } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
@@ -32,15 +31,6 @@ import retriveUrl from './utils';
 
 const propName = names.image;
 
-const imageSizes = [ 'thumbnail', 'medium', 'large', 'full' ].map(
-	( value ) => {
-		return {
-			value,
-			label: value,
-		};
-	}
-);
-
 export default function Image( props ) {
 	const { attributes, setAttributes, devices, selector } = props;
 	const { bgImage = {}, backgroundImageIds } = attributes;
@@ -52,9 +42,20 @@ export default function Image( props ) {
 	const imageSize = get( bgImage, [ devices, 'size' ], 'full' );
 
 	const imageUrls = useSelect(
-		( select ) => select( STORE_NAME ).imageUrls( [ id ] ),
+		( select ) => select( STORE_NAME ).imageUrls( id ),
 		[ id ]
 	);
+	const imageSizes = useMemo( () => {
+		if ( isEmpty( imageUrls ) ) {
+			return;
+		}
+		return Object.keys( imageUrls ).sort().reverse().map( ( value ) => {
+			return {
+				value,
+				label: value,
+			};
+		} );
+	}, [ imageUrls ] );
 
 	const backgroundImageProp = getPropValue( {
 		attributes,
@@ -62,17 +63,9 @@ export default function Image( props ) {
 		selector,
 		propName,
 	} );
-	let url = retriveUrl( backgroundImageProp );
-	if ( imageUrls[ id ] && imageUrls[ id ][ imageSize ] ) {
-		url = imageUrls[ id ][ imageSize ];
-	}
-	const isExternalImage = id === -1 && url;
+	const url = retriveUrl( backgroundImageProp );
 
-	useEffect( () => {
-		if ( url ) {
-			setImage( { id, size: imageSize, url } );
-		}
-	}, [ url ] );
+	const isExternalImage = id === -1 && url;
 
 	// migrating from deprecated backgroundImageIds
 	useEffect( () => {
@@ -118,21 +111,12 @@ export default function Image( props ) {
 		if ( 'undefined' === typeof media.sizes[ size ] ) {
 			size = 'full';
 		}
-		const urls = {
-			[ media.id ]: {},
-		};
-		Object.keys( media.sizes ).forEach( ( name ) => {
-			urls[ media.id ][ name ] = media.sizes[ name ].url;
-		} );
-		dispatch( STORE_NAME ).setImageUrls( urls );
 
 		setImage( {
 			id: media.id,
 			size,
 			url: media.sizes[ size ].url,
 		} );
-
-		doAction( 'scblocks.afterSelectBgImage', media.id );
 	}
 	function removeImage() {
 		setPropsValue( {
@@ -207,20 +191,16 @@ export default function Image( props ) {
 				onChange={ onChangeUrl }
 				autocomplete="off"
 			/>
-			{ ! isExternalImage && url && (
+			{ ! isExternalImage && url && imageSizes && (
 				<SelectControl
 					label={ __( 'Image Size', 'scblocks' ) }
 					value={ imageSize }
 					options={ imageSizes }
 					onChange={ ( value ) => {
-						setAttributes( {
-							bgImage: {
-								...bgImage,
-								[ devices ]: {
-									...bgImage[ devices ],
-									size: value,
-								},
-							},
+						setImage( {
+							id,
+							size: value,
+							url: imageUrls[ value ],
 						} );
 					} }
 				/>

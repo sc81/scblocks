@@ -116,17 +116,12 @@ registerStore( STORE_NAME, {
 		usedIcons( state ) {
 			return state.usedIcons;
 		},
-		imageUrls( state, ids ) {
-			const urls = {};
-			const filteredIds = ids.filter(
-				( elm ) => elm !== -1 && elm !== '-1'
-			);
-			filteredIds.forEach( ( id ) => {
-				if ( state.imageUrls[ id ] ) {
-					urls[ id ] = state.imageUrls[ id ];
-				}
-			} );
-			return urls;
+		imageUrls( state, id ) {
+			if ( state.imageUrls[ id ] ) {
+				return state.imageUrls[ id ];
+			}
+
+			return {};
 		},
 	},
 	controls: {
@@ -161,6 +156,14 @@ registerStore( STORE_NAME, {
 			const path = `/${ PLUGIN_NAME }/v1/icons/3`;
 			const icons = yield actions.fetchFromAPI( path );
 			return actions.setUsedIcons( icons );
+		},
+		*imageUrls( id ) {
+			if ( id === -1 || id === '1' ) {
+				return;
+			}
+			const path = `/scblocks/v1/image-data/${ id }`;
+			const urls = yield actions.fetchFromAPI( path );
+			return actions.setImageUrls( urls );
 		},
 	},
 } );
