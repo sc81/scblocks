@@ -1,67 +1,94 @@
 /**
  * External dependencies
  */
-import { isEmpty } from 'lodash';
+import { isEmpty, get, cloneDeep } from 'lodash';
 
 /**
  * WordPress dependencies
  */
-import { Button } from '@wordpress/components';
+import { Button, TextControl, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { useEffect, useMemo } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * ScBlocks dependencies
  */
-import {
-	getPropValue,
-	setCssMemoValue,
-	setMemoBackgroundImageId,
-	setPropsValue,
-} from '@scblocks/css-utils';
-import { PLUGIN_NAME } from '@scblocks/constants';
+import { setPropsValue } from '@scblocks/css-utils';
 import { ControlWrapper } from '@scblocks/components';
+import { STORE_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
  */
-import { names } from './constants';
 import Position from './position';
 import Size from './size';
 import Repeat from './repeat';
 import Attachment from './attachment';
-import retriveUrl from './utils';
-
-const propName = names.image;
 
 export default function Image( props ) {
-	const { attributes, setAttributes, devices, selector, blockMemo } = props;
-	const { backgroundImageIds } = attributes;
-	const id =
-		backgroundImageIds && backgroundImageIds[ devices ]
-			? backgroundImageIds[ devices ]
-			: -1;
-
-	const backgroundImage = getPropValue( {
+	const {
 		attributes,
+		setAttributes,
 		devices,
 		selector,
-		propName,
-	} );
-	const url = retriveUrl( backgroundImage );
+		showSelectDevice,
+	} = props;
+	const { bgImage = {}, backgroundImageIds } = attributes;
 
-	function onSelectMedia( media ) {
-		if ( ! media || ! media.url ) {
+	const idFromDeprecatedAttr = backgroundImageIds
+		? get( backgroundImageIds, [ devices ], -1 )
+		: -1;
+	const id = get( bgImage, [ devices, 'id' ], idFromDeprecatedAttr );
+	const imageSize = get( bgImage, [ devices, 'size' ], 'full' );
+
+	const imageUrls = useSelect(
+		( select ) => select( STORE_NAME ).imageUrls( id ),
+		[ id ]
+	);
+	const imageSizes = useMemo( () => {
+		if ( isEmpty( imageUrls ) ) {
 			return;
 		}
-		const nextUrl = `url(${ media.url })`;
+		const allowedSizes = applyFilters(
+			'scblocks.backgroundImage.allowedSizes',
+			[ 'full', 'large', 'medium', 'thumbnail' ]
+		);
+		let sizes = Object.keys( imageUrls );
+		if ( allowedSizes ) {
+			sizes = sizes.filter( ( name ) => allowedSizes.includes( name ) );
+		}
+		return sizes
+			.sort()
+			.reverse()
+			.map( ( value ) => {
+				return {
+					value,
+					label: value,
+				};
+			} );
+	}, [ imageUrls ] );
 
-		setCssMemoValue( blockMemo, setPropsValue, {
-			devices,
-			selector,
-			props: { backgroundImage: nextUrl },
-		} );
-		setMemoBackgroundImageId( blockMemo, devices, media.id );
+	const url = get( imageUrls, imageSize, '' );
+
+	const isExternalImage = id === -1 && url;
+
+	// migrating from deprecated backgroundImageIds
+	useEffect( () => {
+		if ( backgroundImageIds && url ) {
+			setImage( {
+				id,
+				size: imageSize,
+				url,
+			} );
+			setAttributes( { backgroundImageIds: '' } );
+		}
+	}, [] );
+
+	function setImage( image ) {
+		const nextUrl = `url(${ image.url })`;
 
 		setPropsValue( {
 			selector,
@@ -72,36 +99,34 @@ export default function Image( props ) {
 				backgroundImage: nextUrl,
 			},
 		} );
-		let nextIds;
-		if ( backgroundImageIds ) {
-			nextIds = {
-				...backgroundImageIds,
-				[ devices ]: media.id,
-			};
-		} else {
-			nextIds = {
-				[ devices ]: media.id,
-			};
-		}
+		const nextBgImage = {
+			...bgImage,
+			[ devices ]: {
+				id: image.id,
+				size: image.size,
+			},
+		};
 		setAttributes( {
-			backgroundImageIds: nextIds,
+			bgImage: nextBgImage,
 		} );
 	}
-	function onRemoveImage() {
-		setCssMemoValue( blockMemo, setPropsValue, {
-			devices,
-			selector,
-			props: {
-				backgroundAttachment: '',
-				backgroundPosition: '',
-				backgroundRepeat: '',
-				backgroundSize: '',
-				backgroundImage: '',
-				opacity: '',
-			},
-		} );
-		setMemoBackgroundImageId( blockMemo, devices, '' );
 
+	function onSelectImage( media ) {
+		if ( ! media || ! media.url ) {
+			return;
+		}
+		let size = imageSize;
+		if ( 'undefined' === typeof media.sizes[ size ] ) {
+			size = 'full';
+		}
+
+		setImage( {
+			id: media.id,
+			size,
+			url: media.sizes[ size ].url,
+		} );
+	}
+	function removeImage() {
 		setPropsValue( {
 			attributes,
 			setAttributes,
@@ -113,26 +138,40 @@ export default function Image( props ) {
 				backgroundRepeat: '',
 				backgroundSize: '',
 				backgroundImage: '',
-				opacity: '',
 			},
 		} );
-		let nextIds = { ...backgroundImageIds };
-		delete nextIds[ devices ];
-		if ( isEmpty( nextIds ) ) {
-			nextIds = null;
+		let nextBgImage = cloneDeep( bgImage );
+		delete nextBgImage[ devices ];
+		if ( isEmpty( nextBgImage ) ) {
+			nextBgImage = '';
 		}
 		setAttributes( {
-			backgroundImageIds: nextIds,
+			bgImage: nextBgImage,
 		} );
+	}
+	function onChangeUrl( value ) {
+		if ( value ) {
+			setImage( {
+				id: -1,
+				size: 'full',
+				url: value,
+			} );
+		} else {
+			removeImage();
+		}
 	}
 
 	return (
 		<>
-			<ControlWrapper label={ __( 'Image', 'scblocks' ) } displayInline>
-				<div className={ `${ PLUGIN_NAME }-inline-buttons` }>
+			<ControlWrapper
+				label={ __( 'Image', 'scblocks' ) }
+				displayInline
+				withoutSelectDevices={ ! showSelectDevice }
+			>
+				<div className="scblocks-inline-buttons">
 					<MediaUploadCheck>
 						<MediaUpload
-							onSelect={ onSelectMedia }
+							onSelect={ onSelectImage }
 							allowedTypes={ [ 'image' ] }
 							value={ id }
 							render={ ( { open } ) => (
@@ -142,9 +181,7 @@ export default function Image( props ) {
 									className="editor-media-placeholder__button block-editor-media-placeholder__button"
 									onClick={ open }
 								>
-									{ url
-										? __( 'Edit', 'scblocks' )
-										: __( 'Media Library', 'scblocks' ) }
+									{ __( 'Media Library', 'scblocks' ) }
 								</Button>
 							) }
 						/>
@@ -153,13 +190,33 @@ export default function Image( props ) {
 						<Button
 							isSecondary
 							isSmall
-							onClick={ () => onRemoveImage() }
+							onClick={ () => removeImage() }
 						>
 							{ __( 'Remove', 'scblocks' ) }
 						</Button>
 					) }
 				</div>
 			</ControlWrapper>
+			<TextControl
+				label={ __( 'Image URL', 'scblocks' ) }
+				value={ url }
+				onChange={ onChangeUrl }
+				autocomplete="off"
+			/>
+			{ ! isExternalImage && url && imageSizes && (
+				<SelectControl
+					label={ __( 'Image Size', 'scblocks' ) }
+					value={ imageSize }
+					options={ imageSizes }
+					onChange={ ( value ) => {
+						setImage( {
+							id,
+							size: value,
+							url: imageUrls[ value ],
+						} );
+					} }
+				/>
+			) }
 			{ url && (
 				<>
 					<Position { ...props } url={ url } />

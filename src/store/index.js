@@ -10,9 +10,7 @@ import { registerStore } from '@wordpress/data';
 import { STORE_NAME, PLUGIN_NAME } from '@scblocks/constants';
 
 const DEFAULT_STATE = {
-	svgShapes: undefined,
-	dashicons: undefined,
-	fontAwesome: undefined,
+	imageUrls: {},
 };
 
 const actions = {
@@ -53,6 +51,12 @@ const actions = {
 			path,
 		};
 	},
+	setImageUrls( urls ) {
+		return {
+			type: 'SET_IMAGE_URLS',
+			imageUrls: urls,
+		};
+	},
 };
 
 registerStore( STORE_NAME, {
@@ -86,6 +90,14 @@ registerStore( STORE_NAME, {
 						[ action.id ]: action.icon,
 					},
 				};
+			case 'SET_IMAGE_URLS':
+				return {
+					...state,
+					imageUrls: {
+						...state.imageUrls,
+						...action.imageUrls,
+					},
+				};
 		}
 
 		return state;
@@ -103,6 +115,13 @@ registerStore( STORE_NAME, {
 		},
 		usedIcons( state ) {
 			return state.usedIcons;
+		},
+		imageUrls( state, id ) {
+			if ( state.imageUrls[ id ] ) {
+				return state.imageUrls[ id ];
+			}
+
+			return {};
 		},
 	},
 	controls: {
@@ -137,6 +156,14 @@ registerStore( STORE_NAME, {
 			const path = `/${ PLUGIN_NAME }/v1/icons/3`;
 			const icons = yield actions.fetchFromAPI( path );
 			return actions.setUsedIcons( icons );
+		},
+		*imageUrls( id ) {
+			if ( id === -1 || id === '1' ) {
+				return;
+			}
+			const path = `/scblocks/v1/image-data/${ id }`;
+			const urls = yield actions.fetchFromAPI( path );
+			return actions.setImageUrls( urls );
 		},
 	},
 } );

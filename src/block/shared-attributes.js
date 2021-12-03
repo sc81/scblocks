@@ -39,6 +39,7 @@ export const SHARED_ATTRIBUTES = {
 			default: '',
 		},
 	},
+	// deprecated since 1.3.0
 	bgImageIds: {
 		backgroundImageIds: {
 			type: 'object',

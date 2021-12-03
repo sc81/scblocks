@@ -14,9 +14,6 @@ export default function useBlockMemo( attributes, selectorsSettings ) {
 		blockMemo.current = {};
 		blockMemo.current.initial = { css: cloneDeep( attributes.css ) };
 		blockMemo.current.dynamic = { css: cloneDeep( attributes.css ) };
-		blockMemo.current.backgroundImageIds = cloneDeep(
-			attributes.backgroundImageIds
-		);
 
 		const obj = {
 			tabPanel: 'style',

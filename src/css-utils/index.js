@@ -13,6 +13,4 @@ export {
 	setCssMemoValue,
 	getLastActivePanel,
 	setLastActivePanel,
-	getMemoBackgroundImageIds,
-	setMemoBackgroundImageId,
 } from './block-memo';

@@ -25,13 +25,10 @@ const options = [
 const propName = names.repeat;
 
 export default function Repeat( props ) {
-	const { propValue, onChange } = propertyService(
-		{
-			...props,
-			propName,
-		},
-		true
-	);
+	const { propValue, onChange } = propertyService( {
+		...props,
+		propName,
+	} );
 
 	return (
 		<ControlWrapper label={ __( 'Repeat', 'scblocks' ) } displayInline>

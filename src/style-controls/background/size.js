@@ -7,11 +7,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import {
-	getPropValue,
-	setCssMemoValue,
-	setPropValue,
-} from '@scblocks/css-utils';
+import { getPropValue, setPropValue } from '@scblocks/css-utils';
 import { NumberControl, ControlWrapper } from '@scblocks/components';
 
 /**
@@ -34,7 +30,6 @@ export default function Size( {
 	setAttributes,
 	devices,
 	selector,
-	blockMemo,
 } ) {
 	const backgroundSize = getPropValue( {
 		attributes,
@@ -59,12 +54,6 @@ export default function Size( {
 		setPropValue( {
 			attributes,
 			setAttributes,
-			devices,
-			selector,
-			propName,
-			value,
-		} );
-		setCssMemoValue( blockMemo, setPropValue, {
 			devices,
 			selector,
 			propName,

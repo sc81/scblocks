@@ -31,7 +31,7 @@ export const settings = {
 		...SHARED_ATTRIBUTES.required,
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
-		...SHARED_ATTRIBUTES.bgImageIds,
+		...SHARED_ATTRIBUTES.bgImageIds, // deprecated since 1.3.0
 		...SHARED_ATTRIBUTES.googleFonts,
 		tag: {
 			type: 'string',
@@ -39,6 +39,10 @@ export const settings = {
 		},
 		isDynamic: {
 			type: 'boolean',
+		},
+		bgImage: {
+			type: 'object',
+			default: '',
 		},
 	},
 	supports: {
