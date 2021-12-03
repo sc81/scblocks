@@ -11,6 +11,7 @@ import { __ } from '@wordpress/i18n';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * ScBlocks dependencies
@@ -49,12 +50,23 @@ export default function Image( props ) {
 		if ( isEmpty( imageUrls ) ) {
 			return;
 		}
-		return Object.keys( imageUrls ).sort().reverse().map( ( value ) => {
-			return {
-				value,
-				label: value,
-			};
-		} );
+		const allowedSizes = applyFilters(
+			'scblocks.backgroundImage.allowedSizes',
+			[ 'full', 'large', 'medium', 'thumbnail' ]
+		);
+		let sizes = Object.keys( imageUrls );
+		if ( allowedSizes ) {
+			sizes = sizes.filter( ( name ) => allowedSizes.includes( name ) );
+		}
+		return sizes
+			.sort()
+			.reverse()
+			.map( ( value ) => {
+				return {
+					value,
+					label: value,
+				};
+			} );
 	}, [ imageUrls ] );
 
 	const backgroundImageProp = getPropValue( {
