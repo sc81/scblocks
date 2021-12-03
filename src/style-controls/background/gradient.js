@@ -1,22 +1,16 @@
 /**
  * WordPress dependencies
  */
-import {
-	BaseControl,
-	__experimentalGradientPicker as GradientPicker,
-} from '@wordpress/components';
+import { GradientPicker } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
  */
-import {
-	setPropValue,
-	getPropValue,
-	setCssMemoValue,
-} from '@scblocks/css-utils';
+import { setPropValue, getPropValue } from '@scblocks/css-utils';
 import { CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
+import { ControlWrapper } from '@scblocks/components';
 
 /**
  * Internal dependencies
@@ -30,7 +24,7 @@ export default function Gradient( {
 	devices,
 	selector,
 	setAttributes,
-	blockMemo,
+	showSelectDevice,
 } ) {
 	const gradient = getPropValue( {
 		attributes,
@@ -55,24 +49,18 @@ export default function Gradient( {
 			propName,
 			value,
 		} );
-		setCssMemoValue( blockMemo, setPropValue, {
-			selector,
-			devices,
-			propName,
-			value,
-		} );
 	}
 
 	return (
-		<BaseControl>
-			<BaseControl.VisualLabel>
-				{ __( 'Gradient', 'scblocks' ) }
-			</BaseControl.VisualLabel>
+		<ControlWrapper
+			label={ __( 'Gradient', 'scblocks' ) }
+			withoutSelectDevices={ ! showSelectDevice }
+		>
 			<GradientPicker
 				gradients={ gradients }
 				value={ gradient }
 				onChange={ onChange }
 			/>
-		</BaseControl>
+		</ControlWrapper>
 	);
 }

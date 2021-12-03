@@ -332,6 +332,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-blocks-metadata.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/button-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/grid-block.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/image-data.php';
 	}
 
 	private function __construct() {
@@ -355,6 +356,7 @@ class Plugin {
 			'ScBlocks\Heading_Block',
 			'ScBlocks\Button_Block',
 			'ScBlocks\Grid_Block',
+			'ScBlocks\Image_Data',
 		);
 
 		foreach ( $classes as $class_name ) {
