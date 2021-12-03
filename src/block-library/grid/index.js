@@ -24,6 +24,7 @@ export const settings = {
 	icon: 'layout',
 	category: PLUGIN_NAME,
 	description: __( 'Organize your content with grid.', 'scblocks' ),
+	keywords: [ __( 'grid', 'scblocks' ), __( 'column', 'scblocks' ) ],
 	attributes: {
 		...SHARED_ATTRIBUTES.required,
 		...SHARED_ATTRIBUTES.id,
