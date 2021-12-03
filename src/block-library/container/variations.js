@@ -113,7 +113,22 @@ export const preVariations = [
 		name: 'grid',
 		title: __( 'Grid', 'scblocks' ),
 		description: __( 'Grid', 'scblocks' ),
-		icon: 'layout',
+		icon: (
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="48"
+				height="48"
+				viewBox="0 0 48 48"
+				fill="none"
+			>
+				<rect width="48" height="48" fill="white" />
+				<rect x="32" y="11" width="8" height="26" fill="#007CBA" />
+				<rect x="8" y="29" width="22" height="8" fill="#007CBA" />
+				<rect x="8" y="11" width="8" height="16" fill="#007CBA" />
+				<rect x="18" y="11" width="12" height="7" fill="#007CBA" />
+				<rect x="18" y="20" width="12" height="7" fill="#007CBA" />
+			</svg>
+		),
 		type: 'grid',
 	},
 ];

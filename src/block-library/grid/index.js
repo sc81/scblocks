@@ -15,13 +15,14 @@ import { PLUGIN_NAME } from '@scblocks/constants';
  */
 import edit from './edit';
 import { variations } from './variations';
+import icon from './icon';
 
 export const name = 'scblocks/grid';
 
 export const settings = {
 	apiVersion: 2,
 	title: __( 'Grid', 'scblocks' ),
-	icon: 'layout',
+	icon,
 	category: PLUGIN_NAME,
 	description: __( 'Organize your content with grid.', 'scblocks' ),
 	keywords: [ __( 'grid', 'scblocks' ), __( 'column', 'scblocks' ) ],
