@@ -16,21 +16,17 @@ import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import { getPropValue, setPropsValue } from '@scblocks/css-utils';
+import { setPropsValue } from '@scblocks/css-utils';
 import { ControlWrapper } from '@scblocks/components';
 import { STORE_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
  */
-import { names } from './constants';
 import Position from './position';
 import Size from './size';
 import Repeat from './repeat';
 import Attachment from './attachment';
-import retriveUrl from './utils';
-
-const propName = names.image;
 
 export default function Image( props ) {
 	const { attributes, setAttributes, devices, selector } = props;
@@ -69,13 +65,7 @@ export default function Image( props ) {
 			} );
 	}, [ imageUrls ] );
 
-	const backgroundImageProp = getPropValue( {
-		attributes,
-		devices,
-		selector,
-		propName,
-	} );
-	const url = retriveUrl( backgroundImageProp );
+	const url = get( imageUrls, imageSize, '' );
 
 	const isExternalImage = id === -1 && url;
 
