@@ -29,7 +29,13 @@ import Repeat from './repeat';
 import Attachment from './attachment';
 
 export default function Image( props ) {
-	const { attributes, setAttributes, devices, selector } = props;
+	const {
+		attributes,
+		setAttributes,
+		devices,
+		selector,
+		showSelectDevice,
+	} = props;
 	const { bgImage = {}, backgroundImageIds } = attributes;
 
 	const idFromDeprecatedAttr = backgroundImageIds
@@ -157,7 +163,11 @@ export default function Image( props ) {
 
 	return (
 		<>
-			<ControlWrapper label={ __( 'Image', 'scblocks' ) } displayInline>
+			<ControlWrapper
+				label={ __( 'Image', 'scblocks' ) }
+				displayInline
+				withoutSelectDevices={ ! showSelectDevice }
+			>
 				<div className="scblocks-inline-buttons">
 					<MediaUploadCheck>
 						<MediaUpload
