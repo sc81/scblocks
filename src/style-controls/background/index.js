@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import { get } from 'lodash';
+
+/**
  * ScBlocks dependencies
  */
 import { getPropValue } from '@scblocks/css-utils';
@@ -18,6 +23,8 @@ import Color from '../color';
 
 export default function Background( props ) {
 	const { attributes, selector, devices } = props;
+	const { bgImage = {} } = attributes;
+	const isImage = !! get( bgImage, devices, false );
 	const backgroundImage = getPropValue( {
 		attributes,
 		devices,
@@ -26,14 +33,11 @@ export default function Background( props ) {
 	} );
 
 	let bgType = '';
-	if ( backgroundImage.startsWith( 'url(' ) ) {
-		bgType = IMAGE_BACKGROUND_TYPE;
-	}
-	if (
-		backgroundImage.startsWith( 'linear-gradient(' ) ||
-		backgroundImage.startsWith( 'radial-gradient(' )
-	) {
+	if ( backgroundImage ) {
 		bgType = GRADIENT_BACKGROUND_TYPE;
+	}
+	if ( backgroundImage && isImage ) {
+		bgType = IMAGE_BACKGROUND_TYPE;
 	}
 
 	return (
