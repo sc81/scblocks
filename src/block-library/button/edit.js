@@ -156,6 +156,7 @@ export default function Edit( props ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				isSelected={ isSelected }
+				displayAriaLabelControl
 			/>
 		</>
 	);
