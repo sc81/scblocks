@@ -115,11 +115,7 @@ export default function Edit( props ) {
 				svgShapes={ svgShapes }
 			/>
 			<div { ...blockProps }>
-				{ applyFilters(
-					'scblocks.container.afterOpen',
-					null,
-					attributes
-				) }
+				{ applyFilters( 'scblocks.container.afterOpen', null, props ) }
 				<ShapeDividers { ...props } svgShapes={ svgShapes } />
 				{ innerBlockCount > 0 && <div { ...innerBlocksProps } /> }
 				{ innerBlockCount === 0 && (
@@ -131,7 +127,7 @@ export default function Edit( props ) {
 				{ applyFilters(
 					'scblocks.container.beforeClose',
 					null,
-					attributes
+					props
 				) }
 			</div>
 		</>
