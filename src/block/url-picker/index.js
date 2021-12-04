@@ -8,6 +8,7 @@ import {
 	ToolbarButton,
 	ToolbarGroup,
 	Popover,
+	TextControl,
 } from '@wordpress/components';
 import {
 	BlockControls,
@@ -18,12 +19,13 @@ import { link, linkOff } from '@wordpress/icons';
 
 export default function URLPicker( {
 	isSelected,
-	attributes: { url, target, relSponsored, relNoFollow },
+	attributes: { url, target, relSponsored, relNoFollow, ariaLabel },
 	setAttributes,
+	displayAriaLabelControl,
 } ) {
 	const [ isURLPickerOpen, setIsURLPickerOpen ] = useState( false );
 	const urlIsSet = !! url;
-	const urlIsSetandSelected = urlIsSet && isSelected;
+	const urlIsSetAndSelected = urlIsSet && isSelected;
 	const openLinkControl = () => {
 		setIsURLPickerOpen( true );
 		return false; // prevents default behaviour for event
@@ -37,7 +39,7 @@ export default function URLPicker( {
 		} );
 		setIsURLPickerOpen( false );
 	};
-	const linkControl = ( isURLPickerOpen || urlIsSetandSelected ) && (
+	const linkControl = ( isURLPickerOpen || urlIsSetAndSelected ) && (
 		<Popover
 			position="bottom center"
 			onClose={ () => setIsURLPickerOpen( false ) }
@@ -72,6 +74,24 @@ export default function URLPicker( {
 						title: __( 'Add rel="sponsored"', 'scblocks' ),
 					},
 				] }
+				renderControlBottom={
+					displayAriaLabelControl
+						? () => (
+								<div className="block-editor-link-control__tools">
+									<TextControl
+										label={ __( 'ARIA Label', 'scblocks' ) }
+										value={ ariaLabel }
+										onChange={ ( value ) => {
+											setAttributes( {
+												ariaLabel: value,
+											} );
+										} }
+										autoComplete="off"
+									/>
+								</div>
+						  )
+						: undefined
+				}
 			/>
 		</Popover>
 	);
@@ -88,7 +108,7 @@ export default function URLPicker( {
 							onClick={ openLinkControl }
 						/>
 					) }
-					{ urlIsSetandSelected && (
+					{ urlIsSetAndSelected && (
 						<ToolbarButton
 							name="link"
 							icon={ linkOff }
