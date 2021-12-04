@@ -25,6 +25,7 @@ import {
 	BLOCK_SELECTOR,
 	getUidClass,
 	PasteUsedIcon,
+	URLPicker,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 
@@ -33,7 +34,6 @@ import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
  */
 import { BUTTON_SELECTORS_SETTINGS } from './utils';
 import Inspector from './inspector';
-import URLPicker from './url-picker';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, isSelected, clientId, name } = props;
