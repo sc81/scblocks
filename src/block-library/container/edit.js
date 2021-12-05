@@ -22,6 +22,7 @@ import {
 	VariationsPicker,
 	GoogleFontsLink,
 	getUidClass,
+	AlignmentToolbar,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -105,6 +106,11 @@ export default function Edit( props ) {
 
 	return (
 		<>
+			<AlignmentToolbar
+				{ ...props }
+				devices={ devices }
+				selector="main"
+			/>
 			<style>{ style }</style>
 			<GoogleFontsLink attributes={ attributes } />
 			<Inspector

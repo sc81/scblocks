@@ -26,6 +26,7 @@ import {
 	setSelectorActivity,
 	getUidClass,
 	PasteUsedIcon,
+	AlignmentToolbar,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 
@@ -93,6 +94,11 @@ export default function Edit( props ) {
 
 	return (
 		<>
+			<AlignmentToolbar
+				{ ...props }
+				devices={ devices }
+				selector="main"
+			/>
 			<style>{ style }</style>
 			<Inspector
 				{ ...props }
