@@ -36,7 +36,7 @@ import { BUTTON_SELECTORS_SETTINGS } from './utils';
 import Inspector from './inspector';
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, isSelected, clientId, name } = props;
+	const { attributes, setAttributes, clientId, name } = props;
 	const {
 		text,
 		iconId,
@@ -152,12 +152,7 @@ export default function Edit( props ) {
 					/>
 				) }
 			</Tag>
-			<URLPicker
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				isSelected={ isSelected }
-				displayAriaLabelControl
-			/>
+			<URLPicker { ...props } />
 		</>
 	);
 }
