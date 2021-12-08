@@ -53,8 +53,8 @@ class Container_Block {
 			'scb-container',
 			$attributes['uidClass'],
 		);
-		if ( ! empty( $attributes['isRootContainer'] ) ) {
-			$class_names[] = 'scb-root-container';
+		if ( ! empty( $attributes['align'] ) ) {
+			$class_names[] = 'align' . $attributes['align'];
 		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
@@ -101,22 +101,9 @@ class Container_Block {
 	 * @return array
 	 */
 	public function initial_css() : array {
-		$css = apply_filters(
+		return apply_filters(
 			'scblocks_container_default_css',
-			array(
-				'allDevices' => array(
-					'.scb-container.scb-root-container' => array(
-						'max-width: unset !important',
-						'margin: 0',
-						'width: 100% !important',
-					),
-					'.scb-container.scb-root-container > .scb-container-content' => array(
-						'margin-left: auto',
-						'margin-right: auto',
-					),
-				),
-			)
+			array()
 		);
-		return $css;
 	}
 }

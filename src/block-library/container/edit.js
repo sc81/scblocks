@@ -6,7 +6,12 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import {
+	useBlockProps,
+	useInnerBlocksProps,
+	BlockAlignmentToolbar,
+	BlockControls,
+} from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
@@ -37,21 +42,19 @@ import { CONTAINER_SELECTORS_SETTINGS } from './utils';
 import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
 
+const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
+
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
-	const { htmlClass, htmlId, isDynamic } = attributes;
-	const { devices, innerBlockCount, isRootContainer, svgShapes } = useSelect(
+	const { htmlClass, htmlId, isDynamic, align } = attributes;
+	const { devices, innerBlockCount, svgShapes } = useSelect(
 		( select ) => {
-			const { getBlockCount, getBlockHierarchyRootClientId } = select(
-				CORE_BLOCK_EDITOR_STORE_NAME
-			);
+			const { getBlockCount } = select( CORE_BLOCK_EDITOR_STORE_NAME );
 			return {
 				innerBlockCount: getBlockCount( clientId ),
 				devices: select( CORE_EDIT_POST_STORE_NAME )
 					.__experimentalGetPreviewDeviceType()
 					.toLowerCase(),
-				isRootContainer:
-					getBlockHierarchyRootClientId( clientId ) === clientId,
 				svgShapes: attributes.shapeDividers
 					? select( STORE_NAME ).getSvgShapes()
 					: undefined,
@@ -59,10 +62,6 @@ export default function Edit( props ) {
 		},
 		[ clientId, attributes.shapeDividers ]
 	);
-
-	useEffect( () => {
-		setAttributes( { isRootContainer } );
-	}, [ isRootContainer, setAttributes ] );
 
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
@@ -88,9 +87,9 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.container.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
-					[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
+				'data-align': align ? align : undefined,
 			},
 			attributes
 		)
@@ -111,6 +110,17 @@ export default function Edit( props ) {
 				devices={ devices }
 				selector="main"
 			/>
+			<BlockControls>
+				<BlockAlignmentToolbar
+					value={ align }
+					onChange={ ( value ) => {
+						setAttributes( {
+							align: value,
+						} );
+					} }
+					controls={ WIDE_ALIGNMENTS }
+				/>
+			</BlockControls>
 			<style>{ style }</style>
 			<GoogleFontsLink attributes={ attributes } />
 			<Inspector

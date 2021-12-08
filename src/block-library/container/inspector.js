@@ -107,7 +107,7 @@ export default function Inspector( props ) {
 					</PanelBody>,
 					props
 				) }
-				spacePanelAdditionalControls={ <ContentWidth { ...props } /> }
+				//spacePanelAdditionalControls={ <ContentWidth { ...props } /> }
 				shapesPanelControls={
 					<>
 						{ svgShapes &&

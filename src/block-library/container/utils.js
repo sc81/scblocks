@@ -10,7 +10,7 @@ import { BLOCK_SELECTOR } from '@scblocks/block';
 
 export const CONTAINER_SELECTORS_SETTINGS = [
 	{
-		label: __( 'Container Style', 'scblocks' ),
+		label: __( 'Container', 'scblocks' ),
 		id: BLOCK_SELECTOR.container.main.alias,
 		selector: BLOCK_SELECTOR.container.main.alias,
 		allowedPanels: {
@@ -29,15 +29,27 @@ export const CONTAINER_SELECTORS_SETTINGS = [
 			border: true,
 			space: {
 				margin: true,
-				padding: {
-					selector: BLOCK_SELECTOR.container.content.alias,
-				},
 				minHeight: true,
+				maxWidth:true
 			},
 			position: {
 				zIndex: true,
 			},
 			shapes: true,
+		},
+	},
+	{
+		label: __( 'Content', 'scblocks' ),
+		id: BLOCK_SELECTOR.container.content.alias,
+		selector: BLOCK_SELECTOR.container.content.alias,
+		allowedPanels: {
+			space: {
+				margin: true,
+				maxWidth: true,
+			},
+			position: {
+				zIndex: true,
+			},
 		},
 	},
 ];
