@@ -151,7 +151,11 @@ class Css {
 	private function get_media_query_list( string $name, array $media_query ) : string {
 		$value = '';
 		foreach ( $media_query as $device ) {
-			if ( isset( $device[ $name ] ) && isset( $device['value'] ) ) {
+			if ( isset( $device['name'] )
+			&&
+			$device['name'] === $name
+			&&
+			isset( $device['value'] ) ) {
 				return $device['value'];
 			}
 		}
