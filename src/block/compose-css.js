@@ -1,16 +1,13 @@
 /**
  * ScBlocks dependencies
  */
-import {
-	ALL_DEVICES,
-	TABLET_DEVICE,
-	MOBILE_DEVICE,
-	DESKTOP_DEVICE,
-} from '@scblocks/constants';
+import { ALL_DEVICES } from '@scblocks/constants';
 /**
  * Internal dependencies
  */
 import { BLOCK_SELECTOR } from './block-selector';
+
+/* global scblocksMediaQuery */
 
 function standardizeName( name ) {
 	return name.replace( /[A-Z]/g, ( e ) => '-' + e.toLowerCase() );
@@ -78,32 +75,37 @@ export default function composeCss( {
 	uidClass,
 	device: currentDevice,
 } ) {
-	const css = {
-		[ ALL_DEVICES ]: '',
-		[ DESKTOP_DEVICE ]: '',
-		[ TABLET_DEVICE ]: '',
-		[ MOBILE_DEVICE ]: '',
-	};
+	const css = defaultCss();
 
-	for ( const cssDevice in cssState ) {
-		css[ cssDevice ] += composeSelectors(
-			cssState[ cssDevice ],
+	for ( const device in cssState ) {
+		css[ device ] += composeSelectors(
+			cssState[ device ],
 			blockName,
 			uidClass
 		);
 	}
+	return buildMediaQueryCss( css, currentDevice );
+}
 
-	if ( currentDevice === DESKTOP_DEVICE ) {
-		return css[ ALL_DEVICES ] + css[ DESKTOP_DEVICE ];
-	} else if ( currentDevice === TABLET_DEVICE ) {
-		return (
-			css[ ALL_DEVICES ] + css[ DESKTOP_DEVICE ] + css[ TABLET_DEVICE ]
-		);
+function buildMediaQueryCss( cssState, currentDevice ) {
+	let css = cssState[ ALL_DEVICES ];
+	for ( let i = 0; i < scblocksMediaQuery.length; i++ ) {
+		if ( currentDevice === scblocksMediaQuery[ i ].name ) {
+			css += cssState[ currentDevice ];
+			return css;
+		}
+		const device = scblocksMediaQuery[ i ].name;
+		css += cssState[ device ];
 	}
-	return (
-		css[ ALL_DEVICES ] +
-		css[ DESKTOP_DEVICE ] +
-		css[ TABLET_DEVICE ] +
-		css[ MOBILE_DEVICE ]
-	);
+	return css;
+}
+
+function defaultCss() {
+	const css = {
+		[ ALL_DEVICES ]: '',
+	};
+	Object.values( scblocksMediaQuery ).forEach( ( elm ) => {
+		css[ elm.name ] = '';
+	} );
+	return css;
 }
