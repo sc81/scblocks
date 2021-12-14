@@ -104,16 +104,14 @@ class Container_Block {
 		$css = apply_filters(
 			'scblocks_container_default_css',
 			array(
-				'allDevices' => array(
-					'.scb-container.scb-root-container' => array(
-						'max-width: unset !important',
-						'margin: 0',
-						'width: 100% !important',
-					),
-					'.scb-container.scb-root-container > .scb-container-content' => array(
-						'margin-left: auto',
-						'margin-right: auto',
-					),
+				'.scb-container.scb-root-container' => array(
+					'max-width: unset !important',
+					'margin: 0',
+					'width: 100% !important',
+				),
+				'.scb-container.scb-root-container > .scb-container-content' => array(
+					'margin-left: auto',
+					'margin-right: auto',
 				),
 			)
 		);

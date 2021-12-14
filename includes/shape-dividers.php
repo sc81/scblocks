@@ -172,13 +172,13 @@ class Shape_Dividers {
 	 * @return array
 	 */
 	public function initial_css( array $container_default_css ) : array {
-		$container_default_css['allDevices']['.scb-container .scb-shape']     = array(
+		$container_default_css['.scb-container .scb-shape']     = array(
 			'position: absolute',
 			'overflow: hidden',
 			'pointer-events: none',
 			'line-height: 0',
 		);
-		$container_default_css['allDevices']['.scb-container .scb-shape svg'] = array(
+		$container_default_css['.scb-container .scb-shape svg'] = array(
 			'width: calc(100% + 1.3px)',
 			'fill: currentColor',
 		);

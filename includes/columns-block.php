@@ -86,10 +86,8 @@ class Columns_Block {
 		$css = apply_filters(
 			'scblocks_columns_default_css',
 			array(
-				'allDevices' => array(
-					'.scb-columns' => array(
-						'display: flex',
-					),
+				'.scb-columns' => array(
+					'display: flex',
 				),
 			)
 		);
