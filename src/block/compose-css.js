@@ -5,7 +5,6 @@ import {
 	ALL_DEVICES,
 	TABLET_DEVICE,
 	MOBILE_DEVICE,
-	PLUGIN_NAME,
 	DESKTOP_DEVICE,
 } from '@scblocks/constants';
 /**
@@ -14,11 +13,6 @@ import {
 import { BLOCK_SELECTOR } from './block-selector';
 
 function standardizeName( name ) {
-	if ( name.includes( 'Custom' ) ) {
-		return `--${ PLUGIN_NAME }-${ name
-			.replace( 'Custom', '' )
-			.replace( /[A-Z]/g, ( e ) => '-' + e.toLowerCase() ) }`;
-	}
 	return name.replace( /[A-Z]/g, ( e ) => '-' + e.toLowerCase() );
 }
 function composePropValue( selectorProps ) {
@@ -37,30 +31,43 @@ function composePropValue( selectorProps ) {
 	return css;
 }
 
-function composeSelectors( selectorsObj, blockName, uidClass ) {
+function isShapeAlias( selectorAlias ) {
+	return selectorAlias.startsWith( 'shape-' );
+}
+
+function shapeFinalSelector( selectorAlias, blockName, uidClass ) {
+	let shapeClass = 'scb-' + selectorAlias;
+	let tempAlias = 'shape';
+	if ( selectorAlias.startsWith( 'shape-svg' ) ) {
+		shapeClass = `scb-shape${ selectorAlias.replace(
+			'shape-svg',
+			''
+		) } svg`;
+		tempAlias = 'shapeSvg';
+	}
+	return BLOCK_SELECTOR[ blockName ][ tempAlias ].fullSelector(
+		uidClass,
+		shapeClass
+	);
+}
+
+function composeSelectors( selectors, blockName, uidClass ) {
 	let css = '',
 		finalSelector;
-	for ( const selectorAlias in selectorsObj ) {
-		if ( selectorAlias.startsWith( 'shape-' ) ) {
-			let shapeClass = 'scb-' + selectorAlias;
-			let tempAlias = 'shape';
-			if ( selectorAlias.startsWith( 'shape-svg' ) ) {
-				shapeClass = `scb-shape${ selectorAlias.replace(
-					'shape-svg',
-					''
-				) } svg`;
-				tempAlias = 'shapeSvg';
-			}
-			finalSelector = BLOCK_SELECTOR[ blockName ][
-				tempAlias
-			].fullSelector( uidClass, shapeClass );
+	for ( const selectorAlias in selectors ) {
+		if ( isShapeAlias( selectorAlias ) ) {
+			finalSelector = shapeFinalSelector(
+				selectorAlias,
+				blockName,
+				uidClass
+			);
 		} else {
 			finalSelector = BLOCK_SELECTOR[ blockName ][
 				selectorAlias
 			].fullSelector( uidClass );
 		}
 		css += `.editor-styles-wrapper ${ finalSelector }{${ composePropValue(
-			selectorsObj[ selectorAlias ]
+			selectors[ selectorAlias ]
 		) }}`;
 	}
 	return css;
