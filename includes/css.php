@@ -242,7 +242,7 @@ class Css {
 
 
 	/**
-	 * Standardize a property name.
+	 * Standardize the property name.
 	 *
 	 * @param string $name
 	 *
