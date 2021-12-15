@@ -87,11 +87,9 @@ class Buttons_Block {
 		$css = apply_filters(
 			'scblocks_buttons_default_css',
 			array(
-				'allDevices' => array(
-					'.scb-buttons' => array(
-						'display: flex',
-						'flex-wrap: wrap',
-					),
+				'.scb-buttons' => array(
+					'display: flex',
+					'flex-wrap: wrap',
 				),
 			)
 		);

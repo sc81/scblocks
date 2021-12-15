@@ -9,160 +9,306 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Create CSS
  */
 class Css {
-	/** @var string */
-	const DESKTOP_DEVICE = 'desktop';
 
-	/** @var string */
-	const TABLET_DEVICE = 'tablet';
+	/**
+	 * Blocks selectors.
+	 *
+	 * @since 1.3.0
+	 * @var array
+	 */
+	private $blocks_selectors;
 
-	/** @var string */
-	const MOBILE_DEVICE = 'mobile';
+	/**
+	 * CSS state.
+	 *
+	 * @since 1.3.0
+	 * @var array
+	 */
+	private $state = array( 'allDevices' => array() );
 
-	/** @var string */
-	const BLOCK_NAMESPACE = 'scblocks';
+	/**
+	 * Device name.
+	 *
+	 * @since 1.3.0
+	 * @var string
+	 */
+	private $device;
 
-	/** @var string */
-	public $tablet_device_max_width = '1024px';
+	/**
+	 * Block name.
+	 *
+	 * @since 1.3.0
+	 * @var string
+	 */
+	private $block_name = '';
 
-	/** @var string */
-	public $mobile_device_max_width = '767px';
-
-	private $block_selector;
+	/**
+	 * Block uidClass.
+	 *
+	 * @since 1.3.0
+	 * @var string
+	 */
+	private $block_uid_class = '';
 
 	public function __construct() {
-		$this->block_selector = get_block_selector();
+		$this->blocks_selectors = get_block_selector();
 	}
 
 	/**
-	 * Composes css.
+	 * Media query data.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return array
+	 */
+	public static function media_query(): array {
+		return apply_filters(
+			'scblocks_media_query',
+			array(
+				array(
+					'name'  => 'desktop',
+					'value' => '',
+				),
+				array(
+					'name'  => 'tablet',
+					'value' => '(max-width: 1024px)',
+				),
+				array(
+					'name'  => 'mobile',
+					'value' => '(max-width: 767px)',
+				),
+			)
+		);
+	}
+
+	/**
+	 * Compose CSS.
 	 *
 	 * @param array $blocks An array of blocks attributes.
 	 *
-	 * @return string
+	 * @return string CSS.
 	 */
 	public function compose( array $blocks ) : string {
-		$css = array(
-			'allDevices' => '',
-		);
-
-		$css[ self::DESKTOP_DEVICE ] = '';
-		$css[ self::TABLET_DEVICE ]  = '';
-		$css[ self::MOBILE_DEVICE ]  = '';
-
-		foreach ( $blocks as $block_name => $block_data ) {
+		foreach ( $blocks as $name => $block_data ) {
 			foreach ( $block_data as $block ) {
 				if ( empty( $block['uidClass'] ) || empty( $block['css'] ) ) {
 					continue;
 				}
 
-				$block_name = $this->camel_case( $block_name );
+				$this->block_name = $name;
 
 				foreach ( $block['css'] as $device => $selectors ) {
-					$css[ $device ] .= $this->compose_selectors( $selectors, $block_name, $block['uidClass'] );
+					$this->block_uid_class = $block['uidClass'];
+
+					$this->device = $device;
+
+					$this->build_selectors_state( $selectors );
 				}
 			}
 		}
-		foreach ( $css as $device_type => $device_css ) {
-			if ( $device_css ) {
-				if ( self::TABLET_DEVICE === $device_type ) {
-					$css[ $device_type ] = '@media(max-width:' . $this->tablet_device_max_width . '){' . $device_css . '}';
-				} elseif ( self::MOBILE_DEVICE === $device_type ) {
-					$css[ $device_type ] = '@media(max-width:' . $this->mobile_device_max_width . '){' . $device_css . '}';
-				}
-			}
-		}
-		return $css['allDevices'] . $css[ self::DESKTOP_DEVICE ] . $css[ self::TABLET_DEVICE ] . $css[ self::MOBILE_DEVICE ];
+		return $this->convert_to_string();
 	}
 
 	/**
-	 * Composes selectors.
+	 * Convert CSS state to string.
 	 *
-	 * @param array $selectors Array of selectors.
-	 * @param string $block_name Block name.
-	 * @param string $uid_class
+	 * @since 1.3.0
 	 *
-	 * @return string
+	 * @return string CSS.
 	 */
-	public function compose_selectors( array $selectors, string $block_name, string $uid_class ) : string {
-		$css   = '';
-		$shape = 'shape-';
-
-		foreach ( $selectors as $selector_alias => $selector_props ) {
-			if ( substr( $selector_alias, 0, strlen( $shape ) ) === $shape ) {
-				$shape_class = 'scb-' . $selector_alias;
-				$temp_alias  = 'shape';
-				if ( substr( $selector_alias, 0, strlen( 'shape-svg' ) ) === 'shape-svg' ) {
-					$shape_class = 'scb-shape' . str_replace( 'shape-svg', '', $selector_alias ) . ' svg';
-					$temp_alias  = 'shapeSvg';
-				}
-				$final_selector = $this->block_selector[ $block_name ][ $temp_alias ]( $uid_class, $shape_class );
-			} else {
-				$final_selector = $this->block_selector[ $block_name ][ $selector_alias ]( $uid_class );
+	private function convert_to_string() : string {
+		$css = '';
+		if ( empty( $this->state ) ) {
+			return $css;
+		}
+		$media_query  = self::media_query();
+		$first_device = $media_query[0]['name'];
+		foreach ( $this->state as $device => $selectors ) {
+			if ( 'allDevices' === $device ) {
+				continue;
 			}
+			if ( $first_device === $device ) {
+				$css .= $this->compose_selectors( $this->merge_selectors( $selectors, $this->state['allDevices'] ) );
+			} else {
+				$media_query_list = $this->get_media_query_list( $device, $media_query );
 
-			$css .= $final_selector . '{' . $this->compose_props( $selector_props ) . '}';
+				$css .= '@media ' . $media_query_list . '{' . $this->compose_selectors( $selectors ) . '}';
+			}
 		}
 		return $css;
 	}
 
 	/**
-	 * Composes properties.
+	 * Return media-query-list.
 	 *
-	 * @param $props
+	 * @since 1.3.0
+	 *
+	 * @param string $name Device name
+	 * @param array $media_query Media query data
 	 *
 	 * @return string
 	 */
-	public function compose_props( array $props ) : string {
+	private function get_media_query_list( string $name, array $media_query ) : string {
+		$value = '';
+		foreach ( $media_query as $device ) {
+			if ( isset( $device['name'] )
+			&&
+			$device['name'] === $name
+			&&
+			isset( $device['value'] ) ) {
+				return $device['value'];
+			}
+		}
+		return $value;
+	}
+
+	/**
+	 * Compose selectors.
+	 *
+	 * @param array $selectors
+	 *
+	 * @return string
+	 */
+	private function compose_selectors( array $selectors ) : string {
+		$css = '';
+		foreach ( $selectors as $selector => $value ) {
+			$css .= $selector . '{' . $value . '}';
+		}
+		return $css;
+	}
+
+	/**
+	 * Merge two sets of selectors.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $selectors
+	 * @param array $extra_selectors
+	 *
+	 * @return array
+	 */
+	private function merge_selectors( array $selectors, array $extra_selectors ) : array {
+		$next = array();
+		foreach ( $selectors as $selector => $value ) {
+			if ( isset( $extra_selectors[ $selector ] ) ) {
+				$next[ $selector ] = $value . $extra_selectors[ $selector ];
+				unset( $extra_selectors[ $selector ] );
+			} else {
+				$next[ $selector ] = $value;
+			}
+		}
+		return array_merge( $next, $extra_selectors );
+	}
+
+	/**
+	 * Compose properties for selectors and assign to state.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $selectors Array of selectors.
+	 *
+	 * @return void
+	 */
+	private function build_selectors_state( array $selectors ) {
+		foreach ( $selectors as $selector_alias => $css_props ) {
+
+			$selector = $this->element_final_selector( $selector_alias );
+
+			if ( $selector ) {
+				$this->state[ $this->device ][ $selector ] = $this->compose_props( $css_props );
+			}
+		}
+	}
+
+	/**
+	 * Compose properties.
+	 *
+	 * @param array $props
+	 *
+	 * @return string
+	 */
+	private function compose_props( array $props ) : string {
 		$css = '';
 
 		foreach ( $props as $prop ) {
 			$colon_index = strpos( $prop, ':' );
 			$name        = substr( $prop, 0, $colon_index );
 			$value       = substr( $prop, $colon_index );
-			$css        .= $this->standarize_prop_name( $name ) . $value . ';';
+			$css        .= $this->standardize_prop_name( $name ) . $value . ';';
 		}
 		return $css;
 	}
 
-	public function camel_case( $name ) {
-		if ( strpos( $name, '-' ) !== false ) {
-			return preg_replace_callback(
-				'/-./',
-				function( $match ) {
-					return ucfirst( substr( $match[0], 1 ) );
-				},
-				$name
-			);
-		}
-		return $name;
-	}
 
 	/**
-	 * Converts the property to the valid css property.
+	 * Standardize the property name.
 	 *
-	 * @param $name
+	 * @param string $name
 	 *
 	 * @return string
 	 */
-	public function standarize_prop_name( string $name ) : string {
-		if ( strpos( $name, 'Custom' ) !== false ) {
-			$n = str_replace( 'Custom', '', $name );
-			$n = preg_replace_callback(
-				'/[A-Z]/',
-				function( $match ) {
-					return '-' . strtolower( $match[0] );
-				},
-				$n
-			);
-			return '--' . self::BLOCK_NAMESPACE . '-' . $n;
-		} else {
-			return preg_replace_callback(
-				'/[A-Z]/',
-				function( $match ) {
-					return '-' . strtolower( $match[0] );
-				},
-				$name
-			);
+	private function standardize_prop_name( string $name ) : string {
+		return preg_replace_callback(
+			'/[A-Z]/',
+			function( $match ) {
+				return '-' . strtolower( $match[0] );
+			},
+			$name
+		);
+	}
+
+	/**
+	 * Check if there is a shape selector.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $selector_alias
+	 *
+	 * @return bool
+	 */
+	private function is_shape_selector( string $selector_alias ) : bool {
+		return substr( $selector_alias, 0, strlen( 'shape-' ) ) === 'shape-';
+	}
+
+	/**
+	 * Build and return a final shape selector.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $selector
+	 *
+	 * @return string
+	 */
+	private function shape_selector( string $selector ) : string {
+		$shape_class = 'scb-' . $selector;
+		$alias       = 'shape';
+
+		if ( substr( $selector, 0, strlen( 'shape-svg' ) ) === 'shape-svg' ) {
+			$shape_class = 'scb-shape' . str_replace( 'shape-svg', '', $selector ) . ' svg';
+			$alias       = 'shapeSvg';
 		}
+		if ( ! empty( $this->blocks_selectors[ $this->block_name ][ $alias ] ) ) {
+			return $this->blocks_selectors[ $this->block_name ][ $alias ]( $this->block_uid_class, $shape_class );
+		}
+		return '';
+	}
+
+	/**
+	 * Create and return a final selector for the HTML element.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $selector_alias
+	 *
+	 * @return string
+	 */
+	private function element_final_selector( string $selector_alias ) : string {
+		if ( $this->is_shape_selector( $selector_alias ) ) {
+			return $this->shape_selector( $selector_alias );
+		}
+		if ( ! empty( $this->blocks_selectors[ $this->block_name ][ $selector_alias ] ) ) {
+			return $this->blocks_selectors[ $this->block_name ][ $selector_alias ]( $this->block_uid_class );
+		}
+		return '';
 	}
 }
