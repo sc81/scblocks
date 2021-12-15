@@ -211,13 +211,12 @@ class Css {
 	 */
 	private function build_selectors_state( array $selectors ) {
 		foreach ( $selectors as $selector_alias => $css_props ) {
-			if ( $this->is_shape_selector( $selector_alias ) ) {
-				$selector = $this->shape_selector( $selector_alias );
-			} else {
-				$selector = $this->blocks_selectors[ $this->block_name ][ $selector_alias ]( $this->block_uid_class );
-			}
 
-			$this->state[ $this->device ][ $selector ] = $this->compose_props( $css_props );
+			$selector = $this->element_final_selector( $selector_alias );
+
+			if ( $selector ) {
+				$this->state[ $this->device ][ $selector ] = $this->compose_props( $css_props );
+			}
 		}
 	}
 
@@ -288,7 +287,28 @@ class Css {
 			$shape_class = 'scb-shape' . str_replace( 'shape-svg', '', $selector ) . ' svg';
 			$alias       = 'shapeSvg';
 		}
+		if ( ! empty( $this->blocks_selectors[ $this->block_name ][ $alias ] ) ) {
+			return $this->blocks_selectors[ $this->block_name ][ $alias ]( $this->block_uid_class, $shape_class );
+		}
+		return '';
+	}
 
-		return $this->blocks_selectors[ $this->block_name ][ $alias ]( $this->block_uid_class, $shape_class );
+	/**
+	 * Create and return a final selector for the HTML element.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $selector_alias
+	 *
+	 * @return string
+	 */
+	private function element_final_selector( string $selector_alias ) : string {
+		if ( $this->is_shape_selector( $selector_alias ) ) {
+			return $this->shape_selector( $selector_alias );
+		}
+		if ( ! empty( $this->blocks_selectors[ $this->block_name ][ $selector_alias ] ) ) {
+			return $this->blocks_selectors[ $this->block_name ][ $selector_alias ]( $this->block_uid_class );
+		}
+		return '';
 	}
 }
