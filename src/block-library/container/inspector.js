@@ -21,7 +21,6 @@ import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
 /**
  * Internal dependencies
  */
-import ContentWidth from './content-width';
 import ShapeDividerControls from './shape-divider-controls';
 import OpenShapeLibrary from './open-shape-library';
 
@@ -107,7 +106,6 @@ export default function Inspector( props ) {
 					</PanelBody>,
 					props
 				) }
-				//spacePanelAdditionalControls={ <ContentWidth { ...props } /> }
 				shapesPanelControls={
 					<>
 						{ svgShapes &&

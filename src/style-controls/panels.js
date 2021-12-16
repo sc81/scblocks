@@ -101,7 +101,6 @@ export default function Panels( props ) {
 		selectorId,
 		selectorsSettings,
 		blockMemo,
-		spacePanelAdditionalControls = null,
 		shapesPanelControls,
 	} = props;
 
@@ -204,13 +203,10 @@ export default function Panels( props ) {
 					openedPanel={ openedPanel }
 					panelCount={ panelCount }
 				>
-					<>
-						{ spacePanelAdditionalControls }
-						<Space
-							{ ...props }
-							selectorSettings={ selectorsSettings[ index ] }
-						/>
-					</>
+					<Space
+						{ ...props }
+						selectorSettings={ selectorsSettings[ index ] }
+					/>
 				</Panel>
 			) }
 			{ isVisiblePanel.border && (
