@@ -47,6 +47,7 @@ export const CONTAINER_SELECTORS_SETTINGS = [
 		allowedPanels: {
 			space: {
 				margin: true,
+				padding: true,
 				maxWidth: true,
 			},
 			position: {
