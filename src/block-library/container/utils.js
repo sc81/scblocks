@@ -30,7 +30,9 @@ export const CONTAINER_SELECTORS_SETTINGS = [
 			space: {
 				margin: true,
 				minHeight: true,
-				maxWidth:true
+				maxWidth: {
+					selector: BLOCK_SELECTOR.container.mainStronger.alias,
+				},
 			},
 			position: {
 				zIndex: true,

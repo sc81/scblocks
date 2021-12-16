@@ -61,9 +61,12 @@ export const BLOCK_SELECTOR = {
 	},
 	container: {
 		main: {
-			fullSelector: ( uidClass ) => `.scb-container.${ uidClass }`,
+			fullSelector: ( uidClass ) => `.${ uidClass }`,
 			alias: 'main',
-			selector: '.scb-container',
+		},
+		mainStronger: {
+			fullSelector: ( uidClass ) => `.scb-container.${ uidClass }`,
+			alias: 'mainStronger',
 		},
 		content: {
 			fullSelector: ( uidClass ) =>
