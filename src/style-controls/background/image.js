@@ -16,7 +16,7 @@ import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import { setPropsValue } from '@scblocks/css-utils';
+import { getPropValue, setPropsValue } from '@scblocks/css-utils';
 import { ControlWrapper } from '@scblocks/components';
 import { STORE_NAME } from '@scblocks/constants';
 
@@ -39,8 +39,8 @@ export default function Image( props ) {
 	const { bgImage = {}, backgroundImageIds } = attributes;
 
 	const idFromDeprecatedAttr = backgroundImageIds
-		? get( backgroundImageIds, [ devices ], -1 )
-		: -1;
+		? get( backgroundImageIds, [ devices ], -2 )
+		: -2;
 	const id = get( bgImage, [ devices, 'id' ], idFromDeprecatedAttr );
 	const imageSize = get( bgImage, [ devices, 'size' ], 'full' );
 
@@ -71,9 +71,21 @@ export default function Image( props ) {
 			} );
 	}, [ imageUrls ] );
 
-	const url = get( imageUrls, imageSize, '' );
+	const isExternalImage = id === -1;
 
-	const isExternalImage = id === -1 && url;
+	let url = '';
+
+	if ( isExternalImage ) {
+		const backgroundImage = getPropValue( {
+			attributes,
+			devices,
+			selector,
+			propName: 'backgroundImage',
+		} );
+		url = backgroundImage.replace( /url\(|\)/g, '' );
+	} else {
+		url = get( imageUrls, imageSize, '' );
+	}
 
 	// migrating from deprecated backgroundImageIds
 	useEffect( () => {
