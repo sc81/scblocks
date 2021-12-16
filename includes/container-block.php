@@ -20,6 +20,7 @@ class Container_Block {
 	 */
 	public function register_actions() {
 		add_action( 'init', array( $this, 'register' ) );
+		add_filter( 'scblocks_blocks_default_css', array( $this, 'editor_css' ), 10, 2 );
 	}
 
 	/**
@@ -54,7 +55,7 @@ class Container_Block {
 			$attributes['uidClass'],
 		);
 		if ( ! empty( $attributes['align'] ) ) {
-			$class_names[] = 'align' . $attributes['align'];
+			$class_names[] = 'align-' . $attributes['align'];
 		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
@@ -101,9 +102,47 @@ class Container_Block {
 	 * @return array
 	 */
 	public function initial_css() : array {
+		$wide_content_max_width = Plugin::option( 'wide_content_max_width' );
 		return apply_filters(
 			'scblocks_container_default_css',
-			array()
+			array(
+				'.scb-container.align-wide' => array(
+					'max-width:' . $wide_content_max_width,
+					'margin-left:auto',
+					'margin-right:auto',
+				),
+				'.scb-container.align-full' => array(
+					'max-width:none',
+				),
+			)
 		);
+	}
+	/**
+	 * Default CSS for our blocks in the editor.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $css Default CSS for all blocks.
+	 * @param bool $take_all_css Whether to get all CSS.
+	 *
+	 * @return array
+	 */
+	public function editor_css( array $css, bool $take_all_css ) : array {
+		if ( $take_all_css ) {
+			$wide_content_max_width = Plugin::option( 'wide_content_max_width' );
+
+			unset( $css['container']['.scb-container.align-wide'] );
+			unset( $css['container']['.scb-container.align-full'] );
+
+			$css['container']['.editor-styles-wrapper .block-editor-block-list__layout .scb-container.align-wide'] = array(
+				'max-width:' . $wide_content_max_width,
+				'margin-left:auto',
+				'margin-right:auto',
+			);
+			$css['container']['.editor-styles-wrapper .block-editor-block-list__layout .scb-container.align-full'] = array(
+				'max-width:none',
+			);
+		}
+		return $css;
 	}
 }

@@ -88,8 +88,8 @@ export default function Edit( props ) {
 					[ BLOCK_CLASSES.container.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
+					[ `align-${ align }` ]: !! align,
 				} ),
-				'data-align': align ? align : undefined,
 			},
 			attributes
 		)

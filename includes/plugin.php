@@ -61,6 +61,7 @@ class Plugin {
 				'force_regenerate_css_files'  => '0',
 				'reusable_blocks_update_time' => '0',
 				'used_icons_post_id'          => '',
+				'wide_content_max_width'      => '1240px',
 			)
 		);
 	}
