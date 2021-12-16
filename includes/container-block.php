@@ -57,6 +57,9 @@ class Container_Block {
 		if ( ! empty( $attributes['align'] ) ) {
 			$class_names[] = 'align-' . $attributes['align'];
 		}
+		if ( ! empty( $attributes['useThemeContentWidth'] ) ) {
+			$class_names[] = 'scb-content-max-width';
+		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
@@ -103,6 +106,7 @@ class Container_Block {
 	 */
 	public function initial_css() : array {
 		$wide_content_max_width = Plugin::option( 'wide_content_max_width' );
+
 		return apply_filters(
 			'scblocks_container_default_css',
 			array(
@@ -113,6 +117,11 @@ class Container_Block {
 				),
 				'.scb-container.align-full' => array(
 					'max-width:none',
+				),
+				'.scb-content-max-width > .scb-container-content' => array(
+					$this->content_max_width(),
+					'margin-left:auto',
+					'margin-right:auto',
 				),
 			)
 		);
@@ -144,5 +153,22 @@ class Container_Block {
 			);
 		}
 		return $css;
+	}
+
+	/**
+	 * Get content max width.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return string
+	 */
+	public function content_max_width() : string {
+		$width = Plugin::option( 'content_max_width' );
+
+		if ( isset( $GLOBALS['content_width'] ) ) {
+			$width = $GLOBALS['content_width'] . 'px';
+		}
+		$width = apply_filters( 'scblocks_container_content_max_width', $width );
+		return 'max-width:' . $width;
 	}
 }

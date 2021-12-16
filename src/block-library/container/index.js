@@ -57,6 +57,10 @@ export const settings = {
 			type: 'string',
 			default: '',
 		},
+		useThemeContentWidth: {
+			type: 'boolean',
+			default: false,
+		},
 	},
 	supports: {
 		className: false,

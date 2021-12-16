@@ -46,7 +46,13 @@ const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
-	const { htmlClass, htmlId, isDynamic, align } = attributes;
+	const {
+		htmlClass,
+		htmlId,
+		isDynamic,
+		align,
+		useThemeContentWidth,
+	} = attributes;
 	const { devices, innerBlockCount, svgShapes } = useSelect(
 		( select ) => {
 			const { getBlockCount } = select( CORE_BLOCK_EDITOR_STORE_NAME );
@@ -89,6 +95,8 @@ export default function Edit( props ) {
 					[ getUidClass( name, clientId ) ]: true,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 					[ `align-${ align }` ]: !! align,
+					[ BLOCK_CLASSES.container
+						.contentMaxWidth ]: useThemeContentWidth,
 				} ),
 			},
 			attributes

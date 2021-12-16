@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody } from '@wordpress/components';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 
@@ -30,7 +30,7 @@ function getUid() {
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes, svgShapes } = props;
-	const { tag, shapeDividers } = attributes;
+	const { tag, shapeDividers, useThemeContentWidth } = attributes;
 
 	function setTag( value ) {
 		setAttributes( { tag: value } );
@@ -96,6 +96,16 @@ export default function Inspector( props ) {
 					'scblocks.container.mainControls',
 					<PanelBody opened>
 						<SelectHtmlTag value={ tag } onChange={ setTag } />
+						<ToggleControl
+							label={ __(
+								'Use Theme Content Width',
+								'scblocks'
+							) }
+							checked={ useThemeContentWidth }
+							onChange={ ( value ) =>
+								setAttributes( { useThemeContentWidth: value } )
+							}
+						/>
 					</PanelBody>,
 					props
 				) }
