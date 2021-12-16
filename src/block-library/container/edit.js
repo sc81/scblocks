@@ -53,9 +53,16 @@ export default function Edit( props ) {
 		align,
 		useThemeContentWidth,
 	} = attributes;
-	const { devices, innerBlockCount, svgShapes } = useSelect(
+	const {
+		devices,
+		innerBlockCount,
+		svgShapes,
+		isRegisteredAlignWide,
+	} = useSelect(
 		( select ) => {
-			const { getBlockCount } = select( CORE_BLOCK_EDITOR_STORE_NAME );
+			const { getBlockCount, getSettings } = select(
+				CORE_BLOCK_EDITOR_STORE_NAME
+			);
 			return {
 				innerBlockCount: getBlockCount( clientId ),
 				devices: select( CORE_EDIT_POST_STORE_NAME )
@@ -64,6 +71,7 @@ export default function Edit( props ) {
 				svgShapes: attributes.shapeDividers
 					? select( STORE_NAME ).getSvgShapes()
 					: undefined,
+				isRegisteredAlignWide: getSettings().alignWide,
 			};
 		},
 		[ clientId, attributes.shapeDividers ]
@@ -94,10 +102,11 @@ export default function Edit( props ) {
 					[ BLOCK_CLASSES.container.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
-					[ `align-${ align }` ]: !! align,
+					[ `align-${ align }` ]: ! isRegisteredAlignWide && !! align,
 					[ BLOCK_CLASSES.container
 						.contentMaxWidth ]: useThemeContentWidth,
 				} ),
+				'data-align': align ? align : undefined,
 			},
 			attributes
 		)
