@@ -61,7 +61,7 @@ class Container_Block {
 			}
 		}
 		if ( ! empty( $attributes['useThemeContentWidth'] ) ) {
-			$class_names[] = 'scb-theme-content-width';
+			$class_names[] = 'scb-content-width';
 		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
@@ -116,7 +116,7 @@ class Container_Block {
 					'margin-left:auto',
 					'margin-right:auto',
 				),
-				'.scb-theme-content-width > .scb-container-content' => array(
+				'.scb-content-width > .scb-container-content' => array(
 					$this->content_max_width(),
 					'margin-left:auto',
 					'margin-right:auto',

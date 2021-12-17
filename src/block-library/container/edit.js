@@ -104,7 +104,7 @@ export default function Edit( props ) {
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 					[ `align-${ align }` ]: ! isRegisteredAlignWide && !! align,
 					[ BLOCK_CLASSES.container
-						.themeContentWidth ]: useThemeContentWidth,
+						.contentWidth ]: useThemeContentWidth,
 				} ),
 				'data-align': align ? align : undefined,
 			},
