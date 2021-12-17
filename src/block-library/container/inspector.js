@@ -94,19 +94,25 @@ export default function Inspector( props ) {
 				{ ...props }
 				mainControls={ applyFilters(
 					'scblocks.container.mainControls',
-					<PanelBody opened>
-						<SelectHtmlTag value={ tag } onChange={ setTag } />
-						<ToggleControl
-							label={ __(
-								'Use Theme Content Width',
-								'scblocks'
-							) }
-							checked={ useThemeContentWidth }
-							onChange={ ( value ) =>
-								setAttributes( { useThemeContentWidth: value } )
-							}
-						/>
-					</PanelBody>,
+					<>
+						<PanelBody opened>
+							<SelectHtmlTag value={ tag } onChange={ setTag } />
+						</PanelBody>
+						<PanelBody opened>
+							<ToggleControl
+								label={ __(
+									'Use Theme Content Width',
+									'scblocks'
+								) }
+								checked={ useThemeContentWidth }
+								onChange={ ( value ) =>
+									setAttributes( {
+										useThemeContentWidth: value,
+									} )
+								}
+							/>
+						</PanelBody>
+					</>,
 					props
 				) }
 				htmlAttrsControls={ applyFilters(

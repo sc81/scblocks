@@ -6,12 +6,7 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import {
-	useBlockProps,
-	useInnerBlocksProps,
-	BlockAlignmentToolbar,
-	BlockControls,
-} from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
@@ -27,7 +22,6 @@ import {
 	VariationsPicker,
 	GoogleFontsLink,
 	getUidClass,
-	AlignmentToolbar,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -41,8 +35,7 @@ import {
 import { CONTAINER_SELECTORS_SETTINGS } from './utils';
 import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
-
-const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
+import ToolbarControls from './toolbar-controls';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
@@ -122,23 +115,8 @@ export default function Edit( props ) {
 
 	return (
 		<>
-			<AlignmentToolbar
-				{ ...props }
-				devices={ devices }
-				selector="main"
-			/>
-			<BlockControls>
-				<BlockAlignmentToolbar
-					value={ align }
-					onChange={ ( value ) => {
-						setAttributes( {
-							align: value,
-						} );
-					} }
-					controls={ WIDE_ALIGNMENTS }
-				/>
-			</BlockControls>
 			<style>{ style }</style>
+			<ToolbarControls { ...props } devices={ devices } />
 			<GoogleFontsLink attributes={ attributes } />
 			<Inspector
 				{ ...props }
