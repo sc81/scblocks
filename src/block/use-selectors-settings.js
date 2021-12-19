@@ -7,29 +7,18 @@ import { produce } from 'immer';
  * WordPress dependencies
  */
 import { useState } from '@wordpress/element';
-import { applyFilters } from '@wordpress/hooks';
 
-import { BLOCK_SELECTOR } from '.';
-
-function getNextSettings( selectorsSettings, nextSettings, id ) {
+function getNextSettings( selectorsSettings, nextSelectorSettings, id ) {
 	return produce( selectorsSettings, ( draft ) => {
 		const index = draft.findIndex( ( elm ) => elm.id === id );
 		if ( index > -1 ) {
-			draft[ index ] = nextSettings;
+			draft[ index ] = nextSelectorSettings;
 		}
 	} );
 }
 
-export default function useSelectorsSettings( blockName, selectorsSettings ) {
-	const [ settings, setSettings ] = useState( selectorsSettings );
-
-	applyFilters(
-		`scblocks.${ blockName }.selectorsSettings`,
-		settings,
-		setSettings,
-		getNextSettings,
-		BLOCK_SELECTOR
-	);
+export default function useSelectorsSettings( initialSettings ) {
+	const [ settings, setSettings ] = useState( initialSettings );
 
 	return [ settings, setSettings, getNextSettings ];
 }
