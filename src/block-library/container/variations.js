@@ -38,14 +38,6 @@ function getColumns( widths ) {
 	];
 }
 
-function containerCss() {
-	return {
-		[ DESKTOP_DEVICE ]: {
-			[ BLOCK_SELECTOR.container.content.alias ]: [ 'padding:40px' ],
-		},
-	};
-}
-
 /**
  * Template option choices for predefined columns layouts.
  */
@@ -80,9 +72,6 @@ const variations = [
 				{ content: __( 'Paragraph in the container', 'scblocks' ) },
 			],
 		],
-		attributes: {
-			css: containerCss(),
-		},
 		scope: [ 'block' ],
 	},
 	{
@@ -104,9 +93,6 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumns( [ 50, 50 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
 		scope: [ 'block' ],
 	},
 	{
@@ -131,9 +117,6 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumns( [ 33.33, 66.66 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
 		scope: [ 'block' ],
 	},
 	{
@@ -158,9 +141,6 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumns( [ 66.66, 33.33 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
 		scope: [ 'block' ],
 	},
 	{
@@ -181,9 +161,6 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumns( [ 33.33, 33.33, 33.33 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
 		scope: [ 'block' ],
 	},
 	{
@@ -204,9 +181,6 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [ getColumnState( [ 25, 50, 25 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
 		scope: [ 'block' ],
 	},
 	{
@@ -259,9 +233,6 @@ const variations = [
 			</svg>
 		),
 		innerBlocks: [ getColumns( [ 25, 25, 25, 25 ] ) ],
-		attributes: {
-			css: containerCss(),
-		},
 		scope: [ 'block' ],
 	},
 ];
