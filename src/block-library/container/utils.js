@@ -46,7 +46,6 @@ export const CONTAINER_SELECTORS_SETTINGS = [
 		selector: BLOCK_SELECTOR.container.content.alias,
 		allowedPanels: {
 			space: {
-				margin: true,
 				padding: true,
 				maxWidth: true,
 			},
