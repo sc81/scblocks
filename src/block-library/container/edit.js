@@ -22,7 +22,6 @@ import {
 	VariationsPicker,
 	GoogleFontsLink,
 	getUidClass,
-	AlignmentToolbar,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -36,13 +35,25 @@ import {
 import { CONTAINER_SELECTORS_SETTINGS } from './utils';
 import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
+import ToolbarControls from './toolbar-controls';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
-	const { htmlClass, htmlId, isDynamic } = attributes;
-	const { devices, innerBlockCount, isRootContainer, svgShapes } = useSelect(
+	const {
+		htmlClass,
+		htmlId,
+		isDynamic,
+		align,
+		useThemeContentWidth,
+	} = attributes;
+	const {
+		devices,
+		innerBlockCount,
+		svgShapes,
+		isRegisteredAlignWide,
+	} = useSelect(
 		( select ) => {
-			const { getBlockCount, getBlockHierarchyRootClientId } = select(
+			const { getBlockCount, getSettings } = select(
 				CORE_BLOCK_EDITOR_STORE_NAME
 			);
 			return {
@@ -50,19 +61,14 @@ export default function Edit( props ) {
 				devices: select( CORE_EDIT_POST_STORE_NAME )
 					.__experimentalGetPreviewDeviceType()
 					.toLowerCase(),
-				isRootContainer:
-					getBlockHierarchyRootClientId( clientId ) === clientId,
 				svgShapes: attributes.shapeDividers
 					? select( STORE_NAME ).getSvgShapes()
 					: undefined,
+				isRegisteredAlignWide: getSettings().alignWide,
 			};
 		},
 		[ clientId, attributes.shapeDividers ]
 	);
-
-	useEffect( () => {
-		setAttributes( { isRootContainer } );
-	}, [ isRootContainer, setAttributes ] );
 
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
@@ -88,9 +94,12 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.container.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
-					[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
+					[ `align-${ align }` ]: ! isRegisteredAlignWide && !! align,
+					[ BLOCK_CLASSES.container
+						.contentWidth ]: useThemeContentWidth,
 				} ),
+				'data-align': align ? align : undefined,
 			},
 			attributes
 		)
@@ -106,12 +115,8 @@ export default function Edit( props ) {
 
 	return (
 		<>
-			<AlignmentToolbar
-				{ ...props }
-				devices={ devices }
-				selector="main"
-			/>
 			<style>{ style }</style>
+			<ToolbarControls { ...props } devices={ devices } />
 			<GoogleFontsLink attributes={ attributes } />
 			<Inspector
 				{ ...props }
