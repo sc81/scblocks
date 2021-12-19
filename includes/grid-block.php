@@ -85,10 +85,8 @@ class Grid_Block {
 		$css = apply_filters(
 			'scblocks_grid_default_css',
 			array(
-				'allDevices' => array(
-					'.scb-grid' => array(
-						'display: grid',
-					),
+				'.scb-grid' => array(
+					'display: grid',
 				),
 			)
 		);
