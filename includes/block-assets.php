@@ -130,6 +130,12 @@ class Block_Assets {
 		wp_add_inline_style( 'scblocks', $initial_css->get() );
 
 		wp_set_script_translations( 'scblocks-editor', 'scblocks' );
+
+		wp_localize_script(
+			'scblocks',
+			'scblocksMediaQuery',
+			Css::media_query()
+		);
 	}
 	/**
 	 * Enqueue frontend assets.

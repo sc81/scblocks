@@ -42,23 +42,11 @@ class Initial_Css {
 	 * @return string
 	 */
 	public function build( array $arr_css ) : string {
-		$desktop = '';
-		$tablet  = '';
-		$mobile  = '';
-		$all     = '';
-		if ( isset( $arr_css['allDevices'] ) ) {
-			$all = $this->compose_selectors( $arr_css['allDevices'] );
+		$css = '';
+		foreach ( $arr_css as $block_css ) {
+			$css .= $this->compose_selectors( $block_css );
 		}
-		if ( isset( $arr_css['desktop'] ) ) {
-			$desktop = '@media(min-width: 1025px){' . $this->compose_selectors( $arr_css['desktop'] ) . '}';
-		}
-		if ( isset( $arr_css['tablet'] ) ) {
-			$tablet = '@media(max-width: 1024px){' . $this->compose_selectors( $arr_css['tablet'] ) . '}';
-		}
-		if ( isset( $arr_css['mobile'] ) ) {
-			$mobile = '@media(max-width: 767px){' . $this->compose_selectors( $arr_css['mobile'] ) . '}';
-		}
-		return $all . $desktop . $tablet . $mobile;
+		return $css;
 	}
 
 	/**
@@ -109,11 +97,7 @@ class Initial_Css {
 			$this->take_all_css
 		);
 
-		$css = '';
-		foreach ( $css_array as $block_css ) {
-			$css .= $this->build( $block_css );
-		}
-		return $css;
+		return $this->build( $css_array );
 	}
 	/**
 	 * Default CSS for Button Block.
@@ -129,13 +113,11 @@ class Initial_Css {
 		return apply_filters(
 			'scblocks_button_default_css',
 			array(
-				'allDevices' => array(
-					'.scb-button' => array(
-						'display: flex',
-						'align-items: center',
-						'justify-content: center',
-						'text-decoration: none',
-					),
+				'.scb-button' => array(
+					'display: flex',
+					'align-items: center',
+					'justify-content: center',
+					'text-decoration: none',
 				),
 			)
 		);
@@ -210,10 +192,8 @@ class Initial_Css {
 		return apply_filters(
 			'scblocks_heading_default_css',
 			array(
-				'allDevices' => array(
-					'.scb-heading mark' => array(
-						'background: none',
-					),
+				'.scb-heading mark' => array(
+					'background: none',
 				),
 			)
 		);
@@ -233,16 +213,14 @@ class Initial_Css {
 		return apply_filters(
 			'scblocks_icon_default_css',
 			array(
-				'allDevices' => array(
-					'.scb-icon' => array(
-						'display: inline-flex',
-						'line-height: 0',
-					),
-					'.scb-icon svg' => array(
-						'width: 1em',
-						'height: 1em',
-						'fill: currentColor',
-					),
+				'.scb-icon' => array(
+					'display: inline-flex',
+					'line-height: 0',
+				),
+				'.scb-icon svg' => array(
+					'width: 1em',
+					'height: 1em',
+					'fill: currentColor',
 				),
 			)
 		);

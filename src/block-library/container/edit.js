@@ -35,23 +35,31 @@ import getContainerSelectorsSettings from './utils';
 import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
 import { preVariations } from './variations';
+import ToolbarControls from './toolbar-controls';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
-	const { htmlClass, htmlId, isDynamic, isGridItem } = attributes;
+	const {
+		htmlClass,
+		htmlId,
+		isDynamic,
+		isGridItem,
+		align,
+		useThemeContentWidth,
+	} = attributes;
 	const {
 		devices,
 		innerBlockCount,
-		isRootContainer,
 		svgShapes,
 		isParentGridContainer,
+		isRegisteredAlignWide,
 	} = useSelect(
 		( select ) => {
 			const {
 				getBlockCount,
-				getBlockHierarchyRootClientId,
 				getBlockParents,
 				getBlock,
+				getSettings,
 			} = select( CORE_BLOCK_EDITOR_STORE_NAME );
 			const parentBlockId = getBlockParents( clientId, true )[ 0 ];
 			const parentBlock = parentBlockId
@@ -62,8 +70,6 @@ export default function Edit( props ) {
 				devices: select( CORE_EDIT_POST_STORE_NAME )
 					.__experimentalGetPreviewDeviceType()
 					.toLowerCase(),
-				isRootContainer:
-					getBlockHierarchyRootClientId( clientId ) === clientId,
 				svgShapes: attributes.shapeDividers
 					? select( STORE_NAME ).getSvgShapes()
 					: undefined,
@@ -71,14 +77,11 @@ export default function Edit( props ) {
 					parentBlock && 'scblocks/grid' === parentBlock.name
 						? true
 						: '',
+				isRegisteredAlignWide: getSettings().alignWide,
 			};
 		},
 		[ clientId, attributes.shapeDividers ]
 	);
-
-	useEffect( () => {
-		setAttributes( { isRootContainer } );
-	}, [ isRootContainer, setAttributes ] );
 
 	const [ selectorsSettings, setSelectorsSettings ] = useState(
 		getContainerSelectorsSettings()
@@ -121,10 +124,13 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.container.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
-					[ BLOCK_CLASSES.container.rootContainer ]: isRootContainer,
-					[ BLOCK_CLASSES.container.gridItem ]: isGridItem,
+					[ `align-${ align }` ]: ! isRegisteredAlignWide && !! align,
+					[ BLOCK_CLASSES.container
+						.contentWidth ]: useThemeContentWidth,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
+					[ BLOCK_CLASSES.container.gridItem ]: isGridItem,
 				} ),
+				'data-align': align ? align : undefined,
 			},
 			attributes
 		)
@@ -141,6 +147,7 @@ export default function Edit( props ) {
 	return (
 		<>
 			<style>{ style }</style>
+			<ToolbarControls { ...props } devices={ devices } />
 			<GoogleFontsLink attributes={ attributes } />
 			<Inspector
 				{ ...props }
@@ -150,11 +157,7 @@ export default function Edit( props ) {
 				svgShapes={ svgShapes }
 			/>
 			<div { ...blockProps }>
-				{ applyFilters(
-					'scblocks.container.afterOpen',
-					null,
-					attributes
-				) }
+				{ applyFilters( 'scblocks.container.afterOpen', null, props ) }
 				<ShapeDividers { ...props } svgShapes={ svgShapes } />
 				{ innerBlockCount > 0 && <div { ...innerBlocksProps } /> }
 				{ innerBlockCount === 0 && (
@@ -167,7 +170,7 @@ export default function Edit( props ) {
 				{ applyFilters(
 					'scblocks.container.beforeClose',
 					null,
-					attributes
+					props
 				) }
 			</div>
 		</>

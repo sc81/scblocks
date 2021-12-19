@@ -58,6 +58,9 @@ function get_block_selector() {
 				'main' => function( $uid_class ) {
 					return ".$uid_class";
 				},
+				'mainStronger' => function( $uid_class ) {
+					return ".scb-container.$uid_class";
+				},
 				'content' => function( $uid_class ) {
 					return ".$uid_class > .scb-container-content";
 				},

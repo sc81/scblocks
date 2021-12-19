@@ -14,7 +14,7 @@ export default function getContainerSelectorsSettings() {
 		'scblocks.container.selectorsSettings',
 		[
 			{
-				label: __( 'Container Style', 'scblocks' ),
+				label: __( 'Container', 'scblocks' ),
 				id: BLOCK_SELECTOR.container.main.alias,
 				selector: BLOCK_SELECTOR.container.main.alias,
 				allowedPanels: {
@@ -34,15 +34,30 @@ export default function getContainerSelectorsSettings() {
 					border: true,
 					space: {
 						margin: true,
-						padding: {
-							selector: BLOCK_SELECTOR.container.content.alias,
-						},
 						minHeight: true,
+						maxWidth: {
+							selector:
+								BLOCK_SELECTOR.container.mainStronger.alias,
+						},
 					},
 					position: {
 						zIndex: true,
 					},
 					shapes: true,
+				},
+			},
+			{
+				label: __( 'Content', 'scblocks' ),
+				id: BLOCK_SELECTOR.container.content.alias,
+				selector: BLOCK_SELECTOR.container.content.alias,
+				allowedPanels: {
+					space: {
+						padding: true,
+						maxWidth: true,
+					},
+					position: {
+						zIndex: true,
+					},
 				},
 			},
 		],

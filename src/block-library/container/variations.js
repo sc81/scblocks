@@ -162,10 +162,7 @@ const variations = [
 		),
 		isDefault: true,
 		innerBlocks: [
-			[
-				'core/paragraph',
-				{ placeholder: __( 'Paragraph in the container', 'scblocks' ) },
-			],
+			[ 'core/paragraph', { placeholder: 'Type / to choose a block' } ],
 		],
 		scope: [ 'block' ],
 	},

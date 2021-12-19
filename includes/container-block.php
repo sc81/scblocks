@@ -55,8 +55,15 @@ class Container_Block {
 		if ( ! empty( $attributes['uidClass'] ) ) {
 			$class_names[] = $attributes['uidClass'];
 		}
-		if ( ! empty( $attributes['isRootContainer'] ) ) {
-			$class_names[] = 'scb-root-container';
+		if ( ! empty( $attributes['align'] ) ) {
+			if ( $this->is_set_align_wide() ) {
+				$class_names[] = 'align' . $attributes['align'];
+			} else {
+				$class_names[] = 'align-' . $attributes['align'];
+			}
+		}
+		if ( ! empty( $attributes['useThemeContentWidth'] ) ) {
+			$class_names[] = 'scb-content-width';
 		}
 		if ( ! empty( $attributes['isGridItem'] ) ) {
 			$class_names[] = 'scb-grid-item';
@@ -106,22 +113,62 @@ class Container_Block {
 	 * @return array
 	 */
 	public function initial_css() : array {
-		$css = apply_filters(
+		return apply_filters(
 			'scblocks_container_default_css',
 			array(
-				'allDevices' => array(
-					'.scb-container.scb-root-container' => array(
-						'max-width: unset !important',
-						'margin: 0',
-						'width: 100% !important',
-					),
-					'.scb-container.scb-root-container > .scb-container-content' => array(
-						'margin-left: auto',
-						'margin-right: auto',
-					),
+				'.scb-container.align-wide' => array(
+					$this->wide_content_max_width(),
+					'margin-left:auto',
+					'margin-right:auto',
+				),
+				'.scb-content-width > .scb-container-content' => array(
+					$this->content_max_width(),
+					'margin-left:auto',
+					'margin-right:auto',
 				),
 			)
 		);
-		return $css;
+	}
+
+	/**
+	 * Get content max width.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return string
+	 */
+	public function content_max_width() : string {
+		$width = Plugin::option( 'content_max_width' );
+
+		if ( isset( $GLOBALS['content_width'] ) ) {
+			$width = $GLOBALS['content_width'] . 'px';
+		}
+		$width = apply_filters( 'scblocks_container_content_max_width', $width );
+		return 'max-width:' . $width;
+	}
+
+	/**
+	 * Get wide content max width.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return string
+	 */
+	public function wide_content_max_width() : string {
+		$width = Plugin::option( 'wide_content_max_width' );
+		$width = apply_filters( 'scblocks_wide_content_max_width', $width );
+
+		return 'max-width:' . $width;
+	}
+
+	/**
+	 * Checks that the theme has registered align-wide support.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return bool
+	 */
+	public function is_set_align_wide() : bool {
+		return (bool) get_theme_support( 'align-wide' );
 	}
 }

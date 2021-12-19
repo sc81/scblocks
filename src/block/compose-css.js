@@ -1,24 +1,15 @@
 /**
  * ScBlocks dependencies
  */
-import {
-	ALL_DEVICES,
-	TABLET_DEVICE,
-	MOBILE_DEVICE,
-	PLUGIN_NAME,
-	DESKTOP_DEVICE,
-} from '@scblocks/constants';
+import { ALL_DEVICES } from '@scblocks/constants';
 /**
  * Internal dependencies
  */
 import { BLOCK_SELECTOR } from './block-selector';
 
+/* global scblocksMediaQuery */
+
 function standardizeName( name ) {
-	if ( name.includes( 'Custom' ) ) {
-		return `--${ PLUGIN_NAME }-${ name
-			.replace( 'Custom', '' )
-			.replace( /[A-Z]/g, ( e ) => '-' + e.toLowerCase() ) }`;
-	}
 	return name.replace( /[A-Z]/g, ( e ) => '-' + e.toLowerCase() );
 }
 function composePropValue( selectorProps ) {
@@ -37,30 +28,43 @@ function composePropValue( selectorProps ) {
 	return css;
 }
 
-function composeSelectors( selectorsObj, blockName, uidClass ) {
+function isShapeAlias( selectorAlias ) {
+	return selectorAlias.startsWith( 'shape-' );
+}
+
+function shapeFinalSelector( selectorAlias, blockName, uidClass ) {
+	let shapeClass = 'scb-' + selectorAlias;
+	let tempAlias = 'shape';
+	if ( selectorAlias.startsWith( 'shape-svg' ) ) {
+		shapeClass = `scb-shape${ selectorAlias.replace(
+			'shape-svg',
+			''
+		) } svg`;
+		tempAlias = 'shapeSvg';
+	}
+	return BLOCK_SELECTOR[ blockName ][ tempAlias ].fullSelector(
+		uidClass,
+		shapeClass
+	);
+}
+
+function composeSelectors( selectors, blockName, uidClass ) {
 	let css = '',
 		finalSelector;
-	for ( const selectorAlias in selectorsObj ) {
-		if ( selectorAlias.startsWith( 'shape-' ) ) {
-			let shapeClass = 'scb-' + selectorAlias;
-			let tempAlias = 'shape';
-			if ( selectorAlias.startsWith( 'shape-svg' ) ) {
-				shapeClass = `scb-shape${ selectorAlias.replace(
-					'shape-svg',
-					''
-				) } svg`;
-				tempAlias = 'shapeSvg';
-			}
-			finalSelector = BLOCK_SELECTOR[ blockName ][
-				tempAlias
-			].fullSelector( uidClass, shapeClass );
+	for ( const selectorAlias in selectors ) {
+		if ( isShapeAlias( selectorAlias ) ) {
+			finalSelector = shapeFinalSelector(
+				selectorAlias,
+				blockName,
+				uidClass
+			);
 		} else {
 			finalSelector = BLOCK_SELECTOR[ blockName ][
 				selectorAlias
 			].fullSelector( uidClass );
 		}
 		css += `.editor-styles-wrapper ${ finalSelector }{${ composePropValue(
-			selectorsObj[ selectorAlias ]
+			selectors[ selectorAlias ]
 		) }}`;
 	}
 	return css;
@@ -71,32 +75,37 @@ export default function composeCss( {
 	uidClass,
 	device: currentDevice,
 } ) {
-	const css = {
-		[ ALL_DEVICES ]: '',
-		[ DESKTOP_DEVICE ]: '',
-		[ TABLET_DEVICE ]: '',
-		[ MOBILE_DEVICE ]: '',
-	};
+	const css = defaultCss();
 
-	for ( const cssDevice in cssState ) {
-		css[ cssDevice ] += composeSelectors(
-			cssState[ cssDevice ],
+	for ( const device in cssState ) {
+		css[ device ] += composeSelectors(
+			cssState[ device ],
 			blockName,
 			uidClass
 		);
 	}
+	return buildMediaQueryCss( css, currentDevice );
+}
 
-	if ( currentDevice === DESKTOP_DEVICE ) {
-		return css[ ALL_DEVICES ] + css[ DESKTOP_DEVICE ];
-	} else if ( currentDevice === TABLET_DEVICE ) {
-		return (
-			css[ ALL_DEVICES ] + css[ DESKTOP_DEVICE ] + css[ TABLET_DEVICE ]
-		);
+function buildMediaQueryCss( cssState, currentDevice ) {
+	let css = cssState[ ALL_DEVICES ];
+	for ( let i = 0; i < scblocksMediaQuery.length; i++ ) {
+		if ( currentDevice === scblocksMediaQuery[ i ].name ) {
+			css += cssState[ currentDevice ];
+			return css;
+		}
+		const device = scblocksMediaQuery[ i ].name;
+		css += cssState[ device ];
 	}
-	return (
-		css[ ALL_DEVICES ] +
-		css[ DESKTOP_DEVICE ] +
-		css[ TABLET_DEVICE ] +
-		css[ MOBILE_DEVICE ]
-	);
+	return css;
+}
+
+function defaultCss() {
+	const css = {
+		[ ALL_DEVICES ]: '',
+	};
+	Object.values( scblocksMediaQuery ).forEach( ( elm ) => {
+		css[ elm.name ] = '';
+	} );
+	return css;
 }

@@ -88,12 +88,10 @@ class Column_Block {
 		$css = apply_filters(
 			'scblocks_column_default_css',
 			array(
-				'allDevices' => array(
-					'.scb-column' => array(
-						'flex: auto',
-						'overflow-wrap: break-word',
-						'word-break: break-word',
-					),
+				'.scb-column' => array(
+					'flex: auto',
+					'overflow-wrap: break-word',
+					'word-break: break-word',
 				),
 			)
 		);
