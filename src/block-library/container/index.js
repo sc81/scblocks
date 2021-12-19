@@ -43,10 +43,6 @@ export const settings = {
 			type: 'string',
 			default: 'div',
 		},
-		isRootContainer: {
-			type: 'boolean',
-			default: false,
-		},
 		shapeDividers: {
 			type: 'array',
 		},
@@ -56,6 +52,14 @@ export const settings = {
 		bgImage: {
 			type: 'object',
 			default: '',
+		},
+		align: {
+			type: 'string',
+			default: '',
+		},
+		useThemeContentWidth: {
+			type: 'boolean',
+			default: false,
 		},
 	},
 	supports: {

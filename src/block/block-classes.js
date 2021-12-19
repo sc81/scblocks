@@ -21,6 +21,7 @@ export const BLOCK_CLASSES = {
 		rootContainer: 'scb-root-container',
 		shapes: 'scb-shapes',
 		shape: 'scb-shape',
+		contentWidth: 'scb-content-width',
 	},
 	heading: {
 		main: 'scb-heading',

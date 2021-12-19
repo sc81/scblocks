@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody } from '@wordpress/components';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 
@@ -21,7 +21,6 @@ import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
 /**
  * Internal dependencies
  */
-import ContentWidth from './content-width';
 import ShapeDividerControls from './shape-divider-controls';
 import OpenShapeLibrary from './open-shape-library';
 
@@ -31,7 +30,7 @@ function getUid() {
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes, svgShapes } = props;
-	const { tag, shapeDividers } = attributes;
+	const { tag, shapeDividers, useThemeContentWidth } = attributes;
 
 	function setTag( value ) {
 		setAttributes( { tag: value } );
@@ -95,9 +94,25 @@ export default function Inspector( props ) {
 				{ ...props }
 				mainControls={ applyFilters(
 					'scblocks.container.mainControls',
-					<PanelBody opened>
-						<SelectHtmlTag value={ tag } onChange={ setTag } />
-					</PanelBody>,
+					<>
+						<PanelBody opened>
+							<SelectHtmlTag value={ tag } onChange={ setTag } />
+						</PanelBody>
+						<PanelBody opened>
+							<ToggleControl
+								label={ __(
+									'Use Theme Content Width',
+									'scblocks'
+								) }
+								checked={ useThemeContentWidth }
+								onChange={ ( value ) =>
+									setAttributes( {
+										useThemeContentWidth: value,
+									} )
+								}
+							/>
+						</PanelBody>
+					</>,
 					props
 				) }
 				htmlAttrsControls={ applyFilters(
@@ -107,7 +122,6 @@ export default function Inspector( props ) {
 					</PanelBody>,
 					props
 				) }
-				spacePanelAdditionalControls={ <ContentWidth { ...props } /> }
 				shapesPanelControls={
 					<>
 						{ svgShapes &&
