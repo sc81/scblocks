@@ -19,3 +19,4 @@ export { default as getUidForIcon } from './get-uid-for-icon';
 export { default as getIconAttrs } from './get-icon-attrs';
 export { default as URLPicker } from './url-picker';
 export { default as AlignmentToolbar } from './alignment-toolbar';
+export { default as useSelectorsSettings } from './use-selectors-settings';
