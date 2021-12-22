@@ -25,9 +25,9 @@ import {
 	useDynamicCss,
 	useBlockMemo,
 	BLOCK_CLASSES,
-	BLOCK_SELECTOR,
 	VariationsPicker,
 	getUidClass,
+	useSelectorsSettings,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -37,11 +37,13 @@ import {
 /**
  * Internal dependencies
  */
-import { COLUMNS_SELECTORS_SETTINGS } from './utils';
+import getSelectorsSettings from './utils';
 import { COLUMN_NAME } from '../column/utils';
 import Inspector from './inspector';
 
 const ALLOWED_BLOCKS = [ COLUMN_NAME ];
+
+const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
 
 export default function Edit( props ) {
 	const { attributes, clientId, setAttributes, name } = props;
@@ -66,10 +68,10 @@ export default function Edit( props ) {
 		}
 	}, [] );
 
-	const selectorsSettings = applyFilters(
-		'scblocks.columns.selectorsSettings',
-		COLUMNS_SELECTORS_SETTINGS,
-		BLOCK_SELECTOR
+	const selectorsSettings = useSelectorsSettings(
+		SELECTORS_INITIAL_SETTINGS,
+		'columns',
+		props
 	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	const style = useDynamicCss( props, devices );
