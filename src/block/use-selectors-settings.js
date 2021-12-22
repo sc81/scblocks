@@ -9,7 +9,20 @@ import { produce } from 'immer';
 import { useState } from '@wordpress/element';
 import { doAction } from '@wordpress/hooks';
 
-function getNextSettings( selectorsSettings, id, getAllowedPanels ) {
+function addSelectorSettings( settings, selectorSettings ) {
+	return [ ...settings, selectorSettings ];
+}
+
+function removeSelectorSettings( settings, id ) {
+	return produce( settings, ( draft ) => {
+		const index = draft.findIndex( ( elm ) => elm.id === id );
+		if ( index > -1 ) {
+			draft.splice( index, 1 );
+		}
+	} );
+}
+
+function setSelectorAllowedPanels( selectorsSettings, id, getAllowedPanels ) {
 	return produce( selectorsSettings, ( draft ) => {
 		const index = draft.findIndex( ( elm ) => elm.id === id );
 		if ( index > -1 ) {
@@ -30,8 +43,12 @@ export default function useSelectorsSettings(
 	doAction(
 		`scblocks.${ blockName }.selectorsSettings`,
 		settings,
-		setSettings,
-		getNextSettings,
+		{
+			setSettings,
+			addSelectorSettings,
+			removeSelectorSettings,
+			setSelectorAllowedPanels,
+		},
 		blockProps
 	);
 
