@@ -9,13 +9,10 @@ export { default as ControlsManager } from './controls-manager';
 export { default as composeCss } from './compose-css';
 export { default as useBlockMemo } from './use-block-memo';
 export { default as useDynamicCss } from './use-dynamic-css';
-export {
-	useSelectorsActivity,
-	setSelectorActivity,
-} from './use-selector-activity';
 export { default as getUidClass } from './get-uid-class';
 export { default as PasteUsedIcon } from './paste-used-icon';
 export { default as getUidForIcon } from './get-uid-for-icon';
 export { default as getIconAttrs } from './get-icon-attrs';
 export { default as URLPicker } from './url-picker';
 export { default as AlignmentToolbar } from './alignment-toolbar';
+export { default as useSelectorsSettings } from './use-selectors-settings';

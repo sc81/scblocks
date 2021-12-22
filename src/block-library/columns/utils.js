@@ -11,22 +11,24 @@ import { PLUGIN_NAME } from '@scblocks/constants';
 
 export const COLUMNS_NAME = `${ PLUGIN_NAME }/columns`;
 
-export const COLUMNS_SELECTORS_SETTINGS = [
-	{
-		label: __( 'Columns Style', 'scblocks' ),
-		id: BLOCK_SELECTOR.columns.main.alias,
-		selector: BLOCK_SELECTOR.columns.main.alias,
-		allowedPanels: {
-			space: {
-				gap: true,
-			},
-			position: {
-				alignItems: true,
-				alignContent: true,
-				justifyContent: true,
-				flexDirection: true,
-				flexWrap: true,
+export default function getSelectorsSettings() {
+	return [
+		{
+			label: __( 'Columns', 'scblocks' ),
+			id: BLOCK_SELECTOR.columns.main.alias,
+			selector: BLOCK_SELECTOR.columns.main.alias,
+			allowedPanels: {
+				space: {
+					gap: true,
+				},
+				position: {
+					alignItems: true,
+					alignContent: true,
+					justifyContent: true,
+					flexDirection: true,
+					flexWrap: true,
+				},
 			},
 		},
-	},
-];
+	];
+}

@@ -18,10 +18,10 @@ import {
 	useDynamicCss,
 	useBlockMemo,
 	BLOCK_CLASSES,
-	BLOCK_SELECTOR,
 	VariationsPicker,
 	GoogleFontsLink,
 	getUidClass,
+	useSelectorsSettings,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -32,10 +32,12 @@ import {
 /**
  * Internal dependencies
  */
-import { CONTAINER_SELECTORS_SETTINGS } from './utils';
+import getSelectorsSettings from './utils';
 import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
 import ToolbarControls from './toolbar-controls';
+
+const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
@@ -76,10 +78,10 @@ export default function Edit( props ) {
 		}
 	}, [ isDynamic, setAttributes ] );
 
-	const selectorsSettings = applyFilters(
-		'scblocks.container.selectorsSettings',
-		CONTAINER_SELECTORS_SETTINGS,
-		BLOCK_SELECTOR
+	const selectorsSettings = useSelectorsSettings(
+		SELECTORS_INITIAL_SETTINGS,
+		'container',
+		props
 	);
 
 	const style = useDynamicCss( props, devices );

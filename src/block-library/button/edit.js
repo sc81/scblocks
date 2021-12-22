@@ -18,22 +18,22 @@ import { applyFilters } from '@wordpress/hooks';
 import {
 	useDynamicCss,
 	useBlockMemo,
-	useSelectorsActivity,
-	setSelectorActivity,
 	GoogleFontsLink,
 	BLOCK_CLASSES,
-	BLOCK_SELECTOR,
 	getUidClass,
 	PasteUsedIcon,
 	URLPicker,
+	useSelectorsSettings,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
  */
-import { BUTTON_SELECTORS_SETTINGS } from './utils';
+import getSelectorsSettings from './utils';
 import Inspector from './inspector';
+
+const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
@@ -58,23 +58,15 @@ export default function Edit( props ) {
 				.toLowerCase(),
 		[]
 	);
-	const selectorsSettings = applyFilters(
-		'scblocks.button.selectorsSettings',
-		BUTTON_SELECTORS_SETTINGS,
-		BLOCK_SELECTOR
+	const selectorsSettings = useSelectorsSettings(
+		SELECTORS_INITIAL_SETTINGS,
+		'button',
+		props
 	);
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
+
 	const style = useDynamicCss( props, devices );
 
-	const selectorsActivity = useSelectorsActivity( selectorsSettings );
-
-	useEffect( () => {
-		setSelectorActivity(
-			selectorsActivity,
-			BLOCK_SELECTOR.button.icon.alias,
-			!! iconId
-		);
-	}, [ selectorsActivity, iconId ] );
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
 			setAttributes( { isDynamic: true } );
@@ -125,7 +117,6 @@ export default function Edit( props ) {
 				devices={ devices }
 				blockMemo={ blockMemo }
 				selectorsSettings={ selectorsSettings }
-				selectorsActivity={ selectorsActivity }
 			/>
 			<style>{ style }</style>
 			<GoogleFontsLink attributes={ attributes } />
