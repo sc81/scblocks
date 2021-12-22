@@ -8,7 +8,7 @@ import classnames from 'classnames';
  */
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
@@ -21,6 +21,7 @@ import {
 	VariationsPicker,
 	GoogleFontsLink,
 	getUidClass,
+	useSelectorsSettings,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -31,11 +32,13 @@ import {
 /**
  * Internal dependencies
  */
-import getContainerSelectorsSettings from './utils';
+import getSelectorsSettings from './utils';
 import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
 import { preVariations } from './variations';
 import ToolbarControls from './toolbar-controls';
+
+const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
@@ -83,27 +86,8 @@ export default function Edit( props ) {
 		[ clientId, attributes.shapeDividers ]
 	);
 
-	const [ selectorsSettings, setSelectorsSettings ] = useState(
-		getContainerSelectorsSettings()
-	);
-
 	useEffect( () => {
 		setAttributes( { isGridItem: isParentGridContainer } );
-
-		if ( ! isParentGridContainer ) {
-			setSelectorsSettings( getContainerSelectorsSettings() );
-		} else {
-			const settings = getContainerSelectorsSettings();
-			settings[ 0 ].allowedPanels.grid = {
-				gridColumn: true,
-				gridRow: true,
-				gridArea: true,
-				justifySelf: true,
-				alignSelf: true,
-				order: true,
-			};
-			setSelectorsSettings( settings );
-		}
 	}, [ isParentGridContainer, setAttributes ] );
 
 	useEffect( () => {
@@ -112,6 +96,11 @@ export default function Edit( props ) {
 		}
 	}, [ isDynamic, setAttributes ] );
 
+	const selectorsSettings = useSelectorsSettings(
+		SELECTORS_INITIAL_SETTINGS,
+		'container',
+		props
+	);
 	const style = useDynamicCss( props, devices );
 
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );

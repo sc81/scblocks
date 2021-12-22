@@ -15,12 +15,8 @@ import { PLUGIN_NAME } from '@scblocks/constants';
  */
 import Panels from './panels';
 
-function isActiveSelector( activityState, selectorId ) {
-	return activityState.current[ selectorId ];
-}
-
 export function StyleControls( props ) {
-	const { selectorsSettings, selectorsActivity, blockMemo } = props;
+	const { selectorsSettings, blockMemo } = props;
 	const [ openedPanel, setOpenedPanel ] = useState(
 		getLastActivePanel( blockMemo ).selectorPanel
 	);
@@ -34,12 +30,6 @@ export function StyleControls( props ) {
 	}
 
 	return selectorsSettings.map( ( element ) => {
-		if (
-			selectorsActivity &&
-			! isActiveSelector( selectorsActivity, element.id )
-		) {
-			return null;
-		}
 		return (
 			<div
 				key={ element.id }

@@ -2,60 +2,86 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { addAction } from '@wordpress/hooks';
+import { useEffect } from '@wordpress/element';
 
 /**
  * ScBlocks dependencies
  */
 import { BLOCK_SELECTOR } from '@scblocks/block';
-import { PLUGIN_NAME } from '@scblocks/constants';
 
-export const HEADING_BLOCK_NAME = `${ PLUGIN_NAME }/heading`;
+export const HEADING_BLOCK_NAME = 'scblocks/heading';
 
-export const HEADING_SELECTORS_SETTINGS = [
-	{
-		label: __( 'Heading Styles', 'scblocks' ),
-		id: 'heading',
-		selector: BLOCK_SELECTOR.heading.main.alias,
-		allowedPanels: {
-			colors: {
-				textColor: true,
-				backgroundColor: true,
-				borderColor: true,
-				linkColor: {
-					hasHoverControls: true,
-					selector: BLOCK_SELECTOR.heading.link.alias,
-					hoverSelector: BLOCK_SELECTOR.heading.linkHover.alias,
+export default function getSelectorsSettings() {
+	return [
+		{
+			label: __( 'Heading', 'scblocks' ),
+			id: BLOCK_SELECTOR.heading.main.alias,
+			selector: BLOCK_SELECTOR.heading.main.alias,
+			allowedPanels: {
+				colors: {
+					textColor: true,
+					backgroundColor: true,
+					borderColor: true,
+					linkColor: {
+						hasHoverControls: true,
+						selector: BLOCK_SELECTOR.heading.link.alias,
+						hoverSelector: BLOCK_SELECTOR.heading.linkHover.alias,
+					},
+					highlightText: {
+						selector: BLOCK_SELECTOR.heading.highlightText.alias,
+					},
 				},
-				highlightText: {
-					selector: BLOCK_SELECTOR.heading.highlightText.alias,
+				typography: true,
+				border: true,
+				space: {
+					padding: true,
+					margin: true,
 				},
-			},
-			typography: true,
-			border: true,
-			space: {
-				padding: true,
-				margin: true,
-			},
-			position: {
-				flexDirection: true,
-				alignItems: true,
-				justifyContent: true,
+				position: {
+					flexDirection: true,
+					alignItems: true,
+					justifyContent: true,
+				},
 			},
 		},
-	},
-	{
-		label: __( 'Icon Styles', 'scblocks' ),
-		id: 'icon',
-		selector: BLOCK_SELECTOR.heading.icon.alias,
-		allowedPanels: {
-			colors: {
-				iconColor: true,
-			},
-			space: {
-				fontSize: true,
-				padding: true,
-			},
-		},
-		isActive: false,
-	},
-];
+	];
+}
+
+function useToggleIconControls(
+	settings,
+	{ setSettings, addSelectorSettings, removeSelectorSettings },
+	{ attributes: { iconId } }
+) {
+	useEffect( () => {
+		let nextSettings;
+		if ( iconId ) {
+			nextSettings = addSelectorSettings( settings, {
+				label: __( 'Icon', 'scblocks' ),
+				id: BLOCK_SELECTOR.heading.icon.alias,
+				selector: BLOCK_SELECTOR.heading.icon.alias,
+				allowedPanels: {
+					colors: {
+						iconColor: true,
+					},
+					space: {
+						fontSize: true,
+						padding: true,
+					},
+				},
+			} );
+		} else {
+			nextSettings = removeSelectorSettings(
+				settings,
+				BLOCK_SELECTOR.heading.icon.alias
+			);
+		}
+		setSettings( nextSettings );
+	}, [ iconId ] );
+}
+
+addAction(
+	'scblocks.heading.selectorsSettings',
+	'scblocks',
+	useToggleIconControls
+);
