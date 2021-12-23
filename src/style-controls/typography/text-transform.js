@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
 export default function TextTransform( { value, onChange } ) {
 	return (
 		<SelectControl
-			label={ __( 'Transform', 'scblocks' ) }
+			label={ __( 'Text Transform', 'scblocks' ) }
 			value={ value }
 			options={ [
 				{ label: __( 'Default', 'scblocks' ), value: '' },

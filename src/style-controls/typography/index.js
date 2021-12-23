@@ -39,11 +39,18 @@ export default function Typography( props ) {
 		fontWeight,
 		textDecoration,
 		fontStyle,
+		fontFamily,
 	} = getPropertiesValue( {
 		attributes,
 		devices: ALL_DEVICES,
 		selector,
-		props: [ 'textTransform', 'fontWeight', 'textDecoration', 'fontStyle' ],
+		props: [
+			'textTransform',
+			'fontWeight',
+			'textDecoration',
+			'fontStyle',
+			'fontFamily',
+		],
 	} );
 	const {
 		fontSize,
@@ -96,7 +103,23 @@ export default function Typography( props ) {
 					} )
 				}
 			/>
-			<FontFamily { ...props } />
+			<FontFamily
+				value={ fontFamily }
+				onChange={ ( value ) =>
+					onChange( {
+						value,
+						propName: 'fontFamily',
+						devices: ALL_DEVICES,
+					} )
+				}
+				onClear={ () =>
+					onChange( {
+						value: '',
+						propName: 'fontFamily',
+						devices: ALL_DEVICES,
+					} )
+				}
+			/>
 			<TextTransform
 				value={ textTransform }
 				onChange={ ( value ) =>
