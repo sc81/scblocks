@@ -119,7 +119,7 @@ export default function Edit( props ) {
 		<>
 			<style>{ style }</style>
 			<ToolbarControls { ...props } devices={ devices } />
-			<GoogleFontsLink attributes={ attributes } />
+			<GoogleFontsLink clientId={ clientId } />
 			<Inspector
 				{ ...props }
 				devices={ devices }

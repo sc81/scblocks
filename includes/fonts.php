@@ -8,22 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Fonts {
 
 	/**
-	 * An array of blocks attributes.
-	 *
-	 * @var array
-	 */
-	private $blocks_attr;
-
-	/**
-	 * Constructor
-	 *
-	 * @param array $blocks_attr An array of blocks attributes.
-	 */
-	public function __construct( array $blocks_attr = array() ) {
-		$this->blocks_attr = $blocks_attr;
-	}
-
-	/**
 	 * Register actions.
 	 */
 	public function register_actions() {
@@ -38,8 +22,30 @@ class Fonts {
 			'scblocks/v1',
 			'/google-fonts',
 			array(
-				'methods'             => 'GET',
+				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_google_fonts_list' ),
+				'permission_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+		register_rest_route(
+			'scblocks/v1',
+			'/site-google-fonts',
+			array(
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_site_google_fonts' ),
+				'permission_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+		register_rest_route(
+			'scblocks/v1',
+			'/set-site-google-fonts',
+			array(
+				'methods'             => \WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'set_site_google_fonts' ),
 				'permission_callback' => function () {
 					return current_user_can( 'edit_posts' );
 				},
@@ -55,62 +61,68 @@ class Fonts {
 	}
 
 	/**
-	 * Gets the google fonts from blocks attributes
+	 * Get Google Fonts for the site.
+	 *
+	 * @since 1.3.0
+	 */
+	public function get_site_google_fonts() {
+		return rest_ensure_response( Plugin::option( 'google_fonts' ) );
+	}
+
+	public function set_site_google_fonts( \WP_REST_Request $request ) {
+		$fonts = $request->get_param( 'fonts' );
+
+		$settings = Plugin::options();
+
+		$settings['google_fonts'] = $fonts;
+
+		Plugin::update_options( $settings );
+	}
+
+	/**
+	 * Get google fonts data.
 	 *
 	 * @return array
 	 */
 	public function get_google_fonts_data() : array {
-		if ( empty( $this->blocks_attr ) ) {
-			return array();
-		}
-		$fonts         = array();
-		$font_variants = array();
+		$fonts_data = Plugin::option( 'google_fonts' );
 
-		foreach ( $this->blocks_attr as $block_data ) {
-			foreach ( $block_data as $block ) {
-				if ( isset( $block['googleFont'] ) && isset( $block['fontFamily'] ) ) {
-					$font_family           = $block['fontFamily'];
-					$fonts[ $font_family ] = true;
+		$fonts = array();
 
-					$variants = $block['googleFontVariants'];
+		foreach ( $fonts_data as $font_data ) {
+			foreach ( $font_data as $font ) {
+				if ( isset( $font['name'] ) ) {
+					$fonts[ $font['name'] ] = array();
 
-					if ( $variants ) {
-						$variants = explode( ',', $variants );
-						$variants = array_flip( $variants );
-
-						if ( ! empty( $font_variants[ $font_family ] ) ) {
-							$font_variants[ $font_family ] = $font_variants[ $font_family ] + $variants;
-						} else {
-							$font_variants[ $font_family ] = $variants;
-						}
+					if ( isset( $font['variants'] ) ) {
+						$fonts[ $font['name'] ] = $font['variants'];
 					}
 				}
 			}
 		}
-		return array(
-			'fonts'    => $fonts,
-			'variants' => $font_variants,
-		);
+		return $fonts;
 	}
 
 	/**
-	 * Build the Google Font request URI from blocks attributes.
+	 * Build the Google Font request URI.
 	 *
 	 * @return string URI to Google fonts
 	 */
 	public function build_google_fonts_uri() : string {
 		$fonts_data = $this->get_google_fonts_data();
 
-		if ( empty( $fonts_data ) || empty( $fonts_data['fonts'] ) ) {
+		if ( empty( $fonts_data ) ) {
 			return '';
 		}
 		$data = array();
 
-		foreach ( $fonts_data['fonts'] as $font_family => $value ) {
-			if ( ! empty( $fonts_data['variants'] ) && ! empty( $fonts_data['variants'][ $font_family ] ) ) {
-				$data[] = $font_family . ':' . implode( ',', array_keys( $fonts_data['variants'][ $font_family ] ) );
-			} else {
-				$data[] = $font_family;
+		foreach ( $fonts_data as $font ) {
+			foreach ( $font as $name => $variants ) {
+				if ( ! empty( $variants ) ) {
+					$data[] = $name . ':' . implode( ',', $variants );
+				} else {
+					$data[] = $name;
+				}
 			}
 		}
 		$args = array(
@@ -119,5 +131,19 @@ class Fonts {
 		);
 
 		return add_query_arg( $args, 'https://fonts.googleapis.com/css' );
+	}
+
+	public function google_fonts_css() : string {
+		$fonts_data = $this->get_google_fonts_data();
+		$css        = '';
+		foreach ( $fonts_data as $id => $font ) {
+			if ( ! empty( $font['name'] ) ) {
+				$css .= '--scblocks-' . $id . '-google-font:' . $font['name'] . ';';
+			}
+		}
+		if ( $css ) {
+			$css .= 'root:{' . $css . '}';
+		}
+		return $css;
 	}
 }

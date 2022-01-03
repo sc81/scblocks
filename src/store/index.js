@@ -11,6 +11,7 @@ import { STORE_NAME, PLUGIN_NAME } from '@scblocks/constants';
 
 const DEFAULT_STATE = {
 	imageUrls: {},
+	siteGoogleFonts: {},
 };
 
 const actions = {
@@ -57,6 +58,18 @@ const actions = {
 			imageUrls: urls,
 		};
 	},
+	setGoogleFonts( fonts ) {
+		return {
+			type: 'SET_GOOGLE_FONTS',
+			fonts,
+		};
+	},
+	setSiteGoogleFonts( fonts ) {
+		return {
+			type: 'SET_SITE_GOOGLE_FONTS',
+			fonts,
+		};
+	},
 };
 
 registerStore( STORE_NAME, {
@@ -98,6 +111,16 @@ registerStore( STORE_NAME, {
 						...action.imageUrls,
 					},
 				};
+			case 'SET_GOOGLE_FONTS':
+				return {
+					...state,
+					googleFonts: { ...action.fonts },
+				};
+			case 'SET_SITE_GOOGLE_FONTS':
+				return {
+					...state,
+					siteGoogleFonts: { ...action.fonts },
+				};
 		}
 
 		return state;
@@ -122,6 +145,12 @@ registerStore( STORE_NAME, {
 			}
 
 			return {};
+		},
+		getGoogleFonts( state ) {
+			return state.googleFonts;
+		},
+		getSiteGoogleFonts( state ) {
+			return state.siteGoogleFonts;
 		},
 	},
 	controls: {
@@ -164,6 +193,17 @@ registerStore( STORE_NAME, {
 			const path = `/scblocks/v1/image-data/${ id }`;
 			const urls = yield actions.fetchFromAPI( path );
 			return actions.setImageUrls( urls );
+		},
+		*getGoogleFonts() {
+			const path = '/scblocks/v1/google-fonts';
+			const fonts = yield actions.fetchFromAPI( path );
+			return actions.setGoogleFonts( JSON.parse( fonts ) );
+		},
+		*getSiteGoogleFonts() {
+			const path = '/scblocks/v1/site-google-fonts';
+			const fonts = yield actions.fetchFromAPI( path );
+
+			return actions.setSiteGoogleFonts( fonts );
 		},
 	},
 } );

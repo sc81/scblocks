@@ -3,41 +3,41 @@
  */
 
 import { useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
 
 /**
  * ScBlocks dependencies
  */
 import { STORE_NAME } from '@scblocks/constants';
 
-let id = 0;
-let previousUrl;
+let style;
+let link;
 
 const urlPrefix = 'https://fonts.googleapis.com/css?family=';
 
-export default function GoogleFontsLink( { clientId } ) {
+export default function useGoogleFonts() {
 	const siteGoogleFonts = useSelect( ( store ) => {
 		return store( STORE_NAME ).getSiteGoogleFonts();
 	}, [] );
-	const [ url, setUrl ] = useState();
-	const [ css, setCss ] = useState();
-
-	useEffect(
-		() => () => {
-			id = 0;
-		},
-		[]
-	);
 
 	useEffect( () => {
-		let tempCss = '';
+		if ( ! style ) {
+			style = document.createElement( 'style' );
+			document.head.appendChild( style );
+		}
+		if ( ! link ) {
+			link = document.createElement( 'link' );
+			link.setAttribute( 'rel', 'stylesheet' );
+			document.head.appendChild( link );
+		}
+		let css = '';
 		const fonts = [];
 		if ( siteGoogleFonts ) {
 			Object.keys( siteGoogleFonts ).forEach( ( font ) => {
 				const name = siteGoogleFonts[ font ].name;
 				const variants = siteGoogleFonts[ font ].variants;
 				if ( name ) {
-					tempCss += `--scblocks-${ font }-google-font:${ name };`;
+					css += `--scblocks-${ font }-google-font:${ name };`;
 
 					let fontRequest = name;
 					if ( variants && variants.length ) {
@@ -47,35 +47,16 @@ export default function GoogleFontsLink( { clientId } ) {
 				}
 			} );
 		}
-		if ( tempCss ) {
-			tempCss = `:root{${ tempCss }}`;
+		if ( css ) {
+			css = `:root{${ css }}`;
 		}
-		setCss( tempCss );
-
 		const suffix = fonts.join( '|' );
-
-		let tempUrl = '';
+		let url = '';
 		if ( suffix ) {
-			tempUrl = urlPrefix + suffix;
-			if ( previousUrl !== tempUrl ) {
-				id = 0;
-				previousUrl = tempUrl;
-			}
-		} else {
-			id = 0;
+			url = urlPrefix + suffix;
 		}
-		setUrl( tempUrl );
+		link.setAttribute( 'href', url );
+
+		style.textContent = css;
 	}, [ siteGoogleFonts ] );
-
-	if ( ! url || ( id !== 0 && id !== clientId ) ) {
-		return null;
-	}
-	id = clientId;
-
-	return (
-		<>
-			<link rel="stylesheet" href={ url } />
-			<style>{ css }</style>
-		</>
-	);
 }

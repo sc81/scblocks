@@ -119,7 +119,7 @@ export default function Edit( props ) {
 				selectorsSettings={ selectorsSettings }
 			/>
 			<style>{ style }</style>
-			<GoogleFontsLink attributes={ attributes } />
+			<GoogleFontsLink clientId={ clientId } />
 			{ /* eslint-disable  jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */ }
 			<Tag { ...blockProps } onClick={ ( e ) => e.preventDefault() }>
 				<PasteUsedIcon

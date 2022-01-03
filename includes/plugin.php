@@ -63,6 +63,7 @@ class Plugin {
 				'used_icons_post_id'          => '',
 				'wide_content_max_width'      => '1240px',
 				'content_max_width'           => '610px',
+				'google_fonts'                => array(),
 			)
 		);
 	}
