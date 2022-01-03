@@ -37,7 +37,7 @@ export default function GoogleFontsLink( { clientId } ) {
 				const name = siteGoogleFonts[ font ].name;
 				const variants = siteGoogleFonts[ font ].variants;
 				if ( name ) {
-					tempCss += `--scblocks-${ font }-google-font:${ name };`;
+					tempCss += `--scblocks-${ font }-google-font:'${ name }';`;
 
 					let fontRequest = name;
 					if ( variants && variants.length ) {

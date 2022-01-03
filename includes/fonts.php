@@ -156,7 +156,7 @@ class Fonts {
 		$css = '';
 		foreach ( $fonts_data as $id => $font ) {
 			if ( ! empty( $font['name'] ) ) {
-				$css .= '--scblocks-' . $id . '-google-font:' . $font['name'] . ';';
+				$css .= '--scblocks-' . $id . "-google-font:'" . $font['name'] . "';";
 			}
 		}
 		if ( $css ) {
