@@ -191,8 +191,8 @@ class Block_Assets {
 	 * @return void
 	 */
 	public function google_fonts() {
-		$block_css = new Block_Css();
-		$uri       = $block_css->google_fonts_uri();
+		$fonts = new Fonts();
+		$uri   = $fonts->build_google_fonts_uri();
 		if ( $uri ) {
 			wp_enqueue_style( 'scblocks-google-fonts', $uri, array(), null );// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		}
