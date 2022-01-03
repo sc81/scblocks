@@ -13,6 +13,7 @@ class Fonts {
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_route' ) );
 		add_filter( 'scblocks_initial_css', array( $this, 'google_fonts_css' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'print_google_fonts_link' ) );
 	}
 
 	/**
@@ -163,5 +164,19 @@ class Fonts {
 			$initial_css = $css . $initial_css;
 		}
 		return $initial_css;
+	}
+
+	/**
+	 * Print link to google fonts.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return void
+	 */
+	public function print_google_fonts_link() {
+		$uri = $this->build_google_fonts_uri();
+		if ( $uri ) {
+			wp_enqueue_style( 'scblocks-google-fonts', $uri, array(), null );// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+		}
 	}
 }

@@ -147,7 +147,6 @@ class Block_Assets {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'css_from_file' ), $dynamic_css_priority );
 		add_action( 'wp_head', array( $this, 'print_inline_css' ), $dynamic_css_priority );
-		add_action( 'wp_enqueue_scripts', array( $this, 'google_fonts' ) );
 	}
 
 	/**
@@ -180,21 +179,6 @@ class Block_Assets {
 				'<style id="scblocks-css">%s</style>',
 				wp_strip_all_tags( $inline_css ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
-		}
-	}
-
-	/**
-	 * Enqueue google fonts uri
-	 *
-	 * @since 1.1.0
-	 *
-	 * @return void
-	 */
-	public function google_fonts() {
-		$fonts = new Fonts();
-		$uri   = $fonts->build_google_fonts_uri();
-		if ( $uri ) {
-			wp_enqueue_style( 'scblocks-google-fonts', $uri, array(), null );// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		}
 	}
 }
