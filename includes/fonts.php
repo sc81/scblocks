@@ -33,22 +33,20 @@ class Fonts {
 			'scblocks/v1',
 			'/site-google-fonts',
 			array(
-				'methods'             => \WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_site_google_fonts' ),
-				'permission_callback' => function () {
-					return current_user_can( 'edit_posts' );
-				},
-			)
-		);
-		register_rest_route(
-			'scblocks/v1',
-			'/set-site-google-fonts',
-			array(
-				'methods'             => \WP_REST_Server::EDITABLE,
-				'callback'            => array( $this, 'set_site_google_fonts' ),
-				'permission_callback' => function () {
-					return current_user_can( 'edit_posts' );
-				},
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_site_google_fonts' ),
+					'permission_callback' => function () {
+						return current_user_can( 'edit_posts' );
+					},
+				),
+				array(
+					'methods'             => \WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'set_site_google_fonts' ),
+					'permission_callback' => function () {
+						return current_user_can( 'edit_posts' );
+					},
+				),
 			)
 		);
 	}

@@ -55,7 +55,7 @@ export default function GoogleFonts() {
 		setNotice( noticeText.saving );
 
 		apiFetch( {
-			path: '/scblocks/v1/set-site-google-fonts',
+			path: '/scblocks/v1/site-google-fonts',
 			method: 'POST',
 			data: { fonts: prepareFonts( siteGoogleFonts ) },
 		} )
