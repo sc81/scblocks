@@ -76,7 +76,7 @@ class Fonts {
 
 		$settings['google_fonts'] = $fonts;
 
-		Plugin::update_options( $settings );
+		return rest_ensure_response( Plugin::update_options( $settings ) );
 	}
 
 	/**

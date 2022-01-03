@@ -10,7 +10,9 @@ export default function Font( {
 	label,
 	googleFonts,
 } ) {
-	const [ tempValue, setTempValue ] = useState( fontData.name );
+	const [ tempName, setTempName ] = useState( fontData.name );
+	const currentName = fontData.name || tempName;
+
 	function setFont( value ) {
 		const next = {};
 		if ( googleFonts[ value ] ) {
@@ -20,7 +22,7 @@ export default function Font( {
 				next.variants = [ ...fontData.variants ];
 			}
 		}
-		setTempValue( value );
+		setTempName( value );
 		setFontData( next );
 	}
 	function setVariant( name, value ) {
@@ -42,7 +44,7 @@ export default function Font( {
 		<>
 			<TextControl
 				label={ label }
-				value={ tempValue }
+				value={ currentName }
 				onChange={ setFont }
 			/>
 			{ googleFonts &&
