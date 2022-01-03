@@ -62,7 +62,7 @@ class Fonts {
 	}
 
 	/**
-	 * Get Google Fonts for the site.
+	 * Get google fonts from options.
 	 *
 	 * @since 1.3.0
 	 * @return \WP_REST_Response|\WP_Error
