@@ -12,6 +12,7 @@ class Fonts {
 	 */
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_route' ) );
+		add_filter( 'scblocks_initial_css', array( $this, 'google_fonts_css' ) );
 	}
 
 	/**
@@ -52,6 +53,8 @@ class Fonts {
 	}
 	/**
 	 * Gets the google fonts.
+	 *
+	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function get_google_fonts_list() {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/google-fonts.php';
@@ -62,11 +65,21 @@ class Fonts {
 	 * Get Google Fonts for the site.
 	 *
 	 * @since 1.3.0
+	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function get_site_google_fonts() {
 		return rest_ensure_response( Plugin::option( 'google_fonts' ) );
 	}
 
+	/**
+	 * Save fonts in options.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_REST_Response|\WP_Error
+	 */
 	public function set_site_google_fonts( \WP_REST_Request $request ) {
 		$fonts = $request->get_param( 'fonts' );
 
@@ -87,14 +100,12 @@ class Fonts {
 
 		$fonts = array();
 
-		foreach ( $fonts_data as $font_data ) {
-			foreach ( $font_data as $font ) {
-				if ( isset( $font['name'] ) ) {
-					$fonts[ $font['name'] ] = array();
+		foreach ( $fonts_data as $id => $font ) {
+			if ( isset( $font['name'] ) ) {
+				$fonts[ $id ]['name'] = $font['name'];
 
-					if ( isset( $font['variants'] ) ) {
-						$fonts[ $font['name'] ] = $font['variants'];
-					}
+				if ( isset( $font['variants'] ) ) {
+					$fonts[ $id ]['variants'] = $font['variants'];
 				}
 			}
 		}
@@ -115,12 +126,10 @@ class Fonts {
 		$data = array();
 
 		foreach ( $fonts_data as $font ) {
-			foreach ( $font as $name => $variants ) {
-				if ( ! empty( $variants ) ) {
-					$data[] = $name . ':' . implode( ',', $variants );
-				} else {
-					$data[] = $name;
-				}
+			if ( ! empty( $font['variants'] ) ) {
+				$data[] = $font['name'] . ':' . implode( ',', $font['variants'] );
+			} else {
+				$data[] = $font['name'];
 			}
 		}
 		$args = array(
@@ -131,17 +140,28 @@ class Fonts {
 		return add_query_arg( $args, 'https://fonts.googleapis.com/css' );
 	}
 
-	public function google_fonts_css() : string {
+	/**
+	 * Print font names as CSS variables.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $initial_css
+	 *
+	 * @return string CSS.
+	 */
+	public function google_fonts_css( string $initial_css ) : string {
 		$fonts_data = $this->get_google_fonts_data();
-		$css        = '';
+
+		$css = '';
 		foreach ( $fonts_data as $id => $font ) {
 			if ( ! empty( $font['name'] ) ) {
 				$css .= '--scblocks-' . $id . '-google-font:' . $font['name'] . ';';
 			}
 		}
 		if ( $css ) {
-			$css .= 'root:{' . $css . '}';
+			$css         = ':root{' . $css . '}';
+			$initial_css = $css . $initial_css;
 		}
-		return $css;
+		return $initial_css;
 	}
 }
