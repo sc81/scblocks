@@ -155,7 +155,7 @@ class Fonts {
 				}
 			}
 		}
-		return $fonts;
+		return apply_filters( 'scblocks_google_fonts', $fonts );
 	}
 
 	/**
