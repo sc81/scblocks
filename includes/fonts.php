@@ -183,7 +183,7 @@ class Fonts {
 			'display' => 'swap',
 		);
 
-		return add_query_arg( $args, 'https://fonts.googleapis.com/css' );
+		return esc_url( add_query_arg( $args, 'https://fonts.googleapis.com/css' ) );
 	}
 
 	/**
