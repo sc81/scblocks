@@ -178,9 +178,12 @@ class Fonts {
 				$data[] = $font['name'];
 			}
 		}
-		$args = array(
-			'family'  => implode( '|', $data ),
-			'display' => 'swap',
+		$args = apply_filters(
+			'scblocks_google_fonts_link_args',
+			array(
+				'family'  => implode( '|', $data ),
+				'display' => 'swap',
+			)
 		);
 
 		return esc_url( add_query_arg( $args, 'https://fonts.googleapis.com/css' ) );
