@@ -142,20 +142,33 @@ class Fonts {
 	 * @return array
 	 */
 	public function get_google_fonts_data() : array {
-		$fonts_data = Plugin::option( 'google_fonts' );
+		$fonts = Plugin::option( 'google_fonts' );
 
-		$fonts = array();
+		return apply_filters( 'scblocks_google_fonts', $this->extract_fonts_data( $fonts ) );
+	}
 
-		foreach ( $fonts_data as $id => $font ) {
-			if ( isset( $font['name'] ) ) {
-				$fonts[ $id ]['name'] = $font['name'];
+	/**
+	 * Extract fonts data.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $fonts
+	 *
+	 * @return array
+	 */
+	public function extract_fonts_data( array $fonts ) : array {
+		$data = array();
+
+		foreach ( $fonts as $id => $font ) {
+			if ( ! empty( $font['name'] ) ) {
+				$data[ $id ]['name'] = $font['name'];
 
 				if ( isset( $font['variants'] ) ) {
-					$fonts[ $id ]['variants'] = $font['variants'];
+					$data[ $id ]['variants'] = $font['variants'];
 				}
 			}
 		}
-		return apply_filters( 'scblocks_google_fonts', $fonts );
+		return $data;
 	}
 
 	/**
@@ -203,9 +216,7 @@ class Fonts {
 
 		$css = '';
 		foreach ( $fonts_data as $id => $font ) {
-			if ( ! empty( $font['name'] ) ) {
-				$css .= '--scblocks-' . $id . "-google-font:'" . $font['name'] . "';";
-			}
+			$css .= '--scblocks-' . $id . "-google-font:'" . $font['name'] . "';";
 		}
 		if ( $css ) {
 			$css         = ':root{' . $css . '}';
