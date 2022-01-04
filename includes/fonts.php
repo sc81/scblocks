@@ -17,7 +17,7 @@ class Fonts {
 	}
 
 	/**
-	 * Registers a REST API route for Google fonts.
+	 * Registers a REST API route.
 	 */
 	public function register_route() {
 		register_rest_route(
@@ -48,10 +48,52 @@ class Fonts {
 					'permission_callback' => function () {
 						return current_user_can( 'edit_posts' );
 					},
+					'args'                => array(
+						'fonts' => array(
+							'sanitize_callback' => array( $this, 'sanitize' ),
+						),
+					),
 				),
 			)
 		);
 	}
+
+	/**
+	 * Sanitize google fonts data.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param mixed $fonts
+	 *
+	 * @return array
+	 */
+	public function sanitize( $fonts ) : array {
+		if ( ! is_array( $fonts ) || empty( $fonts ) ) {
+			return array();
+		}
+		$next_fonts = array();
+		foreach ( $fonts as $id => $font ) {
+			if ( in_array( $id, array( 'primary', 'secondary', 'tertiary' ), true )
+			&&
+			is_array( $font )
+			&&
+			isset( $font['name'] )
+			&&
+			is_string( $font['name'] ) ) {
+				$next_fonts[ $id ]['name'] = sanitize_text_field( $font['name'] );
+
+				if ( isset( $font['variants'] ) && is_array( $font['variants'] ) ) {
+					foreach ( $font['variants'] as $variant ) {
+						if ( is_string( $variant ) ) {
+							$next_fonts[ $id ]['variants'][] = sanitize_text_field( $variant );
+						}
+					}
+				}
+			}
+		}
+		return $next_fonts;
+	}
+
 	/**
 	 * Gets the google fonts.
 	 *
@@ -86,8 +128,11 @@ class Fonts {
 
 		$settings = Plugin::options();
 
-		$settings['google_fonts'] = $fonts;
-
+		if ( empty( $fonts ) ) {
+			unset( $settings['google_fonts'] );
+		} else {
+			$settings['google_fonts'] = $fonts;
+		}
 		return rest_ensure_response( Plugin::update_options( $settings ) );
 	}
 
