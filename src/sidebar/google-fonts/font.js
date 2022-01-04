@@ -47,20 +47,24 @@ export default function Font( {
 				value={ currentName }
 				onChange={ setFont }
 			/>
-			{ googleFonts &&
-				googleFonts[ fontData.name ] &&
-				googleFonts[ fontData.name ].variants.map( ( variant ) => {
-					return (
-						<CheckboxControl
-							key={ variant }
-							label={ variant }
-							checked={ fontData.variants?.includes( variant ) }
-							onChange={ ( value ) =>
-								setVariant( variant, value )
-							}
-						/>
-					);
-				} ) }
+			<div className="scblocks-google-font-variants">
+				{ googleFonts &&
+					googleFonts[ fontData.name ] &&
+					googleFonts[ fontData.name ].variants.map( ( variant ) => {
+						return (
+							<CheckboxControl
+								key={ variant }
+								label={ variant }
+								checked={ fontData.variants?.includes(
+									variant
+								) }
+								onChange={ ( value ) =>
+									setVariant( variant, value )
+								}
+							/>
+						);
+					} ) }
+			</div>
 		</>
 	);
 }
