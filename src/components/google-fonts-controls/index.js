@@ -8,7 +8,11 @@ import { __ } from '@wordpress/i18n';
  */
 import Font from './font';
 
-export default function Fonts( { fontsData = {}, googleFonts, setFontsData } ) {
+export default function GoogleFontsControls( {
+	fontsData = {},
+	googleFonts,
+	setFontsData,
+} ) {
 	function setFontData( name, value ) {
 		setFontsData( {
 			...fontsData,

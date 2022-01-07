@@ -16,3 +16,4 @@ export { default as SyncControls } from './sync-controls';
 export { default as sanitizeSvg } from './sanitize-svg';
 export { default as propertyService } from './property-service';
 export { default as SaveButton } from './save-button';
+export { default as GoogleFontsControls } from './google-fonts-controls';

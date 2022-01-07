@@ -14,12 +14,7 @@ import apiFetch from '@wordpress/api-fetch';
  * ScBlocks dependencies
  */
 import { STORE_NAME } from '@scblocks/constants';
-import { SaveButton } from '@scblocks/components';
-
-/**
- * Internal dependencies
- */
-import Fonts from './fonts';
+import { GoogleFontsControls, SaveButton } from '@scblocks/components';
 
 const noticeText = {
 	saving: __( 'Saving…', 'scblocks' ),
@@ -83,7 +78,7 @@ export default function GoogleFonts() {
 			{ applyFilters(
 				'scblocks.sidebar.googleFonts',
 				<>
-					<Fonts
+					<GoogleFontsControls
 						fontsData={ siteGoogleFonts }
 						googleFonts={ googleFonts }
 						setFontsData={ setFontsData }
@@ -97,8 +92,7 @@ export default function GoogleFonts() {
 						onClick={ () => save() }
 						notice={ notice }
 					/>
-				</>,
-				googleFonts
+				</>
 			) }
 		</PanelBody>
 	);
