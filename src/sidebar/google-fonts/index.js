@@ -78,23 +78,27 @@ export default function GoogleFonts() {
 		<PanelBody title={ __( 'Google Fonts', 'scblocks' ) }>
 			{ applyFilters(
 				'scblocks.sidebar.googleFonts',
-				<Fonts
-					fontsData={ siteGoogleFonts }
-					googleFonts={ googleFonts }
-					setFontsData={ setFontsData }
-				/>,
+				<>
+					<Fonts
+						fontsData={ siteGoogleFonts }
+						googleFonts={ googleFonts }
+						setFontsData={ setFontsData }
+					/>
+					<Button
+						disabled={ isSaving || isEmpty( siteGoogleFonts ) }
+						isPrimary
+						onClick={ () => save() }
+					>
+						{ __( 'Save', 'scblocks' ) }
+					</Button>
+					<div className={ notice ? '' : 'display-none' }>
+						{ notice }
+					</div>
+				</>,
 				googleFonts,
 				siteGoogleFonts,
 				Fonts
 			) }
-			<Button
-				disabled={ isSaving || isEmpty( siteGoogleFonts ) }
-				isPrimary
-				onClick={ () => save() }
-			>
-				{ __( 'Save', 'scblocks' ) }
-			</Button>
-			<div className={ notice ? '' : 'display-none' }>{ notice }</div>
 		</PanelBody>
 	);
 }
