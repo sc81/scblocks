@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { PanelBody, Button } from '@wordpress/components';
+import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { dispatch, useSelect } from '@wordpress/data';
@@ -14,6 +14,7 @@ import apiFetch from '@wordpress/api-fetch';
  * ScBlocks dependencies
  */
 import { STORE_NAME } from '@scblocks/constants';
+import { SaveButton } from '@scblocks/components';
 
 /**
  * Internal dependencies
@@ -87,26 +88,17 @@ export default function GoogleFonts() {
 						googleFonts={ googleFonts }
 						setFontsData={ setFontsData }
 					/>
-					<div className="scblocks-site-google-fonts-save">
-						<Button
-							disabled={
-								isSaving ||
-								isEmpty( siteGoogleFonts ) ||
-								! isModified
-							}
-							isPrimary
-							onClick={ () => save() }
-						>
-							{ __( 'Save', 'scblocks' ) }
-						</Button>
-						<div className={ notice ? '' : 'display-none' }>
-							{ notice }
-						</div>
-					</div>
+					<SaveButton
+						isDisabled={
+							isSaving ||
+							isEmpty( siteGoogleFonts ) ||
+							! isModified
+						}
+						onClick={ () => save() }
+						notice={ notice }
+					/>
 				</>,
-				googleFonts,
-				siteGoogleFonts,
-				Fonts
+				googleFonts
 			) }
 		</PanelBody>
 	);
