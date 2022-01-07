@@ -87,19 +87,21 @@ export default function GoogleFonts() {
 						googleFonts={ googleFonts }
 						setFontsData={ setFontsData }
 					/>
-					<Button
-						disabled={
-							isSaving ||
-							isEmpty( siteGoogleFonts ) ||
-							! isModified
-						}
-						isPrimary
-						onClick={ () => save() }
-					>
-						{ __( 'Save', 'scblocks' ) }
-					</Button>
-					<div className={ notice ? '' : 'display-none' }>
-						{ notice }
+					<div className="scblocks-site-google-fonts-save">
+						<Button
+							disabled={
+								isSaving ||
+								isEmpty( siteGoogleFonts ) ||
+								! isModified
+							}
+							isPrimary
+							onClick={ () => save() }
+						>
+							{ __( 'Save', 'scblocks' ) }
+						</Button>
+						<div className={ notice ? '' : 'display-none' }>
+							{ notice }
+						</div>
 					</div>
 				</>,
 				googleFonts,
