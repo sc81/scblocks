@@ -45,9 +45,11 @@ export default function GoogleFonts() {
 	}, [] );
 	const [ isSaving, setIsSaving ] = useState( false );
 	const [ notice, setNotice ] = useState( '' );
+	const [ isModified, setIsModified ] = useState( false );
 
 	function setFontsData( value ) {
 		dispatch( STORE_NAME ).setSiteGoogleFonts( value );
+		setIsModified( true );
 	}
 
 	function save() {
@@ -63,6 +65,7 @@ export default function GoogleFonts() {
 				setIsSaving( false );
 				setNotice( noticeText.saved );
 				hideNotice();
+				setIsModified( false );
 			} )
 			.catch( () => {
 				setIsSaving( false );
@@ -85,7 +88,11 @@ export default function GoogleFonts() {
 						setFontsData={ setFontsData }
 					/>
 					<Button
-						disabled={ isSaving || isEmpty( siteGoogleFonts ) }
+						disabled={
+							isSaving ||
+							isEmpty( siteGoogleFonts ) ||
+							! isModified
+						}
 						isPrimary
 						onClick={ () => save() }
 					>
