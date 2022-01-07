@@ -3,6 +3,7 @@
  */
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 import { registerPlugin } from '@wordpress/plugins';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * ScBlocks dependencies
@@ -22,7 +23,9 @@ function Sidebar() {
 				title="ScBlocks"
 				icon="admin-settings"
 			>
+				{ applyFilters( 'scblocks.sidebar.afterOpen' ) }
 				<GoogleFonts />
+				{ applyFilters( 'scblocks.sidebar.beforeClose' ) }
 			</PluginSidebar>
 			<PluginSidebarMoreMenuItem target={ PLUGIN_NAME }>
 				{ 'ScBlocks' }
