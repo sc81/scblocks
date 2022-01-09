@@ -182,7 +182,7 @@ class Options {
 	}
 
 	/**
-	 * Update Settings.
+	 * Update options.
 	 *
 	 * @since 1.3.0
 	 *
@@ -192,7 +192,7 @@ class Options {
 	 */
 	public function update_by_request( \WP_REST_Request $request ) {
 		$current_settings = self::all();
-		$next_settings    = $request->get_param( 'settings' );
+		$next_settings    = $request->get_param( 'options' );
 		$response         = array();
 
 		foreach ( $next_settings as $name => $value ) {

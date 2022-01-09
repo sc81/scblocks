@@ -4,11 +4,12 @@
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 import { registerPlugin } from '@wordpress/plugins';
 import { applyFilters } from '@wordpress/hooks';
+import { useSelect } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
  */
-import { PLUGIN_NAME } from '@scblocks/constants';
+import { PLUGIN_NAME, STORE_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
@@ -16,6 +17,8 @@ import { PLUGIN_NAME } from '@scblocks/constants';
 import GoogleFonts from './google-fonts';
 
 function Sidebar() {
+	useSelect( ( store ) => store( STORE_NAME ).getOptions(), [] );
+
 	return (
 		<>
 			<PluginSidebar

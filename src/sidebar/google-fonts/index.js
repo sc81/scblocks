@@ -6,14 +6,14 @@ import { isEmpty } from 'lodash';
 import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { dispatch, useSelect } from '@wordpress/data';
+import { dispatch, select, useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
 /**
  * ScBlocks dependencies
  */
-import { STORE_NAME } from '@scblocks/constants';
+import { OPTIONS_REST_API_PATH, STORE_NAME } from '@scblocks/constants';
 import { GoogleFontsControls, SaveButton } from '@scblocks/components';
 
 const noticeText = {
@@ -22,21 +22,13 @@ const noticeText = {
 	failed: __( 'Failed to save', 'scblocks' ),
 };
 
-function prepareFonts( fonts ) {
-	const next = {};
-	Object.keys( fonts ).forEach( ( id ) => {
-		if ( ! isEmpty( fonts[ id ] ) ) {
-			next[ id ] = fonts[ id ];
-		}
-	} );
-	return next;
-}
+const OPTION_NAME = 'google_fonts';
 
 export default function GoogleFonts() {
 	const { googleFonts, siteGoogleFonts } = useSelect( ( store ) => {
 		return {
 			googleFonts: store( STORE_NAME ).getGoogleFonts(),
-			siteGoogleFonts: store( STORE_NAME ).getSiteGoogleFonts(),
+			siteGoogleFonts: store( STORE_NAME ).getOption( OPTION_NAME ),
 		};
 	}, [] );
 	const [ isSaving, setIsSaving ] = useState( false );
@@ -44,7 +36,7 @@ export default function GoogleFonts() {
 	const [ isModified, setIsModified ] = useState( false );
 
 	function setFontsData( value ) {
-		dispatch( STORE_NAME ).setSiteGoogleFonts( value );
+		dispatch( STORE_NAME ).setOption( OPTION_NAME, value );
 		setIsModified( true );
 	}
 
@@ -53,9 +45,9 @@ export default function GoogleFonts() {
 		setNotice( noticeText.saving );
 
 		apiFetch( {
-			path: '/scblocks/v1/site-google-fonts',
+			path: OPTIONS_REST_API_PATH,
 			method: 'POST',
-			data: { fonts: prepareFonts( siteGoogleFonts ) },
+			data: { options: select( STORE_NAME ).getOptions() },
 		} )
 			.then( () => {
 				setIsSaving( false );

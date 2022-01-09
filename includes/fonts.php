@@ -14,6 +14,7 @@ class Fonts {
 		add_action( 'rest_api_init', array( $this, 'register_route' ) );
 		add_filter( 'scblocks_initial_css', array( $this, 'google_fonts_css' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'print_google_fonts_link' ) );
+		add_filter( 'scblocks_option_sanitize_func_names', array( $this, 'add_sanitizing_func' ) );
 	}
 
 	/**
@@ -31,31 +32,20 @@ class Fonts {
 				},
 			)
 		);
-		register_rest_route(
-			'scblocks/v1',
-			'/site-google-fonts',
-			array(
-				array(
-					'methods'             => \WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_site_google_fonts' ),
-					'permission_callback' => function () {
-						return current_user_can( 'edit_posts' );
-					},
-				),
-				array(
-					'methods'             => \WP_REST_Server::EDITABLE,
-					'callback'            => array( $this, 'set_site_google_fonts' ),
-					'permission_callback' => function () {
-						return current_user_can( 'edit_posts' );
-					},
-					'args'                => array(
-						'fonts' => array(
-							'sanitize_callback' => array( $this, 'sanitize' ),
-						),
-					),
-				),
-			)
-		);
+	}
+
+	/**
+	 * Add a callback that sanitizes the data when saving options.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $callbacks
+	 *
+	 * @return array
+	 */
+	public function add_sanitizing_func( array $callbacks ) : array {
+		$callbacks['google_fonts'] = array( $this, 'sanitize_google_fonts' );
+		return $callbacks;
 	}
 
 	/**
@@ -67,7 +57,7 @@ class Fonts {
 	 *
 	 * @return array
 	 */
-	public function sanitize( $fonts ) : array {
+	public function sanitize_google_fonts( $fonts ) : array {
 		if ( ! is_array( $fonts ) || empty( $fonts ) ) {
 			return array();
 		}
@@ -105,44 +95,12 @@ class Fonts {
 	}
 
 	/**
-	 * Get google fonts from options.
-	 *
-	 * @since 1.3.0
-	 * @return \WP_REST_Response|\WP_Error
-	 */
-	public function get_site_google_fonts() {
-		return rest_ensure_response( Plugin::option( 'google_fonts' ) );
-	}
-
-	/**
-	 * Save fonts in options.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param \WP_REST_Request $request
-	 *
-	 * @return \WP_REST_Response|\WP_Error
-	 */
-	public function set_site_google_fonts( \WP_REST_Request $request ) {
-		$fonts = $request->get_param( 'fonts' );
-
-		$settings = Plugin::options();
-
-		if ( empty( $fonts ) ) {
-			unset( $settings['google_fonts'] );
-		} else {
-			$settings['google_fonts'] = $fonts;
-		}
-		return rest_ensure_response( Plugin::update_options( $settings ) );
-	}
-
-	/**
 	 * Get google fonts data.
 	 *
 	 * @return array
 	 */
 	public function get_google_fonts_data() : array {
-		$fonts = Plugin::option( 'google_fonts' );
+		$fonts = Options::get( 'google_fonts' );
 
 		return apply_filters( 'scblocks_google_fonts', $this->extract_fonts_data( $fonts ) );
 	}

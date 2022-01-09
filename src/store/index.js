@@ -7,11 +7,15 @@ import { registerStore } from '@wordpress/data';
 /**
  * ScBlocks dependencies
  */
-import { STORE_NAME, PLUGIN_NAME } from '@scblocks/constants';
+import {
+	STORE_NAME,
+	PLUGIN_NAME,
+	OPTIONS_REST_API_PATH,
+} from '@scblocks/constants';
 
 const DEFAULT_STATE = {
 	imageUrls: {},
-	siteGoogleFonts: {},
+	options: {},
 };
 
 const actions = {
@@ -64,10 +68,17 @@ const actions = {
 			fonts,
 		};
 	},
-	setSiteGoogleFonts( fonts ) {
+	setOptions( options ) {
 		return {
-			type: 'SET_SITE_GOOGLE_FONTS',
-			fonts,
+			type: 'SET_OPTIONS',
+			options,
+		};
+	},
+	setOption( name, value ) {
+		return {
+			type: 'SET_OPTION',
+			name,
+			value,
 		};
 	},
 };
@@ -116,10 +127,18 @@ registerStore( STORE_NAME, {
 					...state,
 					googleFonts: { ...action.fonts },
 				};
-			case 'SET_SITE_GOOGLE_FONTS':
+			case 'SET_OPTIONS':
 				return {
 					...state,
-					siteGoogleFonts: { ...action.fonts },
+					options: { ...action.options },
+				};
+			case 'SET_OPTION':
+				return {
+					...state,
+					options: {
+						...state.options,
+						[ action.name ]: action.value,
+					},
 				};
 		}
 
@@ -149,8 +168,11 @@ registerStore( STORE_NAME, {
 		getGoogleFonts( state ) {
 			return state.googleFonts;
 		},
-		getSiteGoogleFonts( state ) {
-			return state.siteGoogleFonts;
+		getOptions( state ) {
+			return state.options;
+		},
+		getOption( state, name ) {
+			return state.options[ name ];
 		},
 	},
 	controls: {
@@ -199,11 +221,10 @@ registerStore( STORE_NAME, {
 			const fonts = yield actions.fetchFromAPI( path );
 			return actions.setGoogleFonts( JSON.parse( fonts ) );
 		},
-		*getSiteGoogleFonts() {
-			const path = '/scblocks/v1/site-google-fonts';
-			const fonts = yield actions.fetchFromAPI( path );
+		*getOptions() {
+			const options = yield actions.fetchFromAPI( OPTIONS_REST_API_PATH );
 
-			return actions.setSiteGoogleFonts( fonts );
+			return actions.setOptions( options );
 		},
 	},
 } );
