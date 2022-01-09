@@ -14,7 +14,7 @@ class Fonts {
 		add_action( 'rest_api_init', array( $this, 'register_route' ) );
 		add_filter( 'scblocks_initial_css', array( $this, 'google_fonts_css' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'print_google_fonts_link' ) );
-		add_filter( 'scblocks_option_sanitize_func_names', array( $this, 'add_sanitizing_func' ) );
+		add_filter( 'scblocks_option_sanitize_funcs', array( $this, 'add_sanitizing_func' ) );
 	}
 
 	/**

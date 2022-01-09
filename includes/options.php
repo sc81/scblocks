@@ -164,7 +164,7 @@ class Options {
 	 */
 	public function sanitize_value( string $name, $value ) {
 		$callbacks = apply_filters(
-			'scblocks_option_sanitize_func_names',
+			'scblocks_option_sanitize_funcs',
 			array(
 				'css_print_method'            => 'sanitize_text_field',
 				'force_regenerate_css_files'  => 'sanitize_text_field',
