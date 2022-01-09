@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Plugin {
-	/** @var string */
-	const OPTION_NAME = 'scblocks';
 
 	/** @var string */
 	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
@@ -54,18 +52,7 @@ class Plugin {
 	 * @return array
 	 */
 	public static function option_defaults() : array {
-		return apply_filters(
-			'scblocks_option_defaults',
-			array(
-				'css_print_method'            => 'file',
-				'force_regenerate_css_files'  => '0',
-				'reusable_blocks_update_time' => '0',
-				'used_icons_post_id'          => '',
-				'wide_content_max_width'      => '1240px',
-				'content_max_width'           => '610px',
-				'google_fonts'                => array(),
-			)
-		);
+		return Options::defaults();
 	}
 
 	/**
@@ -76,17 +63,7 @@ class Plugin {
 	 * @return mixed The option value, or null if the option does not exists.
 	 */
 	public static function option( string $option ) {
-		$defaults = self::option_defaults();
-		if ( ! isset( $defaults[ $option ] ) ) {
-			return;
-		}
-
-		$options = wp_parse_args(
-			get_option( self::OPTION_NAME, array() ),
-			$defaults
-		);
-
-		return $options[ $option ];
+		return Options::get( $option );
 	}
 
 	/**
@@ -95,7 +72,7 @@ class Plugin {
 	 * @return array
 	 */
 	public static function options() : array {
-		return get_option( self::OPTION_NAME, array() );
+		return Options::all();
 	}
 
 	/**
@@ -106,7 +83,7 @@ class Plugin {
 	 * @return bool True if the value was updated, false otherwise.
 	 */
 	public static function update_options( array $settings ) : bool {
-		return update_option( self::OPTION_NAME, $settings );
+		return Options::update( $settings );
 	}
 
 	/**
@@ -335,6 +312,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/update-blocks-metadata.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/button-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/image-data.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/options.php';
 	}
 
 	private function __construct() {
@@ -358,6 +336,7 @@ class Plugin {
 			'ScBlocks\Heading_Block',
 			'ScBlocks\Button_Block',
 			'ScBlocks\Image_Data',
+			'ScBlocks\Options',
 		);
 
 		foreach ( $classes as $class_name ) {
