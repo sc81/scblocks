@@ -8,9 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Plugin {
 
 	/** @var string */
-	const POST_SETTINGS_POST_META_NAME = '_scblocks_post_settings';
-
-	/** @var string */
 	const BLOCK_NAMESPACE = 'scblocks';
 
 	private static $instance;
@@ -169,11 +166,7 @@ class Plugin {
 	 * @return array
 	 */
 	public static function post_settings_post_meta( int $post_id ) : array {
-		$value = get_post_meta( $post_id, self::POST_SETTINGS_POST_META_NAME, true );
-		if ( $value ) {
-			return json_decode( $value, true );
-		}
-		return array();
+		return Post_Settings::get( $post_id );
 	}
 
 	/**
@@ -184,14 +177,12 @@ class Plugin {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @return array
+	 * @return int|bool Meta ID if the key didn't exist, true on successful update,
+	 *                  false on failure or if the value passed to the function
+	 *                  is the same as the one that is already in the database.
 	 */
 	public static function update_post_settings_post_meta( int $post_id, array $settings ) {
-		return update_post_meta(
-			$post_id,
-			self::POST_SETTINGS_POST_META_NAME,
-			wp_slash( wp_json_encode( $settings ) )
-		);
+		return Post_Settings::update( $post_id, $settings );
 	}
 
 	/**
@@ -313,6 +304,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/button-block.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/image-data.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/options.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/post-settings.php';
 	}
 
 	private function __construct() {
@@ -337,6 +329,7 @@ class Plugin {
 			'ScBlocks\Button_Block',
 			'ScBlocks\Image_Data',
 			'ScBlocks\Options',
+			'ScBlocks\Post_Settings',
 		);
 
 		foreach ( $classes as $class_name ) {
