@@ -24,6 +24,8 @@ const noticeText = {
 
 const OPTION_NAME = 'google_fonts';
 
+let isSaved = true;
+
 export default function GoogleFonts() {
 	const { googleFonts, siteGoogleFonts } = useSelect( ( store ) => {
 		return {
@@ -33,11 +35,12 @@ export default function GoogleFonts() {
 	}, [] );
 	const [ isSaving, setIsSaving ] = useState( false );
 	const [ notice, setNotice ] = useState( '' );
-	const [ isModified, setIsModified ] = useState( false );
+	const [ isModified, setIsModified ] = useState( ! isSaved );
 
 	function setFontsData( value ) {
 		dispatch( STORE_NAME ).setOption( OPTION_NAME, value );
 		setIsModified( true );
+		isSaved = false;
 	}
 
 	function save() {
@@ -54,6 +57,7 @@ export default function GoogleFonts() {
 				setNotice( noticeText.saved );
 				hideNotice();
 				setIsModified( false );
+				isSaved = true;
 			} )
 			.catch( () => {
 				setIsSaving( false );
