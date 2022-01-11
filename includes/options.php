@@ -118,7 +118,7 @@ class Options {
 				),
 				array(
 					'methods'             => \WP_REST_Server::EDITABLE,
-					'callback'            => array( $this, 'update_by_request' ),
+					'callback'            => array( $this, 'update_on_request' ),
 					'permission_callback' => array( $this, 'permission' ),
 				),
 			)
@@ -190,7 +190,7 @@ class Options {
 	 *
 	 * @return \WP_REST_Response|\WP_Error
 	 */
-	public function update_by_request( \WP_REST_Request $request ) {
+	public function update_on_request( \WP_REST_Request $request ) {
 		$current_settings = self::all();
 		$next_settings    = $request->get_param( 'options' );
 		$response         = array();

@@ -34,7 +34,6 @@ class Post_Settings {
 				'css_version',
 				'update_time',
 				'old_update_time',
-				'google_fonts',
 			)
 		);
 	}
@@ -189,7 +188,6 @@ class Post_Settings {
 				'css_version'     => 'sanitize_text_field',
 				'update_time'     => 'is_numeric',
 				'old_update_time' => 'is_numeric',
-				'google_fonts'    => array( $this, 'sanitize_google_fonts' ),
 			)
 		);
 
@@ -255,18 +253,5 @@ class Post_Settings {
 	public function get_on_request( \WP_REST_Request $request ) {
 		$post_id = $request->get_param( 'id' );
 		return rest_ensure_response( self::get( $post_id ) );
-	}
-
-	/**
-	 * Sanitize google fonts data.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param mixed $value
-	 * @return array
-	 */
-	public function sanitize_google_fonts( $value ) : array {
-		$sanitizer = new Fonts();
-		return $sanitizer->sanitize_google_fonts( $value );
 	}
 }
