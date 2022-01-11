@@ -11,11 +11,13 @@ import {
 	STORE_NAME,
 	PLUGIN_NAME,
 	OPTIONS_REST_API_PATH,
+	POST_SETTINGS_REST_API_PATH,
 } from '@scblocks/constants';
 
 const DEFAULT_STATE = {
 	imageUrls: {},
 	options: {},
+	postSettings: {},
 };
 
 const actions = {
@@ -81,6 +83,19 @@ const actions = {
 			value,
 		};
 	},
+	setPostSettings( settings ) {
+		return {
+			type: 'SET_POST_SETTINGS',
+			settings,
+		};
+	},
+	setPostSetting( name, value ) {
+		return {
+			type: 'SET_POST_SETTING',
+			name,
+			value,
+		};
+	},
 };
 
 registerStore( STORE_NAME, {
@@ -140,6 +155,19 @@ registerStore( STORE_NAME, {
 						[ action.name ]: action.value,
 					},
 				};
+			case 'SET_POST_SETTINGS':
+				return {
+					...state,
+					postSettings: { ...action.settings },
+				};
+			case 'SET_POST_SETTING':
+				return {
+					...state,
+					postSettings: {
+						...state.postSettings,
+						[ action.name ]: action.value,
+					},
+				};
 		}
 
 		return state;
@@ -173,6 +201,12 @@ registerStore( STORE_NAME, {
 		},
 		getOption( state, name ) {
 			return state.options[ name ];
+		},
+		getPostSettings( state ) {
+			return state.postSettings;
+		},
+		getPostSetting( state, name, defaultValue ) {
+			return state.postSettings[ name ] || defaultValue;
 		},
 	},
 	controls: {
@@ -225,6 +259,13 @@ registerStore( STORE_NAME, {
 			const options = yield actions.fetchFromAPI( OPTIONS_REST_API_PATH );
 
 			return actions.setOptions( options );
+		},
+		*getPostSettings( id ) {
+			const settings = yield actions.fetchFromAPI(
+				`${ POST_SETTINGS_REST_API_PATH }/?id=${ id }`
+			);
+
+			return actions.setPostSettings( settings );
 		},
 	},
 } );

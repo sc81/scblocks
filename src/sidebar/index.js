@@ -9,7 +9,11 @@ import { useSelect } from '@wordpress/data';
 /**
  * ScBlocks dependencies
  */
-import { PLUGIN_NAME, STORE_NAME } from '@scblocks/constants';
+import {
+	CORE_EDITOR_STORE_NAME,
+	PLUGIN_NAME,
+	STORE_NAME,
+} from '@scblocks/constants';
 
 /**
  * Internal dependencies
@@ -17,7 +21,23 @@ import { PLUGIN_NAME, STORE_NAME } from '@scblocks/constants';
 import GoogleFonts from './google-fonts';
 
 function Sidebar() {
-	useSelect( ( store ) => store( STORE_NAME ).getOptions(), [] );
+	const isEditorRegistry = useSelect( ( store ) => {
+		const editorRegistry = store( CORE_EDITOR_STORE_NAME );
+		if ( editorRegistry ) {
+			store( STORE_NAME ).getOptions();
+			const isPage = editorRegistry.getCurrentPostType() === 'page';
+			if ( isPage ) {
+				store( STORE_NAME ).getPostSettings(
+					editorRegistry.getCurrentPostId()
+				);
+			}
+		}
+		return !! editorRegistry;
+	}, [] );
+
+	if ( ! isEditorRegistry ) {
+		return null;
+	}
 
 	return (
 		<>

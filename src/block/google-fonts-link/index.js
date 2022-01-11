@@ -18,7 +18,7 @@ const urlPrefix = 'https://fonts.googleapis.com/css?family=';
 
 export default function GoogleFontsLink( { clientId } ) {
 	const siteFonts = useSelect(
-		( store ) => store( STORE_NAME ).getSiteGoogleFonts(),
+		( store ) => store( STORE_NAME ).getOption( 'google_fonts' ),
 		[]
 	);
 	const [ url, setUrl ] = useState();
