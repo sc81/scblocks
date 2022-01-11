@@ -34,9 +34,11 @@ function buildControls( fonts, onChange ) {
 	return options;
 }
 
+const OPTION_NAME = 'google_fonts';
+
 export default function FontFamily( { value, onChange, onClear } ) {
 	const siteGoogleFonts = useSelect( ( store ) => {
-		return store( STORE_NAME ).getSiteGoogleFonts();
+		return store( STORE_NAME ).getOption( OPTION_NAME );
 	}, [] );
 	const controls = useMemo(
 		() => buildControls( siteGoogleFonts, onChange ),
