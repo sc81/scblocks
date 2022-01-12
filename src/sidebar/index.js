@@ -21,23 +21,16 @@ import {
 import GoogleFonts from './google-fonts';
 
 function Sidebar() {
-	const isEditorRegistry = useSelect( ( store ) => {
-		const editorRegistry = store( CORE_EDITOR_STORE_NAME );
-		if ( editorRegistry ) {
-			store( STORE_NAME ).getOptions();
-			const isPage = editorRegistry.getCurrentPostType() === 'page';
-			if ( isPage ) {
-				store( STORE_NAME ).getPostSettings(
-					editorRegistry.getCurrentPostId()
-				);
-			}
+	useSelect( ( store ) => {
+		store( STORE_NAME ).getOptions();
+		const { getCurrentPostType, getCurrentPostId } = store(
+			CORE_EDITOR_STORE_NAME
+		);
+		const isPage = getCurrentPostType() === 'page';
+		if ( isPage ) {
+			store( STORE_NAME ).getPostSettings( getCurrentPostId() );
 		}
-		return !! editorRegistry;
 	}, [] );
-
-	if ( ! isEditorRegistry ) {
-		return null;
-	}
 
 	return (
 		<>

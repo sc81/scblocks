@@ -12,7 +12,6 @@ import { applyFilters } from '@wordpress/hooks';
 import { STORE_NAME } from '@scblocks/constants';
 
 let id = 0;
-let previousUrl;
 
 const urlPrefix = 'https://fonts.googleapis.com/css?family=';
 
@@ -21,8 +20,8 @@ export default function GoogleFontsLink( { clientId } ) {
 		( store ) => store( STORE_NAME ).getOption( 'google_fonts' ),
 		[]
 	);
-	const [ url, setUrl ] = useState();
-	const [ css, setCss ] = useState();
+	const [ url, setUrl ] = useState( '' );
+	const [ css, setCss ] = useState( '' );
 
 	const finalFonts = applyFilters( 'scblocks.editor.googleFonts', siteFonts );
 
@@ -32,8 +31,14 @@ export default function GoogleFontsLink( { clientId } ) {
 		},
 		[]
 	);
+	if ( ! id ) {
+		id = clientId;
+	}
 
 	useEffect( () => {
+		if ( id !== clientId ) {
+			return;
+		}
 		let tempCss = '';
 		const fonts = [];
 		if ( finalFonts ) {
@@ -61,20 +66,13 @@ export default function GoogleFontsLink( { clientId } ) {
 		let tempUrl = '';
 		if ( suffix ) {
 			tempUrl = urlPrefix + suffix;
-			if ( previousUrl !== tempUrl ) {
-				id = 0;
-				previousUrl = tempUrl;
-			}
-		} else {
-			id = 0;
 		}
 		setUrl( tempUrl );
-	}, [ finalFonts ] );
+	}, [ finalFonts, id ] );
 
-	if ( ! url || ( id !== 0 && id !== clientId ) ) {
+	if ( ! url || id !== clientId ) {
 		return null;
 	}
-	id = clientId;
 
 	return (
 		<>
