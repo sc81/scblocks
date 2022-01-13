@@ -50,7 +50,13 @@ export default function GoogleFonts() {
 		apiFetch( {
 			path: OPTIONS_REST_API_PATH,
 			method: 'POST',
-			data: { options: select( STORE_NAME ).getOptions() },
+			data: {
+				options: {
+					[ OPTION_NAME ]: select( STORE_NAME ).getOption(
+						OPTION_NAME
+					),
+				},
+			},
 		} )
 			.then( () => {
 				setIsSaving( false );
