@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { TextControl, DropdownMenu } from '@wordpress/components';
 import { useMemo } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * ScBlocks dependencies
@@ -40,10 +41,16 @@ export default function FontFamily( { value, onChange, onClear } ) {
 	const siteGoogleFonts = useSelect( ( store ) => {
 		return store( STORE_NAME ).getOption( OPTION_NAME );
 	}, [] );
-	const controls = useMemo(
-		() => buildControls( siteGoogleFonts, onChange ),
-		[ siteGoogleFonts ]
-	);
+	const controls = useMemo( () => {
+		const options = buildControls( siteGoogleFonts, onChange );
+		return applyFilters(
+			'scblocks.fontFamily.dropdownFontControls',
+			options,
+			siteGoogleFonts,
+			buildControls,
+			onChange
+		);
+	}, [ siteGoogleFonts, onChange ] );
 	return (
 		<ControlWrapper
 			label={ __( 'Font Family', 'scblocks' ) }
