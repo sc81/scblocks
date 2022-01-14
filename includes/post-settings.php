@@ -229,11 +229,11 @@ class Post_Settings {
 		}
 
 		if ( empty( $next_settings ) ) {
-			$response['text'] = __( 'No changes found.', 'scblocks' );
+			$response['text'] = 'No changes found.';
 		} else {
 			$result = self::update( $post_id, array_merge( $current_settings, $next_settings ) );
 			if ( $result ) {
-				$response['text'] = __( 'Settings saved.', 'scblocks' );
+				$response['text'] = 'Settings saved.';
 			} else {
 				return new \WP_Error( 'failed_to_save', 'Failed to save post settings' );
 			}

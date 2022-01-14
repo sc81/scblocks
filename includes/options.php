@@ -212,11 +212,14 @@ class Options {
 		}
 
 		if ( empty( $next_settings ) ) {
-			$response['text'] = __( 'No changes found.', 'scblocks' );
+			$response['text'] = 'No changes found.';
 		} else {
-			$response['text'] = __( 'Settings saved.', 'scblocks' );
-
-			self::update( array_merge( $current_settings, $next_settings ) );
+			$result = self::update( array_merge( $current_settings, $next_settings ) );
+			if ( $result ) {
+				$response['text'] = 'Settings saved.';
+			} else {
+				return new \WP_Error( 'failed_to_save', 'Failed to save post settings' );
+			}
 		}
 
 		return rest_ensure_response( $response );
