@@ -216,9 +216,9 @@ class Options {
 		} else {
 			$result = self::update( array_merge( $current_settings, $next_settings ) );
 			if ( $result ) {
-				$response['text'] = 'Settings saved.';
+				$response['text'] = 'Options saved.';
 			} else {
-				return new \WP_Error( 'failed_to_save', 'Failed to save post settings' );
+				return new \WP_Error( 'failed_to_save', 'Failed to save options' );
 			}
 		}
 
