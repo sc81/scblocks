@@ -41,16 +41,13 @@ export default function FontFamily( { value, onChange, onClear } ) {
 	const siteGoogleFonts = useSelect( ( store ) => {
 		return store( STORE_NAME ).getOption( OPTION_NAME );
 	}, [] );
+	const finalFonts = applyFilters(
+		'scblocks.fontFamilyControl.googleFonts',
+		siteGoogleFonts
+	);
 	const controls = useMemo( () => {
-		const options = buildControls( siteGoogleFonts, onChange );
-		return applyFilters(
-			'scblocks.fontFamily.dropdownFontControls',
-			options,
-			siteGoogleFonts,
-			buildControls,
-			onChange
-		);
-	}, [ siteGoogleFonts, onChange ] );
+		return buildControls( finalFonts, onChange );
+	}, [ finalFonts, onChange ] );
 	return (
 		<ControlWrapper
 			label={ __( 'Font Family', 'scblocks' ) }
