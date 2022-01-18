@@ -93,7 +93,7 @@ export default function Edit( props ) {
 	return (
 		<>
 			<style>{ style }</style>
-			<GoogleFontsLink attributes={ attributes } />
+			<GoogleFontsLink clientId={ clientId } />
 			<Inspector
 				{ ...props }
 				blockMemo={ blockMemo }

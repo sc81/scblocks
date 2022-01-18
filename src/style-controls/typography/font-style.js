@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
 export default function FontStyle( { value, onChange } ) {
 	return (
 		<SelectControl
-			label={ __( 'Style', 'scblocks' ) }
+			label={ __( 'Font Style', 'scblocks' ) }
 			value={ value }
 			options={ [
 				{ label: __( 'Default', 'scblocks' ), value: '' },

@@ -10,3 +10,6 @@ export const MOBILE_DEVICE = 'mobile';
 export const TABLET_DEVICE = 'tablet';
 export const DESKTOP_DEVICE = 'desktop';
 export const ALL_DEVICES = 'allDevices';
+
+export const OPTIONS_REST_API_PATH = '/scblocks/v1/options';
+export const POST_SETTINGS_REST_API_PATH = '/scblocks/v1/post-settings';

@@ -100,7 +100,7 @@ export default function Edit( props ) {
 				blockMemo={ blockMemo }
 				selectorsSettings={ selectorsSettings }
 			/>
-			<GoogleFontsLink attributes={ attributes } />
+			<GoogleFontsLink clientId={ clientId } />
 			<Tag { ...blockProps }>
 				<PasteUsedIcon
 					iconId={ iconId }

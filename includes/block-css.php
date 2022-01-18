@@ -97,28 +97,6 @@ class Block_Css {
 	}
 
 	/**
-	 * Get google fonts uri.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @return string
-	 */
-	public function google_fonts_uri() : string {
-		if ( ! $this->post_id ) {
-			return '';
-		}
-
-		if ( empty( $this->post_settings ) ) {
-			return '';
-		}
-		$blocks_attr = Plugin::blocks_attrs( $this->parsed_content() );
-
-		$fonts = new Fonts( $blocks_attr );
-
-		return $fonts->build_google_fonts_uri();
-	}
-
-	/**
 	 * Creates CSS for our blocks.
 	 *
 	 * Uses the scblocks_css filter hook.
