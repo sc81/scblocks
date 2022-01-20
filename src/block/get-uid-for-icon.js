@@ -1,5 +1,5 @@
 function getRandomNumberAsString() {
-	return ( Math.random() + '' ).replace( '0.', '' );
+	return 'id' + ( Math.random() + '' ).replace( '0.', '' );
 }
 
 /**

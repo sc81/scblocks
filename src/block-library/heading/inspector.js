@@ -5,7 +5,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { useSelect, dispatch, select } from '@wordpress/data';
+import { dispatch } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
@@ -15,6 +15,7 @@ import {
 	IdClassesControls,
 	ControlsManager,
 	getIconAttrs,
+	useGetIcon,
 } from '@scblocks/block';
 import { ALL_DEVICES, STORE_NAME } from '@scblocks/constants';
 import {
@@ -24,24 +25,49 @@ import {
 } from '@scblocks/css-utils';
 import { IconPicker } from '@scblocks/components';
 
+const options = [
+	{
+		label: __( 'H1', 'scblocks' ),
+		value: 'h1',
+	},
+	{
+		label: __( 'H2', 'scblocks' ),
+		value: 'h2',
+	},
+	{
+		label: __( 'H3', 'scblocks' ),
+		value: 'h3',
+	},
+	{
+		label: __( 'H4', 'scblocks' ),
+		value: 'h4',
+	},
+	{
+		label: __( 'H5', 'scblocks' ),
+		value: 'h5',
+	},
+	{
+		label: __( 'H6', 'scblocks' ),
+		value: 'h6',
+	},
+	{
+		label: __( 'p', 'scblocks' ),
+		value: 'p',
+	},
+];
+
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
-	const { tagName, iconId } = attributes;
-	const icon = useSelect(
-		( store ) => {
-			const icons = store( STORE_NAME ).usedIcons();
-			if ( icons && icons[ iconId ] ) {
-				return icons[ iconId ];
-			}
-			return '';
-		},
-		[ iconId ]
-	);
+	const { tagName, iconId, iconPostId } = attributes;
+
+	const icon = useGetIcon( iconId, iconPostId );
+
 	function onRemoveIcon() {
 		setAttributes( {
 			iconId: '',
 			iconHtml: '',
 			iconName: '',
+			iconPostId: '',
 		} );
 		const attrs = {
 			css: {},
@@ -71,8 +97,7 @@ export default function Inspector( props ) {
 			onRemoveIcon();
 			return;
 		}
-		const icons = select( STORE_NAME ).usedIcons();
-		const iconAttrs = getIconAttrs( name, iconAsString, icons );
+		const iconAttrs = getIconAttrs( name, iconAsString );
 
 		setAttributes( iconAttrs );
 		setPropValue( {
@@ -84,10 +109,7 @@ export default function Inspector( props ) {
 			value: 'flex',
 		} );
 		if ( iconAttrs.iconHtml ) {
-			dispatch( STORE_NAME ).addUsedIcon(
-				iconAttrs.iconId,
-				iconAsString
-			);
+			dispatch( STORE_NAME ).addIcon( iconAttrs.iconId, iconAsString );
 		}
 	}
 	return (
@@ -100,36 +122,7 @@ export default function Inspector( props ) {
 						<SelectControl
 							label={ __( 'Element', 'scblocks' ) }
 							value={ tagName }
-							options={ [
-								{
-									label: __( 'H1', 'scblocks' ),
-									value: 'h1',
-								},
-								{
-									label: __( 'H2', 'scblocks' ),
-									value: 'h2',
-								},
-								{
-									label: __( 'H3', 'scblocks' ),
-									value: 'h3',
-								},
-								{
-									label: __( 'H4', 'scblocks' ),
-									value: 'h4',
-								},
-								{
-									label: __( 'H5', 'scblocks' ),
-									value: 'h5',
-								},
-								{
-									label: __( 'H6', 'scblocks' ),
-									value: 'h6',
-								},
-								{
-									label: __( 'p', 'scblocks' ),
-									value: 'p',
-								},
-							] }
+							options={ options }
 							onChange={ ( value ) =>
 								setAttributes( { tagName: value } )
 							}

@@ -10,7 +10,7 @@ class Icons {
 	 * @since 1.3.0
 	 * @var string
 	 */
-	const POST_TYPE_NAME = 'scblocks_svg';
+	const POST_TYPE_NAME = 'scblocks_icon';
 
 	/**
 	 * @since 1.3.0
@@ -18,11 +18,14 @@ class Icons {
 	 */
 	const BLOCKS_WITH_ICON = array( 'scblocks/heading', 'scblocks/button' );
 
+
 	/**
+	 * Icons data extracted from blocks.
+	 *
 	 * @since 1.3.0
-	 * @var string
+	 * @var array
 	 */
-	const USED_ICONS_POST_ID_OPTION_NAME = 'used_icons_post_id';
+	private $data = array();
 
 	/**
 	 * Register actions
@@ -62,7 +65,7 @@ class Icons {
 	}
 
 	/**
-	 * Register post.
+	 * Register post type.
 	 *
 	 * @since 1.3.0
 	 * @return void
@@ -73,7 +76,6 @@ class Icons {
 			array(
 				'show_ui'      => false,
 				'show_in_menu' => false,
-				'show_in_rest' => true,
 				'supports'     => array(),
 			)
 		);
@@ -101,7 +103,7 @@ class Icons {
 				return rest_ensure_response( wp_json_encode( DASHICONS ) );
 
 			case 3:
-				return rest_ensure_response( $this->extract_id_and_content( $this->used_by_posts() ) );
+				return rest_ensure_response( $this->get() );
 
 			default:
 				return new \WP_Error( 'no_icons', 'Invalid id', array( 'status' => 404 ) );
@@ -128,64 +130,45 @@ class Icons {
 		}
 		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
 
-		$is_updated = $this->update_used_by_posts( $blocks );
-		if ( ! $is_updated ) {
-			return $data;
-		}
-		$this->remove_redundant_attrs( $blocks );
+		$this->extract_data( $blocks );
+
+		$this->save();
+
+		$this->set_attrs( $blocks );
 
 		$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
 
 		return $data;
 	}
+
 	/**
-	 * Update a post that includes the icons used by the posts.
+	 * Save icons in posts.
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param array $blocks Array of parsed block objects.
-	 *
-	 * @return bool Whether the post has been updated or not
+	 * @return void
 	 */
-	public function update_used_by_posts( array $blocks ) : bool {
-		if ( empty( $blocks ) ) {
-			return false;
+	public function save() {
+		if ( empty( $this->data ) ) {
+			return;
 		}
-
-		$icons = $this->build_icons( $blocks );
-
-		$used_icons_post_id = Plugin::option( self::USED_ICONS_POST_ID_OPTION_NAME );
-
-		$is_updated = false;
-		if ( ! $used_icons_post_id ) {
-			$args = array(
-				'post_type'    => self::POST_TYPE_NAME,
-				'post_content' => $icons,
-				'post_name'    => self::USED_ICONS_POST_ID_OPTION_NAME,
-			);
-			$id   = wp_insert_post( $args );
-			if ( ! ! $id && ! is_wp_error( $id ) ) {
-				$options = Plugin::options();
-				$options[ self::USED_ICONS_POST_ID_OPTION_NAME ] = (string) $id;
-				Plugin::update_options( $options );
-				$is_updated = true;
-			}
-		} else {
-			$id = wp_update_post(
+		foreach ( $this->data as $index => $icon ) {
+			$result = wp_insert_post(
 				array(
-					'ID'           => $used_icons_post_id,
-					'post_content' => $icons,
+					'post_type'    => self::POST_TYPE_NAME,
+					'post_content' => $icon['html'],
+					'post_title'   => wp_strip_all_tags( $icon['name'] ),
+					'post_name'    => wp_strip_all_tags( $icon['id'] ),
 				)
 			);
-			if ( ! ! $id && ! is_wp_error( $id ) ) {
-				$is_updated = true;
+			if ( $result && ! is_wp_error( $result ) ) {
+				$this->data[ $index ]['postId'] = (string) $result;
 			}
 		}
-		return $is_updated;
 	}
 
 	/**
-	 * Remove redundant icon attributes.
+	 * Set new attributes for icons.
 	 *
 	 * @since 1.3.0
 	 *
@@ -193,109 +176,65 @@ class Icons {
 	 *
 	 * @return void
 	 */
-	public function remove_redundant_attrs( array &$blocks ) {
+	public function set_attrs( array &$blocks ) {
 		foreach ( $blocks as $index => $block ) {
-			if ( isset( $block['blockName'] ) &&
-			in_array( $block['blockName'], self::BLOCKS_WITH_ICON, true ) &&
-			isset( $block['attrs'] ) ) {
-				unset( $blocks[ $index ]['attrs']['iconHtml'] );
-				unset( $blocks[ $index ]['attrs']['iconName'] );
+			if ( isset( $block['blockName'] )
+			&&
+			in_array( $block['blockName'], self::BLOCKS_WITH_ICON, true )
+			&&
+			isset( $block['attrs'] )
+			&&
+			isset( $block['attrs']['iconId'] ) ) {
+				$post_id = $this->get_post_id( $block['attrs']['iconId'] );
+				if ( $post_id ) {
+					$blocks[ $index ]['attrs']['iconPostId'] = $post_id;
+
+					unset( $blocks[ $index ]['attrs']['iconHtml'] );
+					unset( $blocks[ $index ]['attrs']['iconName'] );
+					unset( $blocks[ $index ]['attrs']['iconId'] );
+				}
 			}
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$this->remove_redundant_attrs( $blocks[ $index ]['innerBlocks'] );
+				$this->set_attrs( $blocks[ $index ]['innerBlocks'] );
 			}
 		}
 	}
 
 	/**
-	 * Get icons data from block attributes.
+	 * Extract icons data from block attributes.
 	 *
 	 * @since 1.3.0
 	 *
 	 * @param array $blocks
 	 * @param array $icons
 	 *
-	 * @return array
+	 * @return void
 	 */
-	public function get_icons_data_from_blocks( array $blocks, array $icons = array() ) : array {
+	public function extract_data( array $blocks ) {
 		foreach ( $blocks as $block ) {
-			if ( isset( $block['blockName'] ) &&
-			in_array( $block['blockName'], self::BLOCKS_WITH_ICON, true ) &&
-			isset( $block['attrs'] ) &&
-			isset( $block['attrs']['iconName'] ) &&
-			isset( $block['attrs']['iconHtml'] ) &&
-			isset( $block['attrs']['iconId'] ) &&
-			! $this->is_icon_with_id( $block['attrs']['iconId'], $icons ) ) {
-				$icons[] = array(
+			if ( isset( $block['blockName'] )
+			&&
+			in_array( $block['blockName'], self::BLOCKS_WITH_ICON, true )
+			&&
+			isset( $block['attrs'] )
+			&&
+			isset( $block['attrs']['iconName'] )
+			&&
+			isset( $block['attrs']['iconHtml'] )
+			&&
+			isset( $block['attrs']['iconId'] )
+			&&
+			! $this->is_icon_with_id( $block['attrs']['iconId'] ) ) {
+				$this->data[] = array(
 					'name' => $block['attrs']['iconName'],
 					'html' => $block['attrs']['iconHtml'],
 					'id'   => $block['attrs']['iconId'],
 				);
 			}
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$icons = $this->get_icons_data_from_blocks( $block['innerBlocks'], $icons );
+				$this->extract_data( $block['innerBlocks'] );
 			}
 		}
-		return $icons;
-	}
-
-	/**
-	 * Get data from icon blocks.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param array $blocks
-	 * @param array $icons
-	 *
-	 * @return array
-	 */
-	public function get_data_from_icon_blocks( array $blocks, array $icons = array() ) : array {
-		foreach ( $blocks as $block ) {
-				$icons[] = array(
-					'id'   => $block['attrs']['id'],
-					'name' => $block['attrs']['name'],
-					'html' => $block['innerHTML'],
-				);
-		}
-		return $icons;
-	}
-
-	/**
-	 * Return an array of icons used by posts.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @return array Array of parsed block objects.
-	 */
-	public function used_by_posts() : array {
-		$post_id = Plugin::option( self::USED_ICONS_POST_ID_OPTION_NAME );
-		if ( ! $post_id ) {
-			return array();
-		}
-		$post = get_post( (int) $post_id );
-		if ( ! $post || ! $post->post_content ) {
-			return array();
-		}
-		return parse_blocks( $post->post_content );
-	}
-
-	/**
-	 * Extract the ID and HTML code of the icons.
-	 *
-	 * @param array $icons
-	 *
-	 * @return array Icons data [ [ 'id' => 'html' ] ]
-	 */
-	public function extract_id_and_content( array $icons ) : array {
-		$prepared = array();
-		foreach ( $icons as $icon ) {
-			if ( isset( $icon['attrs'] ) &&
-			isset( $icon['attrs']['id'] ) &&
-			isset( $icon['innerHTML'] ) ) {
-				$prepared[ $icon['attrs']['id'] ] = $icon['innerHTML'];
-			}
-		}
-		return $prepared;
 	}
 
 	/**
@@ -304,12 +243,11 @@ class Icons {
 	 * @since 1.3.0
 	 *
 	 * @param string $id Icon ID
-	 * @param array $icons Icons to check.
 	 *
 	 * @return bool
 	 */
-	public function is_icon_with_id( string $id, array $icons ) : bool {
-		foreach ( $icons as $icon ) {
+	public function is_icon_with_id( string $id ) : bool {
+		foreach ( $this->data as $icon ) {
 			if ( $icon['id'] === $id ) {
 				return true;
 			}
@@ -318,50 +256,36 @@ class Icons {
 	}
 
 	/**
-	 * Build HTML markup for icons.
+	 * Get post id for given icon.
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param array $blocks
+	 * @param string $icon_id
 	 *
 	 * @return string
 	 */
-	public function build_icons( array $blocks ) : string {
-		$used_icons = $this->get_data_from_icon_blocks( $this->used_by_posts() );
-		$post_icons = $this->get_icons_data_from_blocks( $blocks );
-
-		$icons_data = array_merge( $used_icons, $post_icons );
-
-		$ids   = array();
-		$icons = '';
-		foreach ( $icons_data as $icon ) {
-			if ( ! in_array( $icon['id'], $ids, true ) ) {
-				$ids[]  = $icon['id'];
-				$icons .= $this->do_block( $icon['name'], $icon['id'], $icon['html'] );
+	public function get_post_id( string $icon_id ) : string {
+		foreach ( $this->data as $icon ) {
+			if ( $icon['id'] === $icon_id && isset( $icon['postId'] ) ) {
+				return $icon['postId'];
 			}
+		}
+		return '';
+	}
+
+	public function get() {
+		$posts = get_posts(
+			array(
+				'post_type'   => self::POST_TYPE_NAME,
+				'post_status' => 'draft',
+				'numberposts' => -1,
+			)
+		);
+		$icons = array();
+		foreach ( $posts as $post ) {
+			$icons[ $post->ID ] = $post->post_content;
 		}
 		return $icons;
 	}
-	/**
-	 * Wrap content with comment delimiters and serialize all attributes.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param string $icon_name
-	 * @param string $icon_id
-	 * @param string $content
-	 *
-	 * @return string
-	 */
-	public function do_block( string $icon_name, string $icon_id, string $content ) : string {
-		$block = array(
-			'blockName'    => 'scblocks/used-icon',
-			'attrs'        => array(
-				'name' => $icon_name,
-				'id'   => $icon_id,
-			),
-			'innerContent' => array( $content ),
-		);
-		return serialize_block( $block );
-	}
+
 }

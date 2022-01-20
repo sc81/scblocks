@@ -40,6 +40,7 @@ export default function Edit( props ) {
 	const {
 		text,
 		iconId,
+		iconPostId,
 		url,
 		withoutText,
 		htmlClass,
@@ -97,7 +98,7 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.button.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
-					[ BLOCK_CLASSES.button.text ]: ! iconId,
+					[ BLOCK_CLASSES.button.text ]: ! iconId && ! iconPostId,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 				href: url,
@@ -124,11 +125,16 @@ export default function Edit( props ) {
 			<Tag { ...blockProps } onClick={ ( e ) => e.preventDefault() }>
 				<PasteUsedIcon
 					iconId={ iconId }
+					iconPostId={ iconPostId }
 					className={ BLOCK_CLASSES.button.icon }
 				/>
 				{ ! withoutText && (
 					<RichText
-						className={ !! iconId ? BLOCK_CLASSES.button.text : '' }
+						className={
+							iconId || iconPostId
+								? BLOCK_CLASSES.button.text
+								: ''
+						}
 						value={ text }
 						onChange={ ( value ) =>
 							setAttributes( { text: value } )

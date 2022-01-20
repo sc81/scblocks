@@ -1,21 +1,48 @@
+/**
+ * WordPress dependencies
+ */
+import { select } from '@wordpress/data';
+
+/**
+ * ScBlocks dependencies
+ */
+import { STORE_NAME } from '@scblocks/constants';
+
+/**
+ * Internal dependencies
+ */
 import getUidForIcon from './get-uid-for-icon';
 
-export default function getIconAttrs( iconName, iconAsString, usedIcons ) {
-	let id;
+export default function getIconAttrs( iconName, iconAsString ) {
+	let nextIconId, postId;
 
-	for ( const uid in usedIcons ) {
-		if ( usedIcons[ uid ] === iconAsString ) {
-			id = uid;
+	const icons = select( STORE_NAME ).icons();
+	const postedIcons = select( STORE_NAME ).postedIcons();
+
+	for ( const id in postedIcons ) {
+		if ( postedIcons[ id ] === iconAsString ) {
+			postId = id;
 		}
 	}
-	const iconAttrs = {};
-	let newIconId;
-	if ( id ) {
-		iconAttrs.iconId = id;
-		iconAttrs.iconName = '';
-		iconAttrs.iconHtml = '';
+
+	for ( const uid in icons ) {
+		if ( icons[ uid ] === iconAsString ) {
+			nextIconId = uid;
+		}
+	}
+	const iconAttrs = {
+		iconName: '',
+		iconHtml: '',
+	};
+
+	if ( nextIconId ) {
+		iconAttrs.iconId = nextIconId;
+		iconAttrs.iconPostId = '';
+	} else if ( postId ) {
+		iconAttrs.iconId = '';
+		iconAttrs.iconPostId = postId;
 	} else {
-		newIconId = getUidForIcon( usedIcons );
+		const newIconId = getUidForIcon( icons );
 		iconAttrs.iconId = newIconId;
 		if ( iconName === 'user-icon' ) {
 			iconAttrs.iconName = 'user|free-version|' + newIconId;

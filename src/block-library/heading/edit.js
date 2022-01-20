@@ -44,6 +44,7 @@ export default function Edit( props ) {
 		text,
 		tagName: Tag,
 		iconId,
+		iconPostId,
 		htmlClass,
 		htmlId,
 		isDynamic,
@@ -78,7 +79,7 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.heading.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
-					[ BLOCK_CLASSES.heading.text ]: ! iconId,
+					[ BLOCK_CLASSES.heading.text ]: ! iconId && ! iconPostId,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 			},
@@ -104,11 +105,14 @@ export default function Edit( props ) {
 			<Tag { ...blockProps }>
 				<PasteUsedIcon
 					iconId={ iconId }
+					iconPostId={ iconPostId }
 					className={ BLOCK_CLASSES.heading.icon }
 				/>
 				<RichText
 					tagName="span"
-					className={ !! iconId ? BLOCK_CLASSES.heading.text : null }
+					className={
+						iconId || iconPostId ? BLOCK_CLASSES.heading.text : null
+					}
 					value={ text }
 					onChange={ ( value ) => setAttributes( { text: value } ) }
 					placeholder={ __( 'Heading', 'scblocks' ) }

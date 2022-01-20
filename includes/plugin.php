@@ -36,14 +36,6 @@ class Plugin {
 	private static $active_blocks = array();
 
 	/**
-	 * An array of used icons by posts or null.
-	 *
-	 * @since 1.3.0
-	 * @var null|array
-	 */
-	private static $used_icons_by_posts;
-
-	/**
 	 * Gets defaults for option.
 	 *
 	 * @return array
@@ -253,21 +245,6 @@ class Plugin {
 	 */
 	public static function compare_microtimes( string $num1, string $num2 ) : bool {
 		return bccomp( $num1, $num2, 9 ) === 1;
-	}
-
-	/**
-	 * Get icons used by posts.
-	 *
-	 * @since 1.3.0
-	 * @return array
-	 */
-	public static function used_icons() : array {
-		if ( is_null( self::$used_icons_by_posts ) ) {
-			$icons = new Icons();
-
-			self::$used_icons_by_posts = $icons->extract_id_and_content( $icons->used_by_posts() );
-		}
-		return self::$used_icons_by_posts;
 	}
 
 	/**

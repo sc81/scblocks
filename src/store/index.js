@@ -18,6 +18,7 @@ const DEFAULT_STATE = {
 	imageUrls: {},
 	options: {},
 	postSettings: {},
+	icons: {},
 };
 
 const actions = {
@@ -39,15 +40,15 @@ const actions = {
 			fontAwesome,
 		};
 	},
-	setUsedIcons( usedIcons ) {
+	setPostedIcons( icons ) {
 		return {
-			type: 'SET_USED_ICONS',
-			usedIcons,
+			type: 'SET_POSTED_ICONS',
+			icons,
 		};
 	},
-	addUsedIcon( id, icon ) {
+	addIcon( id, icon ) {
 		return {
-			type: 'ADD_USED_ICON',
+			type: 'ADD_ICON',
 			id,
 			icon,
 		};
@@ -116,16 +117,16 @@ registerStore( STORE_NAME, {
 					...state,
 					fontAwesome: { ...action.fontAwesome },
 				};
-			case 'SET_USED_ICONS':
+			case 'SET_POSTED_ICONS':
 				return {
 					...state,
-					usedIcons: { ...action.usedIcons },
+					postedIcons: { ...action.icons },
 				};
-			case 'ADD_USED_ICON':
+			case 'ADD_ICON':
 				return {
 					...state,
-					usedIcons: {
-						...state.usedIcons,
+					icons: {
+						...state.icons,
 						[ action.id ]: action.icon,
 					},
 				};
@@ -183,8 +184,14 @@ registerStore( STORE_NAME, {
 		getFontAwesome( state ) {
 			return state.fontAwesome;
 		},
-		usedIcons( state ) {
-			return state.usedIcons;
+		icon( state, id ) {
+			return state.icons[ id ] || '';
+		},
+		icons( state ) {
+			return state.icons;
+		},
+		postedIcons( state ) {
+			return state.postedIcons;
 		},
 		imageUrls( state, id ) {
 			if ( state.imageUrls[ id ] ) {
@@ -237,10 +244,10 @@ registerStore( STORE_NAME, {
 			icons = JSON.parse( icons );
 			return actions.setFontAwesome( icons );
 		},
-		*usedIcons() {
+		*postedIcons() {
 			const path = `/${ PLUGIN_NAME }/v1/icons/3`;
 			const icons = yield actions.fetchFromAPI( path );
-			return actions.setUsedIcons( icons );
+			return actions.setPostedIcons( icons );
 		},
 		*imageUrls( id ) {
 			if ( id === -1 || id === '1' ) {

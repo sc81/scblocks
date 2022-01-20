@@ -59,5 +59,9 @@ export const SHARED_ATTRIBUTES = {
 			type: 'string',
 			default: '',
 		},
+		iconPostId: {
+			type: 'string',
+			default: '',
+		},
 	},
 };

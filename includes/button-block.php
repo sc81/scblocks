@@ -94,10 +94,16 @@ class Button_Block {
 
 		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
 
-		if ( ! empty( $attributes['iconId'] ) ) {
-			$icons   = Plugin::used_icons();
-			$icon    = isset( $icons[ $attributes['iconId'] ] ) ? $icons[ $attributes['iconId'] ] : '';
+		if ( ! empty( $attributes['iconPostId'] ) ) {
+			$post = get_post( $attributes['iconPostId'] );
+			$icon = '';
+
+			if ( ! empty( $post->post_content ) ) {
+				$icon = $post->post_content;
+			}
+
 			$output .= '<span class="scb-icon">' . $icon . '</span>';
+
 			if ( ! ! $text && empty( $attributes['withoutText'] ) ) {
 				$output .= '<span class="scb-button-text">' . $text . '</span>';
 			}
