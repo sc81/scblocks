@@ -33,13 +33,13 @@ export default function getIconAttrs( iconName, iconAsString ) {
 	const iconAttrs = {
 		iconName: '',
 		iconHtml: '',
+		iconId: '',
+		iconPostId: '',
 	};
 
 	if ( nextIconId ) {
 		iconAttrs.iconId = nextIconId;
-		iconAttrs.iconPostId = '';
 	} else if ( postId ) {
-		iconAttrs.iconId = '';
 		iconAttrs.iconPostId = postId;
 	} else {
 		const newIconId = getUidForIcon( icons );

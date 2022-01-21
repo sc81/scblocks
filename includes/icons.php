@@ -5,6 +5,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Manage icons.
+ *
+ * @since 1.3.0
+ */
 class Icons {
 	/**
 	 * @since 1.3.0
@@ -26,6 +31,14 @@ class Icons {
 	 * @var array
 	 */
 	private $data = array();
+
+	/**
+	 * Array of post objects.
+	 *
+	 * @since 1.3.0
+	 * @var array
+	 */
+	private $posts = array();
 
 	/**
 	 * Register actions
@@ -130,6 +143,8 @@ class Icons {
 		}
 		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
 
+		$this->posts = $this->get_saved();
+
 		$this->extract_data( $blocks );
 
 		$this->save();
@@ -142,7 +157,7 @@ class Icons {
 	}
 
 	/**
-	 * Save icons in posts.
+	 * Save icons in the database.
 	 *
 	 * @since 1.3.0
 	 *
@@ -224,7 +239,9 @@ class Icons {
 			&&
 			isset( $block['attrs']['iconId'] )
 			&&
-			! $this->is_icon_with_id( $block['attrs']['iconId'] ) ) {
+			! $this->is_saved_icon( $block['attrs']['iconId'] )
+			&&
+			! $this->is_icon_added( $block['attrs']['iconId'] ) ) {
 				$this->data[] = array(
 					'name' => $block['attrs']['iconName'],
 					'html' => $block['attrs']['iconHtml'],
@@ -238,7 +255,7 @@ class Icons {
 	}
 
 	/**
-	 * Checks if an icon set contains an icon with the specified ID.
+	 * Checks if the icon data set contains an icon.
 	 *
 	 * @since 1.3.0
 	 *
@@ -246,7 +263,7 @@ class Icons {
 	 *
 	 * @return bool
 	 */
-	public function is_icon_with_id( string $id ) : bool {
+	public function is_icon_added( string $id ) : bool {
 		foreach ( $this->data as $icon ) {
 			if ( $icon['id'] === $id ) {
 				return true;
@@ -270,22 +287,63 @@ class Icons {
 				return $icon['postId'];
 			}
 		}
+		foreach ( $this->posts as $post ) {
+			if ( $post->post_name === $icon_id ) {
+				return (string) $post->ID;
+			}
+		}
 		return '';
 	}
 
-	public function get() {
-		$posts = get_posts(
+	/**
+	 * Get HTML markup of saved icons.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return array
+	 */
+	public function get() : array {
+		$posts = $this->get_saved();
+		$icons = array();
+		foreach ( $posts as $post ) {
+			$icons[ $post->ID ] = $post->post_content;
+		}
+		return $icons;
+	}
+
+	/**
+	 * Get saved icons from the database.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return array
+	 */
+	public function get_saved() : array {
+		return get_posts(
 			array(
 				'post_type'   => self::POST_TYPE_NAME,
 				'post_status' => 'draft',
 				'numberposts' => -1,
 			)
 		);
-		$icons = array();
-		foreach ( $posts as $post ) {
-			$icons[ $post->ID ] = $post->post_content;
+	}
+
+	/**
+	 * Checks if an icon is already saved.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $icon_id
+	 *
+	 * @return bool
+	 */
+	public function is_saved_icon( string $icon_id ) : bool {
+		foreach ( $this->posts as $post ) {
+			if ( $post->post_name === $icon_id ) {
+				return true;
+			}
 		}
-		return $icons;
+		return false;
 	}
 
 }
