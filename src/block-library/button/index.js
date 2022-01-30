@@ -66,6 +66,7 @@ export const settings = {
 		},
 		...SHARED_ATTRIBUTES.googleFonts,
 		...SHARED_ATTRIBUTES.icon,
+		...SHARED_ATTRIBUTES.label,
 	},
 	supports: {
 		alignWide: false,
@@ -77,4 +78,5 @@ export const settings = {
 	parent: [ BUTTONS_BLOCK_NAME ],
 	edit,
 	deprecated,
+	__experimentalLabel: ( { label } ) => label,
 };

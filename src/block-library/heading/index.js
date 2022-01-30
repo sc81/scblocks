@@ -41,6 +41,7 @@ export const settings = {
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
 		...SHARED_ATTRIBUTES.icon,
+		...SHARED_ATTRIBUTES.label,
 	},
 	supports: {
 		anchor: false,
@@ -50,4 +51,5 @@ export const settings = {
 	},
 	edit,
 	deprecated,
+	__experimentalLabel: ( { label } ) => label,
 };

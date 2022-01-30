@@ -39,6 +39,7 @@ export const settings = {
 		...SHARED_ATTRIBUTES.classes,
 		...SHARED_ATTRIBUTES.bgImageIds, // deprecated since 1.3.0
 		...SHARED_ATTRIBUTES.googleFonts,
+		...SHARED_ATTRIBUTES.label,
 		tag: {
 			type: 'string',
 			default: 'div',
@@ -73,4 +74,5 @@ export const settings = {
 	},
 	variations,
 	deprecated,
+	__experimentalLabel: ( { label } ) => label,
 };

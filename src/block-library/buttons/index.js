@@ -34,6 +34,7 @@ export const settings = {
 		...SHARED_ATTRIBUTES.required,
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
+		...SHARED_ATTRIBUTES.label,
 		isDynamic: {
 			type: 'boolean',
 		},
@@ -49,4 +50,5 @@ export const settings = {
 	},
 	variations,
 	deprecated,
+	__experimentalLabel: ( { label } ) => label,
 };

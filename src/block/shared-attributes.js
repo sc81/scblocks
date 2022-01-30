@@ -60,4 +60,9 @@ export const SHARED_ATTRIBUTES = {
 			default: '',
 		},
 	},
+	label: {
+		label: {
+			type: 'string',
+		},
+	},
 };
