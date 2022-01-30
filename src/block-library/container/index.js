@@ -25,7 +25,6 @@ export const settings = {
 	title: __( 'Container', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
-	description: __( 'Space for other blocks.', 'scblocks' ),
 	keywords: [
 		__( 'container', 'scblocks' ),
 		__( 'wrapper', 'scblocks' ),

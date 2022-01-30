@@ -24,7 +24,6 @@ export const settings = {
 	apiVersion: 2,
 	title: __( 'Column', 'scblocks' ),
 	parent: [ `${ PLUGIN_NAME }/columns` ],
-	description: __( 'A single column within a columns block.', 'scblocks' ),
 	category: PLUGIN_NAME,
 	icon,
 	attributes: {

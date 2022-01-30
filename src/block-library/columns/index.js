@@ -26,10 +26,6 @@ export const settings = {
 	title: __( 'Columns', 'scblocks' ),
 	icon,
 	category: PLUGIN_NAME,
-	description: __(
-		'Organize your content with flexible columns.',
-		'scblocks'
-	),
 	attributes: {
 		...SHARED_ATTRIBUTES.required,
 		...SHARED_ATTRIBUTES.id,
