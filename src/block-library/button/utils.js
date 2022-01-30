@@ -80,6 +80,6 @@ function useToggleIconControls(
 
 addAction(
 	'scblocks.button.selectorsSettings',
-	'scblocks',
+	'scblocks/button/useToggleIconControls',
 	useToggleIconControls
 );
