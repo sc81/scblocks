@@ -83,5 +83,6 @@ function useToggleIconControls(
 addAction(
 	'scblocks.heading.selectorsSettings',
 	'scblocks/heading/useToggleIconControls',
-	useToggleIconControls
+	useToggleIconControls,
+	10
 );
