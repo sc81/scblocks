@@ -61,7 +61,6 @@ export const settings = {
 		isDynamic: {
 			type: 'boolean',
 		},
-		...SHARED_ATTRIBUTES.googleFonts,
 		...SHARED_ATTRIBUTES.icon,
 		...SHARED_ATTRIBUTES.label,
 	},
