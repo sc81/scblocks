@@ -37,7 +37,6 @@ export const settings = {
 		isDynamic: {
 			type: 'boolean',
 		},
-		...SHARED_ATTRIBUTES.googleFonts,
 		...SHARED_ATTRIBUTES.id,
 		...SHARED_ATTRIBUTES.classes,
 		...SHARED_ATTRIBUTES.icon,
