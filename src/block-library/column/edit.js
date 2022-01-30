@@ -22,7 +22,6 @@ import {
 	useDynamicCss,
 	useBlockMemo,
 	BLOCK_CLASSES,
-	GoogleFontsLink,
 	getUidClass,
 	useSelectorsSettings,
 } from '@scblocks/block';
@@ -93,7 +92,6 @@ export default function Edit( props ) {
 	return (
 		<>
 			<style>{ style }</style>
-			<GoogleFontsLink clientId={ clientId } />
 			<Inspector
 				{ ...props }
 				blockMemo={ blockMemo }
