@@ -23,9 +23,6 @@ export const name = BUTTON_BLOCK_NAME;
 export const settings = {
 	apiVersion: 2,
 	title: __( 'Button', 'scblocks' ),
-	description: __(
-		'Prompt visitors to take action with a button-style link.'
-	),
 	icon,
 	category: PLUGIN_NAME,
 	keywords: [ __( 'link', 'scblocks' ) ],
