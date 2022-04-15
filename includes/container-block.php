@@ -66,9 +66,8 @@ class Container_Block {
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
-		if ( empty( $attributes['tag'] ) ) {
-			$tag = 'div';
-		}
+
+		$tag = empty( $attributes['tag'] ) ? 'div' : $attributes['tag'];
 
 		$tag_name = apply_filters( 'scblocks_container_tagname', $tag, $attributes );
 
