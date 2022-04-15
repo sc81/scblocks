@@ -199,7 +199,10 @@ class Plugin {
 		}
 
 		foreach ( $parsed_blocks as $block ) {
-			if ( isset( $block['blockName'] ) && strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
+			if ( ! is_array( $block ) || ! isset( $block['blockName'] ) ) {
+				continue;
+			}
+			if ( strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
 				$block_name = explode( '/', $block['blockName'] )[1];
 
 				$data[ $block_name ][] = $block['attrs'];
@@ -217,14 +220,16 @@ class Plugin {
 				do_action( 'scblocks_collecting_block_attrs', $block );
 			}
 			// reusable block
-			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] ) ) {
-				$reusable_block = get_post( $block['attrs']['ref'] );
+			if ( 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] )
+					&& ( empty( $data['wpBlockId'] ) || ! in_array( $block['attrs']['ref'], $data['wpBlockId'] ) ) ) {
+					$reusable_block = get_post( $block['attrs']['ref'] );
 
-				if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
+				if ( $reusable_block && 'wp_block' === $reusable_block->post_type && 'publish' === $reusable_block->post_status ) {
 					$parsed_reusable_block = parse_blocks( $reusable_block->post_content );
-
-					$data = self::blocks_attrs( $parsed_reusable_block, $data );
-
+					if ( ! empty( $parsed_reusable_block ) ) {
+						$data['wpBlockId'][] = $block['attrs']['ref'];
+						$data                = self::blocks_attrs( $parsed_reusable_block, $data );
+					}
 				}
 			}
 			// inner blocks
