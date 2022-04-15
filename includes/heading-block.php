@@ -70,8 +70,10 @@ class Heading_Block {
 		$output      = '';
 		$class_names = array(
 			'scb-heading',
-			$attributes['uidClass'],
 		);
+		if ( ! empty( $attributes['uidClass'] ) ) {
+			$class_names[] = $attributes['uidClass'];
+		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}

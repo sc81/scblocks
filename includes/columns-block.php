@@ -50,8 +50,10 @@ class Columns_Block {
 		$output      = '';
 		$class_names = array(
 			'scb-columns',
-			$attributes['uidClass'],
 		);
+		if ( ! empty( $attributes['uidClass'] ) ) {
+			$class_names[] = $attributes['uidClass'];
+		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
