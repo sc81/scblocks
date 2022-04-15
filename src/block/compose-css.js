@@ -1,4 +1,8 @@
 /**
+ * WordPress dependencies
+ */
+import { applyFilters } from '@wordpress/hooks';
+/**
  * ScBlocks dependencies
  */
 import { ALL_DEVICES } from '@scblocks/constants';
@@ -32,7 +36,20 @@ function isShapeAlias( selectorAlias ) {
 	return selectorAlias.startsWith( 'shape-' );
 }
 
-function shapeFinalSelector( selectorAlias, blockName, uidClass ) {
+function getBlockFullSelector( blockName, alias, uidClass ) {
+	if ( BLOCK_SELECTOR[ blockName ] ) {
+		return BLOCK_SELECTOR[ blockName ][ alias ].fullSelector( uidClass );
+	}
+	return applyFilters(
+		'scblocks.composeCss.blockSelector',
+		'undefined',
+		blockName,
+		alias,
+		uidClass
+	);
+}
+
+function shapeFinalSelector( selectorAlias, uidClass ) {
 	let shapeClass = 'scb-' + selectorAlias;
 	let tempAlias = 'shape';
 	if ( selectorAlias.startsWith( 'shape-svg' ) ) {
@@ -42,7 +59,7 @@ function shapeFinalSelector( selectorAlias, blockName, uidClass ) {
 		) } svg`;
 		tempAlias = 'shapeSvg';
 	}
-	return BLOCK_SELECTOR[ blockName ][ tempAlias ].fullSelector(
+	return BLOCK_SELECTOR.container[ tempAlias ].fullSelector(
 		uidClass,
 		shapeClass
 	);
@@ -53,15 +70,13 @@ function composeSelectors( selectors, blockName, uidClass ) {
 		finalSelector;
 	for ( const selectorAlias in selectors ) {
 		if ( isShapeAlias( selectorAlias ) ) {
-			finalSelector = shapeFinalSelector(
-				selectorAlias,
+			finalSelector = shapeFinalSelector( selectorAlias, uidClass );
+		} else {
+			finalSelector = getBlockFullSelector(
 				blockName,
+				selectorAlias,
 				uidClass
 			);
-		} else {
-			finalSelector = BLOCK_SELECTOR[ blockName ][
-				selectorAlias
-			].fullSelector( uidClass );
 		}
 		css += `.editor-styles-wrapper ${ finalSelector }{${ composePropValue(
 			selectors[ selectorAlias ]
