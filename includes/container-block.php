@@ -11,6 +11,23 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.2.0
  */
 class Container_Block {
+
+	/**
+	 * Allowed tag names.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @var array
+	 */
+	const ALLOWED_TAGS = array(
+		'div',
+		'section',
+		'header',
+		'footer',
+		'article',
+		'aside',
+	);
+
 	/**
 	 * Register actions
 	 *
@@ -70,6 +87,15 @@ class Container_Block {
 		$tag = empty( $attributes['tag'] ) ? 'div' : $attributes['tag'];
 
 		$tag_name = apply_filters( 'scblocks_container_tagname', $tag, $attributes );
+
+		$allowed_tags = apply_filters(
+			'scblocks_container_allowed_tags',
+			self::ALLOWED_TAGS,
+			$attributes
+		);
+		if ( ! in_array( $tag_name, $allowed_tags, true ) ) {
+			$tag_name = 'div';
+		}
 
 		$html_attr = new Html_Attributes(
 			'container',
