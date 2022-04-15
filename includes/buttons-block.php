@@ -51,8 +51,10 @@ class Buttons_Block {
 		$output      = '';
 		$class_names = array(
 			'scb-buttons',
-			$attributes['uidClass'],
 		);
+		if ( ! empty( $attributes['uidClass'] ) ) {
+			$class_names[] = $attributes['uidClass'];
+		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}

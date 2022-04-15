@@ -68,8 +68,10 @@ class Container_Block {
 		$output      = '';
 		$class_names = array(
 			'scb-container',
-			$attributes['uidClass'],
 		);
+		if ( ! empty( $attributes['uidClass'] ) ) {
+			$class_names[] = $attributes['uidClass'];
+		}
 		if ( ! empty( $attributes['align'] ) ) {
 			if ( $this->is_set_align_wide() ) {
 				$class_names[] = 'align' . $attributes['align'];
