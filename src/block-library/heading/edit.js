@@ -23,7 +23,6 @@ import {
 	GoogleFontsLink,
 	getUidClass,
 	PasteUsedIcon,
-	AlignmentToolbar,
 	useSelectorsSettings,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
@@ -35,6 +34,7 @@ import './markformat';
 import getSelectorsSettings from './utils';
 import { name as blockName } from '.';
 import Inspector from './inspector';
+import './block-controls';
 
 const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
 
@@ -86,13 +86,20 @@ export default function Edit( props ) {
 		)
 	);
 
+	const dynamicContent = applyFilters(
+		'scblocks.heading.dynamicContent',
+		null,
+		props
+	);
+
 	return (
 		<>
-			<AlignmentToolbar
-				{ ...props }
-				devices={ devices }
-				selector="main"
-			/>
+			{ applyFilters(
+				'scblocks.heading.blockControls',
+				null,
+				props,
+				devices
+			) }
 			<style>{ style }</style>
 			<Inspector
 				{ ...props }
@@ -106,24 +113,31 @@ export default function Edit( props ) {
 					iconId={ iconId }
 					className={ BLOCK_CLASSES.heading.icon }
 				/>
-				<RichText
-					tagName="span"
-					className={ !! iconId ? BLOCK_CLASSES.heading.text : null }
-					value={ text }
-					onChange={ ( value ) => setAttributes( { text: value } ) }
-					placeholder={ __( 'Heading', 'scblocks' ) }
-					onSplit={ ( value ) => {
-						if ( ! value ) {
-							return createBlock( 'core/paragraph' );
+				{ dynamicContent }
+				{ ! dynamicContent && (
+					<RichText
+						tagName="span"
+						className={
+							!! iconId ? BLOCK_CLASSES.heading.text : null
 						}
+						value={ text }
+						onChange={ ( value ) =>
+							setAttributes( { text: value } )
+						}
+						placeholder={ __( 'Heading', 'scblocks' ) }
+						onSplit={ ( value ) => {
+							if ( ! value ) {
+								return createBlock( 'core/paragraph' );
+							}
 
-						return createBlock( blockName, {
-							...attributes,
-							text: value,
-						} );
-					} }
-					onReplace={ onReplace }
-				/>
+							return createBlock( blockName, {
+								...attributes,
+								text: value,
+							} );
+						} }
+						onReplace={ onReplace }
+					/>
+				) }
 			</Tag>
 		</>
 	);
