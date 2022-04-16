@@ -19,7 +19,7 @@ class Update_Blocks_Metadata {
 	public function register_actions() {
 		add_action( 'save_post', array( $this, 'update_post_settings' ), 10, 2 );
 		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ), 10, 2 );
-		add_action( 'wp_insert_post_data', array( $this, 'change_uid_class_on_save' ), 10, 2 );
+		add_action( 'wp_insert_post_data', array( $this, 'set_uid_class_on_save' ), 10, 2 );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Update_Blocks_Metadata {
 	}
 
 	/**
-	 * Change the uidClass of all our blocks when saving the post.
+	 * Set uidClass for our blocks when saving the post.
 	 *
 	 * @since 1.3.0
 	 *
@@ -94,9 +94,8 @@ class Update_Blocks_Metadata {
 	 *
 	 * @return array
 	 */
-	public function change_uid_class_on_save( array $data, array $postarr ) : array {
-		if ( ! current_user_can( 'edit_post', $postarr['ID'] ) ||
-		empty( $data['post_content'] ) ||
+	public function set_uid_class_on_save( array $data, array $postarr ) : array {
+		if ( empty( $data['post_content'] ) ||
 		Icons::POST_TYPE_NAME === $data['post_type'] ) {
 			return $data;
 		}
