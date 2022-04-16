@@ -170,7 +170,7 @@ class Block_Css {
 	 * @return string
 	 */
 	public function mode() : string {
-		$mode = Plugin::option( 'css_print_method' );
+		$mode = Plugin::css_print_method();
 
 		if ( is_customize_preview() || is_preview() ||
 		// inline CSS for AMP
