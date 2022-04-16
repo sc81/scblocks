@@ -277,6 +277,21 @@ class Plugin {
 	}
 
 	/**
+	 * Get CSS print method.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return string
+	 */
+	public static function css_print_method() : string {
+		$method = self::option( 'css_print_method' );
+		if ( is_single() ) {
+			$method = 'inline';
+		}
+		return apply_filters( 'scblocks_css_print_method', $method );
+	}
+
+	/**
 	 * Updates the job completion time for the file writer.
 	 *
 	 * @since 1.1.0
