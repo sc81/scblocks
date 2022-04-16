@@ -220,12 +220,13 @@ class Plugin {
 				do_action( 'scblocks_collecting_block_attrs', $block );
 			}
 			// reusable block
-			if ( 'core/block' === $block['blockName'] && isset( $block['attrs'] ) && ! empty( $block['attrs']['ref'] )
+			if ( 'core/block' === $block['blockName'] && ! empty( $block['attrs']['ref'] )
 					&& ( empty( $data['wpBlockId'] ) || ! in_array( $block['attrs']['ref'], $data['wpBlockId'] ) ) ) {
 					$reusable_block = get_post( $block['attrs']['ref'] );
 
 				if ( $reusable_block && 'wp_block' === $reusable_block->post_type && 'publish' === $reusable_block->post_status ) {
 					$parsed_reusable_block = parse_blocks( $reusable_block->post_content );
+
 					if ( ! empty( $parsed_reusable_block ) ) {
 						$data['wpBlockId'][] = $block['attrs']['ref'];
 						$data                = self::blocks_attrs( $parsed_reusable_block, $data );
