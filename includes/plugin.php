@@ -211,13 +211,10 @@ class Plugin {
 				if ( 'heading' === $block_name || 'button' === $block_name ) {
 					self::set_is_active_block( 'icon' );
 				}
-				/**
-				 * Fires while collecting block attributes.
-				 *
-				 * @since 1.3.0
-				 * @param array $block Block data.
-				 */
+
 				do_action( 'scblocks_collecting_block_attrs', $block );
+
+				$data = apply_filters( 'scblocks_blocks_attrs', $data, $block );
 			}
 			// reusable block
 			if ( 'core/block' === $block['blockName'] && ! empty( $block['attrs']['ref'] )
