@@ -27,14 +27,6 @@ class Css {
 	private $state = array( 'allDevices' => array() );
 
 	/**
-	 * Device name.
-	 *
-	 * @since 1.3.0
-	 * @var string
-	 */
-	private $device;
-
-	/**
 	 * Block name.
 	 *
 	 * @since 1.3.0
@@ -66,8 +58,9 @@ class Css {
 			'scblocks_media_query',
 			array(
 				array(
-					'name'  => 'desktop',
-					'value' => '',
+					'name'                => 'desktop',
+					'value'               => '',
+					'mergeWithAllDevices' => true,
 				),
 				array(
 					'name'  => 'tablet',
@@ -94,19 +87,32 @@ class Css {
 				if ( empty( $block['uidClass'] ) || empty( $block['css'] ) ) {
 					continue;
 				}
-
-				$this->block_name = $name;
+				$this->block_name      = $name;
+				$this->block_uid_class = $block['uidClass'];
 
 				foreach ( $block['css'] as $device => $selectors ) {
-					$this->block_uid_class = $block['uidClass'];
-
-					$this->device = $device;
-
-					$this->build_selectors_state( $selectors );
+					$this->build_selectors_state( $selectors, $device );
 				}
 			}
 		}
 		return $this->convert_to_string();
+	}
+
+	/**
+	 * Get CSS name to merge with allDevices.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $media_query
+	 * @return string
+	 */
+	private function css_name_to_merge( array $media_query ) : string {
+		foreach ( $media_query as $media ) {
+			if ( isset( $media['mergeWithAllDevices'] ) ) {
+				return $media['name'];
+			}
+		}
+		return '';
 	}
 
 	/**
@@ -117,49 +123,26 @@ class Css {
 	 * @return string CSS.
 	 */
 	private function convert_to_string() : string {
-		$css = '';
-		if ( empty( $this->state ) ) {
-			return $css;
+		$css               = '';
+		$media_query       = self::media_query();
+		$css_name_to_merge = $this->css_name_to_merge( $media_query );
+
+		if ( $css_name_to_merge ) {
+			$selectors = isset( $this->state[ $css_name_to_merge ] ) ? $this->state[ $css_name_to_merge ] : array();
+
+			$this->state[ $css_name_to_merge ] = $this->merge_selectors( $selectors, $this->state['allDevices'] );
 		}
-		$media_query  = self::media_query();
-		$first_device = $media_query[0]['name'];
-		foreach ( $this->state as $device => $selectors ) {
-			if ( 'allDevices' === $device ) {
+		foreach ( $media_query as $media ) {
+			if ( ! isset( $this->state[ $media['name'] ] ) ) {
 				continue;
 			}
-			if ( $first_device === $device ) {
-				$css .= $this->compose_selectors( $this->merge_selectors( $selectors, $this->state['allDevices'] ) );
+			if ( $css_name_to_merge === $media['name'] ) {
+				$css .= $this->compose_selectors( $this->state[ $media['name'] ] );
 			} else {
-				$media_query_list = $this->get_media_query_list( $device, $media_query );
-
-				$css .= '@media ' . $media_query_list . '{' . $this->compose_selectors( $selectors ) . '}';
+				$css .= '@media ' . $media['value'] . '{' . $this->compose_selectors( $this->state[ $media['name'] ] ) . '}';
 			}
 		}
 		return $css;
-	}
-
-	/**
-	 * Return media-query-list.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param string $name Device name
-	 * @param array $media_query Media query data
-	 *
-	 * @return string
-	 */
-	private function get_media_query_list( string $name, array $media_query ) : string {
-		$value = '';
-		foreach ( $media_query as $device ) {
-			if ( isset( $device['name'] )
-			&&
-			$device['name'] === $name
-			&&
-			isset( $device['value'] ) ) {
-				return $device['value'];
-			}
-		}
-		return $value;
 	}
 
 	/**
@@ -206,16 +189,14 @@ class Css {
 	 * @since 1.3.0
 	 *
 	 * @param array $selectors Array of selectors.
-	 *
+	 * @param string $device Device name.
 	 * @return void
 	 */
-	private function build_selectors_state( array $selectors ) {
+	private function build_selectors_state( array $selectors, string $device ) {
 		foreach ( $selectors as $selector_alias => $css_props ) {
-
 			$selector = $this->element_final_selector( $selector_alias );
-
 			if ( $selector ) {
-				$this->state[ $this->device ][ $selector ] = $this->compose_props( $css_props );
+				$this->state[ $device ][ $selector ] = $this->compose_props( $css_props );
 			}
 		}
 	}
