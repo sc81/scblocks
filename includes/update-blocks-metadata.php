@@ -103,6 +103,8 @@ class Update_Blocks_Metadata {
 
 		$this->update_uid_class( $blocks, $postarr['ID'] );
 
+		$blocks = apply_filters( 'scblocks_update_uid_class', $blocks, $postarr['ID'] );
+
 		$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
 
 		return $data;
