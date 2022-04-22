@@ -3,6 +3,7 @@
  */
 import { useState, useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * ScBlocks dependencies
@@ -18,7 +19,6 @@ import Space from './space/index';
 import ColorSet from './color-set';
 import BorderPanel from './border-panel';
 import PositionPanel from './position-panel';
-import GridPanel from './grid-panel';
 import Panel from './panel';
 
 export default function Panels( props ) {
@@ -106,19 +106,17 @@ export default function Panels( props ) {
 					<Background { ...props } />
 				</Panel>
 			) }
-			{ isVisiblePanel.grid && (
-				<Panel
-					name="grid"
-					label={ __( 'Grid', 'scblocks' ) }
-					onClickPanel={ onClickPanel }
-					openedPanel={ openedPanel }
-					panelCount={ panelCount }
-				>
-					<GridPanel
-						{ ...props }
-						selectorSettings={ selectorsSettings[ index ] }
-					/>
-				</Panel>
+			{ applyFilters(
+				'scblocks.stylePanels.afterBackground',
+				null,
+				props,
+				{
+					onClickPanel,
+					openedPanel,
+					isVisiblePanel,
+					panelCount,
+					selectorIndex: index,
+				}
 			) }
 			{ isVisiblePanel.space && (
 				<Panel
