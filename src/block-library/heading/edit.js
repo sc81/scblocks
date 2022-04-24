@@ -38,16 +38,11 @@ import './block-controls';
 
 const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
 
+const placeholder = __( 'Heading', 'scblocks' );
+
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace, clientId, name } = props;
-	const {
-		text,
-		tagName: Tag,
-		iconId,
-		htmlClass,
-		htmlId,
-		isDynamic,
-	} = attributes;
+	const { text, tagName, iconId, htmlClass, htmlId, isDynamic } = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -92,6 +87,24 @@ export default function Edit( props ) {
 		props
 	);
 
+	function onSplit( value ) {
+		if ( ! value ) {
+			return createBlock( 'core/paragraph' );
+		}
+
+		return createBlock( blockName, {
+			...attributes,
+			text: value,
+		} );
+	}
+
+	function onChangeText( value ) {
+		setAttributes( { text: value } );
+	}
+
+	const isIcon = !! iconId;
+	const Tag = tagName;
+
 	return (
 		<>
 			{ applyFilters(
@@ -108,37 +121,44 @@ export default function Edit( props ) {
 				selectorsSettings={ selectorsSettings }
 			/>
 			<GoogleFontsLink clientId={ clientId } />
-			<Tag { ...blockProps }>
-				<PasteUsedIcon
-					iconId={ iconId }
-					className={ BLOCK_CLASSES.heading.icon }
-				/>
-				{ dynamicContent }
-				{ ! dynamicContent && (
-					<RichText
-						tagName="span"
-						className={
-							!! iconId ? BLOCK_CLASSES.heading.text : null
-						}
-						value={ text }
-						onChange={ ( value ) =>
-							setAttributes( { text: value } )
-						}
-						placeholder={ __( 'Heading', 'scblocks' ) }
-						onSplit={ ( value ) => {
-							if ( ! value ) {
-								return createBlock( 'core/paragraph' );
-							}
-
-							return createBlock( blockName, {
-								...attributes,
-								text: value,
-							} );
-						} }
-						onReplace={ onReplace }
+			{ isIcon && (
+				<Tag { ...blockProps }>
+					<PasteUsedIcon
+						iconId={ iconId }
+						className={ BLOCK_CLASSES.heading.icon }
 					/>
-				) }
-			</Tag>
+					{ !! dynamicContent && (
+						<span className={ BLOCK_CLASSES.heading.text }>
+							{ dynamicContent }
+						</span>
+					) }
+					{ ! dynamicContent && (
+						<RichText
+							tagName="span"
+							className={ BLOCK_CLASSES.heading.text }
+							value={ text }
+							onChange={ onChangeText }
+							placeholder={ placeholder }
+							onSplit={ onSplit }
+							onReplace={ onReplace }
+						/>
+					) }
+				</Tag>
+			) }
+			{ ! isIcon && ! dynamicContent && (
+				<RichText
+					tagName={ tagName }
+					value={ text }
+					onChange={ onChangeText }
+					placeholder={ placeholder }
+					onSplit={ onSplit }
+					onReplace={ onReplace }
+					{ ...blockProps }
+				/>
+			) }
+			{ ! isIcon && !! dynamicContent && (
+				<Tag { ...blockProps }>{ dynamicContent }</Tag>
+			) }
 		</>
 	);
 }
