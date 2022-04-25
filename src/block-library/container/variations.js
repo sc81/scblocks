@@ -22,7 +22,7 @@ function getColumn( width ) {
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.column.main.alias ]: [
-						`flex-basis:${ width }%`,
+						`flexBasis:${ width }%`,
 					],
 				},
 			},
