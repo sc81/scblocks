@@ -14,16 +14,15 @@ import { DESKTOP_DEVICE } from '@scblocks/constants';
  * Internal dependencies
  */
 import { COLUMN_NAME } from '../column/utils';
-import { COLUMNS_NAME } from '../columns/utils';
 
-function getColumnState( width ) {
+function getColumn( width ) {
 	return [
 		COLUMN_NAME,
 		{
 			css: {
 				[ DESKTOP_DEVICE ]: {
 					[ BLOCK_SELECTOR.column.main.alias ]: [
-						`width:${ width }%`,
+						`flex-basis:${ width }%`,
 					],
 				},
 			},
@@ -31,11 +30,7 @@ function getColumnState( width ) {
 	];
 }
 function getColumns( widths ) {
-	return [
-		COLUMNS_NAME,
-		{},
-		widths.map( ( width ) => getColumnState( width ) ),
-	];
+	return widths.map( ( width ) => getColumn( width ) );
 }
 
 /**
@@ -89,8 +84,17 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumns( [ 50, 50 ] ) ],
+		innerBlocks: getColumns( [ 50, 50 ] ),
 		scope: [ 'block' ],
+		attributes: {
+			css: {
+				[ DESKTOP_DEVICE ]: {
+					[ BLOCK_SELECTOR.container.content.alias ]: [
+						'display:flex',
+					],
+				},
+			},
+		},
 	},
 	{
 		name: 'two-columns-one-third-two-thirds',
@@ -113,8 +117,17 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumns( [ 33.33, 66.66 ] ) ],
+		innerBlocks: getColumns( [ 33.33, 66.66 ] ),
 		scope: [ 'block' ],
+		attributes: {
+			css: {
+				[ DESKTOP_DEVICE ]: {
+					[ BLOCK_SELECTOR.container.content.alias ]: [
+						'display:flex',
+					],
+				},
+			},
+		},
 	},
 	{
 		name: 'two-columns-two-thirds-one-third',
@@ -137,8 +150,17 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumns( [ 66.66, 33.33 ] ) ],
+		innerBlocks: getColumns( [ 66.66, 33.33 ] ),
 		scope: [ 'block' ],
+		attributes: {
+			css: {
+				[ DESKTOP_DEVICE ]: {
+					[ BLOCK_SELECTOR.container.content.alias ]: [
+						'display:flex',
+					],
+				},
+			},
+		},
 	},
 	{
 		name: 'three-columns-equal',
@@ -157,8 +179,17 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumns( [ 33.33, 33.33, 33.33 ] ) ],
+		innerBlocks: getColumns( [ 33.33, 33.33, 33.33 ] ),
 		scope: [ 'block' ],
+		attributes: {
+			css: {
+				[ DESKTOP_DEVICE ]: {
+					[ BLOCK_SELECTOR.container.content.alias ]: [
+						'display:flex',
+					],
+				},
+			},
+		},
 	},
 	{
 		name: 'three-columns-wider-center',
@@ -177,8 +208,17 @@ const variations = [
 				/>
 			</SVG>
 		),
-		innerBlocks: [ getColumnState( [ 25, 50, 25 ] ) ],
+		innerBlocks: getColumns( [ 25, 50, 25 ] ),
 		scope: [ 'block' ],
+		attributes: {
+			css: {
+				[ DESKTOP_DEVICE ]: {
+					[ BLOCK_SELECTOR.container.content.alias ]: [
+						'display:flex',
+					],
+				},
+			},
+		},
 	},
 	{
 		name: 'four-columns-equal',
@@ -229,8 +269,17 @@ const variations = [
 				/>
 			</svg>
 		),
-		innerBlocks: [ getColumns( [ 25, 25, 25, 25 ] ) ],
+		innerBlocks: getColumns( [ 25, 25, 25, 25 ] ),
 		scope: [ 'block' ],
+		attributes: {
+			css: {
+				[ DESKTOP_DEVICE ]: {
+					[ BLOCK_SELECTOR.container.content.alias ]: [
+						'display:flex',
+					],
+				},
+			},
+		},
 	},
 ];
 

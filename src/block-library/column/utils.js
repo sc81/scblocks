@@ -7,9 +7,8 @@ import { __ } from '@wordpress/i18n';
  * ScBlocks dependencies
  */
 import { BLOCK_SELECTOR } from '@scblocks/block';
-import { PLUGIN_NAME } from '@scblocks/constants';
 
-export const COLUMN_NAME = `${ PLUGIN_NAME }/column`;
+export const COLUMN_NAME = 'scblocks/column';
 
 export default function getSelectorsSettings() {
 	return [

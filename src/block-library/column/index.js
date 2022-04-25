@@ -23,7 +23,6 @@ export const name = COLUMN_NAME;
 export const settings = {
 	apiVersion: 2,
 	title: __( 'Column', 'scblocks' ),
-	parent: [ `${ PLUGIN_NAME }/columns` ],
 	category: PLUGIN_NAME,
 	icon,
 	attributes: {
@@ -45,7 +44,6 @@ export const settings = {
 		},
 	},
 	supports: {
-		inserter: false,
 		reusable: false,
 		html: false,
 		className: false,

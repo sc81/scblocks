@@ -36,6 +36,7 @@ export const settings = {
 		},
 	},
 	supports: {
+		inserter: false,
 		html: false,
 		className: false,
 		customClassName: false,
