@@ -53,6 +53,20 @@ export default function getSelectorsSettings() {
 				position: {
 					zIndex: true,
 				},
+				flex: {
+					// parent
+					displayFlex: true,
+					gap: true,
+					flexDirection: true,
+					flexWrap: true,
+					justifyContent: true,
+					alignItems: true,
+					alignContent: true,
+					// items
+					alignSelf: true,
+					flex: true,
+					order: true,
+				},
 			},
 		},
 	];

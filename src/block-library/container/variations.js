@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n';
  * ScBlocks dependencies
  */
 import { BLOCK_SELECTOR } from '@scblocks/block';
-import { DESKTOP_DEVICE } from '@scblocks/constants';
+import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
 
 /**
  * Internal dependencies
@@ -88,7 +88,7 @@ const variations = [
 		scope: [ 'block' ],
 		attributes: {
 			css: {
-				[ DESKTOP_DEVICE ]: {
+				[ ALL_DEVICES ]: {
 					[ BLOCK_SELECTOR.container.content.alias ]: [
 						'display:flex',
 					],
@@ -121,7 +121,7 @@ const variations = [
 		scope: [ 'block' ],
 		attributes: {
 			css: {
-				[ DESKTOP_DEVICE ]: {
+				[ ALL_DEVICES ]: {
 					[ BLOCK_SELECTOR.container.content.alias ]: [
 						'display:flex',
 					],
@@ -154,7 +154,7 @@ const variations = [
 		scope: [ 'block' ],
 		attributes: {
 			css: {
-				[ DESKTOP_DEVICE ]: {
+				[ ALL_DEVICES ]: {
 					[ BLOCK_SELECTOR.container.content.alias ]: [
 						'display:flex',
 					],
@@ -183,7 +183,7 @@ const variations = [
 		scope: [ 'block' ],
 		attributes: {
 			css: {
-				[ DESKTOP_DEVICE ]: {
+				[ ALL_DEVICES ]: {
 					[ BLOCK_SELECTOR.container.content.alias ]: [
 						'display:flex',
 					],
@@ -212,7 +212,7 @@ const variations = [
 		scope: [ 'block' ],
 		attributes: {
 			css: {
-				[ DESKTOP_DEVICE ]: {
+				[ ALL_DEVICES ]: {
 					[ BLOCK_SELECTOR.container.content.alias ]: [
 						'display:flex',
 					],
@@ -273,7 +273,7 @@ const variations = [
 		scope: [ 'block' ],
 		attributes: {
 			css: {
-				[ DESKTOP_DEVICE ]: {
+				[ ALL_DEVICES ]: {
 					[ BLOCK_SELECTOR.container.content.alias ]: [
 						'display:flex',
 					],
