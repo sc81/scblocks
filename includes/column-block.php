@@ -89,7 +89,6 @@ class Column_Block {
 			'scblocks_column_default_css',
 			array(
 				'.scb-column' => array(
-					'flex: auto',
 					'overflow-wrap: break-word',
 					'word-break: break-word',
 				),
