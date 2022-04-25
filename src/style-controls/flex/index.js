@@ -17,9 +17,6 @@ export default function Flex( {
 		props: [ 'flexGrow', 'flexShrink', 'flexBasis' ],
 	} );
 	function onChange( name, value ) {
-		if ( name === 'flexBasis' ) {
-			value = value.replace( /[^0-9a-z.%-]/g, '' );
-		}
 		setValues( {
 			flexBasis,
 			flexGrow,

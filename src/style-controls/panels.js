@@ -20,6 +20,7 @@ import ColorSet from './color-set';
 import BorderPanel from './border-panel';
 import PositionPanel from './position-panel';
 import Panel from './panel';
+import FlexPanel from './flex-panel';
 
 export default function Panels( props ) {
 	const {
@@ -117,6 +118,20 @@ export default function Panels( props ) {
 					panelCount,
 					selectorIndex: index,
 				}
+			) }
+			{ isVisiblePanel.flex && (
+				<Panel
+					name="flex"
+					label={ __( 'Flex', 'scblocks' ) }
+					onClickPanel={ onClickPanel }
+					openedPanel={ openedPanel }
+					panelCount={ panelCount }
+				>
+					<FlexPanel
+						{ ...props }
+						selectorSettings={ selectorsSettings[ index ] }
+					/>
+				</Panel>
 			) }
 			{ isVisiblePanel.space && (
 				<Panel

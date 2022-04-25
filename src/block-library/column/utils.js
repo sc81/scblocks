@@ -7,9 +7,8 @@ import { __ } from '@wordpress/i18n';
  * ScBlocks dependencies
  */
 import { BLOCK_SELECTOR } from '@scblocks/block';
-import { PLUGIN_NAME } from '@scblocks/constants';
 
-export const COLUMN_NAME = `${ PLUGIN_NAME }/column`;
+export const COLUMN_NAME = 'scblocks/column';
 
 export default function getSelectorsSettings() {
 	return [
@@ -41,6 +40,20 @@ export default function getSelectorsSettings() {
 					order: true,
 					zIndex: true,
 					alignSelf: true,
+				},
+				flex: {
+					// parent
+					displayFlex: true,
+					gap: true,
+					flexDirection: true,
+					flexWrap: true,
+					justifyContent: true,
+					alignItems: true,
+					alignContent: true,
+					// items
+					alignSelf: true,
+					flex: true,
+					order: true,
 				},
 			},
 		},

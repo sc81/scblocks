@@ -23,6 +23,7 @@ const deprecated = [
 			...SHARED_ATTRIBUTES.classes,
 		},
 		supports: {
+			inserter: false,
 			html: false,
 			className: false,
 			customClassName: false,
