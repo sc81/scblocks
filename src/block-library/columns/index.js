@@ -19,6 +19,8 @@ import { COLUMNS_NAME } from './utils';
 import icon from './icon';
 import deprecated from './deprecated';
 
+// block is deprecated since 1.3.0
+
 export const name = COLUMNS_NAME;
 
 export const settings = {

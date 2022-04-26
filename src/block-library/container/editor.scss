@@ -6,19 +6,6 @@
 	margin-bottom: 0;
 	width: unset !important;
 }
-.editor-styles-wrapper .#{$pluginAlias}-container-content > {
-	.wp-block {
-		margin-left: 0;
-		margin-right: 0;
-		max-width: unset;
-		word-break: break-word;
-	}
-	:not([data-type="core/paragraph"]),
-	:not([data-type="core/heading"]) {
-		margin-top: 0;
-		margin-bottom: 0;
-	}
-}
 // shapes
 .scblocks-shape-library-list {
 	display: flex;

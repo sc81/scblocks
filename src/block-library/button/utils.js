@@ -39,10 +39,20 @@ export default function getSelectorsSettings() {
 				space: {
 					padding: true,
 					margin: true,
-					flexGrow: true,
 				},
-				position: {
+				flex: {
+					// items
+					displayFlex: true,
+					gap: true,
 					flexDirection: true,
+					flexWrap: true,
+					justifyContent: true,
+					alignItems: true,
+					alignContent: true,
+					// self
+					alignSelf: true,
+					flex: true,
+					order: true,
 				},
 			},
 		},
