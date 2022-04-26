@@ -19,6 +19,8 @@ import { BUTTONS_BLOCK_NAME } from './utils';
 import icon from './icon';
 import deprecated from './deprecated';
 
+// block is deprecated since 1.3.0
+
 export const name = BUTTONS_BLOCK_NAME;
 
 export const settings = {
@@ -37,6 +39,7 @@ export const settings = {
 		},
 	},
 	supports: {
+		inserter: false,
 		alignWide: false,
 		className: false,
 		customClassName: false,

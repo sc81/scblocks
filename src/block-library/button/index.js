@@ -14,7 +14,6 @@ import { PLUGIN_NAME } from '@scblocks/constants';
  */
 import { BUTTON_BLOCK_NAME } from './utils';
 import edit from './edit';
-import { BUTTONS_BLOCK_NAME } from '../buttons/utils';
 import icon from '../buttons/icon';
 import deprecated from './deprecated';
 
@@ -71,7 +70,6 @@ export const settings = {
 		reusable: false,
 		customClassName: false,
 	},
-	parent: [ BUTTONS_BLOCK_NAME ],
 	edit,
 	deprecated,
 	__experimentalLabel: ( { label } ) => label,
