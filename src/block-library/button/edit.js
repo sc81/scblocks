@@ -34,6 +34,9 @@ import Inspector from './inspector';
 
 const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
 
+const allowedFormats = [];
+const placeholder = __( 'Button', 'scblocks' );
+
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
 	const {
@@ -107,7 +110,13 @@ export default function Edit( props ) {
 			attributes
 		)
 	);
+
+	function onChangeText( value ) {
+		setAttributes( { text: value } );
+	}
+
 	const Tag = url ? 'a' : 'span';
+	const isIcon = !! iconId;
 
 	return (
 		<>
@@ -119,28 +128,34 @@ export default function Edit( props ) {
 			/>
 			<style>{ style }</style>
 			{ /* eslint-disable  jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */ }
-			<Tag { ...blockProps } onClick={ ( e ) => e.preventDefault() }>
-				<PasteUsedIcon
-					iconId={ iconId }
-					className={ BLOCK_CLASSES.button.icon }
-				/>
-				{ ! withoutText && (
-					<RichText
-						className={ !! iconId ? BLOCK_CLASSES.button.text : '' }
-						value={ text }
-						onChange={ ( value ) =>
-							setAttributes( { text: value } )
-						}
-						placeholder={ __( 'Button', 'scblocks' ) }
-						allowedFormats={ [
-							'core/bold',
-							'core/italic',
-							'core/strikethrough',
-						] }
-						keepPlaceholderOnFocus
+			{ isIcon && (
+				<Tag { ...blockProps } onClick={ ( e ) => e.preventDefault() }>
+					<PasteUsedIcon
+						iconId={ iconId }
+						className={ BLOCK_CLASSES.button.icon }
 					/>
-				) }
-			</Tag>
+					{ ! withoutText && (
+						<RichText
+							tagName="span"
+							className={ BLOCK_CLASSES.button.text }
+							value={ text }
+							onChange={ onChangeText }
+							placeholder={ placeholder }
+							allowedFormats={ allowedFormats }
+						/>
+					) }
+				</Tag>
+			) }
+			{ ! isIcon && (
+				<RichText
+					tagName={ Tag }
+					value={ text }
+					onChange={ onChangeText }
+					placeholder={ placeholder }
+					allowedFormats={ allowedFormats }
+					{ ...blockProps }
+				/>
+			) }
 			<URLPicker { ...props } />
 		</>
 	);
