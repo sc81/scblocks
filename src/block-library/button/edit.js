@@ -126,6 +126,12 @@ export default function Edit( props ) {
 
 	return (
 		<>
+			{ applyFilters(
+				'scblocks.button.blockControls',
+				null,
+				props,
+				devices
+			) }
 			<Inspector
 				{ ...props }
 				devices={ devices }
