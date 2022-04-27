@@ -45,9 +45,6 @@ class Button_Block {
 	 * @return string
 	 */
 	public function render( array $attributes, string $content ) : string {
-		if ( isset( $attributes['dynamicContent'] ) ) {
-			return apply_filters( 'scblocks_button_dynamic_content', '', $attributes );
-		}
 		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
 			return $content;
 		}
@@ -96,6 +93,7 @@ class Button_Block {
 		);
 
 		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
+		$text = apply_filters( 'scblocks_button_dynamic_content', $text, $attributes );
 
 		if ( ! empty( $attributes['iconId'] ) ) {
 			$icons   = Plugin::used_icons();
