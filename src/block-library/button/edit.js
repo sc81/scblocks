@@ -174,7 +174,7 @@ export default function Edit( props ) {
 				/>
 			) }
 			{ ! isIcon && !! dynamicContent && (
-				<a { ...blockProps }>{ dynamicContent }</a>
+				<Tag { ...blockProps }>{ dynamicContent }</Tag>
 			) }
 			<URLPicker { ...props } />
 		</>
