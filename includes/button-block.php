@@ -93,6 +93,7 @@ class Button_Block {
 		);
 
 		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
+		$text = apply_filters( 'scblocks_button_dynamic_content', $text, $attributes );
 
 		if ( ! empty( $attributes['iconId'] ) ) {
 			$icons   = Plugin::used_icons();

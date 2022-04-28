@@ -111,6 +111,12 @@ export default function Edit( props ) {
 		)
 	);
 
+	const dynamicContent = applyFilters(
+		'scblocks.button.dynamicContent',
+		null,
+		props
+	);
+
 	function onChangeText( value ) {
 		setAttributes( { text: value } );
 	}
@@ -120,6 +126,12 @@ export default function Edit( props ) {
 
 	return (
 		<>
+			{ applyFilters(
+				'scblocks.button.blockControls',
+				null,
+				props,
+				devices
+			) }
 			<Inspector
 				{ ...props }
 				devices={ devices }
@@ -134,7 +146,12 @@ export default function Edit( props ) {
 						iconId={ iconId }
 						className={ BLOCK_CLASSES.button.icon }
 					/>
-					{ ! withoutText && (
+					{ !! dynamicContent && (
+						<span className={ BLOCK_CLASSES.button.text }>
+							{ dynamicContent }
+						</span>
+					) }
+					{ ! withoutText && ! dynamicContent && (
 						<RichText
 							tagName="span"
 							className={ BLOCK_CLASSES.button.text }
@@ -146,7 +163,7 @@ export default function Edit( props ) {
 					) }
 				</Tag>
 			) }
-			{ ! isIcon && (
+			{ ! isIcon && ! dynamicContent && (
 				<RichText
 					tagName={ Tag }
 					value={ text }
@@ -155,6 +172,9 @@ export default function Edit( props ) {
 					allowedFormats={ allowedFormats }
 					{ ...blockProps }
 				/>
+			) }
+			{ ! isIcon && !! dynamicContent && (
+				<Tag { ...blockProps }>{ dynamicContent }</Tag>
 			) }
 			<URLPicker { ...props } />
 		</>
