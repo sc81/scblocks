@@ -107,7 +107,7 @@ export default function Edit( props ) {
 				rel,
 				'aria-label': !! ariaLabel ? ariaLabel : undefined,
 			},
-			attributes
+			props
 		)
 	);
 
