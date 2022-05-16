@@ -91,25 +91,24 @@ export default function Edit( props ) {
 	const rel =
 		relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined;
 
-	const blockProps = useBlockProps(
-		applyFilters(
-			'scblocks.button.htmlAttributes',
-			{
-				id: !! htmlId ? htmlId : undefined,
-				className: classnames( {
-					[ BLOCK_CLASSES.button.main ]: true,
-					[ getUidClass( name, clientId ) ]: true,
-					[ BLOCK_CLASSES.button.text ]: ! iconId,
-					[ `${ htmlClass }` ]: '' !== htmlClass,
-				} ),
-				href: url,
-				target: target ? '_blank' : undefined,
-				rel,
-				'aria-label': !! ariaLabel ? ariaLabel : undefined,
-			},
-			props
-		)
+	const htmlAttributes = applyFilters(
+		'scblocks.button.htmlAttributes',
+		{
+			id: !! htmlId ? htmlId : undefined,
+			className: classnames( {
+				[ BLOCK_CLASSES.button.main ]: true,
+				[ getUidClass( name, clientId ) ]: true,
+				[ BLOCK_CLASSES.button.text ]: ! iconId,
+				[ `${ htmlClass }` ]: '' !== htmlClass,
+			} ),
+			href: url,
+			target: target ? '_blank' : undefined,
+			rel,
+			'aria-label': !! ariaLabel ? ariaLabel : undefined,
+		},
+		props
 	);
+	const blockProps = useBlockProps( htmlAttributes );
 
 	const dynamicContent = applyFilters(
 		'scblocks.button.dynamicContent',
@@ -121,7 +120,7 @@ export default function Edit( props ) {
 		setAttributes( { text: value } );
 	}
 
-	const Tag = url ? 'a' : 'span';
+	const Tag = htmlAttributes.href ? 'a' : 'span';
 	const isIcon = !! iconId;
 
 	return (
