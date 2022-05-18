@@ -71,7 +71,7 @@ class Button_Block {
 		if ( ! empty( $attributes['relSponsored'] ) ) {
 			$rel_attr[] = 'sponsored';
 		}
-		$html_attr = new Html_Attributes(
+		$html_attr    = new Html_Attributes(
 			'button',
 			array(
 				'class'      => implode( ' ', $class_names ),
@@ -83,13 +83,14 @@ class Button_Block {
 			),
 			$attributes
 		);
+		$sprint_attrs = $html_attr->build();
 
-		$tag_name = empty( $attributes['url'] ) ? 'span' : 'a';
+		$tag_name = empty( $html_attr->parsed['href'] ) ? 'span' : 'a';
 
 		$output = sprintf(
 			'<%1$s %2$s>',
 			$tag_name,
-			$html_attr->build()
+			$sprint_attrs
 		);
 
 		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
