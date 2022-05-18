@@ -62,8 +62,6 @@ class Heading_Block {
 		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
 			return $content;
 		}
-
-		$output      = '';
 		$class_names = array(
 			'scb-heading',
 		);
@@ -97,7 +95,7 @@ class Heading_Block {
 			$tag_name = 'div';
 		}
 
-		$output .= sprintf(
+		$output = sprintf(
 			'<%1$s %2$s>',
 			$tag_name,
 			$html_attr->build()
