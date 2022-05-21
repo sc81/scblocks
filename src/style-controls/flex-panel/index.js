@@ -1,4 +1,8 @@
 /**
+ * WordPress dependencies
+ */
+import { __ } from '@wordpress/i18n';
+/**
  * Internal dependencies
  */
 import usePanelActiveControl from '../use-panel-active-control';
@@ -44,15 +48,20 @@ export default function FlexPanel( props ) {
 	return (
 		<>
 			{ displayFlex && <DisplayFlex { ...props } /> }
+			{ flex && <Flex { ...props } /> }
+			{ alignSelf && <AlignSelf { ...props } /> }
+			{ order && <Order { ...props } /> }
+			<div className="scblocks-flex-panel-items-heading">
+				<span></span>
+				<span>{ __( 'Items', 'scblocks' ) }</span>
+				<span></span>
+			</div>
 			{ gap && <Gap { ...props } /> }
 			{ flexDirection && <FlexDirection { ...props } /> }
 			{ flexWrap && <FlexWrap { ...props } /> }
 			{ justifyContent && <JustifyContent { ...props } /> }
 			{ alignItems && <AlignItems { ...props } /> }
 			{ alignContent && <AlignContent { ...props } /> }
-			{ flex && <Flex { ...props } /> }
-			{ alignSelf && <AlignSelf { ...props } /> }
-			{ order && <Order { ...props } /> }
 		</>
 	);
 }

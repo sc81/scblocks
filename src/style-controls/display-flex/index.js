@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { ToggleControl } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
 /**
  * ScBlocks dependencies
  */
@@ -19,17 +19,25 @@ export default function DisplayFlex( props ) {
 	} );
 
 	return (
-		<ToggleControl
-			label={ __( 'Use Flex', 'scblocks' ) }
-			checked={ propValue === 'flex' }
+		<SelectControl
+			label={ __( 'Display', 'scblocks' ) }
+			value={ propValue }
 			onChange={ ( value ) => {
 				setPropValue( {
 					...props,
 					propName,
 					devices: ALL_DEVICES,
-					value: value ? 'flex' : '',
+					value,
 				} );
 			} }
+			options={ [
+				{ label: __( 'Default', 'scblocks' ), value: '' },
+				{ label: __( 'Flex', 'scblocks' ), value: 'flex' },
+				{
+					label: __( 'Inline-Flex', 'scblocks' ),
+					value: 'inline-flex',
+				},
+			] }
 		/>
 	);
 }
