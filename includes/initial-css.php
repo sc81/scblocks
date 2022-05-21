@@ -109,17 +109,8 @@ class Initial_Css {
 		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'button' ) ) {
 			return array();
 		}
-		return apply_filters(
-			'scblocks_button_default_css',
-			array(
-				'.scb-button' => array(
-					'display: flex',
-					'align-items: center',
-					'justify-content: center',
-					'text-decoration: none',
-				),
-			)
-		);
+		$button = new Button_Block();
+		return $button->initial_css();
 	}
 	/**
 	 * Default CSS for Buttons Block.
