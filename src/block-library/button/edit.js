@@ -51,6 +51,7 @@ export default function Edit( props ) {
 		htmlId,
 		ariaLabel,
 		isDynamic,
+		dynamicUrl,
 	} = attributes;
 
 	const devices = useSelect(
@@ -175,7 +176,7 @@ export default function Edit( props ) {
 			{ ! isIcon && !! dynamicContent && (
 				<Tag { ...blockProps }>{ dynamicContent }</Tag>
 			) }
-			<URLPicker { ...props } />
+			{ ! dynamicUrl && <URLPicker { ...props } /> }
 		</>
 	);
 }
