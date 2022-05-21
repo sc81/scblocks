@@ -22,7 +22,14 @@ import { STORE_NAME } from '@scblocks/constants';
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
-	const { iconId, withoutText, ariaLabel } = attributes;
+	const {
+		iconId,
+		withoutText,
+		ariaLabel,
+		target,
+		relNoFollow,
+		relSponsored,
+	} = attributes;
 	const icon = useSelect(
 		( store ) => {
 			const icons = store( STORE_NAME ).usedIcons();
@@ -98,21 +105,43 @@ export default function Inspector( props ) {
 							attributes={ attributes }
 							setAttributes={ setAttributes }
 						/>
-						{ withoutText && (
-							<TextControl
-								label={ __( 'ARIA Label', 'scblocks' ) }
-								help={ __(
-									'Describe the purpose of the button. This is useful for people who use screen readers when the button has no text.',
-									'scblocks'
-								) }
-								value={ ariaLabel }
-								onChange={ ( value ) => {
-									setAttributes( {
-										ariaLabel: value,
-									} );
-								} }
-							/>
-						) }
+						<ToggleControl
+							label={ __(
+								'Open link in a new tab (target="_blank")',
+								'scblocks'
+							) }
+							checked={ target }
+							onChange={ ( value ) => {
+								setAttributes( { target: value } );
+							} }
+						/>
+						<ToggleControl
+							label={ __( 'Add rel="nofollow"', 'scblocks' ) }
+							checked={ relNoFollow }
+							onChange={ ( value ) => {
+								setAttributes( { relNoFollow: value } );
+							} }
+						/>
+						<ToggleControl
+							label={ __( 'Add rel="sponsored"', 'scblocks' ) }
+							checked={ relSponsored }
+							onChange={ ( value ) => {
+								setAttributes( { relSponsored: value } );
+							} }
+						/>
+						<TextControl
+							label={ __( 'ARIA Label', 'scblocks' ) }
+							help={ __(
+								'Describe the purpose of the button. This is useful for people who use screen readers when the button has no text.',
+								'scblocks'
+							) }
+							value={ ariaLabel }
+							onChange={ ( value ) => {
+								setAttributes( {
+									ariaLabel: value,
+								} );
+							} }
+						/>
 					</PanelBody>,
 					props
 				) }
