@@ -20,6 +20,7 @@ export default function Order( props ) {
 			onChange={ onChange }
 			min={ -50 }
 			max={ 50 }
+			hasSlider={ false }
 		/>
 	);
 }

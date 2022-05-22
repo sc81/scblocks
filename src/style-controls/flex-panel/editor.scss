@@ -1,0 +1,18 @@
+.scblocks-flex-panel-items-heading {
+	display: flex;
+	align-items: center;
+
+	span {
+		&:first-child,
+		&:last-child {
+			border-bottom: 1px solid #e0e0e0;
+			flex-grow: 1;
+		}
+		&:nth-child(2) {
+			text-align: center;
+			text-transform: uppercase;
+			padding: 0 15px;
+			font-size: 13px;
+		}
+	}
+}
