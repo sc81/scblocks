@@ -6,15 +6,11 @@ import { useState } from '@wordpress/element';
 import {
 	KeyboardShortcuts,
 	ToolbarButton,
-	ToolbarGroup,
 	Popover,
 	TextControl,
 	Button,
 } from '@wordpress/components';
-import {
-	BlockControls,
-	__experimentalLinkControl as LinkControl,
-} from '@wordpress/block-editor';
+import { __experimentalLinkControl as LinkControl } from '@wordpress/block-editor';
 import { rawShortcut, displayShortcut } from '@wordpress/keycodes';
 import { link } from '@wordpress/icons';
 
@@ -37,30 +33,27 @@ export default function URLPicker( {
 
 	return (
 		<>
-			<BlockControls>
-				<ToolbarGroup>
-					{ ! isURLPickerOpen && (
-						<ToolbarButton
-							name="link"
-							icon={ link }
-							title={ __( 'Show Link Controls', 'scblocks' ) }
-							shortcut={ displayShortcut.primary( 'k' ) }
-							onClick={ openLinkControl }
-							isActive={ urlIsSet }
-						/>
-					) }
-					{ isURLPickerOpen && (
-						<ToolbarButton
-							name="link"
-							icon={ link }
-							title={ __( 'Hide Link Controls', 'scblocks' ) }
-							shortcut={ displayShortcut.primaryShift( 'k' ) }
-							onClick={ closeLinkControl }
-							isActive={ urlIsSet }
-						/>
-					) }
-				</ToolbarGroup>
-			</BlockControls>
+			{ ! isURLPickerOpen && (
+				<ToolbarButton
+					name="link"
+					icon={ link }
+					title={ __( 'Show Link Controls', 'scblocks' ) }
+					shortcut={ displayShortcut.primary( 'k' ) }
+					onClick={ openLinkControl }
+					isActive={ urlIsSet }
+				/>
+			) }
+			{ isURLPickerOpen && (
+				<ToolbarButton
+					name="link"
+					icon={ link }
+					title={ __( 'Hide Link Controls', 'scblocks' ) }
+					shortcut={ displayShortcut.primaryShift( 'k' ) }
+					onClick={ closeLinkControl }
+					isActive={ urlIsSet }
+				/>
+			) }
+
 			{ isSelected && (
 				<KeyboardShortcuts
 					bindGlobal
