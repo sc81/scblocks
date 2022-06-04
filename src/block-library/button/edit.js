@@ -8,7 +8,11 @@ import classnames from 'classnames';
  */
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { RichText, useBlockProps } from '@wordpress/block-editor';
+import {
+	RichText,
+	useBlockProps,
+	BlockControls,
+} from '@wordpress/block-editor';
 import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
@@ -132,6 +136,11 @@ export default function Edit( props ) {
 				props,
 				devices
 			) }
+			{ ! dynamicUrl && (
+				<BlockControls group="block">
+					<URLPicker { ...props } />
+				</BlockControls>
+			) }
 			<Inspector
 				{ ...props }
 				devices={ devices }
@@ -176,7 +185,6 @@ export default function Edit( props ) {
 			{ ! isIcon && !! dynamicContent && (
 				<Tag { ...blockProps }>{ dynamicContent }</Tag>
 			) }
-			{ ! dynamicUrl && <URLPicker { ...props } /> }
 		</>
 	);
 }
