@@ -136,9 +136,11 @@ export default function Edit( props ) {
 				props,
 				devices
 			) }
-			<BlockControls group="block">
-				{ ! dynamicUrl && <URLPicker { ...props } /> }
-			</BlockControls>
+			{ ! dynamicUrl && (
+				<BlockControls group="block">
+					<URLPicker { ...props } />
+				</BlockControls>
+			) }
 			<Inspector
 				{ ...props }
 				devices={ devices }
