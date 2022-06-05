@@ -3,6 +3,7 @@
  */
 import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * ScBlocks dependencies
@@ -193,6 +194,7 @@ export default function Space( props ) {
 					max={ 30 }
 				/>
 			) }
+			{ applyFilters( 'scblocks.spacePanel.afterAll', null, props ) }
 		</>
 	);
 }
