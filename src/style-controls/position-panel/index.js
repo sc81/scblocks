@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { useMemo } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
@@ -116,6 +117,7 @@ export default function PositionPanel( props ) {
 			{ visibility && (
 				<Visibility { ...props } selector={ propSelector.visibility } />
 			) }
+			{ applyFilters( 'scblocks.positionPanel.afterAll', null, props ) }
 		</>
 	);
 }
