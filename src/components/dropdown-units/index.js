@@ -20,8 +20,7 @@ export default function DropdownUnits( { units, value, onChangeUnit } ) {
 						<Button
 							onClick={ onToggle }
 							aria-expanded={ isOpen }
-							isPrimary
-							isSmall
+							variant="link"
 							aria-pressed
 						>
 							<span>{ value }</span>
