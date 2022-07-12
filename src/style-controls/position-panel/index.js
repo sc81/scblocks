@@ -10,7 +10,6 @@ import { applyFilters } from '@wordpress/hooks';
 import usePanelActiveControl from '../use-panel-active-control';
 import Zindex from '../z-index';
 import Visibility from '../visibility';
-import Position from '../position';
 import Order from '../order';
 import FlexDirection from '../flex-direction';
 import AlignItems from '../align-items';
@@ -23,7 +22,6 @@ import AlignContent from '../align-content';
 import FlexWrap from '../flex-wrap';
 
 const positionProps = [
-	'position',
 	'zIndex',
 	'visibility',
 	'order',
@@ -40,7 +38,6 @@ const positionProps = [
 export default function PositionPanel( props ) {
 	const { selectorSettings } = props;
 	const {
-		position,
 		zIndex,
 		visibility,
 		order,
@@ -68,9 +65,6 @@ export default function PositionPanel( props ) {
 
 	return (
 		<>
-			{ position && (
-				<Position { ...props } selector={ propSelector.position } />
-			) }
 			{ zIndex && (
 				<Zindex { ...props } selector={ propSelector.zIndex } />
 			) }
