@@ -1,0 +1,12 @@
+.scblocks-border-radius-top,
+.scblocks-border-radius-bottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	column-gap: 15px;
+	margin-bottom: 8px;
+
+	& > div {
+		flex-basis: 50%;
+	}
+}

@@ -14,9 +14,9 @@ import { ControlWrapper, NormalHoverButtons } from '@scblocks/components';
  */
 import Transition from '../transition';
 import BoxShadow from '../box-shadow';
-import FourControls from '../four-controls';
 import { getControlSelector, getControlHoverSelector } from '../utils';
 import BorderControl from '../border-control';
+import BorderRadius from '../border-radius';
 
 export default function BorderPanel( props ) {
 	const { selectorSettings } = props;
@@ -38,13 +38,7 @@ export default function BorderPanel( props ) {
 				/>
 			) }
 			<BorderControl { ...props } selector={ selector } />
-			<FourControls
-				propName="borderRadius"
-				{ ...props }
-				devices={ ALL_DEVICES }
-				selector={ selector }
-				withoutSelectDevices
-			/>
+			<BorderRadius { ...props } selector={ selector } />
 			<BoxShadow
 				{ ...props }
 				devices={ ALL_DEVICES }

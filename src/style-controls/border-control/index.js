@@ -27,7 +27,7 @@ export default function BorderControl( {
 	selector,
 	setAttributes,
 } ) {
-	const [ isLinked, setIsLinked ] = useState( true );
+	const [ isLinked, setIsLinked ] = useState( false );
 	let {
 		borderWidth,
 		borderTopWidth: top,
