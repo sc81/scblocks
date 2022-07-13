@@ -1,0 +1,31 @@
+.scblocks-border-control-width-bottom,
+.scblocks-border-control-width-top {
+	display: flex;
+	justify-content: center;
+
+	& > div {
+		flex-basis: 50%;
+	}
+}
+.scblocks-border-control-width-left-right {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 10px;
+	margin-top: 12px;
+	margin-bottom: 12px;
+
+	& > div {
+		flex-basis: 50%;
+	}
+}
+.scblocks-border-control-color-style {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	column-gap: 15px;
+
+	& > div {
+		flex-basis: 50%;
+	}
+}

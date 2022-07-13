@@ -7,20 +7,16 @@ import { useState } from '@wordpress/element';
  * ScBlocks dependencies
  */
 import { ALL_DEVICES } from '@scblocks/constants';
-import {
-	ControlWrapper,
-	NormalHoverButtons,
-	Separator,
-} from '@scblocks/components';
+import { ControlWrapper, NormalHoverButtons } from '@scblocks/components';
 
 /**
  * Internal dependencies
  */
-import Border from '../border';
 import Transition from '../transition';
 import BoxShadow from '../box-shadow';
 import FourControls from '../four-controls';
 import { getControlSelector, getControlHoverSelector } from '../utils';
+import BorderControl from '../border-control';
 
 export default function BorderPanel( props ) {
 	const { selectorSettings } = props;
@@ -41,8 +37,7 @@ export default function BorderPanel( props ) {
 					onChange={ ( value ) => setIsHover( value ) }
 				/>
 			) }
-			<Border { ...props } selector={ selector } isHover={ isHover } />
-			<Separator />
+			<BorderControl { ...props } selector={ selector } />
 			<FourControls
 				propName="borderRadius"
 				{ ...props }
@@ -50,7 +45,6 @@ export default function BorderPanel( props ) {
 				selector={ selector }
 				withoutSelectDevices
 			/>
-			<Separator />
 			<BoxShadow
 				{ ...props }
 				devices={ ALL_DEVICES }
@@ -59,7 +53,6 @@ export default function BorderPanel( props ) {
 			/>
 			{ isHover && (
 				<>
-					<Separator />
 					<Transition
 						{ ...props }
 						devices={ ALL_DEVICES }

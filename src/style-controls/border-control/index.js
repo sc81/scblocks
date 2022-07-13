@@ -1,37 +1,57 @@
 /**
  * WordPress dependencies
  */
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
+import { link, linkOff } from '@wordpress/icons';
 
 /**
  * ScBlocks dependencies
  */
-import { PLUGIN_NAME } from '@scblocks/constants';
 import {
 	OpenColorPicker,
 	NumberUnit,
-	SyncControls,
+	ControlWrapper,
 } from '@scblocks/components';
+import {
+	getPropertiesValue,
+	setPropsForVariousDevices,
+	setPropsValue,
+} from '@scblocks/css-utils';
+import { ALL_DEVICES } from '@scblocks/constants';
 
-const labels = {
-	top: __( 'Top', 'scblocks' ),
-	right: __( 'Right', 'scblocks' ),
-	bottom: __( 'Bottom', 'scblocks' ),
-	left: __( 'Left', 'scblocks' ),
-};
-
-export default function BorderControl( { border, onChange } ) {
-	const [ switchState, setSwitchState ] = useState( 'one' );
-
+export default function BorderControl( {
+	attributes,
+	devices,
+	selector,
+	setAttributes,
+} ) {
+	const [ isLinked, setIsLinked ] = useState( true );
 	let {
+		borderWidth,
 		borderTopWidth: top,
 		borderRightWidth: right,
 		borderBottomWidth: bottom,
 		borderLeftWidth: left,
-	} = border;
-	const { borderColor: color, borderStyle: style, borderWidth } = border;
+	} = getPropertiesValue( {
+		attributes,
+		devices,
+		selector,
+		props: [
+			'borderWidth',
+			'borderTopWidth',
+			'borderRightWidth',
+			'borderBottomWidth',
+			'borderLeftWidth',
+		],
+	} );
+	const { borderColor: color, borderStyle: style } = getPropertiesValue( {
+		attributes,
+		devices: ALL_DEVICES,
+		selector,
+		props: [ 'borderColor', 'borderStyle' ],
+	} );
 
 	if ( borderWidth ) {
 		const value = borderWidth.split( ' ' );
@@ -49,53 +69,48 @@ export default function BorderControl( { border, onChange } ) {
 			left = value[ 3 ];
 		}
 	}
+	function onChange( value ) {
+		setPropsForVariousDevices( {
+			attributes,
+			setAttributes,
+			selector,
+			props: {
+				[ ALL_DEVICES ]: {
+					borderColor: value.borderColor,
+					borderStyle: value.borderStyle,
+				},
+				[ devices ]: {
+					borderWidth: value.borderWidth,
+					borderTopWidth: value.borderTopWidth,
+					borderRightWidth: value.borderRightWidth,
+					borderBottomWidth: value.borderBottomWidth,
+					borderLeftWidth: value.borderLeftWidth,
+				},
+			},
+		} );
+	}
 
 	function onChangeWidth( position, value ) {
 		let nextState;
-		switch ( switchState ) {
-			case 'one':
-				nextState = {
-					style,
-					color,
-					top,
-					right,
-					bottom,
-					left,
-					[ position ]: value,
-				};
-				break;
-			case 'all':
-				nextState = {
-					style,
-					color,
-					top: value,
-					right: value,
-					bottom: value,
-					left: value,
-				};
-				break;
-			case 'opposite': {
-				if ( position === 'top' || position === 'bottom' ) {
-					nextState = {
-						style,
-						color,
-						right,
-						left,
-						top: value,
-						bottom: value,
-					};
-				} else {
-					nextState = {
-						style,
-						color,
-						top,
-						bottom,
-						left: value,
-						right: value,
-					};
-				}
-				break;
-			}
+		if ( isLinked ) {
+			nextState = {
+				style,
+				color,
+				top: value,
+				right: value,
+				bottom: value,
+				left: value,
+			};
+		} else {
+			nextState = {
+				style,
+				color,
+				top,
+				right,
+				bottom,
+				left,
+				[ position ]: value,
+			};
 		}
 		setValue( nextState );
 	}
@@ -156,59 +171,101 @@ export default function BorderControl( { border, onChange } ) {
 			} );
 		}
 	}
-	function controls() {
-		return [ 'top', 'right', 'bottom', 'left' ].map( ( pos ) => {
-			let value;
-			switch ( pos ) {
-				case 'top':
-					value = top;
-					break;
-				case 'right':
-					value = right;
-					break;
-				case 'bottom':
-					value = bottom;
-					break;
-				case 'left':
-					value = left;
-					break;
-			}
-			return (
-				<NumberUnit
-					key={ pos }
-					label={ labels[ pos ] }
-					units={ [ 'px' ] }
-					value={ value }
-					onChange={ ( val ) => onChangeWidth( pos, val ) }
-					withoutSelectDevices
-				/>
-			);
+	function onClear() {
+		setPropsValue( {
+			attributes,
+			setAttributes,
+			selector,
+			devices,
+			props: {
+				borderWidth: '',
+				borderTopWidth: '',
+				borderRightWidth: '',
+				borderBottomWidth: '',
+				borderLeftWidth: '',
+			},
 		} );
 	}
 
 	return (
 		<>
-			<SelectControl
-				className={ `${ PLUGIN_NAME }-select-control-inline` }
-				label={ __( 'Border style', 'scblocks' ) }
-				value={ style }
-				options={ [
-					{ label: __( 'Default', 'scblocks' ), value: '' },
-					{ label: __( 'Solid', 'scblocks' ), value: 'solid' },
-					{ label: __( 'Dotted', 'scblocks' ), value: 'dotted' },
-					{ label: __( 'Dashed', 'scblocks' ), value: 'dashed' },
-					{ label: __( 'Double', 'scblocks' ), value: 'double' },
-				] }
-				onChange={ onChangeStyle }
-			/>
-			<OpenColorPicker
-				label={ __( 'Border color', 'scblocks' ) }
-				value={ color }
-				onChange={ onChangeColor }
-			/>
-			<div>{ __( 'Border width', 'scblocks' ) }</div>
-			<SyncControls value={ switchState } onChange={ setSwitchState } />
-			{ controls() }
+			<div className="scblocks-border-control-color-style">
+				<OpenColorPicker
+					label={ __( 'Color', 'scblocks' ) }
+					value={ color }
+					onChange={ onChangeColor }
+					isStacked
+				/>
+				<SelectControl
+					label={ __( 'Style', 'scblocks' ) }
+					value={ style }
+					options={ [
+						{ label: __( 'Default', 'scblocks' ), value: '' },
+						{ label: __( 'Solid', 'scblocks' ), value: 'solid' },
+						{ label: __( 'Dotted', 'scblocks' ), value: 'dotted' },
+						{ label: __( 'Dashed', 'scblocks' ), value: 'dashed' },
+						{ label: __( 'Double', 'scblocks' ), value: 'double' },
+					] }
+					onChange={ onChangeStyle }
+				/>
+			</div>
+			<ControlWrapper
+				label={ __( 'Widths', 'scblocks' ) }
+				displayClearButton={ top || right || bottom || left }
+				onClear={ onClear }
+				extraControls={
+					<Button
+						label={ isLinked ? 'Unlink Sides' : 'Link Sides' }
+						variant={ isLinked ? 'primary' : 'secondary' }
+						icon={ isLinked ? link : linkOff }
+						onClick={ () => setIsLinked( ! isLinked ) }
+						isSmall
+					/>
+				}
+			>
+				<div className="scblocks-border-control-width-top">
+					<NumberUnit
+						label={ __( 'Top', 'scblocks' ) }
+						units={ [ 'px', 'em', 'rem', 'vh', 'vw' ] }
+						value={ top }
+						onChange={ ( value ) => onChangeWidth( 'top', value ) }
+						withoutSelectDevices
+						withoutSlider
+					/>
+				</div>
+				<div className="scblocks-border-control-width-left-right">
+					<NumberUnit
+						label={ __( 'Left', 'scblocks' ) }
+						units={ [ 'px', 'em', 'rem', 'vh', 'vw' ] }
+						value={ left }
+						onChange={ ( value ) => onChangeWidth( 'left', value ) }
+						withoutSelectDevices
+						withoutSlider
+					/>
+					<NumberUnit
+						label={ __( 'Right', 'scblocks' ) }
+						units={ [ 'px', 'em', 'rem', 'vh', 'vw' ] }
+						value={ right }
+						onChange={ ( value ) =>
+							onChangeWidth( 'right', value )
+						}
+						withoutSelectDevices
+						withoutSlider
+					/>
+				</div>
+				<div className="scblocks-border-control-width-bottom">
+					<NumberUnit
+						label={ __( 'Bottom', 'scblocks' ) }
+						units={ [ 'px', 'em', 'rem', 'vh', 'vw' ] }
+						value={ bottom }
+						onChange={ ( value ) =>
+							onChangeWidth( 'bottom', value )
+						}
+						withoutSelectDevices
+						withoutSlider
+					/>
+				</div>
+			</ControlWrapper>
 		</>
 	);
 }

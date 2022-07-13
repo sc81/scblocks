@@ -2,25 +2,25 @@
  * WordPress dependencies
  */
 import { useSelect } from '@wordpress/data';
-import {
-	Dropdown,
-	ColorPicker,
-	Button,
-	ColorPalette,
-} from '@wordpress/components';
+import { Dropdown, ColorPicker, ColorPalette } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useRef } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import { PLUGIN_NAME, CORE_EDITOR_STORE_NAME } from '@scblocks/constants';
+import { CORE_EDITOR_STORE_NAME } from '@scblocks/constants';
+/**
+ * Internal dependencies
+ */
+import ButtonClear from '../button-clear';
 
 export default function OpenColorPicker( {
 	value,
 	setFocus,
 	onChange,
 	label,
+	isStacked,
 } ) {
 	const themeColors = useSelect( ( select ) => {
 		return select( CORE_EDITOR_STORE_NAME ).getEditorSettings().colors;
@@ -34,50 +34,47 @@ export default function OpenColorPicker( {
 	const pickerKey = useRef( 1 );
 
 	label = label || __( 'Text color', 'scblocks' );
+	const stacked = isStacked ? ' is-stacked' : '';
 
 	return (
 		<Dropdown
-			className={ `${ PLUGIN_NAME }-color-picker-wrapper` }
-			contentClassName={ `components-color-palette__picker ${ PLUGIN_NAME }-color-picker-popover` }
+			className="scblocks-color-picker"
+			contentClassName="components-color-palette__picker scblocks-color-picker-popover"
 			position="top right"
 			renderToggle={ ( { isOpen, onToggle } ) => (
-				<div className={ `${ PLUGIN_NAME }-inline-elements` }>
-					<span>{ label }</span>
-					<div className={ `${ PLUGIN_NAME }-inline-buttons` }>
+				<div className={ `scblocks-color-picker-triggers${ stacked }` }>
+					<div className="scblocks-color-picker-label">
+						<span>{ label }</span>
 						{ colors.currentColor && (
-							<Button
-								isSmall
-								isSecondary
-								onClick={ () => {
+							<ButtonClear
+								onClear={ () => {
 									onChange( '' );
 									if ( isOpen ) {
 										onToggle();
 									}
 								} }
-							>
-								{ __( 'Clear', 'scblocks' ) }
-							</Button>
-						) }
-						<button
-							type="button"
-							aria-expanded={ isOpen }
-							className={ `${ PLUGIN_NAME }-color-picker-open-button` }
-							onClick={ () => {
-								if ( setFocus ) {
-									setFocus();
-								}
-
-								onToggle();
-							} }
-						>
-							<span
-								className={ `${ PLUGIN_NAME }-color-picker-indicator` }
-								style={ {
-									backgroundColor: colors.currentColor,
-								} }
 							/>
-						</button>
+						) }
 					</div>
+					<button
+						type="button"
+						aria-expanded={ isOpen }
+						className="scblocks-color-picker-open-button"
+						onClick={ () => {
+							if ( setFocus ) {
+								setFocus();
+							}
+
+							onToggle();
+						} }
+					>
+						<span
+							className="scblocks-color-picker-indicator"
+							style={ {
+								backgroundColor: colors.currentColor,
+							} }
+						/>
+					</button>
 				</div>
 			) }
 			renderContent={ () => (
@@ -96,9 +93,7 @@ export default function OpenColorPicker( {
 							onChange( next );
 						} }
 					/>
-					<div
-						className={ `components-color-picker__body ${ PLUGIN_NAME }-color-picker-body` }
-					>
+					<div className="components-color-picker__body scblocks-color-picker-body">
 						{ applyFilters(
 							'scblocks.colorPicker.palette',
 							<ColorPalette

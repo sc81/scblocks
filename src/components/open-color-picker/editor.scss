@@ -1,49 +1,61 @@
-.#{$pluginName}-color-picker-popover .components-popover__content {
+.scblocks-color-picker-popover .components-popover__content {
 	width: 336px;
 }
-.components-color-picker__body.#{$pluginName}-color-picker-body {
+.components-color-picker__body.scblocks-color-picker-body {
 	padding: 0 16px;
 }
-.#{$pluginName}-color-picker-wrapper {
-	margin-bottom: 10px;
+.scblocks-color-picker {
 	width: 100%;
 
-	.#{$pluginName}-inline-elements {
+	.scblocks-color-picker-triggers {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+
+		&.is-stacked {
+			flex-direction: column;
+			justify-content: center;
+			align-items: flex-start;
+			margin-bottom: 18px;
+
+			.scblocks-color-picker-open-button {
+				height: 30px;
+				width: 95%;
+			}
+			.scblocks-color-picker-indicator {
+				width: 98%;
+				height: 24px;
+			}
+		}
 	}
-	.#{$pluginName}-inline-buttons {
+	.scblocks-color-picker-label {
 		display: flex;
 		align-items: center;
+		margin-bottom: 8px;
+		justify-content: space-between;
+		flex-basis: 80%;
+	}
+	.scblocks-color-picker-open-button {
+		width: 40px;
+		border-radius: 1px;
+		height: 24px;
+		background-color: #fff;
+		padding: 0;
+		text-align: center;
+		border: 1px solid #0073aa;
+		margin-left: 4px;
+		background-image: linear-gradient(45deg, #ddd 25%, transparent 0), linear-gradient(-45deg, #ddd 25%, transparent 0), linear-gradient(45deg, transparent 75%, #ddd 0), linear-gradient(-45deg, transparent 75%, #ddd 0);
+		background-size: 10px 10px;
+		background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-		& > button > svg {
-			height: 16px;
-			width: 16px;
-		}
-
-		.#{$pluginName}-color-picker-open-button {
-			width: 40px;
+		.scblocks-color-picker-indicator {
+			width: 33px;
+			height: 18px;
 			border-radius: 1px;
-			height: 24px;
-			background-color: #fff;
-			padding: 0;
-			text-align: center;
-			border: 1px solid #0073aa;
-			margin-left: 4px;
-			background-image: linear-gradient(45deg, #ddd 25%, transparent 0), linear-gradient(-45deg, #ddd 25%, transparent 0), linear-gradient(45deg, transparent 75%, #ddd 0), linear-gradient(-45deg, transparent 75%, #ddd 0);
-			background-size: 10px 10px;
-			background-position: 0 0, 0 5px, 5px -5px, -5px 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-
-			.#{$pluginName}-color-picker-indicator {
-				width: 33px;
-				height: 18px;
-				border-radius: 1px;
-				cursor: pointer;
-			}
+			cursor: pointer;
 		}
 	}
 }
