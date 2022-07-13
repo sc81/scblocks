@@ -1,8 +1,5 @@
-.scblocks-color-picker-popover .components-popover__content {
-	width: 336px;
-}
 .components-color-picker__body.scblocks-color-picker-body {
-	padding: 0 16px;
+	padding: 0 10px;
 }
 .scblocks-color-picker {
 	width: 100%;
@@ -37,7 +34,7 @@
 	}
 	.scblocks-color-picker-open-button {
 		width: 40px;
-		border-radius: 1px;
+		border-radius: 4px;
 		height: 24px;
 		background-color: #fff;
 		padding: 0;
@@ -54,7 +51,7 @@
 		.scblocks-color-picker-indicator {
 			width: 33px;
 			height: 18px;
-			border-radius: 1px;
+			border-radius: 4px;
 			cursor: pointer;
 		}
 	}

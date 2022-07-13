@@ -39,7 +39,7 @@ export default function OpenColorPicker( {
 	return (
 		<Dropdown
 			className="scblocks-color-picker"
-			contentClassName="components-color-palette__picker scblocks-color-picker-popover"
+			contentClassName="components-color-palette__picker"
 			position="top right"
 			renderToggle={ ( { isOpen, onToggle } ) => (
 				<div className={ `scblocks-color-picker-triggers${ stacked }` }>
@@ -67,6 +67,16 @@ export default function OpenColorPicker( {
 
 							onToggle();
 						} }
+						aria-label={
+							isOpen
+								? __( 'Close color picker' )
+								: __( 'Open color picker' )
+						}
+						title={
+							isOpen
+								? __( 'Close color picker' )
+								: __( 'Open color picker' )
+						}
 					>
 						<span
 							className="scblocks-color-picker-indicator"
