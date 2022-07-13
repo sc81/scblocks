@@ -6,11 +6,6 @@ import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
- * ScBlocks dependencies
- */
-import { Separator } from '@scblocks/components';
-
-/**
  * Internal dependencies
  */
 import usePanelActiveControl from '../use-panel-active-control';
@@ -93,57 +88,35 @@ export default function Space( props ) {
 	return (
 		<>
 			{ fontSize && ( //icon size
-				<>
-					<NumberUnitProperty
-						{ ...props }
-						selector={ propSelector.fontSize }
-						propName="fontSize"
-					/>
-					<Separator />
-				</>
+				<NumberUnitProperty
+					{ ...props }
+					selector={ propSelector.fontSize }
+					propName="fontSize"
+				/>
 			) }
-			{ gap && (
-				<>
-					<Gap { ...props } selector={ propSelector.gap } />
-					<Separator />
-				</>
-			) }
-			{ flex && (
-				<>
-					<Flex { ...props } selector={ propSelector.flex } />
-					<Separator />
-				</>
-			) }
+			{ gap && <Gap { ...props } selector={ propSelector.gap } /> }
+			{ flex && <Flex { ...props } selector={ propSelector.flex } /> }
 			{ margin && (
-				<>
-					<FourControls
-						propName="margin"
-						{ ...props }
-						selector={ propSelector.margin }
-					/>
-					<Separator />
-				</>
+				<FourControls
+					propName="margin"
+					{ ...props }
+					selector={ propSelector.margin }
+				/>
 			) }
 			{ padding && (
-				<>
-					<FourControls
-						propName="padding"
-						{ ...props }
-						selector={ propSelector.padding }
-					/>
-					<Separator />
-				</>
+				<FourControls
+					propName="padding"
+					{ ...props }
+					selector={ propSelector.padding }
+				/>
 			) }
 			{ width && (
-				<>
-					<NumberUnitProperty
-						{ ...props }
-						selector={ propSelector.width }
-						propName="width"
-						{ ...unitRangeStep.width }
-					/>
-					<Separator />
-				</>
+				<NumberUnitProperty
+					{ ...props }
+					selector={ propSelector.width }
+					propName="width"
+					{ ...unitRangeStep.width }
+				/>
 			) }
 			{ minWidth && (
 				<NumberUnitProperty

@@ -1,10 +1,9 @@
 /**
  * WordPress dependencies
  */
-import { SelectControl, Button } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-import { link, linkOff } from '@wordpress/icons';
 
 /**
  * ScBlocks dependencies
@@ -13,6 +12,7 @@ import {
 	OpenColorPicker,
 	NumberUnit,
 	ControlWrapper,
+	LinkSides,
 } from '@scblocks/components';
 import {
 	getPropertiesValue,
@@ -210,16 +210,13 @@ export default function BorderControl( {
 				/>
 			</div>
 			<ControlWrapper
-				label={ __( 'Widths', 'scblocks' ) }
+				label={ __( 'Width', 'scblocks' ) }
 				displayClearButton={ top || right || bottom || left }
 				onClear={ onClear }
 				extraControls={
-					<Button
-						label={ isLinked ? 'Unlink Sides' : 'Link Sides' }
-						variant={ isLinked ? 'primary' : 'secondary' }
-						icon={ isLinked ? link : linkOff }
+					<LinkSides
+						isLinked={ isLinked }
 						onClick={ () => setIsLinked( ! isLinked ) }
-						isSmall
 					/>
 				}
 			>

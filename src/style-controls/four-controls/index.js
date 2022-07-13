@@ -7,62 +7,30 @@ import { useState } from '@wordpress/element';
 /**
  * ScBlocks dependencies
  */
-import { getPropValue, setPropsValue } from '@scblocks/css-utils';
-import { PLUGIN_NAME } from '@scblocks/constants';
-import {
-	ControlWrapper,
-	NumberControl,
-	SyncControls,
-	DropdownUnits,
-} from '@scblocks/components';
+import { getPropertiesValue, setPropsValue } from '@scblocks/css-utils';
+import { ControlWrapper, NumberUnit, LinkSides } from '@scblocks/components';
 
-const labels = {
-	top: __( 'top', 'scblocks' ),
-	right: __( 'right', 'scblocks' ),
-	bottom: __( 'bottom', 'scblocks' ),
-	left: __( 'left', 'scblocks' ),
-};
-const radiusLabels = {
-	top: __( 'top-left', 'scblocks' ),
-	right: __( 'top-right', 'scblocks' ),
-	bottom: __( 'bottom-right', 'scblocks' ),
-	left: __( 'bottom-left', 'scblocks' ),
-};
 const title = {
 	margin: __( 'Margin', 'scblocks' ),
 	padding: __( 'Padding', 'scblocks' ),
-	borderRadius: __( 'Border radius', 'scblocks' ),
 };
-function propLongName( propName, position ) {
-	if ( propName === 'borderRadius' ) {
-		switch ( position ) {
-			case 'top': {
-				return 'borderTopLeftRadius';
-			}
-			case 'right': {
-				return 'borderTopRightRadius';
-			}
-			case 'bottom': {
-				return 'borderBottomRightRadius';
-			}
-			case 'left': {
-				return 'borderBottomLeftRadius';
-			}
-		}
-	} else {
-		return (
-			propName + position.replace( /^[a-z]/, ( e ) => e.toUpperCase() )
-		);
-	}
-}
-function getLabel( position, propName ) {
-	return propName === 'borderRadius'
-		? radiusLabels[ position ]
-		: labels[ position ];
-}
 
-const MIN_MAX_STEP = {
+const propLongName = {
 	margin: {
+		top: 'marginTop',
+		right: 'marginRight',
+		bottom: 'marginBottom',
+		left: 'marginLeft',
+	},
+	padding: {
+		top: 'paddingTop',
+		right: 'paddingRight',
+		bottom: 'paddingBottom',
+		left: 'paddingLeft',
+	},
+};
+function getUnitRangeStep() {
+	return {
 		px: {
 			min: -9999,
 			max: 9999,
@@ -76,183 +44,86 @@ const MIN_MAX_STEP = {
 		em: {
 			min: -1000,
 			max: 1000,
-			step: 0.1,
 		},
-	},
-	padding: {
-		px: {
-			min: 0,
+		rem: {
+			min: -1000,
+			max: 1000,
+		},
+		vh: {
+			min: -1000,
 			max: 1000,
 			step: 1,
 		},
-		'%': {
-			min: 0,
-			max: 100,
-			step: 1,
-		},
-		em: {
-			min: 0,
-			max: 100,
-			step: 0.1,
-		},
-	},
-	borderRadius: {
-		px: {
-			min: 0,
+		vw: {
+			min: -1000,
 			max: 1000,
 			step: 1,
 		},
-		'%': {
-			min: 0,
-			max: 100,
-			step: 1,
-		},
-	},
+	};
+}
+const unitRangeStep = {
+	top: getUnitRangeStep(),
+	right: getUnitRangeStep(),
+	bottom: getUnitRangeStep(),
+	left: getUnitRangeStep(),
 };
-
-function getMinMaxStep( propName, unit ) {
-	return MIN_MAX_STEP[ propName ][ unit ];
-}
-
-const UNITS = {
-	margin: [ 'px', 'em', '%' ],
-	padding: [ 'px', 'em', '%' ],
-	borderRadius: [ 'px', '%' ],
-};
-
-function getNumber( value ) {
-	if ( ! value ) {
-		return '';
-	}
-	return parseFloat( value, 10 );
-}
-
-function isNumber( value ) {
-	return ! ( ! value && 0 !== value );
-}
-
-function getUnit( value, number ) {
-	if ( ! isNumber( number ) ) {
-		return 'px';
-	}
-	return value.replace( number + '', '' );
-}
 
 export default function FourControls( props ) {
 	const { attributes, setAttributes, selector, devices, propName } = props;
-	const [ syncControls, setSyncControls ] = useState( 'one' );
+	const [ isLinked, setIsLinked ] = useState( false );
 
-	const short = getPropValue( { attributes, devices, selector, propName } );
+	const cssProps = getPropertiesValue( {
+		attributes,
+		devices,
+		selector,
+		props: [
+			propName,
+			propLongName[ propName ].top,
+			propLongName[ propName ].right,
+			propLongName[ propName ].bottom,
+			propLongName[ propName ].left,
+		],
+	} );
+	const short = cssProps[ propName ];
+	let top = cssProps[ propLongName[ propName ].top ];
+	let right = cssProps[ propLongName[ propName ].right ];
+	let bottom = cssProps[ propLongName[ propName ].bottom ];
+	let left = cssProps[ propLongName[ propName ].left ];
 
-	let top, right, bottom, left;
-	const incomingTop = getPropValue( {
-		attributes,
-		devices,
-		selector,
-		propName: propLongName( propName, 'top' ),
-	} );
-	const incomingRight = getPropValue( {
-		attributes,
-		devices,
-		selector,
-		propName: propLongName( propName, 'right' ),
-	} );
-	const incomingBottom = getPropValue( {
-		attributes,
-		devices,
-		selector,
-		propName: propLongName( propName, 'bottom' ),
-	} );
-	const incomingLeft = getPropValue( {
-		attributes,
-		devices,
-		selector,
-		propName: propLongName( propName, 'left' ),
-	} );
 	if ( short ) {
 		const value = short.split( ' ' );
 		if ( value.length === 1 ) {
-			top = right = bottom = left = getNumber( value[ 0 ] );
+			top = right = bottom = left = value[ 0 ];
 		}
 		if ( value.length === 2 ) {
-			top = bottom = getNumber( value[ 0 ] );
-			right = left = getNumber( value[ 1 ] );
+			top = bottom = value[ 0 ];
+			right = left = value[ 1 ];
 		}
 		if ( value.length === 4 ) {
-			top = getNumber( value[ 0 ] );
-			right = getNumber( value[ 1 ] );
-			bottom = getNumber( value[ 2 ] );
-			left = getNumber( value[ 3 ] );
+			top = value[ 0 ];
+			right = value[ 1 ];
+			bottom = value[ 2 ];
+			left = value[ 3 ];
 		}
-	} else {
-		top = getNumber( incomingTop );
-		right = getNumber( incomingRight );
-		bottom = getNumber( incomingBottom );
-		left = getNumber( incomingLeft );
 	}
-	const [ unit, setUnit ] = useState( () => {
-		if ( short ) {
-			const value = short.split( ' ' );
-			return getUnit( value[ 0 ], top );
-		}
-		if ( top ) {
-			return getUnit( incomingTop, top );
-		}
-		if ( right ) {
-			return getUnit( incomingRight, right );
-		}
-		if ( bottom ) {
-			return getUnit( incomingBottom, bottom );
-		}
-		if ( left ) {
-			return getUnit( incomingLeft, left );
-		}
-		return 'px';
-	} );
 
 	function onChange( value, position ) {
-		if ( ! isNumber( value ) ) {
-			value = '';
-		} else {
-			value = value + '';
-		}
 		let nextState;
-		switch ( syncControls ) {
-			case 'one':
-				nextState = {
-					top: top + '',
-					right: right + '',
-					bottom: bottom + '',
-					left: left + '',
-					[ position ]: value,
-				};
-				break;
-			case 'all':
-				nextState = {
-					top: value,
-					right: value,
-					bottom: value,
-					left: value,
-				};
-				break;
-			case 'opposite': {
-				if ( position === 'top' || position === 'bottom' ) {
-					nextState = {
-						right: right + '',
-						left: left + '',
-						top: value,
-						bottom: value,
-					};
-				} else {
-					nextState = {
-						top: top + '',
-						bottom: bottom + '',
-						left: value,
-						right: value,
-					};
-				}
-				break;
-			}
+		if ( isLinked ) {
+			nextState = {
+				top: value,
+				right: value,
+				bottom: value,
+				left: value,
+			};
+		} else {
+			nextState = {
+				top,
+				right,
+				bottom,
+				left,
+				[ position ]: value,
+			};
 		}
 		setValue( nextState );
 	}
@@ -269,17 +140,17 @@ export default function FourControls( props ) {
 				next.right === next.bottom &&
 				next.bottom === next.left
 			) {
-				nextShort = `${ next.top }${ unit }`;
+				nextShort = next.top;
 			} else if ( next.top === next.bottom && next.right === next.left ) {
-				nextShort = `${ next.top }${ unit } ${ next.right }${ unit }`;
+				nextShort = `${ next.top } ${ next.right }`;
 			} else {
-				nextShort = `${ next.top }${ unit } ${ next.right }${ unit } ${ next.bottom }${ unit } ${ next.left }${ unit }`;
+				nextShort = `${ next.top } ${ next.right } ${ next.bottom } ${ next.left }`;
 			}
 		} else {
-			nextTop = next.top ? `${ next.top }${ unit }` : '';
-			nextRight = next.right ? `${ next.right }${ unit }` : '';
-			nextBottom = next.bottom ? `${ next.bottom }${ unit }` : '';
-			nextLeft = next.left ? `${ next.left }${ unit }` : '';
+			nextTop = next.top;
+			nextRight = next.right;
+			nextBottom = next.bottom;
+			nextLeft = next.left;
 		}
 		setPropsValue( {
 			attributes,
@@ -288,10 +159,10 @@ export default function FourControls( props ) {
 			selector,
 			props: {
 				[ propName ]: nextShort,
-				[ propLongName( propName, 'top' ) ]: nextTop,
-				[ propLongName( propName, 'right' ) ]: nextRight,
-				[ propLongName( propName, 'bottom' ) ]: nextBottom,
-				[ propLongName( propName, 'left' ) ]: nextLeft,
+				[ propLongName[ propName ].top ]: nextTop,
+				[ propLongName[ propName ].right ]: nextRight,
+				[ propLongName[ propName ].bottom ]: nextBottom,
+				[ propLongName[ propName ].left ]: nextLeft,
 			},
 		} );
 	}
@@ -303,88 +174,67 @@ export default function FourControls( props ) {
 			selector,
 			props: {
 				[ propName ]: '',
-				[ propLongName( propName, 'top' ) ]: '',
-				[ propLongName( propName, 'right' ) ]: '',
-				[ propLongName( propName, 'bottom' ) ]: '',
-				[ propLongName( propName, 'left' ) ]: '',
+				[ propLongName[ propName ].top ]: '',
+				[ propLongName[ propName ].right ]: '',
+				[ propLongName[ propName ].bottom ]: '',
+				[ propLongName[ propName ].left ]: '',
 			},
 		} );
-	}
-	function onChangeUnit( value ) {
-		setUnit( value );
-		onClear();
 	}
 
 	return (
 		<ControlWrapper
-			{ ...props }
 			label={ title[ propName ] }
-			displayClearButton={
-				short ||
-				incomingTop ||
-				incomingRight ||
-				incomingBottom ||
-				incomingLeft
-			}
+			displayClearButton={ short || top || right || bottom || left }
 			onClear={ onClear }
 			extraControls={
-				<DropdownUnits
-					units={ UNITS[ propName ] }
-					value={ unit }
-					onChangeUnit={ onChangeUnit }
+				<LinkSides
+					isLinked={ isLinked }
+					onClick={ () => setIsLinked( ! isLinked ) }
 				/>
 			}
 		>
-			<SyncControls value={ syncControls } onChange={ setSyncControls } />
-			<div className={ `${ PLUGIN_NAME }-four-controls-top` }>
-				<div>
-					<NumberControl
-						label={ getLabel( 'top', propName ) }
-						value={ top }
-						onChange={ ( value ) => onChange( value, 'top' ) }
-						withoutSelectDevices
-						clearButton={ false }
-						hasSlider={ false }
-						{ ...getMinMaxStep( propName, unit ) }
-					/>
-				</div>
+			<div className="scblocks-four-controls-top">
+				<NumberUnit
+					label={ __( 'top', 'scblocks' ) }
+					value={ top }
+					onChange={ ( value ) => onChange( value, 'top' ) }
+					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
+					withoutSelectDevices
+					withoutSlider
+					unitRangeStep={ unitRangeStep.top }
+				/>
 			</div>
-			<div className={ `${ PLUGIN_NAME }-four-controls-left-right` }>
-				<div>
-					<NumberControl
-						label={ getLabel( 'left', propName ) }
-						value={ left }
-						onChange={ ( value ) => onChange( value, 'left' ) }
-						withoutSelectDevices
-						clearButton={ false }
-						hasSlider={ false }
-						{ ...getMinMaxStep( propName, unit ) }
-					/>
-				</div>
-				<div>
-					<NumberControl
-						label={ getLabel( 'right', propName ) }
-						value={ right }
-						onChange={ ( value ) => onChange( value, 'right' ) }
-						withoutSelectDevices
-						clearButton={ false }
-						hasSlider={ false }
-						{ ...getMinMaxStep( propName, unit ) }
-					/>
-				</div>
+			<div className="scblocks-four-controls-left-right">
+				<NumberUnit
+					label={ __( 'left', 'scblocks' ) }
+					value={ left }
+					onChange={ ( value ) => onChange( value, 'left' ) }
+					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
+					withoutSelectDevices
+					withoutSlider
+					unitRangeStep={ unitRangeStep.left }
+				/>
+				<NumberUnit
+					label={ __( 'right', 'scblocks' ) }
+					value={ right }
+					onChange={ ( value ) => onChange( value, 'right' ) }
+					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
+					withoutSelectDevices
+					withoutSlider
+					unitRangeStep={ unitRangeStep.right }
+				/>
 			</div>
-			<div className={ `${ PLUGIN_NAME }-four-controls-bottom` }>
-				<div>
-					<NumberControl
-						label={ getLabel( 'bottom', propName ) }
-						value={ bottom }
-						onChange={ ( value ) => onChange( value, 'bottom' ) }
-						withoutSelectDevices
-						clearButton={ false }
-						hasSlider={ false }
-						{ ...getMinMaxStep( propName, unit ) }
-					/>
-				</div>
+			<div className="scblocks-four-controls-bottom">
+				<NumberUnit
+					label={ __( 'bottom', 'scblocks' ) }
+					value={ bottom }
+					onChange={ ( value ) => onChange( value, 'bottom' ) }
+					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
+					withoutSelectDevices
+					withoutSlider
+					unitRangeStep={ unitRangeStep.bottom }
+				/>
 			</div>
 		</ControlWrapper>
 	);

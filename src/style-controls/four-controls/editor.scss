@@ -1,26 +1,23 @@
-.scblocks-four-controls-top {
+.scblocks-four-controls-top,
+.scblocks-four-controls-bottom {
 	display: flex;
 	justify-content: center;
-	margin-bottom: 5px;
+	align-items: center;
 
-	div {
-		width: 100px;
+	& > div {
+		flex-basis: 50%;
 	}
 }
 .scblocks-four-controls-left-right {
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 5px;
+	align-items: center;
+	column-gap: 15px;
+	margin-bottom: 12px;
+	margin-top: 12px;
 
-	div {
-		width: 100px;
+	& > div {
+		flex-basis: 50%;
 	}
 }
-.scblocks-four-controls-bottom {
-	display: flex;
-	justify-content: center;
 
-	div {
-		width: 100px;
-	}
-}

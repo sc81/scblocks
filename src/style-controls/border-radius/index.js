@@ -1,15 +1,13 @@
 /**
  * WordPress dependencies
  */
-import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-import { link, linkOff } from '@wordpress/icons';
 
 /**
  * ScBlocks dependencies
  */
-import { NumberUnit, ControlWrapper } from '@scblocks/components';
+import { NumberUnit, ControlWrapper, LinkSides } from '@scblocks/components';
 import { getPropertiesValue, setPropsValue } from '@scblocks/css-utils';
 
 export default function BorderRadius( {
@@ -143,12 +141,9 @@ export default function BorderRadius( {
 			}
 			onClear={ onClear }
 			extraControls={
-				<Button
-					label={ isLinked ? 'Unlink Sides' : 'Link Sides' }
-					variant={ isLinked ? 'primary' : 'secondary' }
-					icon={ isLinked ? link : linkOff }
+				<LinkSides
+					isLinked={ isLinked }
 					onClick={ () => setIsLinked( ! isLinked ) }
-					isSmall
 				/>
 			}
 		>
