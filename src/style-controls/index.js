@@ -9,3 +9,4 @@ export { default as AlignContent } from './align-content';
 export { default as AlignSelf } from './align-self';
 
 export { default as usePanelActiveControl } from './use-panel-active-control';
+export { getControlHoverSelector, getControlSelector } from './utils';
