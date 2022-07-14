@@ -1,5 +1,4 @@
 export { default as StyleControls } from './controls';
-export { default as Panel } from './panel';
 export { default as Gap } from './gap';
 export { default as AlignItems } from './align-items';
 export { default as JustifyContent } from './justify-content';
