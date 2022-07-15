@@ -2,17 +2,16 @@
  * WordPress dependencies
  */
 import { useState } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * ScBlocks dependencies
  */
-import { ALL_DEVICES } from '@scblocks/constants';
 import { ControlWrapper, NormalHoverButtons } from '@scblocks/components';
 
 /**
  * Internal dependencies
  */
-import Transition from '../transition';
 import BoxShadow from '../box-shadow';
 import { getControlSelector, getControlHoverSelector } from '../utils';
 import BorderControl from '../border-control';
@@ -38,27 +37,26 @@ export default function BorderPanel( props ) {
 				/>
 			) }
 			<BorderControl { ...props } selector={ selector } />
+			{ isHover &&
+				applyFilters(
+					'scblocks.border.transitionControl',
+					null,
+					props
+				) }
 			<BorderRadius { ...props } selector={ selector } />
-			<BoxShadow
-				{ ...props }
-				devices={ ALL_DEVICES }
-				selector={ selector }
-				isHover={ isHover }
-			/>
-			{ isHover && (
-				<>
-					<Transition
-						{ ...props }
-						devices={ ALL_DEVICES }
-						selector={ selector }
-						transitionProps={ [
-							'border',
-							'border-radius',
-							'box-shadow',
-						] }
-					/>
-				</>
-			) }
+			{ isHover &&
+				applyFilters(
+					'scblocks.borderRadius.transitionControl',
+					null,
+					props
+				) }
+			<BoxShadow { ...props } selector={ selector } />
+			{ isHover &&
+				applyFilters(
+					'scblocks.boxShadow.transitionControl',
+					null,
+					props
+				) }
 		</ControlWrapper>
 	);
 }
