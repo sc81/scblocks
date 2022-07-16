@@ -1,4 +1,8 @@
 /**
+ * WordPress dependencies
+ */
+import { applyFilters } from '@wordpress/hooks';
+/**
  * ScBlocks dependencies
  */
 import { getPropertiesValue, setPropValue } from '@scblocks/css-utils';
@@ -17,13 +21,7 @@ import LetterSpacing from './letter-spacing';
 import TextAlign from './text-align';
 
 export default function Typography( props ) {
-	const { devices, attributes, setAttributes, selectorSettings } = props;
-	let { selector } = props;
-	const typographySelector =
-		selectorSettings.allowedPanels.typography.selector;
-	selector =
-		( typeof typographySelector === 'string' && typographySelector ) ||
-		selector;
+	const { devices, attributes, setAttributes, selector } = props;
 
 	function onChange( obj ) {
 		setPropValue( {
@@ -160,6 +158,7 @@ export default function Typography( props ) {
 					} )
 				}
 			/>
+			{ applyFilters( 'scblocks.typographyPanel.afterAll', null, props ) }
 		</>
 	);
 }
