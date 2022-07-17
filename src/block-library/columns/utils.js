@@ -17,7 +17,7 @@ export default function getSelectorsSettings() {
 			label: __( 'Columns', 'scblocks' ),
 			id: BLOCK_SELECTOR.columns.main.alias,
 			selector: BLOCK_SELECTOR.columns.main.alias,
-			allowedPanels: {
+			panels: {
 				space: {
 					gap: true,
 				},

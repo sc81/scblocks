@@ -17,7 +17,7 @@ export default function getSelectorsSettings() {
 			label: __( 'Buttons style', 'scblocks' ),
 			id: BLOCK_SELECTOR.buttons.main.alias,
 			selector: BLOCK_SELECTOR.buttons.main.alias,
-			allowedPanels: {
+			panels: {
 				space: {
 					margin: true,
 				},

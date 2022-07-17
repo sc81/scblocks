@@ -15,6 +15,7 @@ import {
 	IdClassesControls,
 	ControlsManager,
 	getIconAttrs,
+	setSelectorActivity,
 } from '@scblocks/block';
 import { ALL_DEVICES, STORE_NAME } from '@scblocks/constants';
 import {
@@ -25,7 +26,12 @@ import {
 import { IconPicker } from '@scblocks/components';
 
 export default function Inspector( props ) {
-	const { attributes, setAttributes } = props;
+	const {
+		attributes,
+		setAttributes,
+		setSelectorsSettings,
+		selectorsSettings,
+	} = props;
 	const { tagName, iconId } = attributes;
 	const icon = useSelect(
 		( store ) => {
@@ -65,6 +71,13 @@ export default function Inspector( props ) {
 			setAttributes,
 			selectors: [ BLOCK_SELECTOR.heading.icon.alias ],
 		} );
+		setSelectorsSettings(
+			setSelectorActivity(
+				selectorsSettings,
+				BLOCK_SELECTOR.heading.icon.alias,
+				false
+			)
+		);
 	}
 	function onSelectIcon( name, iconAsString ) {
 		if ( ! iconAsString ) {
@@ -89,6 +102,13 @@ export default function Inspector( props ) {
 				iconAsString
 			);
 		}
+		setSelectorsSettings(
+			setSelectorActivity(
+				selectorsSettings,
+				BLOCK_SELECTOR.heading.icon.alias,
+				true
+			)
+		);
 	}
 	return (
 		<InspectorControls>

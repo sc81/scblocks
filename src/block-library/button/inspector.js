@@ -15,13 +15,19 @@ import {
 	IdClassesControls,
 	ControlsManager,
 	getIconAttrs,
+	setSelectorActivity,
 } from '@scblocks/block';
 import { removeSelectors } from '@scblocks/css-utils';
 import { IconPicker } from '@scblocks/components';
 import { STORE_NAME } from '@scblocks/constants';
 
 export default function Inspector( props ) {
-	const { attributes, setAttributes } = props;
+	const {
+		attributes,
+		setAttributes,
+		setSelectorsSettings,
+		selectorsSettings,
+	} = props;
 	const {
 		iconId,
 		withoutText,
@@ -42,6 +48,13 @@ export default function Inspector( props ) {
 	);
 
 	function onClearIcon() {
+		setSelectorsSettings(
+			setSelectorActivity(
+				selectorsSettings,
+				BLOCK_SELECTOR.button.icon.alias,
+				false
+			)
+		);
 		setAttributes( {
 			iconId: '',
 			iconHtml: '',
@@ -60,6 +73,13 @@ export default function Inspector( props ) {
 			onClearIcon();
 			return;
 		}
+		setSelectorsSettings(
+			setSelectorActivity(
+				selectorsSettings,
+				BLOCK_SELECTOR.button.icon.alias,
+				true
+			)
+		);
 		const icons = select( STORE_NAME ).usedIcons();
 		const iconAttrs = getIconAttrs( name, iconAsString, icons );
 		setAttributes( iconAttrs );

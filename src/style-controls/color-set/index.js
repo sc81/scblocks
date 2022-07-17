@@ -22,7 +22,7 @@ function getHasHoverControls( colors ) {
 export default function ColorSet( props ) {
 	const { selectorSettings } = props;
 	const [ isHover, setIsHover ] = useState( false );
-	const colors = selectorSettings.allowedPanels.colors;
+	const colors = selectorSettings.panels.colors;
 	const hasHoverControls = getHasHoverControls( colors );
 	const controls = [];
 	colors.forEach( ( control ) => {

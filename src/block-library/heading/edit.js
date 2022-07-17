@@ -31,12 +31,10 @@ import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
  * Internal dependencies
  */
 import './markformat';
-import getSelectorsSettings from './utils';
-import { name as blockName } from '.';
+import getSelectorsSettings from './selectors-settings';
 import Inspector from './inspector';
 import './block-controls';
-
-const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
+import { HEADING_BLOCK_NAME } from './utils';
 
 const placeholder = __( 'Heading', 'scblocks' );
 
@@ -51,8 +49,8 @@ export default function Edit( props ) {
 				.toLowerCase(),
 		[]
 	);
-	const selectorsSettings = useSelectorsSettings(
-		SELECTORS_INITIAL_SETTINGS,
+	const [ selectorsSettings, setSelectorsSettings ] = useSelectorsSettings(
+		getSelectorsSettings,
 		'heading',
 		props
 	);
@@ -92,7 +90,7 @@ export default function Edit( props ) {
 			return createBlock( 'core/paragraph' );
 		}
 
-		return createBlock( blockName, {
+		return createBlock( HEADING_BLOCK_NAME, {
 			...attributes,
 			text: value,
 		} );
@@ -119,6 +117,7 @@ export default function Edit( props ) {
 				devices={ devices }
 				blockMemo={ blockMemo }
 				selectorsSettings={ selectorsSettings }
+				setSelectorsSettings={ setSelectorsSettings }
 			/>
 			<GoogleFontsLink clientId={ clientId } />
 			{ isIcon && (

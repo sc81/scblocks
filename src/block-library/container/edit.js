@@ -32,13 +32,10 @@ import {
 /**
  * Internal dependencies
  */
-import getSelectorsSettings from './utils';
+import getSelectorsSettings from './selectors-settings';
 import Inspector from './inspector';
 import ShapeDividers from './shape-dividers';
 import ToolbarControls from './toolbar-controls';
-
-const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
-
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
 	const {
@@ -78,8 +75,8 @@ export default function Edit( props ) {
 		}
 	}, [ isDynamic, setAttributes ] );
 
-	const selectorsSettings = useSelectorsSettings(
-		SELECTORS_INITIAL_SETTINGS,
+	const [ selectorsSettings, setSelectorsSettings ] = useSelectorsSettings(
+		getSelectorsSettings,
 		'container',
 		props
 	);
@@ -125,6 +122,7 @@ export default function Edit( props ) {
 				devices={ devices }
 				blockMemo={ blockMemo }
 				selectorsSettings={ selectorsSettings }
+				setSelectorsSettings={ setSelectorsSettings }
 				svgShapes={ svgShapes }
 			/>
 			<div { ...blockProps }>

@@ -38,11 +38,13 @@ export default function Panels( props ) {
 
 	const isVisiblePanel = useMemo( () => {
 		const state = {};
-		Object.keys( selectorsSettings[ index ].allowedPanels ).forEach(
-			( name ) => {
+		Object.keys( selectorsSettings[ index ].panels ).forEach( ( name ) => {
+			if (
+				selectorsSettings[ index ].panels[ name ].isActive !== false
+			) {
 				state[ name ] = true;
 			}
-		);
+		} );
 
 		return state;
 	}, [ selectorsSettings, index ] );
@@ -50,7 +52,7 @@ export default function Panels( props ) {
 	const [ openedPanel, setOpenedPanel ] = useState( () => {
 		return (
 			getLastActivePanel( blockMemo ).controlsPanel[ selectorId ] ||
-			Object.keys( selectorsSettings[ index ].allowedPanels )[ 0 ]
+			Object.keys( selectorsSettings[ index ].panels )[ 0 ]
 		);
 	} );
 

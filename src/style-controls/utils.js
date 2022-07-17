@@ -1,14 +1,13 @@
 export function getControlSelector( panelName, controlName, selectorSettings ) {
-	if ( typeof selectorSettings.allowedPanels[ panelName ] !== 'object' ) {
+	if ( typeof selectorSettings.panels[ panelName ] !== 'object' ) {
 		return selectorSettings.selector;
 	}
 	if (
-		typeof selectorSettings.allowedPanels[ panelName ][ controlName ] ===
+		typeof selectorSettings.panels[ panelName ][ controlName ] ===
 			'object' &&
-		selectorSettings.allowedPanels[ panelName ][ controlName ].selector
+		selectorSettings.panels[ panelName ][ controlName ].selector
 	) {
-		return selectorSettings.allowedPanels[ panelName ][ controlName ]
-			.selector;
+		return selectorSettings.panels[ panelName ][ controlName ].selector;
 	}
 	return selectorSettings.selector;
 }
@@ -17,15 +16,15 @@ export function getControlHoverSelector(
 	controlName,
 	selectorSettings
 ) {
-	if ( typeof selectorSettings.allowedPanels[ panelName ] !== 'object' ) {
+	if ( typeof selectorSettings.panels[ panelName ] !== 'object' ) {
 		return selectorSettings.hoverSelector;
 	}
 	if (
-		typeof selectorSettings.allowedPanels[ panelName ][ controlName ] ===
+		typeof selectorSettings.panels[ panelName ][ controlName ] ===
 			'object' &&
-		selectorSettings.allowedPanels[ panelName ][ controlName ].hoverSelector
+		selectorSettings.panels[ panelName ][ controlName ].hoverSelector
 	) {
-		return selectorSettings.allowedPanels[ panelName ][ controlName ]
+		return selectorSettings.panels[ panelName ][ controlName ]
 			.hoverSelector;
 	}
 	return selectorSettings.hoverSelector;

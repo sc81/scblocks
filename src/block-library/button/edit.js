@@ -33,10 +33,8 @@ import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 /**
  * Internal dependencies
  */
-import getSelectorsSettings from './utils';
+import getSelectorsSettings from './selectors-settings';
 import Inspector from './inspector';
-
-const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
 
 const allowedFormats = [];
 const placeholder = __( 'Button', 'scblocks' );
@@ -65,8 +63,8 @@ export default function Edit( props ) {
 				.toLowerCase(),
 		[]
 	);
-	const selectorsSettings = useSelectorsSettings(
-		SELECTORS_INITIAL_SETTINGS,
+	const [ selectorsSettings, setSelectorsSettings ] = useSelectorsSettings(
+		getSelectorsSettings,
 		'button',
 		props
 	);
@@ -146,6 +144,7 @@ export default function Edit( props ) {
 				devices={ devices }
 				blockMemo={ blockMemo }
 				selectorsSettings={ selectorsSettings }
+				setSelectorsSettings={ setSelectorsSettings }
 			/>
 			<style>{ style }</style>
 			{ /* eslint-disable  jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */ }

@@ -25,8 +25,7 @@ export default function BorderPanel( props ) {
 		? getControlHoverSelector( 'border', 'border', selectorSettings )
 		: getControlSelector( 'border', 'border', selectorSettings );
 
-	const hasHoverControls =
-		selectorSettings.allowedPanels?.border.hasHoverControls;
+	const hasHoverControls = selectorSettings.panels?.border.hasHoverControls;
 
 	return (
 		<ControlWrapper withoutHeader>

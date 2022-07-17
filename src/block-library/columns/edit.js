@@ -43,8 +43,6 @@ import Inspector from './inspector';
 
 const ALLOWED_BLOCKS = [ COLUMN_NAME ];
 
-const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
-
 export default function Edit( props ) {
 	const { attributes, clientId, setAttributes, name } = props;
 	const { htmlClass, htmlId, isDynamic } = attributes;
@@ -68,8 +66,8 @@ export default function Edit( props ) {
 		}
 	}, [] );
 
-	const selectorsSettings = useSelectorsSettings(
-		SELECTORS_INITIAL_SETTINGS,
+	const [ selectorsSettings, setSelectorsSettings ] = useSelectorsSettings(
+		getSelectorsSettings,
 		'columns',
 		props
 	);
@@ -126,6 +124,7 @@ export default function Edit( props ) {
 				blockMemo={ blockMemo }
 				devices={ devices }
 				selectorsSettings={ selectorsSettings }
+				setSelectorsSettings={ setSelectorsSettings }
 			/>
 			{ columnCount > 0 && <div { ...innerBlocksProps } /> }
 			{ columnCount === 0 && (

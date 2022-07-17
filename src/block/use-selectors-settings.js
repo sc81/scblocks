@@ -6,51 +6,54 @@ import { produce } from 'immer';
 /**
  * WordPress dependencies
  */
-import { useState } from '@wordpress/element';
-import { doAction } from '@wordpress/hooks';
+import { useState, useRef } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
-function addSelectorSettings( settings, selectorSettings ) {
-	return [ ...settings, selectorSettings ];
+export function getSelectorIndex( settings, id ) {
+	return settings.findIndex( ( elm ) => elm.id === id );
 }
 
-function removeSelectorSettings( settings, id ) {
+export function setSelectorActivity( settings, id, isActive ) {
 	return produce( settings, ( draft ) => {
 		const index = draft.findIndex( ( elm ) => elm.id === id );
 		if ( index > -1 ) {
-			draft.splice( index, 1 );
+			draft[ index ].isActive = isActive;
+		}
+	} );
+}
+export function setSelectorPanelActivity(
+	settings,
+	selectorId,
+	panelName,
+	isActive
+) {
+	return produce( settings, ( draft ) => {
+		const index = draft.findIndex( ( elm ) => elm.id === selectorId );
+		if ( index > -1 ) {
+			draft[ index ][ panelName ].isActive = isActive;
 		}
 	} );
 }
 
-function setSelectorAllowedPanels( selectorsSettings, id, getAllowedPanels ) {
-	return produce( selectorsSettings, ( draft ) => {
+export function setSelectorPanels( settings, id, nextPanels ) {
+	return produce( settings, ( draft ) => {
 		const index = draft.findIndex( ( elm ) => elm.id === id );
 		if ( index > -1 ) {
-			draft[ index ].allowedPanels = getAllowedPanels(
-				draft[ index ].allowedPanels
-			);
+			draft[ index ].panels = nextPanels;
 		}
 	} );
 }
 
-export default function useSelectorsSettings(
-	initialSettings,
-	blockName,
-	blockProps
-) {
-	const [ settings, setSettings ] = useState( initialSettings );
-
-	doAction(
-		`scblocks.${ blockName }.selectorsSettings`,
-		settings,
-		{
-			setSettings,
-			addSelectorSettings,
-			removeSelectorSettings,
-			setSelectorAllowedPanels,
-		},
-		blockProps
-	);
-
-	return settings;
+export function useSelectorsSettings( getSettings, blockName, blockProps ) {
+	const isSet = useRef( false );
+	let initialSettings = [];
+	if ( ! isSet.current ) {
+		isSet.current = true;
+		initialSettings = applyFilters(
+			`scblocks.${ blockName }.selectorsSettings`,
+			getSettings(),
+			blockProps
+		);
+	}
+	return useState( initialSettings );
 }

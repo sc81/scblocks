@@ -11,47 +11,33 @@ import { BLOCK_SELECTOR } from '@scblocks/block';
 export default function getSelectorsSettings() {
 	return [
 		{
-			label: __( 'Container', 'scblocks' ),
-			id: BLOCK_SELECTOR.container.main.alias,
-			selector: BLOCK_SELECTOR.container.main.alias,
-			allowedPanels: {
+			label: __( 'Column', 'scblocks' ),
+			id: BLOCK_SELECTOR.column.main.alias,
+			selector: BLOCK_SELECTOR.column.main.alias,
+			panels: {
+				typography: true,
 				colors: {
 					textColor: true,
 					linkColor: {
 						hasHoverControls: true,
-						selector: BLOCK_SELECTOR.container.link.alias,
-						hoverSelector: BLOCK_SELECTOR.container.linkHover.alias,
+						selector: BLOCK_SELECTOR.column.link.alias,
+						hoverSelector: BLOCK_SELECTOR.column.linkHover.alias,
 					},
 					backgroundColor: true,
 					borderColor: true,
 				},
-				typography: true,
 				background: true,
 				border: true,
 				space: {
 					margin: true,
-					minHeight: true,
-					maxWidth: {
-						selector: BLOCK_SELECTOR.container.mainStronger.alias,
-					},
-				},
-				position: {
-					zIndex: true,
-				},
-				shapes: true,
-			},
-		},
-		{
-			label: __( 'Content', 'scblocks' ),
-			id: BLOCK_SELECTOR.container.content.alias,
-			selector: BLOCK_SELECTOR.container.content.alias,
-			allowedPanels: {
-				space: {
 					padding: true,
-					maxWidth: true,
+					minHeight: true,
+					flex: true,
 				},
 				position: {
+					order: true,
 					zIndex: true,
+					alignSelf: true,
 				},
 				flex: {
 					// items

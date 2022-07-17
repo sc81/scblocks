@@ -33,10 +33,8 @@ import {
 /**
  * Internal dependencies
  */
-import getSelectorsSettings from './utils';
+import getSelectorsSettings from './selectors-settings';
 import Inspector from './inspector';
-
-const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
 
 export default function Edit( props ) {
 	const { attributes, clientId, setAttributes, name } = props;
@@ -60,8 +58,8 @@ export default function Edit( props ) {
 		}
 	}, [] );
 
-	const selectorsSettings = useSelectorsSettings(
-		SELECTORS_INITIAL_SETTINGS,
+	const [ selectorsSettings, setSelectorsSettings ] = useSelectorsSettings(
+		getSelectorsSettings,
 		'column',
 		props
 	);
@@ -97,6 +95,7 @@ export default function Edit( props ) {
 				blockMemo={ blockMemo }
 				devices={ devices }
 				selectorsSettings={ selectorsSettings }
+				setSelectorsSettings={ setSelectorsSettings }
 			/>
 			<div { ...innerBlocksProps } />
 		</>

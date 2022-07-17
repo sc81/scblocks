@@ -12,7 +12,7 @@ export default function usePanelActiveControl(
 		const state = {};
 		props.forEach( ( prop ) => ( state[ prop ] = false ) );
 
-		Object.keys( selectorSettings.allowedPanels[ panelName ] ).forEach(
+		Object.keys( selectorSettings.panels[ panelName ] ).forEach(
 			( name ) => {
 				state[ name ] = true;
 			}

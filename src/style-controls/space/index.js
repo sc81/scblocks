@@ -62,7 +62,7 @@ export default function Space( props ) {
 
 	const unitRangeStep = useMemo( () => {
 		const state = {};
-		const spacePanel = selectorSettings.allowedPanels.space;
+		const spacePanel = selectorSettings.panels.space;
 		for ( const prop in spacePanel ) {
 			state[ prop ] = {};
 			if (

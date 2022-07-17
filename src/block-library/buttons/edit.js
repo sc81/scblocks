@@ -42,8 +42,6 @@ import { BUTTON_BLOCK_NAME } from '../button/utils';
 
 const ALLOWED_BLOCKS = [ BUTTON_BLOCK_NAME ];
 
-const SELECTORS_INITIAL_SETTINGS = getSelectorsSettings();
-
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
 	const { htmlClass, htmlId, isDynamic } = attributes;
@@ -66,8 +64,8 @@ export default function Edit( props ) {
 		}
 	}, [] );
 
-	const selectorsSettings = useSelectorsSettings(
-		SELECTORS_INITIAL_SETTINGS,
+	const [ selectorsSettings ] = useSelectorsSettings(
+		getSelectorsSettings,
 		'buttons',
 		props
 	);
