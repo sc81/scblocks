@@ -15,16 +15,29 @@ export default function getSelectorsSettings() {
 			id: BLOCK_SELECTOR.container.main.alias,
 			selector: BLOCK_SELECTOR.container.main.alias,
 			panels: {
-				colors: {
-					textColor: true,
-					linkColor: {
-						hasHoverControls: true,
+				colors: [
+					{
+						label: __( 'Text color', 'scblocks' ),
+						propName: 'color',
+						selector: BLOCK_SELECTOR.container.main.alias,
+					},
+					{
+						label: __( 'Background color', 'scblocks' ),
+						propName: 'backgroundColor',
+						selector: BLOCK_SELECTOR.container.main.alias,
+					},
+					{
+						label: __( 'Border color', 'scblocks' ),
+						propName: 'borderColor',
+						selector: BLOCK_SELECTOR.container.main.alias,
+					},
+					{
+						label: __( 'Link color', 'scblocks' ),
+						propName: 'color',
 						selector: BLOCK_SELECTOR.container.link.alias,
 						hoverSelector: BLOCK_SELECTOR.container.linkHover.alias,
 					},
-					backgroundColor: true,
-					borderColor: true,
-				},
+				],
 				typography: true,
 				background: true,
 				border: true,
