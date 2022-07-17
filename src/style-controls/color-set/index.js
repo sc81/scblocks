@@ -1,8 +1,8 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * ScBlocks dependencies
@@ -15,91 +15,48 @@ import { NormalHoverButtons } from '@scblocks/components';
  */
 import Color from '../color';
 
-const controls = [
-	{
-		alias: 'textColor',
-		label: __( 'Text Color', 'scblocks' ),
-		propName: 'color',
-	},
-	{
-		alias: 'backgroundColor',
-		label: __( 'Background Color', 'scblocks' ),
-		propName: 'backgroundColor',
-	},
-	{
-		alias: 'borderColor',
-		label: __( 'Border Color', 'scblocks' ),
-		propName: 'borderColor',
-	},
-	{
-		alias: 'linkColor',
-		label: __( 'Link Color', 'scblocks' ),
-		propName: 'color',
-	},
-	{
-		alias: 'highlightText',
-		label: __( 'Highlight Text', 'scblocks' ),
-		propName: 'color',
-	},
-	{
-		alias: 'iconColor',
-		label: __( 'Icon Color', 'scblocks' ),
-		propName: 'color',
-	},
-];
+function getHasHoverControls( colors ) {
+	return colors.findIndex( ( elm ) => !! elm.hoverSelector ) > -1;
+}
 
 export default function ColorSet( props ) {
 	const { selectorSettings } = props;
 	const [ isHover, setIsHover ] = useState( false );
 	const colors = selectorSettings.allowedPanels.colors;
-	const { selector, hoverSelector } = selectorSettings;
-	const colorControls = [];
-	const hoverControls = [];
-
-	controls.forEach( ( control ) => {
-		if ( ! colors[ control.alias ] ) {
-			return null;
-		}
-		const controlSelector = colors[ control.alias ].selector;
-		colorControls.push(
-			<Color
-				{ ...props }
-				devices={ ALL_DEVICES }
-				key={ control.alias }
-				label={ control.label }
-				propName={ control.propName }
-				selector={
-					( typeof controlSelector === 'string' &&
-						controlSelector ) ||
-					selector
-				}
-			/>
-		);
-		if ( colors[ control.alias ].hasHoverControls ) {
-			hoverControls.push(
+	const hasHoverControls = getHasHoverControls( colors );
+	const controls = [];
+	colors.forEach( ( control ) => {
+		if ( ! isHover || ( isHover && control.hoverSelector ) ) {
+			controls.push(
 				<Color
 					{ ...props }
 					devices={ ALL_DEVICES }
-					key={ control.alias }
+					key={ control.propName }
 					label={ control.label }
 					propName={ control.propName }
 					selector={
-						colors[ control.alias ].hoverSelector || hoverSelector
+						isHover ? control.hoverSelector : control.selector
 					}
 				/>
 			);
 		}
 	} );
+
 	return (
 		<>
-			{ hoverControls.length > 0 && (
+			{ hasHoverControls && (
 				<NormalHoverButtons
 					isHover={ isHover }
 					onChange={ ( value ) => setIsHover( value ) }
 				/>
 			) }
-			{ ! isHover && colorControls }
-			{ isHover && hoverControls }
+			{ controls }
+			{ isHover &&
+				applyFilters(
+					'scblocks.colorsPanel.hoverControlsPanel',
+					null,
+					props
+				) }
 		</>
 	);
 }

@@ -21,17 +21,26 @@ export default function getSelectorsSettings() {
 			selector: BLOCK_SELECTOR.button.main.alias,
 			hoverSelector: BLOCK_SELECTOR.button.mainHover.alias,
 			allowedPanels: {
-				colors: {
-					textColor: {
-						hasHoverControls: true,
+				colors: [
+					{
+						label: __( 'Text color', 'scblocks' ),
+						propName: 'color',
+						selector: BLOCK_SELECTOR.button.main.alias,
+						hoverSelector: BLOCK_SELECTOR.button.mainHover.alias,
 					},
-					backgroundColor: {
-						hasHoverControls: true,
+					{
+						label: __( 'Background color', 'scblocks' ),
+						propName: 'backgroundColor',
+						selector: BLOCK_SELECTOR.button.main.alias,
+						hoverSelector: BLOCK_SELECTOR.button.mainHover.alias,
 					},
-					borderColor: {
-						hasHoverControls: true,
+					{
+						label: __( 'Border color', 'scblocks' ),
+						propName: 'borderColor',
+						selector: BLOCK_SELECTOR.button.main.alias,
+						hoverSelector: BLOCK_SELECTOR.button.mainHover.alias,
 					},
-				},
+				],
 				typography: true,
 				border: {
 					hasHoverControls: true,

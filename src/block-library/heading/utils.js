@@ -19,19 +19,34 @@ export default function getSelectorsSettings() {
 			id: BLOCK_SELECTOR.heading.main.alias,
 			selector: BLOCK_SELECTOR.heading.main.alias,
 			allowedPanels: {
-				colors: {
-					textColor: true,
-					backgroundColor: true,
-					borderColor: true,
-					linkColor: {
-						hasHoverControls: true,
+				colors: [
+					{
+						label: __( 'Text color', 'scblocks' ),
+						propName: 'color',
+						selector: BLOCK_SELECTOR.heading.main.alias,
+					},
+					{
+						label: __( 'Background color', 'scblocks' ),
+						propName: 'backgroundColor',
+						selector: BLOCK_SELECTOR.heading.main.alias,
+					},
+					{
+						label: __( 'Border color', 'scblocks' ),
+						propName: 'borderColor',
+						selector: BLOCK_SELECTOR.heading.main.alias,
+					},
+					{
+						label: __( 'Link color', 'scblocks' ),
+						propName: 'color',
 						selector: BLOCK_SELECTOR.heading.link.alias,
 						hoverSelector: BLOCK_SELECTOR.heading.linkHover.alias,
 					},
-					highlightText: {
+					{
+						label: __( 'Highlight text', 'scblocks' ),
+						propName: 'color',
 						selector: BLOCK_SELECTOR.heading.highlightText.alias,
 					},
-				},
+				],
 				typography: true,
 				border: true,
 				space: {
@@ -61,9 +76,13 @@ function useToggleIconControls(
 				id: BLOCK_SELECTOR.heading.icon.alias,
 				selector: BLOCK_SELECTOR.heading.icon.alias,
 				allowedPanels: {
-					colors: {
-						iconColor: true,
-					},
+					colors: [
+						{
+							label: __( 'Icon color', 'scblocks' ),
+							propName: 'color',
+							selector: BLOCK_SELECTOR.heading.icon.alias,
+						},
+					],
 					space: {
 						fontSize: true,
 						padding: true,
