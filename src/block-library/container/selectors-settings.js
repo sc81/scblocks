@@ -64,6 +64,23 @@ export default function getSelectorsSettings() {
 					],
 				},
 				shapes: true,
+				flex: {
+					selector: BLOCK_SELECTOR.container.content.alias,
+					props: {
+						// items
+						displayFlex: true,
+						gap: true,
+						flexDirection: true,
+						flexWrap: true,
+						justifyContent: true,
+						alignItems: true,
+						alignContent: true,
+						// self
+						alignSelf: true,
+						flex: true,
+						order: true,
+					},
+				},
 			},
 		},
 		{
@@ -74,20 +91,6 @@ export default function getSelectorsSettings() {
 				space: {
 					padding: true,
 					maxWidth: true,
-				},
-				flex: {
-					// items
-					displayFlex: true,
-					gap: true,
-					flexDirection: true,
-					flexWrap: true,
-					justifyContent: true,
-					alignItems: true,
-					alignContent: true,
-					// self
-					alignSelf: true,
-					flex: true,
-					order: true,
 				},
 			},
 		},

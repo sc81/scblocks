@@ -32,6 +32,7 @@ const flexControls = [
 
 export default function FlexPanel( props ) {
 	const { selectorSettings } = props;
+	const { selector } = selectorSettings.panels.flex;
 	const {
 		order,
 		flexDirection,
@@ -47,21 +48,29 @@ export default function FlexPanel( props ) {
 
 	return (
 		<>
-			{ displayFlex && <DisplayFlex { ...props } /> }
-			{ flex && <Flex { ...props } /> }
-			{ alignSelf && <AlignSelf { ...props } /> }
-			{ order && <Order { ...props } /> }
+			{ displayFlex && (
+				<DisplayFlex { ...props } selector={ selector } />
+			) }
+			{ flex && <Flex { ...props } selector={ selector } /> }
+			{ alignSelf && <AlignSelf { ...props } selector={ selector } /> }
+			{ order && <Order { ...props } selector={ selector } /> }
 			<div className="scblocks-flex-panel-items-heading">
 				<span></span>
 				<span>{ __( 'Items', 'scblocks' ) }</span>
 				<span></span>
 			</div>
-			{ gap && <Gap { ...props } /> }
-			{ flexDirection && <FlexDirection { ...props } /> }
-			{ flexWrap && <FlexWrap { ...props } /> }
-			{ justifyContent && <JustifyContent { ...props } /> }
-			{ alignItems && <AlignItems { ...props } /> }
-			{ alignContent && <AlignContent { ...props } /> }
+			{ gap && <Gap { ...props } selector={ selector } /> }
+			{ flexDirection && (
+				<FlexDirection { ...props } selector={ selector } />
+			) }
+			{ flexWrap && <FlexWrap { ...props } selector={ selector } /> }
+			{ justifyContent && (
+				<JustifyContent { ...props } selector={ selector } />
+			) }
+			{ alignItems && <AlignItems { ...props } selector={ selector } /> }
+			{ alignContent && (
+				<AlignContent { ...props } selector={ selector } />
+			) }
 		</>
 	);
 }

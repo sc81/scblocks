@@ -11,12 +11,12 @@ export default function usePanelActiveControl(
 	const activeControls = useMemo( () => {
 		const state = {};
 		props.forEach( ( prop ) => ( state[ prop ] = false ) );
-
-		Object.keys( selectorSettings.panels[ panelName ] ).forEach(
-			( name ) => {
-				state[ name ] = true;
-			}
-		);
+		const panelProps =
+			selectorSettings.panels[ panelName ].props ||
+			selectorSettings.panels[ panelName ];
+		Object.keys( panelProps ).forEach( ( name ) => {
+			state[ name ] = true;
+		} );
 
 		return state;
 	}, [ selectorSettings, props, panelName ] );
