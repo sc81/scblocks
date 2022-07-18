@@ -15,6 +15,7 @@ import { getControlSelector } from '../utils';
 import NumberProperty from '../number-property';
 import Gap from '../gap';
 import Flex from '../flex';
+import CombinedMaxWidth from '../combined-max-width';
 
 const spaceProps = [
 	'margin',
@@ -29,6 +30,7 @@ const spaceProps = [
 	'flexGrow',
 	'gap',
 	'flex',
+	'combinedMaxWidth',
 ];
 
 export default function Space( props ) {
@@ -46,6 +48,7 @@ export default function Space( props ) {
 		flexGrow,
 		gap,
 		flex,
+		combinedMaxWidth,
 	} = usePanelActiveControl( selectorSettings, spaceProps, 'space' );
 
 	const propSelector = useMemo( () => {
@@ -96,6 +99,7 @@ export default function Space( props ) {
 			) }
 			{ gap && <Gap { ...props } selector={ propSelector.gap } /> }
 			{ flex && <Flex { ...props } selector={ propSelector.flex } /> }
+			{ combinedMaxWidth && <CombinedMaxWidth { ...props } /> }
 			{ margin && (
 				<FourControls
 					propName="margin"

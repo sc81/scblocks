@@ -8,6 +8,7 @@ import { cloneDeep, merge } from 'lodash';
  */
 import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
+import { BaseControl } from '@wordpress/components';
 
 /**
  * ScBlocks dependencies
@@ -77,7 +78,13 @@ const propDefaults = {
 };
 
 export default function NumberUnitProperty( props ) {
-	const { propName, units, withoutSelectDevices, unitRangeStep } = props;
+	const {
+		propName,
+		units,
+		withoutSelectDevices,
+		unitRangeStep,
+		label,
+	} = props;
 	const { propValue, onChange } = propertyService( props );
 
 	const mergedUnitRangeStep = useMemo( () => {
@@ -88,18 +95,20 @@ export default function NumberUnitProperty( props ) {
 	}, [ propName, unitRangeStep, propDefaults ] );
 
 	return (
-		<NumberUnit
-			label={ propDefaults[ propName ].label }
-			value={ propValue }
-			units={ units || propDefaults[ propName ].units }
-			onChange={ onChange }
-			withoutSelectDevices={
-				withoutSelectDevices ||
-				propDefaults[ propName ].withoutSelectDevices
-			}
-			unitRangeStep={ mergedUnitRangeStep }
-			displayClearButton={ !! propValue }
-			onClear={ () => onChange() }
-		/>
+		<BaseControl>
+			<NumberUnit
+				label={ label || propDefaults[ propName ].label }
+				value={ propValue }
+				units={ units || propDefaults[ propName ].units }
+				onChange={ onChange }
+				withoutSelectDevices={
+					withoutSelectDevices ||
+					propDefaults[ propName ].withoutSelectDevices
+				}
+				unitRangeStep={ mergedUnitRangeStep }
+				displayClearButton={ !! propValue }
+				onClear={ () => onChange() }
+			/>
+		</BaseControl>
 	);
 }

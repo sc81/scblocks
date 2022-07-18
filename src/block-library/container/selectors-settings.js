@@ -46,9 +46,19 @@ export default function getSelectorsSettings() {
 					padding: {
 						selector: BLOCK_SELECTOR.container.content.alias,
 					},
-					minHeight: true,
-					maxWidth: {
-						selector: BLOCK_SELECTOR.container.mainStronger.alias,
+					combinedMaxWidth: [
+						{
+							label: __( 'Container max-width', 'scblocks' ),
+							selector:
+								BLOCK_SELECTOR.container.mainStronger.alias,
+						},
+						{
+							label: __( 'Content max-width', 'scblocks' ),
+							selector: BLOCK_SELECTOR.container.content.alias,
+						},
+					],
+					minHeight: {
+						selector: BLOCK_SELECTOR.container.content.alias,
 					},
 				},
 				position: {
@@ -58,10 +68,7 @@ export default function getSelectorsSettings() {
 							selector: BLOCK_SELECTOR.container.main.alias,
 						},
 						{
-							label: __(
-								'Container content z-index',
-								'scblocks'
-							),
+							label: __( 'Content z-index', 'scblocks' ),
 							selector: BLOCK_SELECTOR.container.content.alias,
 						},
 					],
