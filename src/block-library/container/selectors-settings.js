@@ -43,6 +43,9 @@ export default function getSelectorsSettings() {
 				border: true,
 				space: {
 					margin: true,
+					padding: {
+						selector: BLOCK_SELECTOR.container.content.alias,
+					},
 					minHeight: true,
 					maxWidth: {
 						selector: BLOCK_SELECTOR.container.mainStronger.alias,
@@ -80,17 +83,6 @@ export default function getSelectorsSettings() {
 						flex: true,
 						order: true,
 					},
-				},
-			},
-		},
-		{
-			label: __( 'Content', 'scblocks' ),
-			id: BLOCK_SELECTOR.container.content.alias,
-			selector: BLOCK_SELECTOR.container.content.alias,
-			panels: {
-				space: {
-					padding: true,
-					maxWidth: true,
 				},
 			},
 		},
