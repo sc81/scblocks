@@ -49,7 +49,19 @@ export default function getSelectorsSettings() {
 					},
 				},
 				position: {
-					zIndex: true,
+					combinedZindex: [
+						{
+							label: __( 'Container z-index', 'scblocks' ),
+							selector: BLOCK_SELECTOR.container.main.alias,
+						},
+						{
+							label: __(
+								'Container content z-index',
+								'scblocks'
+							),
+							selector: BLOCK_SELECTOR.container.content.alias,
+						},
+					],
 				},
 				shapes: true,
 			},
@@ -62,9 +74,6 @@ export default function getSelectorsSettings() {
 				space: {
 					padding: true,
 					maxWidth: true,
-				},
-				position: {
-					zIndex: true,
 				},
 				flex: {
 					// items

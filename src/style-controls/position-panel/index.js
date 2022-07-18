@@ -20,9 +20,11 @@ import JustifyItems from '../justify-items';
 import AlignSelf from '../align-self';
 import AlignContent from '../align-content';
 import FlexWrap from '../flex-wrap';
+import CombinedZindex from '../combined-z-index';
 
 const positionProps = [
 	'zIndex',
+	'combinedZindex',
 	'visibility',
 	'order',
 	'flexDirection',
@@ -39,6 +41,7 @@ export default function PositionPanel( props ) {
 	const { selectorSettings } = props;
 	const {
 		zIndex,
+		combinedZindex,
 		visibility,
 		order,
 		flexDirection,
@@ -68,6 +71,7 @@ export default function PositionPanel( props ) {
 			{ zIndex && (
 				<Zindex { ...props } selector={ propSelector.zIndex } />
 			) }
+			{ combinedZindex && <CombinedZindex { ...props } /> }
 			{ order && <Order { ...props } selector={ propSelector.order } /> }
 			{ flexDirection && (
 				<FlexDirection

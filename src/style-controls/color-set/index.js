@@ -25,13 +25,13 @@ export default function ColorSet( props ) {
 	const colors = selectorSettings.panels.colors;
 	const hasHoverControls = getHasHoverControls( colors );
 	const controls = [];
-	colors.forEach( ( control ) => {
+	colors.forEach( ( control, index ) => {
 		if ( ! isHover || ( isHover && control.hoverSelector ) ) {
 			controls.push(
 				<Color
 					{ ...props }
 					devices={ ALL_DEVICES }
-					key={ control.propName }
+					key={ index }
 					label={ control.label }
 					propName={ control.propName }
 					selector={
