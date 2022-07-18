@@ -45,12 +45,9 @@ export default function getSelectorsSettings() {
 					margin: true,
 					padding: true,
 					minHeight: true,
-					flex: true,
 				},
 				position: {
-					order: true,
 					zIndex: true,
-					alignSelf: true,
 				},
 				flex: {
 					selector: BLOCK_SELECTOR.column.main.alias,
