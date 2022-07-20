@@ -51,20 +51,8 @@ export default function getSelectorsSettings() {
 				},
 				flex: {
 					selector: BLOCK_SELECTOR.column.main.alias,
-					props: {
-						// items
-						displayFlex: true,
-						gap: true,
-						flexDirection: true,
-						flexWrap: true,
-						justifyContent: true,
-						alignItems: true,
-						alignContent: true,
-						// self
-						alignSelf: true,
-						flex: true,
-						order: true,
-					},
+					displayAllProps: true,
+					hasItemsHeading: true,
 				},
 			},
 		},
