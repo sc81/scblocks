@@ -8,6 +8,10 @@ export const SHARED_ATTRIBUTES = {
 			type: 'string',
 			default: '',
 		},
+		itemClass: {
+			type: 'string',
+			default: '',
+		},
 	},
 	id: {
 		htmlId: {

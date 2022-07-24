@@ -72,6 +72,9 @@ class Container_Block {
 		if ( ! empty( $attributes['uidClass'] ) ) {
 			$class_names[] = $attributes['uidClass'];
 		}
+		if ( ! empty( $attributes['itemClass'] ) ) {
+			$class_names[] = $attributes['itemClass'];
+		}
 		if ( ! empty( $attributes['align'] ) ) {
 			if ( $this->is_set_align_wide() ) {
 				$class_names[] = 'align' . $attributes['align'];

@@ -11,6 +11,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.3.0
  */
 class Update_Blocks_Metadata {
+
+	/**
+	 * Return a larger numeric value each time.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return int
+	 */
+	public function get_number():int {
+		static $number = 0;
+		$number++;
+		return $number;
+	}
+
 	/**
 	 * Hooks a function on to a specific action.
 	 *
@@ -114,21 +128,27 @@ class Update_Blocks_Metadata {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param array $blocks
+	 * @param array &$blocks
 	 * @param int $post_id
+	 * @param string $parent_uid_class
 	 *
 	 * @return void
 	 */
-	public function update_uid_class( array &$blocks, int $post_id ) {
+	public function update_uid_class( array &$blocks, int $post_id, string $parent_uid_class = '' ) {
+		$uid_class = '';
 		foreach ( $blocks as $index => $block ) {
 			if ( isset( $block['blockName'] ) &&
 			strpos( $block['blockName'], Plugin::BLOCK_NAMESPACE ) === 0 &&
 			isset( $block['attrs'] ) ) {
+				$uid_class = $this->get_uid_class( $post_id );
 
-				$blocks[ $index ]['attrs']['uidClass'] = $this->create_uid_class( $block['blockName'], $post_id );
+				$blocks[ $index ]['attrs']['uidClass'] = $uid_class;
+				if ( $parent_uid_class ) {
+					$blocks[ $index ]['attrs']['itemClass'] = $parent_uid_class . '-item';
+				}
 			}
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$this->update_uid_class( $blocks[ $index ]['innerBlocks'], $post_id );
+				$this->update_uid_class( $blocks[ $index ]['innerBlocks'], $post_id, $uid_class );
 			}
 		}
 	}
@@ -137,13 +157,11 @@ class Update_Blocks_Metadata {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param string $block_name
 	 * @param int $post_id
 	 *
 	 * @return string
 	 */
-	public function create_uid_class( string $block_name, int $post_id ) : string {
-		$block_name = explode( '/', $block_name )[1];
-		return 'scb-' . $block_name . '-' . $post_id . bin2hex( random_bytes( 4 ) );
+	public function get_uid_class( int $post_id ) : string {
+		return 'scb-' . $post_id . '-' . $this->get_number();
 	}
 }

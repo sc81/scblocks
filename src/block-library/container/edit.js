@@ -22,6 +22,7 @@ import {
 	GoogleFontsLink,
 	getUidClass,
 	useSelectorsSettings,
+	useItemClass,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -85,6 +86,8 @@ export default function Edit( props ) {
 
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 
+	const itemClass = useItemClass( clientId );
+
 	const blockProps = useBlockProps(
 		applyFilters(
 			'scblocks.container.htmlAttributes',
@@ -93,6 +96,7 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.container.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
+					[ itemClass ]: '' !== itemClass,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 					[ `align-${ align }` ]: ! isRegisteredAlignWide && !! align,
 					[ BLOCK_CLASSES.container

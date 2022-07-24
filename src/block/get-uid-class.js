@@ -7,5 +7,7 @@
  */
 export default function getUidClass( blockName, clientId ) {
 	blockName = blockName.split( '/' )[ 1 ];
-	return `scb-${ blockName }-${ clientId.substr( 2, 9 ).replace( '-', '' ) }`;
+	return `scb-${ blockName }-${ clientId
+		.substring( 2, 9 )
+		.replace( '-', '' ) }`;
 }

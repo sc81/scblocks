@@ -24,6 +24,7 @@ import {
 	getUidClass,
 	PasteUsedIcon,
 	useSelectorsSettings,
+	useItemClass,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 
@@ -63,6 +64,8 @@ export default function Edit( props ) {
 		}
 	}, [ isDynamic, setAttributes ] );
 
+	const itemClass = useItemClass( clientId );
+
 	const blockProps = useBlockProps(
 		applyFilters(
 			'scblocks.heading.htmlAttributes',
@@ -71,6 +74,7 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.heading.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
+					[ itemClass ]: '' !== itemClass,
 					[ BLOCK_CLASSES.heading.text ]: ! iconId,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),

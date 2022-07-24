@@ -22,3 +22,4 @@ export {
 	setSelectorPanels,
 	getSelectorIndex,
 } from './use-selectors-settings';
+export { default as useItemClass } from './use-item-class';

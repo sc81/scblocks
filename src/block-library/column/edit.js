@@ -24,6 +24,7 @@ import {
 	BLOCK_CLASSES,
 	getUidClass,
 	useSelectorsSettings,
+	useItemClass,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -66,6 +67,8 @@ export default function Edit( props ) {
 	const blockMemo = useBlockMemo( attributes, selectorsSettings );
 	const style = useDynamicCss( props, devices );
 
+	const itemClass = useItemClass( clientId );
+
 	const blockProps = useBlockProps(
 		applyFilters(
 			'scblocks.column.htmlAttributes',
@@ -74,6 +77,7 @@ export default function Edit( props ) {
 				className: classnames( {
 					[ BLOCK_CLASSES.column.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
+					[ itemClass ]: '' !== itemClass,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 			},

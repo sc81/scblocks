@@ -68,6 +68,9 @@ class Heading_Block {
 		if ( ! empty( $attributes['uidClass'] ) ) {
 			$class_names[] = $attributes['uidClass'];
 		}
+		if ( ! empty( $attributes['itemClass'] ) ) {
+			$class_names[] = $attributes['itemClass'];
+		}
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
