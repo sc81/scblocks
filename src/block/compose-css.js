@@ -37,7 +37,7 @@ function isShapeAlias( selectorAlias ) {
 }
 
 function getBlockFullSelector( blockName, alias, uidClass ) {
-	if ( BLOCK_SELECTOR[ blockName ] ) {
+	if ( BLOCK_SELECTOR[ blockName ] && BLOCK_SELECTOR[ blockName ][ alias ] ) {
 		return BLOCK_SELECTOR[ blockName ][ alias ].fullSelector( uidClass );
 	}
 	return applyFilters(

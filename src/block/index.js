@@ -21,5 +21,6 @@ export {
 	setSelectorPanelActivity,
 	setSelectorPanels,
 	getSelectorIndex,
+	addSelectorSettings,
 } from './use-selectors-settings';
 export { default as useItemClass } from './use-item-class';

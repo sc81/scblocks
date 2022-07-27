@@ -44,6 +44,12 @@ export function setSelectorPanels( settings, id, nextPanels ) {
 	} );
 }
 
+export function addSelectorSettings( settings, selectorSettings ) {
+	return produce( settings, ( draft ) => {
+		draft.push( selectorSettings );
+	} );
+}
+
 export function useSelectorsSettings( getSettings, blockName, blockProps ) {
 	const isSet = useRef( false );
 	let initialSettings = [];
