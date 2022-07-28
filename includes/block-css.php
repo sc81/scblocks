@@ -108,10 +108,10 @@ class Block_Css {
 	 * @return string
 	 */
 	public function create() : string {
-		$blocks_attr = Plugin::blocks_attrs( $this->parsed_content() );
-
+		$blocks_attrs = new Blocks_Attrs();
 		$css_composer = new Css();
-		$css          = $css_composer->compose( $blocks_attr );
+
+		$css = $css_composer->compose( $blocks_attrs->get( $this->parsed_content() ) );
 
 		/**
 		 * Filters CSS for our blocks.
