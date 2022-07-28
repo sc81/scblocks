@@ -186,58 +186,6 @@ class Plugin {
 	}
 
 	/**
-	 * Retrive attributes from blocks.
-	 *
-	 * @param array $parsed_blocks Array of parsed block objects.
-	 * @param array $data Data used when we use recursion.
-	 *
-	 * @return array
-	 */
-	public static function blocks_attrs( array $parsed_blocks, array $data = array() ) : array {
-		if ( empty( $parsed_blocks ) ) {
-			return $data;
-		}
-
-		foreach ( $parsed_blocks as $block ) {
-			if ( ! is_array( $block ) || ! isset( $block['blockName'] ) ) {
-				continue;
-			}
-			if ( strpos( $block['blockName'], self::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
-				$block_name = explode( '/', $block['blockName'] )[1];
-
-				$data[ $block_name ][] = $block['attrs'];
-
-				self::set_is_active_block( $block_name );
-				if ( 'heading' === $block_name || 'button' === $block_name ) {
-					self::set_is_active_block( 'icon' );
-				}
-
-				do_action( 'scblocks_collecting_block_attrs', $block );
-
-				$data = apply_filters( 'scblocks_blocks_attrs', $data, $block );
-			}
-			// reusable block
-			if ( 'core/block' === $block['blockName'] && ! empty( $block['attrs']['ref'] )
-					&& ( empty( $data['wpBlockId'] ) || ! in_array( $block['attrs']['ref'], $data['wpBlockId'] ) ) ) {
-					$reusable_block = get_post( $block['attrs']['ref'] );
-
-				if ( $reusable_block && 'wp_block' === $reusable_block->post_type && 'publish' === $reusable_block->post_status ) {
-					$parsed_reusable_block = parse_blocks( $reusable_block->post_content );
-
-					if ( ! empty( $parsed_reusable_block ) ) {
-						$data['wpBlockId'][] = $block['attrs']['ref'];
-						$data                = self::blocks_attrs( $parsed_reusable_block, $data );
-					}
-				}
-			}
-			// inner blocks
-			if ( ! empty( $block['innerBlocks'] ) ) {
-				$data = self::blocks_attrs( $block['innerBlocks'], $data );
-			}
-		}
-		return $data;
-	}
-	/**
 	 * Return current Unix timestamp with microseconds as a string.
 	 *
 	 * @since 1.3.0
@@ -323,6 +271,7 @@ class Plugin {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/image-data.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/options.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/post-settings.php';
+		include_once SCBLOCKS_PLUGIN_DIR . 'includes/blocks-attrs.php';
 	}
 
 	private function __construct() {

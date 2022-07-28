@@ -134,7 +134,7 @@ class Block_Assets {
 		wp_localize_script(
 			'scblocks',
 			'scblocksMediaQuery',
-			Css::media_query()
+			Css::get_media_query()
 		);
 	}
 	/**
