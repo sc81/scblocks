@@ -2,9 +2,7 @@
  * WordPress dependencies
  */
 import { useState, useMemo } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { PanelBody } from '@wordpress/components';
 
 /**
  * ScBlocks dependencies
@@ -23,12 +21,7 @@ import PositionPanel from './position-panel';
 import FlexPanel from './flex-panel';
 
 export default function Panels( props ) {
-	const {
-		selectorId,
-		selectorsSettings,
-		blockMemo,
-		shapesPanelControls,
-	} = props;
+	const { selectorId, selectorsSettings, blockMemo } = props;
 
 	const index = useMemo( () => {
 		return selectorsSettings.findIndex(
@@ -77,25 +70,19 @@ export default function Panels( props ) {
 				/>
 			) }
 			{ isVisiblePanel.typography && (
-				<PanelBody
-					title={ __( 'Typography', 'scblocks' ) }
-					onToggle={ () => onClickPanel( 'typography' ) }
-					opened={ openedPanel === 'typography' }
-				>
-					<Typography
-						{ ...props }
-						selectorSettings={ selectorsSettings[ index ] }
-					/>
-				</PanelBody>
+				<Typography
+					{ ...props }
+					selectorSettings={ selectorsSettings[ index ] }
+					openedPanel={ openedPanel }
+					onClickPanel={ onClickPanel }
+				/>
 			) }
 			{ isVisiblePanel.background && (
-				<PanelBody
-					title={ __( 'Background', 'scblocks' ) }
-					onToggle={ () => onClickPanel( 'background' ) }
-					opened={ openedPanel === 'background' }
-				>
-					<Background { ...props } />
-				</PanelBody>
+				<Background
+					{ ...props }
+					openedPanel={ openedPanel }
+					onClickPanel={ onClickPanel }
+				/>
 			) }
 			{ applyFilters(
 				'scblocks.stylePanels.afterBackground',
@@ -109,62 +96,42 @@ export default function Panels( props ) {
 				}
 			) }
 			{ isVisiblePanel.flex && (
-				<PanelBody
-					title={ __( 'Flex', 'scblocks' ) }
-					onToggle={ () => onClickPanel( 'flex' ) }
-					opened={ openedPanel === 'flex' }
-				>
-					<FlexPanel
-						{ ...props }
-						selectorSettings={ selectorsSettings[ index ] }
-					/>
-				</PanelBody>
+				<FlexPanel
+					{ ...props }
+					selectorSettings={ selectorsSettings[ index ] }
+					openedPanel={ openedPanel }
+					onClickPanel={ onClickPanel }
+				/>
 			) }
 			{ isVisiblePanel.space && (
-				<PanelBody
-					title={ __( 'Space', 'scblocks' ) }
-					onToggle={ () => onClickPanel( 'space' ) }
-					opened={ openedPanel === 'space' }
-				>
-					<Space
-						{ ...props }
-						selectorSettings={ selectorsSettings[ index ] }
-					/>
-				</PanelBody>
+				<Space
+					{ ...props }
+					selectorSettings={ selectorsSettings[ index ] }
+					openedPanel={ openedPanel }
+					onClickPanel={ onClickPanel }
+				/>
 			) }
 			{ isVisiblePanel.border && (
-				<PanelBody
-					title={ __( 'Border', 'scblocks' ) }
-					onToggle={ () => onClickPanel( 'border' ) }
-					opened={ openedPanel === 'border' }
-				>
-					<BorderPanel
-						{ ...props }
-						selectorSettings={ selectorsSettings[ index ] }
-					/>
-				</PanelBody>
+				<BorderPanel
+					{ ...props }
+					selectorSettings={ selectorsSettings[ index ] }
+					openedPanel={ openedPanel }
+					onClickPanel={ onClickPanel }
+				/>
 			) }
 			{ isVisiblePanel.position && (
-				<PanelBody
-					title={ __( 'Position', 'scblocks' ) }
-					onToggle={ () => onClickPanel( 'position' ) }
-					opened={ openedPanel === 'position' }
-				>
-					<PositionPanel
-						{ ...props }
-						selectorSettings={ selectorsSettings[ index ] }
-					/>
-				</PanelBody>
+				<PositionPanel
+					{ ...props }
+					selectorSettings={ selectorsSettings[ index ] }
+					openedPanel={ openedPanel }
+					onClickPanel={ onClickPanel }
+				/>
 			) }
-			{ isVisiblePanel.shapes && (
-				<PanelBody
-					title={ __( 'Shapes', 'scblocks' ) }
-					onToggle={ () => onClickPanel( 'shapes' ) }
-					opened={ openedPanel === 'shapes' }
-				>
-					{ shapesPanelControls }
-				</PanelBody>
-			) }
+			{ isVisiblePanel.shapes &&
+				applyFilters( 'scblocks.stylePanels.shapesPanel', null, props, {
+					onClickPanel,
+					openedPanel,
+				} ) }
 		</>
 	);
 }

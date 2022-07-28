@@ -3,6 +3,8 @@
  */
 import { useMemo } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
+import { __ } from '@wordpress/i18n';
+import { PanelBody } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -38,7 +40,7 @@ const positionProps = [
 ];
 
 export default function PositionPanel( props ) {
-	const { selectorSettings } = props;
+	const { selectorSettings, openedPanel, onClickPanel } = props;
 	const {
 		zIndex,
 		combinedZindex,
@@ -67,7 +69,11 @@ export default function PositionPanel( props ) {
 	}, [ selectorSettings ] );
 
 	return (
-		<>
+		<PanelBody
+			title={ __( 'Position', 'scblocks' ) }
+			onToggle={ () => onClickPanel( 'position' ) }
+			opened={ openedPanel === 'position' }
+		>
 			{ zIndex && (
 				<Zindex { ...props } selector={ propSelector.zIndex } />
 			) }
@@ -116,6 +122,6 @@ export default function PositionPanel( props ) {
 				<Visibility { ...props } selector={ propSelector.visibility } />
 			) }
 			{ applyFilters( 'scblocks.positionPanel.afterAll', null, props ) }
-		</>
+		</PanelBody>
 	);
 }

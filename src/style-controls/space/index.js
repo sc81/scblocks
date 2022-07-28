@@ -4,6 +4,7 @@
 import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
+import { PanelBody } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -34,7 +35,7 @@ const spaceProps = [
 ];
 
 export default function Space( props ) {
-	const { selectorSettings } = props;
+	const { selectorSettings, openedPanel, onClickPanel } = props;
 	const {
 		margin,
 		padding,
@@ -89,7 +90,11 @@ export default function Space( props ) {
 	}, [ selectorSettings ] );
 
 	return (
-		<>
+		<PanelBody
+			title={ __( 'Space', 'scblocks' ) }
+			onToggle={ () => onClickPanel( 'space' ) }
+			opened={ openedPanel === 'space' }
+		>
 			{ fontSize && ( //icon size
 				<NumberUnitProperty
 					{ ...props }
@@ -172,6 +177,6 @@ export default function Space( props ) {
 				/>
 			) }
 			{ applyFilters( 'scblocks.spacePanel.afterAll', null, props ) }
-		</>
+		</PanelBody>
 	);
 }

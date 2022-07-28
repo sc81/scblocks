@@ -7,6 +7,8 @@ import { get } from 'lodash';
  * WordPress dependencies
  */
 import { applyFilters } from '@wordpress/hooks';
+import { PanelBody } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 /**
  * ScBlocks dependencies
@@ -27,7 +29,7 @@ import Gradient from './gradient';
 import Color from '../color';
 
 export default function Background( props ) {
-	const { attributes, selector, devices } = props;
+	const { attributes, selector, devices, openedPanel, onClickPanel } = props;
 	const { bgImage = {} } = attributes;
 	const currentDevice = applyFilters(
 		'scblocks.backgroundControl.device',
@@ -55,7 +57,11 @@ export default function Background( props ) {
 	}
 
 	return (
-		<>
+		<PanelBody
+			title={ __( 'Background', 'scblocks' ) }
+			onToggle={ () => onClickPanel( 'background' ) }
+			opened={ openedPanel === 'background' }
+		>
 			<Color
 				{ ...props }
 				devices={ ALL_DEVICES }
@@ -75,6 +81,6 @@ export default function Background( props ) {
 					showSelectDevice={ showSelectDevice }
 				/>
 			) }
-		</>
+		</PanelBody>
 	);
 }
