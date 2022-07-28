@@ -17,7 +17,7 @@ import { getLastActivePanel, setLastActivePanel } from '@scblocks/css-utils';
 import Background from './background/index';
 import Typography from './typography/index';
 import Space from './space/index';
-import ColorSet from './color-set';
+import ColorsPanel from './colors-panel';
 import BorderPanel from './border-panel';
 import PositionPanel from './position-panel';
 import FlexPanel from './flex-panel';
@@ -69,16 +69,12 @@ export default function Panels( props ) {
 	return (
 		<>
 			{ isVisiblePanel.colors && (
-				<PanelBody
-					title={ __( 'Colors', 'scblocks' ) }
-					onToggle={ () => onClickPanel( 'colors' ) }
-					opened={ openedPanel === 'colors' }
-				>
-					<ColorSet
-						{ ...props }
-						selectorSettings={ selectorsSettings[ index ] }
-					/>
-				</PanelBody>
+				<ColorsPanel
+					{ ...props }
+					selectorSettings={ selectorsSettings[ index ] }
+					openedPanel={ openedPanel }
+					onClickPanel={ onClickPanel }
+				/>
 			) }
 			{ isVisiblePanel.typography && (
 				<PanelBody

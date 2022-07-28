@@ -3,6 +3,8 @@
  */
 import { useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
+import { PanelBody } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 /**
  * ScBlocks dependencies
@@ -19,8 +21,8 @@ function getHasHoverControls( colors ) {
 	return colors.findIndex( ( elm ) => !! elm.hoverSelector ) > -1;
 }
 
-export default function ColorSet( props ) {
-	const { selectorSettings } = props;
+export default function ColorsPanel( props ) {
+	const { selectorSettings, openedPanel, onClickPanel } = props;
 	const [ isHover, setIsHover ] = useState( false );
 	const colors = selectorSettings.panels.colors;
 	const hasHoverControls = getHasHoverControls( colors );
@@ -43,7 +45,11 @@ export default function ColorSet( props ) {
 	} );
 
 	return (
-		<>
+		<PanelBody
+			title={ __( 'Colors', 'scblocks' ) }
+			onToggle={ () => onClickPanel( 'colors' ) }
+			opened={ openedPanel === 'colors' }
+		>
 			{ hasHoverControls && (
 				<NormalHoverButtons
 					isHover={ isHover }
@@ -57,6 +63,6 @@ export default function ColorSet( props ) {
 					null,
 					props
 				) }
-		</>
+		</PanelBody>
 	);
 }
