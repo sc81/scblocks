@@ -80,6 +80,7 @@ export default function Panels( props ) {
 			{ isVisiblePanel.background && (
 				<Background
 					{ ...props }
+					selectorSettings={ selectorsSettings[ index ] }
 					openedPanel={ openedPanel }
 					onClickPanel={ onClickPanel }
 				/>

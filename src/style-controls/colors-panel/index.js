@@ -3,7 +3,6 @@
  */
 import { useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
-import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -16,16 +15,13 @@ import { NormalHoverButtons } from '@scblocks/components';
  * Internal dependencies
  */
 import Color from '../color';
-
-function getHasHoverControls( colors ) {
-	return colors.findIndex( ( elm ) => !! elm.hoverSelector ) > -1;
-}
+import StyleControlsPanel from '../style-controls-panel';
 
 export default function ColorsPanel( props ) {
-	const { selectorSettings, openedPanel, onClickPanel } = props;
+	const { selectorSettings } = props;
 	const [ isHover, setIsHover ] = useState( false );
-	const colors = selectorSettings.panels.colors;
-	const hasHoverControls = getHasHoverControls( colors );
+	const colors = selectorSettings.panels.colors.controls;
+	const hasHoverControls = selectorSettings.panels.colors.hasHoverControls;
 	const controls = [];
 	colors.forEach( ( control, index ) => {
 		if ( ! isHover || ( isHover && control.hoverSelector ) ) {
@@ -45,10 +41,10 @@ export default function ColorsPanel( props ) {
 	} );
 
 	return (
-		<PanelBody
-			title={ __( 'Colors', 'scblocks' ) }
-			onToggle={ () => onClickPanel( 'colors' ) }
-			opened={ openedPanel === 'colors' }
+		<StyleControlsPanel
+			{ ...props }
+			panelTitle={ __( 'Colors', 'scblocks' ) }
+			panelName="colors"
 		>
 			{ hasHoverControls && (
 				<NormalHoverButtons
@@ -63,6 +59,6 @@ export default function ColorsPanel( props ) {
 					null,
 					props
 				) }
-		</PanelBody>
+		</StyleControlsPanel>
 	);
 }

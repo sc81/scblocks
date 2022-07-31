@@ -4,7 +4,6 @@
 import { useMemo } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
-import { PanelBody } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -23,6 +22,7 @@ import AlignSelf from '../align-self';
 import AlignContent from '../align-content';
 import FlexWrap from '../flex-wrap';
 import CombinedZindex from '../combined-z-index';
+import StyleControlsPanel from '../style-controls-panel';
 
 const positionProps = [
 	'zIndex',
@@ -40,7 +40,7 @@ const positionProps = [
 ];
 
 export default function PositionPanel( props ) {
-	const { selectorSettings, openedPanel, onClickPanel } = props;
+	const { selectorSettings } = props;
 	const {
 		zIndex,
 		combinedZindex,
@@ -69,10 +69,10 @@ export default function PositionPanel( props ) {
 	}, [ selectorSettings ] );
 
 	return (
-		<PanelBody
-			title={ __( 'Position', 'scblocks' ) }
-			onToggle={ () => onClickPanel( 'position' ) }
-			opened={ openedPanel === 'position' }
+		<StyleControlsPanel
+			{ ...props }
+			panelTitle={ __( 'Position', 'scblocks' ) }
+			panelName="position"
 		>
 			{ zIndex && (
 				<Zindex { ...props } selector={ propSelector.zIndex } />
@@ -122,6 +122,6 @@ export default function PositionPanel( props ) {
 				<Visibility { ...props } selector={ propSelector.visibility } />
 			) }
 			{ applyFilters( 'scblocks.positionPanel.afterAll', null, props ) }
-		</PanelBody>
+		</StyleControlsPanel>
 	);
 }

@@ -15,29 +15,38 @@ export default function getSelectorsSettings() {
 			id: BLOCK_SELECTOR.container.main.alias,
 			selector: BLOCK_SELECTOR.container.main.alias,
 			panels: {
-				colors: [
-					{
-						label: __( 'Text color', 'scblocks' ),
-						propName: 'color',
-						selector: BLOCK_SELECTOR.container.main.alias,
-					},
-					{
-						label: __( 'Background color', 'scblocks' ),
-						propName: 'backgroundColor',
-						selector: BLOCK_SELECTOR.container.main.alias,
-					},
-					{
-						label: __( 'Border color', 'scblocks' ),
-						propName: 'borderColor',
-						selector: BLOCK_SELECTOR.container.main.alias,
-					},
-					{
-						label: __( 'Link color', 'scblocks' ),
-						propName: 'color',
-						selector: BLOCK_SELECTOR.container.link.alias,
-						hoverSelector: BLOCK_SELECTOR.container.linkHover.alias,
-					},
-				],
+				colors: {
+					usedSelectors: [
+						BLOCK_SELECTOR.container.main.alias,
+						BLOCK_SELECTOR.container.link.alias,
+						BLOCK_SELECTOR.container.linkHover.alias,
+					],
+					hasHoverControls: true,
+					controls: [
+						{
+							label: __( 'Text color', 'scblocks' ),
+							propName: 'color',
+							selector: BLOCK_SELECTOR.container.main.alias,
+						},
+						{
+							label: __( 'Background color', 'scblocks' ),
+							propName: 'backgroundColor',
+							selector: BLOCK_SELECTOR.container.main.alias,
+						},
+						{
+							label: __( 'Border color', 'scblocks' ),
+							propName: 'borderColor',
+							selector: BLOCK_SELECTOR.container.main.alias,
+						},
+						{
+							label: __( 'Link color', 'scblocks' ),
+							propName: 'color',
+							selector: BLOCK_SELECTOR.container.link.alias,
+							hoverSelector:
+								BLOCK_SELECTOR.container.linkHover.alias,
+						},
+					],
+				},
 				typography: true,
 				background: true,
 				border: true,

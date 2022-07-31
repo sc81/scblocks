@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { applyFilters } from '@wordpress/hooks';
-import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
@@ -21,16 +20,10 @@ import FontSize from './font-size';
 import LineHeight from './line-height';
 import LetterSpacing from './letter-spacing';
 import TextAlign from './text-align';
+import StyleControlsPanel from '../style-controls-panel';
 
 export default function Typography( props ) {
-	const {
-		devices,
-		attributes,
-		setAttributes,
-		selector,
-		openedPanel,
-		onClickPanel,
-	} = props;
+	const { devices, attributes, setAttributes, selector } = props;
 
 	function onChange( obj ) {
 		setPropValue( {
@@ -72,10 +65,10 @@ export default function Typography( props ) {
 	} );
 
 	return (
-		<PanelBody
-			title={ __( 'Typography', 'scblocks' ) }
-			onToggle={ () => onClickPanel( 'typography' ) }
-			opened={ openedPanel === 'typography' }
+		<StyleControlsPanel
+			{ ...props }
+			panelTitle={ __( 'Typography', 'scblocks' ) }
+			panelName="typography"
 		>
 			<TextAlign
 				value={ textAlign }
@@ -172,6 +165,6 @@ export default function Typography( props ) {
 				}
 			/>
 			{ applyFilters( 'scblocks.typographyPanel.afterAll', null, props ) }
-		</PanelBody>
+		</StyleControlsPanel>
 	);
 }

@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { PanelBody } from '@wordpress/components';
 /**
  * Internal dependencies
  */
@@ -17,6 +16,7 @@ import FlexWrap from '../flex-wrap';
 import Flex from '../flex';
 import Gap from '../gap';
 import DisplayFlex from '../display-flex';
+import StyleControlsPanel from '../style-controls-panel';
 
 const flexControls = [
 	'order',
@@ -32,7 +32,7 @@ const flexControls = [
 ];
 
 export default function FlexPanel( props ) {
-	const { selectorSettings, openedPanel, onClickPanel } = props;
+	const { selectorSettings } = props;
 	const { selector, hasItemsHeading } = selectorSettings.panels.flex;
 	const {
 		order,
@@ -48,10 +48,10 @@ export default function FlexPanel( props ) {
 	} = usePanelActiveControl( selectorSettings, flexControls, 'flex' );
 
 	return (
-		<PanelBody
-			title={ __( 'Flex', 'scblocks' ) }
-			onToggle={ () => onClickPanel( 'flex' ) }
-			opened={ openedPanel === 'flex' }
+		<StyleControlsPanel
+			{ ...props }
+			panelTitle={ __( 'Flex', 'scblocks' ) }
+			panelName="flex"
 		>
 			{ flex && <Flex { ...props } selector={ selector } /> }
 			{ alignSelf && <AlignSelf { ...props } selector={ selector } /> }
@@ -78,6 +78,6 @@ export default function FlexPanel( props ) {
 			{ alignContent && (
 				<AlignContent { ...props } selector={ selector } />
 			) }
-		</PanelBody>
+		</StyleControlsPanel>
 	);
 }

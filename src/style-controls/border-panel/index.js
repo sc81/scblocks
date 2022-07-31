@@ -4,7 +4,6 @@
 import { useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
-import { PanelBody } from '@wordpress/components';
 
 /**
  * ScBlocks dependencies
@@ -18,9 +17,10 @@ import BoxShadow from '../box-shadow';
 import { getControlSelector, getControlHoverSelector } from '../utils';
 import BorderControl from '../border-control';
 import BorderRadius from '../border-radius';
+import StyleControlsPanel from '../style-controls-panel';
 
 export default function BorderPanel( props ) {
-	const { selectorSettings, openedPanel, onClickPanel } = props;
+	const { selectorSettings } = props;
 	const [ isHover, setIsHover ] = useState( false );
 
 	const selector = isHover
@@ -30,10 +30,10 @@ export default function BorderPanel( props ) {
 	const hasHoverControls = selectorSettings.panels?.border.hasHoverControls;
 
 	return (
-		<PanelBody
-			title={ __( 'Border', 'scblocks' ) }
-			onToggle={ () => onClickPanel( 'border' ) }
-			opened={ openedPanel === 'border' }
+		<StyleControlsPanel
+			{ ...props }
+			panelTitle={ __( 'Border', 'scblocks' ) }
+			panelName="border"
 		>
 			<ControlWrapper withoutHeader>
 				{ hasHoverControls && (
@@ -64,6 +64,6 @@ export default function BorderPanel( props ) {
 						props
 					) }
 			</ControlWrapper>
-		</PanelBody>
+		</StyleControlsPanel>
 	);
 }

@@ -4,7 +4,6 @@
 import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { PanelBody } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -17,6 +16,7 @@ import NumberProperty from '../number-property';
 import Gap from '../gap';
 import Flex from '../flex';
 import CombinedMaxWidth from '../combined-max-width';
+import StyleControlsPanel from '../style-controls-panel';
 
 const spaceProps = [
 	'margin',
@@ -35,7 +35,7 @@ const spaceProps = [
 ];
 
 export default function Space( props ) {
-	const { selectorSettings, openedPanel, onClickPanel } = props;
+	const { selectorSettings } = props;
 	const {
 		margin,
 		padding,
@@ -90,10 +90,10 @@ export default function Space( props ) {
 	}, [ selectorSettings ] );
 
 	return (
-		<PanelBody
-			title={ __( 'Space', 'scblocks' ) }
-			onToggle={ () => onClickPanel( 'space' ) }
-			opened={ openedPanel === 'space' }
+		<StyleControlsPanel
+			{ ...props }
+			panelTitle={ __( 'Space', 'scblocks' ) }
+			panelName="space"
 		>
 			{ fontSize && ( //icon size
 				<NumberUnitProperty
@@ -177,6 +177,6 @@ export default function Space( props ) {
 				/>
 			) }
 			{ applyFilters( 'scblocks.spacePanel.afterAll', null, props ) }
-		</PanelBody>
+		</StyleControlsPanel>
 	);
 }
