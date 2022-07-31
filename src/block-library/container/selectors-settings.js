@@ -13,7 +13,6 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Container', 'scblocks' ),
 			id: BLOCK_SELECTOR.container.main.alias,
-			selector: BLOCK_SELECTOR.container.main.alias,
 			panels: {
 				colors: {
 					usedSelectors: [
@@ -47,42 +46,65 @@ export default function getSelectorsSettings() {
 						},
 					],
 				},
-				typography: true,
-				background: true,
-				border: true,
+				typography: {
+					selector: BLOCK_SELECTOR.container.main.alias,
+				},
+				background: {
+					selector: BLOCK_SELECTOR.container.main.alias,
+				},
+				border: {
+					selector: BLOCK_SELECTOR.container.main.alias,
+				},
 				space: {
-					margin: true,
-					padding: {
-						selector: BLOCK_SELECTOR.container.content.alias,
-					},
-					combinedMaxWidth: [
-						{
-							label: __( 'Container max-width', 'scblocks' ),
-							selector:
-								BLOCK_SELECTOR.container.mainStronger.alias,
-						},
-						{
-							label: __( 'Content max-width', 'scblocks' ),
+					selector: BLOCK_SELECTOR.container.main.alias,
+					usedSelectors: [
+						BLOCK_SELECTOR.container.content.alias,
+						BLOCK_SELECTOR.container.mainStronger.alias,
+						BLOCK_SELECTOR.container.main.alias,
+					],
+					controls: {
+						margin: true,
+						padding: {
 							selector: BLOCK_SELECTOR.container.content.alias,
 						},
-					],
-					minHeight: {
-						selector: BLOCK_SELECTOR.container.content.alias,
+						combinedMaxWidth: [
+							{
+								label: __( 'Container max-width', 'scblocks' ),
+								selector:
+									BLOCK_SELECTOR.container.mainStronger.alias,
+							},
+							{
+								label: __( 'Content max-width', 'scblocks' ),
+								selector:
+									BLOCK_SELECTOR.container.content.alias,
+							},
+						],
+						minHeight: {
+							selector: BLOCK_SELECTOR.container.content.alias,
+						},
 					},
 				},
 				position: {
-					combinedZindex: [
-						{
-							label: __( 'Container z-index', 'scblocks' ),
-							selector: BLOCK_SELECTOR.container.main.alias,
-						},
-						{
-							label: __( 'Content z-index', 'scblocks' ),
-							selector: BLOCK_SELECTOR.container.content.alias,
-						},
+					selector: BLOCK_SELECTOR.container.main.alias,
+					usedSelectors: [
+						BLOCK_SELECTOR.container.main.alias,
+						BLOCK_SELECTOR.container.content.alias,
 					],
+					controls: {
+						combinedZindex: [
+							{
+								label: __( 'Container z-index', 'scblocks' ),
+								selector: BLOCK_SELECTOR.container.main.alias,
+							},
+							{
+								label: __( 'Content z-index', 'scblocks' ),
+								selector:
+									BLOCK_SELECTOR.container.content.alias,
+							},
+						],
+					},
 				},
-				shapes: true,
+				shapes: {},
 				flex: {
 					selector: BLOCK_SELECTOR.container.content.alias,
 					displayAllProps: true,

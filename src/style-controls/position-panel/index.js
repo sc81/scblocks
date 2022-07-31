@@ -41,6 +41,7 @@ const positionProps = [
 
 export default function PositionPanel( props ) {
 	const { selectorSettings } = props;
+	const { selector } = selectorSettings.panels.position;
 	const {
 		zIndex,
 		combinedZindex,
@@ -121,7 +122,10 @@ export default function PositionPanel( props ) {
 			{ visibility && (
 				<Visibility { ...props } selector={ propSelector.visibility } />
 			) }
-			{ applyFilters( 'scblocks.positionPanel.afterAll', null, props ) }
+			{ applyFilters( 'scblocks.positionPanel.afterAll', null, {
+				...props,
+				selector,
+			} ) }
 		</StyleControlsPanel>
 	);
 }

@@ -5,24 +5,24 @@ import { useMemo } from '@wordpress/element';
 
 export default function usePanelActiveControl(
 	selectorSettings,
-	props,
+	availableControls,
 	panelName
 ) {
 	const activeControls = useMemo( () => {
 		const state = {};
 		const { displayAllProps } = selectorSettings.panels[ panelName ];
-		props.forEach( ( prop ) => ( state[ prop ] = !! displayAllProps ) );
-		const panelProps =
-			selectorSettings.panels[ panelName ].props ||
-			selectorSettings.panels[ panelName ];
+		availableControls.forEach(
+			( name ) => ( state[ name ] = !! displayAllProps )
+		);
+		const controls = selectorSettings.panels[ panelName ].controls;
 		if ( ! displayAllProps ) {
-			Object.keys( panelProps ).forEach( ( name ) => {
+			Object.keys( controls ).forEach( ( name ) => {
 				state[ name ] = true;
 			} );
 		}
 
 		return state;
-	}, [ selectorSettings, props, panelName ] );
+	}, [ selectorSettings, availableControls, panelName ] );
 
 	return activeControls;
 }

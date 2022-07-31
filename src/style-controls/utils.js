@@ -1,31 +1,27 @@
 export function getControlSelector( panelName, controlName, selectorSettings ) {
-	if ( typeof selectorSettings.panels[ panelName ] !== 'object' ) {
-		return selectorSettings.selector;
-	}
 	if (
-		typeof selectorSettings.panels[ panelName ][ controlName ] ===
-			'object' &&
-		selectorSettings.panels[ panelName ][ controlName ].selector
+		selectorSettings.panels[ panelName ].controls &&
+		selectorSettings.panels[ panelName ].controls[ controlName ] &&
+		selectorSettings.panels[ panelName ].controls[ controlName ].selector
 	) {
-		return selectorSettings.panels[ panelName ][ controlName ].selector;
+		return selectorSettings.panels[ panelName ].controls[ controlName ]
+			.selector;
 	}
-	return selectorSettings.selector;
+	return selectorSettings.panels[ panelName ].selector;
 }
 export function getControlHoverSelector(
 	panelName,
 	controlName,
 	selectorSettings
 ) {
-	if ( typeof selectorSettings.panels[ panelName ] !== 'object' ) {
-		return selectorSettings.hoverSelector;
-	}
 	if (
-		typeof selectorSettings.panels[ panelName ][ controlName ] ===
-			'object' &&
-		selectorSettings.panels[ panelName ][ controlName ].hoverSelector
+		selectorSettings.panels[ panelName ].controls &&
+		selectorSettings.panels[ panelName ].controls[ controlName ] &&
+		selectorSettings.panels[ panelName ].controls[ controlName ]
+			.hoverSelector
 	) {
-		return selectorSettings.panels[ panelName ][ controlName ]
+		return selectorSettings.panels[ panelName ].controls[ controlName ]
 			.hoverSelector;
 	}
-	return selectorSettings.hoverSelector;
+	return selectorSettings.panels[ panelName ].hoverSelector;
 }

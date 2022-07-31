@@ -36,6 +36,7 @@ const spaceProps = [
 
 export default function Space( props ) {
 	const { selectorSettings } = props;
+	const { selector } = selectorSettings.panels.space;
 	const {
 		margin,
 		padding,
@@ -176,7 +177,10 @@ export default function Space( props ) {
 					max={ 30 }
 				/>
 			) }
-			{ applyFilters( 'scblocks.spacePanel.afterAll', null, props ) }
+			{ applyFilters( 'scblocks.spacePanel.afterAll', null, {
+				...props,
+				selector,
+			} ) }
 		</StyleControlsPanel>
 	);
 }

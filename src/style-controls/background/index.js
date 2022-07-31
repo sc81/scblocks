@@ -29,7 +29,8 @@ import Color from '../color';
 import StyleControlsPanel from '../style-controls-panel';
 
 export default function Background( props ) {
-	const { attributes, selector, devices } = props;
+	const { attributes, selectorSettings, devices } = props;
+	const { selector } = selectorSettings.panels.background;
 	const { bgImage = {} } = attributes;
 	const currentDevice = applyFilters(
 		'scblocks.backgroundControl.device',
@@ -66,12 +67,14 @@ export default function Background( props ) {
 				{ ...props }
 				devices={ ALL_DEVICES }
 				propName={ names.color }
+				selector={ selector }
 			/>
 			{ ( ! bgType || IMAGE_BACKGROUND_TYPE === bgType ) && (
 				<Image
 					{ ...props }
 					devices={ currentDevice }
 					showSelectDevice={ showSelectDevice }
+					selector={ selector }
 				/>
 			) }
 			{ ( ! bgType || GRADIENT_BACKGROUND_TYPE === bgType ) && (
@@ -79,6 +82,7 @@ export default function Background( props ) {
 					{ ...props }
 					devices={ currentDevice }
 					showSelectDevice={ showSelectDevice }
+					selector={ selector }
 				/>
 			) }
 		</StyleControlsPanel>

@@ -14,7 +14,6 @@ import { ControlWrapper, NormalHoverButtons } from '@scblocks/components';
  * Internal dependencies
  */
 import BoxShadow from '../box-shadow';
-import { getControlSelector, getControlHoverSelector } from '../utils';
 import BorderControl from '../border-control';
 import BorderRadius from '../border-radius';
 import StyleControlsPanel from '../style-controls-panel';
@@ -24,10 +23,10 @@ export default function BorderPanel( props ) {
 	const [ isHover, setIsHover ] = useState( false );
 
 	const selector = isHover
-		? getControlHoverSelector( 'border', 'border', selectorSettings )
-		: getControlSelector( 'border', 'border', selectorSettings );
+		? selectorSettings.panels.border.hoverSelector
+		: selectorSettings.panels.border.selector;
 
-	const hasHoverControls = selectorSettings.panels?.border.hasHoverControls;
+	const hasHoverControls = selectorSettings.panels.border.hasHoverControls;
 
 	return (
 		<StyleControlsPanel

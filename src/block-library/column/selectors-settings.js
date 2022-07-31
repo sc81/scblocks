@@ -13,9 +13,10 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Column', 'scblocks' ),
 			id: BLOCK_SELECTOR.column.main.alias,
-			selector: BLOCK_SELECTOR.column.main.alias,
 			panels: {
-				typography: true,
+				typography: {
+					selector: BLOCK_SELECTOR.column.main.alias,
+				},
 				colors: {
 					usedSelectors: [
 						BLOCK_SELECTOR.column.main.alias,
@@ -48,15 +49,25 @@ export default function getSelectorsSettings() {
 						},
 					],
 				},
-				background: true,
-				border: true,
+				background: {
+					selector: BLOCK_SELECTOR.column.main.alias,
+				},
+				border: {
+					selector: BLOCK_SELECTOR.column.main.alias,
+				},
 				space: {
-					margin: true,
-					padding: true,
-					minHeight: true,
+					selector: BLOCK_SELECTOR.column.main.alias,
+					controls: {
+						margin: true,
+						padding: true,
+						minHeight: true,
+					},
 				},
 				position: {
-					zIndex: true,
+					selector: BLOCK_SELECTOR.column.main.alias,
+					controls: {
+						zIndex: true,
+					},
 				},
 				flex: {
 					selector: BLOCK_SELECTOR.column.main.alias,

@@ -16,15 +16,20 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Buttons style', 'scblocks' ),
 			id: BLOCK_SELECTOR.buttons.main.alias,
-			selector: BLOCK_SELECTOR.buttons.main.alias,
 			panels: {
 				space: {
-					margin: true,
+					selector: BLOCK_SELECTOR.buttons.main.alias,
+					controls: {
+						margin: true,
+					},
 				},
 				position: {
-					alignItems: true,
-					flexDirection: true,
-					justifyContent: true,
+					selector: BLOCK_SELECTOR.buttons.main.alias,
+					controls: {
+						alignItems: true,
+						flexDirection: true,
+						justifyContent: true,
+					},
 				},
 			},
 		},

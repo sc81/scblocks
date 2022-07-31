@@ -2,7 +2,7 @@ import NumberUnitProperty from '../number-unit-property';
 
 export default function CombinedMaxWidth( props ) {
 	const { selectorSettings } = props;
-	const controls = selectorSettings.panels.space.combinedMaxWidth;
+	const controls = selectorSettings.panels.space.controls.combinedMaxWidth;
 	return controls.map( ( control, index ) => {
 		return (
 			<NumberUnitProperty

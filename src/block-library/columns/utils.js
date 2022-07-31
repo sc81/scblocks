@@ -16,17 +16,22 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Columns', 'scblocks' ),
 			id: BLOCK_SELECTOR.columns.main.alias,
-			selector: BLOCK_SELECTOR.columns.main.alias,
 			panels: {
 				space: {
-					gap: true,
+					selector: BLOCK_SELECTOR.columns.main.alias,
+					controls: {
+						gap: true,
+					},
 				},
 				position: {
-					alignItems: true,
-					alignContent: true,
-					justifyContent: true,
-					flexDirection: true,
-					flexWrap: true,
+					selector: BLOCK_SELECTOR.columns.main.alias,
+					controls: {
+						alignItems: true,
+						alignContent: true,
+						justifyContent: true,
+						flexDirection: true,
+						flexWrap: true,
+					},
 				},
 			},
 		},

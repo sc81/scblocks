@@ -61,11 +61,7 @@ export default function StyleControls( props ) {
 						</button>
 					</h2>
 					{ openedPanel === element.id && (
-						<Panels
-							{ ...props }
-							selector={ element.selector }
-							selectorId={ element.id }
-						/>
+						<Panels { ...props } selectorId={ element.id } />
 					) }
 				</div>
 			);

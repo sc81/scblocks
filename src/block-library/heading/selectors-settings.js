@@ -14,7 +14,6 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Heading', 'scblocks' ),
 			id: BLOCK_SELECTOR.heading.main.alias,
-			selector: BLOCK_SELECTOR.heading.main.alias,
 			panels: {
 				colors: {
 					usedSelectors: [
@@ -55,11 +54,18 @@ export default function getSelectorsSettings() {
 						},
 					],
 				},
-				typography: true,
-				border: true,
+				typography: {
+					selector: BLOCK_SELECTOR.heading.main.alias,
+				},
+				border: {
+					selector: BLOCK_SELECTOR.heading.main.alias,
+				},
 				space: {
-					padding: true,
-					margin: true,
+					selector: BLOCK_SELECTOR.heading.main.alias,
+					controls: {
+						padding: true,
+						margin: true,
+					},
 				},
 				flex: {
 					selector: BLOCK_SELECTOR.heading.main.alias,
@@ -71,18 +77,22 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Icon', 'scblocks' ),
 			id: BLOCK_SELECTOR.heading.icon.alias,
-			selector: BLOCK_SELECTOR.heading.icon.alias,
 			panels: {
-				colors: [
-					{
-						label: __( 'Icon color', 'scblocks' ),
-						propName: 'color',
-						selector: BLOCK_SELECTOR.heading.icon.alias,
-					},
-				],
+				colors: {
+					controls: [
+						{
+							label: __( 'Icon color', 'scblocks' ),
+							propName: 'color',
+							selector: BLOCK_SELECTOR.heading.icon.alias,
+						},
+					],
+				},
 				space: {
-					fontSize: true,
-					padding: true,
+					selector: BLOCK_SELECTOR.heading.icon.alias,
+					controls: {
+						fontSize: true,
+						padding: true,
+					},
 				},
 			},
 		},

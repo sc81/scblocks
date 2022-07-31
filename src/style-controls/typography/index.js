@@ -23,8 +23,8 @@ import TextAlign from './text-align';
 import StyleControlsPanel from '../style-controls-panel';
 
 export default function Typography( props ) {
-	const { devices, attributes, setAttributes, selector } = props;
-
+	const { devices, attributes, setAttributes, selectorSettings } = props;
+	const { selector } = selectorSettings.panels.typography;
 	function onChange( obj ) {
 		setPropValue( {
 			selector,
@@ -164,7 +164,10 @@ export default function Typography( props ) {
 					} )
 				}
 			/>
-			{ applyFilters( 'scblocks.typographyPanel.afterAll', null, props ) }
+			{ applyFilters( 'scblocks.typographyPanel.afterAll', null, {
+				...props,
+				selector,
+			} ) }
 		</StyleControlsPanel>
 	);
 }
