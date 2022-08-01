@@ -7,29 +7,16 @@
 @import "./border-control/editor.scss";
 @import "./border-radius/editor.scss";
 
-.#{$pluginName}-components-panel-body {
-	background-color: #fff;
-	margin-bottom: 16px;
-	border-bottom: 1px solid #e2e4e7 !important;
-}
-.#{$pluginName}-components-panel-body-button {
-	width: 100%;
-	border: none;
-	background-color: #fff;
-	padding: 15px 10px 15px 6px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-direction: row-reverse;
-	cursor: pointer;
+.scblocks-element-panel {
+	margin-top: 10px !important;
+	border-bottom: 1px solid #e0e0e0 !important;
 
-	svg {
-		fill: currentColor;
+	> .components-panel__body-title {
+		background: #f6f7f7;
 	}
-	&[aria-expanded="true"] {
-		color: #0073aa;
-	}
-	&:hover {
-		color: #0073aa;
+
+	.components-panel__body {
+		padding-left: 0;
+		padding-right: 0;
 	}
 }
