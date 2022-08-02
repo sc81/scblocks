@@ -51,8 +51,7 @@ export default function Gap( {
 						label={ __( 'Column', 'scblocks' ) }
 						value={ columnGap }
 						units={ [ 'px', '%', 'em', 'rem' ] }
-						withoutSelectDevices
-						withoutSlider
+						isSelectDevice={false}
 						onChange={ ( value ) => onChange( 'columnGap', value ) }
 					/>
 				</div>
@@ -61,8 +60,7 @@ export default function Gap( {
 						label={ __( 'Row', 'scblocks' ) }
 						value={ rowGap }
 						units={ [ 'px', '%', 'em', 'rem' ] }
-						withoutSelectDevices
-						withoutSlider
+						isSelectDevice={false}
 						onClear={ onClear }
 						onChange={ ( value ) => onChange( 'rowGap', value ) }
 					/>

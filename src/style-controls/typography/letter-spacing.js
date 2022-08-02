@@ -21,7 +21,7 @@ export default function LetterSpacing( props ) {
 					step: 0.1,
 				},
 			} }
-			displayClearButton
+			isClearButton
 		/>
 	);
 }

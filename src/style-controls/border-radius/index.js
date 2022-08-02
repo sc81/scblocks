@@ -151,8 +151,7 @@ export default function BorderRadius( {
 					units={ [ 'px', '%' ] }
 					value={ topLeft }
 					onChange={ ( value ) => onChange( 'topLeft', value ) }
-					withoutSelectDevices
-					withoutSlider
+					isSelectDevice={false}
 					unitRangeStep={ {
 						'%': {
 							step: 1,
@@ -164,8 +163,7 @@ export default function BorderRadius( {
 					units={ [ 'px', '%' ] }
 					value={ topRight }
 					onChange={ ( value ) => onChange( 'topRight', value ) }
-					withoutSelectDevices
-					withoutSlider
+					isSelectDevice={false}
 					unitRangeStep={ {
 						'%': {
 							step: 1,
@@ -179,8 +177,7 @@ export default function BorderRadius( {
 					units={ [ 'px', '%' ] }
 					value={ bottomLeft }
 					onChange={ ( value ) => onChange( 'bottomLeft', value ) }
-					withoutSelectDevices
-					withoutSlider
+					isSelectDevice={false}
 					unitRangeStep={ {
 						'%': {
 							step: 1,
@@ -192,8 +189,7 @@ export default function BorderRadius( {
 					units={ [ 'px', '%' ] }
 					value={ bottomRight }
 					onChange={ ( value ) => onChange( 'bottomRight', value ) }
-					withoutSelectDevices
-					withoutSlider
+					isSelectDevice={false}
 					unitRangeStep={ {
 						'%': {
 							step: 1,

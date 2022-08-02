@@ -14,7 +14,7 @@ export default function LineHeight( props ) {
 			{ ...props }
 			label={ __( 'Line height', 'scblocks' ) }
 			units={ [ 'px', 'em' ] }
-			displayClearButton
+			isClearButton
 		/>
 	);
 }

@@ -226,8 +226,7 @@ export default function BorderControl( {
 						units={ [ 'px', 'em', 'rem', 'vh', 'vw' ] }
 						value={ top }
 						onChange={ ( value ) => onChangeWidth( 'top', value ) }
-						withoutSelectDevices
-						withoutSlider
+						isSelectDevice={false}
 					/>
 				</div>
 				<div className="scblocks-border-control-width-left-right">
@@ -236,8 +235,7 @@ export default function BorderControl( {
 						units={ [ 'px', 'em', 'rem', 'vh', 'vw' ] }
 						value={ left }
 						onChange={ ( value ) => onChangeWidth( 'left', value ) }
-						withoutSelectDevices
-						withoutSlider
+						isSelectDevice={false}
 					/>
 					<NumberUnit
 						label={ __( 'Right', 'scblocks' ) }
@@ -246,8 +244,7 @@ export default function BorderControl( {
 						onChange={ ( value ) =>
 							onChangeWidth( 'right', value )
 						}
-						withoutSelectDevices
-						withoutSlider
+						isSelectDevice={false}
 					/>
 				</div>
 				<div className="scblocks-border-control-width-bottom">
@@ -258,8 +255,7 @@ export default function BorderControl( {
 						onChange={ ( value ) =>
 							onChangeWidth( 'bottom', value )
 						}
-						withoutSelectDevices
-						withoutSlider
+						isSelectDevice={false}
 					/>
 				</div>
 			</ControlWrapper>

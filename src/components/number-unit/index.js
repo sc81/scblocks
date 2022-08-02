@@ -74,11 +74,11 @@ export default function NumberUnit( {
 	units,
 	unitRangeStep,
 	label = '',
-	withoutSelectDevices = false,
+	isSelectDevice = true,
 	onChange,
-	displayClearButton,
+	isClearButton,
 	onClear,
-	withoutSlider,
+	isSlider,
 } ) {
 	const number = getNumber( value );
 	const [ unitState, setUnit ] = useState( () =>
@@ -110,8 +110,8 @@ export default function NumberUnit( {
 			<div className={ `${ PLUGIN_NAME }-number-unit-header` }>
 				<div className={ `${ PLUGIN_NAME }-number-unit-header-left` }>
 					<span>{ label }</span>
-					{ ! withoutSelectDevices && <SelectDevices /> }
-					{ displayClearButton && isNumber( number ) && (
+					{ isSelectDevice && <SelectDevices /> }
+					{ isClearButton && isNumber( number ) && (
 						<ButtonClear onClear={ onClear } />
 					) }
 				</div>
@@ -125,10 +125,10 @@ export default function NumberUnit( {
 			</div>
 			<div
 				className={ `${ PLUGIN_NAME }-number-unit-content${
-					withoutSlider ? ' without-slider' : ''
+					! isSlider ? ' without-slider' : ''
 				}` }
 			>
-				{ ! withoutSlider && (
+				{ isSlider && (
 					<input
 						type="range"
 						value={ number }

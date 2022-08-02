@@ -209,9 +209,9 @@ export default function ShapeDividerControls( {
 						changeShapeSvgProp( 'width', value )
 					}
 					unitRangeStep={ { '%': { min: 100, max: 1000 } } }
-					displayClearButton={ !! width }
+					isClearButton={ !! width }
 					onClear={ () => changeShapeSvgProp( 'width', '' ) }
-					withoutSlider
+					isSlider
 				/>
 			</BaseControl>
 			<BaseControl>
@@ -223,9 +223,9 @@ export default function ShapeDividerControls( {
 						changeShapeSvgProp( 'height', value )
 					}
 					unitRangeStep={ { px: { min: 0, max: 10000 } } }
-					displayClearButton={ !! height }
+					isClearButton={ !! height }
 					onClear={ () => changeShapeSvgProp( 'height', '' ) }
-					withoutSlider
+					isSlider
 				/>
 			</BaseControl>
 			<NumberControl

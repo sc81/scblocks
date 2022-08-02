@@ -14,7 +14,7 @@ export default function FontSize( props ) {
 			{ ...props }
 			label={ __( 'Font Size', 'scblocks' ) }
 			units={ [ 'px', 'em', 'rem', 'vw' ] }
-			displayClearButton
+			isClearButton
 			unitRangeStep={ {
 				vw: {
 					min: 0,

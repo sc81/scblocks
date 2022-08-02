@@ -101,12 +101,12 @@ export default function NumberUnitProperty( props ) {
 				value={ propValue }
 				units={ units || propDefaults[ propName ].units }
 				onChange={ onChange }
-				withoutSelectDevices={
+				isSelectDevice={
 					withoutSelectDevices ||
 					propDefaults[ propName ].withoutSelectDevices
 				}
 				unitRangeStep={ mergedUnitRangeStep }
-				displayClearButton={ !! propValue }
+				isClearButton={ !! propValue }
 				onClear={ () => onChange() }
 			/>
 		</BaseControl>
