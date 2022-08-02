@@ -87,8 +87,8 @@ export default function Size( {
 					min={ 0 }
 					max={ 200 }
 					step={ 1 }
-					withoutSelectDevices
-					clearButton={ false }
+					isSelectDevice={ false }
+					isClearButton={ false }
 				/>
 			) }
 		</ControlWrapper>

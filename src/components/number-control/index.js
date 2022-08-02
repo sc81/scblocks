@@ -12,28 +12,28 @@ export default function NumberControl( {
 	label,
 	min = 0,
 	max = 100,
-	withoutSelectDevices = false,
+	isSelectDevice = true,
 	step = 1,
 	onChange,
 	value,
-	hasSlider = true,
-	clearButton = true,
+	isSlider = true,
+	isClearButton = true,
 } ) {
 	return (
 		<div className={ `${ PLUGIN_NAME }-number-control` }>
 			<div className={ `${ PLUGIN_NAME }-number-control-header` }>
 				<span>{ label }</span>
-				{ ! withoutSelectDevices && <SelectDevices /> }
-				{ clearButton && !! value && (
+				{ isSelectDevice && <SelectDevices /> }
+				{ isClearButton && !! value && (
 					<ButtonClear onClear={ () => onChange( '' ) } />
 				) }
 			</div>
 			<div
 				className={ `${ PLUGIN_NAME }-number-control-content${
-					! hasSlider ? ' without-slider' : ''
+					! isSlider ? ' without-slider' : ''
 				}` }
 			>
-				{ hasSlider && (
+				{ isSlider && (
 					<input
 						type="range"
 						value={ value }

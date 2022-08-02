@@ -232,11 +232,11 @@ export default function ShapeDividerControls( {
 				label={ __( 'z-index', 'scblocks' ) }
 				value={ zIndex }
 				onChange={ ( value ) => changeShapeProp( 'zIndex', value ) }
-				withoutSelectDevices
+				isSelectDevice={ false }
 				min={ 0 }
 				max={ 999999 }
 				step={ 1 }
-				hasSlider={ false }
+				isSlider={ false }
 			/>
 			<ToggleControl
 				label={ __( 'Flip Horizontally', 'scblocks' ) }
