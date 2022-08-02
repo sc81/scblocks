@@ -15,7 +15,7 @@ export default function StyleControlsPanel( props ) {
 	return (
 		<PanelBody
 			className={ applyFilters(
-				`scblocks.styleControlsPanel.${ panelName }.className`,
+				'scblocks.styleControlsPanel.className',
 				null,
 				props
 			) }
