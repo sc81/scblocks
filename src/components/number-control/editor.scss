@@ -1,32 +1,43 @@
-.#{$pluginName}-number-control {
-	margin-bottom: 24px;
 
-	&:last-child {
-		margin-bottom: 8px;
-	}
-}
-.#{$pluginName}-number-control-header {
-	margin-bottom: 5px;
+.scblocks-number-control-content {
 	display: flex;
-	align-items: center;
-
-	span {
-		margin-right: 8px;
-	}
-}
-.#{$pluginName}-number-control-content {
-	display: flex;
-	align-items: center;
 	justify-content: space-between;
+	align-items: center;
+	column-gap: 8px;
 
+	input[type="range"] {
+		width: 70%;
+	}
 	input[type="number"] {
 		width: 30%;
 	}
-	input[type="range"] {
-		width: 70%;
-		margin-right: 10px;
-	}
 	&.without-slider input[type="number"] {
 		width: 100%;
+	}
+	input[type="range"]::-webkit-slider-thumb {
+		cursor: pointer;
+	}
+	input[type="range"]::-webkit-slider-runnable-track {
+		cursor: pointer;
+	}
+	input[type="range"]::-moz-range-thumb {
+		background-color: rgb(50, 104, 255);
+		border: 0;
+		cursor: pointer;
+		width: 16px;
+		height: 16px;
+		border-radius: 50px;
+	}
+	input[type="range"]::-moz-range-progress {
+		background-color: rgb(57, 109, 252);
+		height: 6px;
+		border-radius: 50px;
+	}
+	input[type="range"]::-moz-range-track {
+		background-color: rgb(240, 240, 240);
+		height: 6px;
+		border-radius: 50px;
+		border: 1px solid rgb(196, 196, 196);
+		cursor: pointer;
 	}
 }

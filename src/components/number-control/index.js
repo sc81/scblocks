@@ -1,35 +1,30 @@
 /**
- * ScBlocks dependencies
- */
-import { PLUGIN_NAME } from '@scblocks/constants';
-/**
  * Internal dependencies
  */
-import SelectDevices from '../select-devices';
-import ButtonClear from '../button-clear';
+import ControlWrapper from '../control-wrapper';
 
 export default function NumberControl( {
 	label,
 	min = 0,
 	max = 100,
-	isSelectDevice = true,
 	step = 1,
 	onChange,
 	value,
+	isSelectDevice = true,
 	isSlider = true,
 	isClearButton = true,
+	displayInline,
 } ) {
 	return (
-		<div className={ `${ PLUGIN_NAME }-number-control` }>
-			<div className={ `${ PLUGIN_NAME }-number-control-header` }>
-				<span>{ label }</span>
-				{ isSelectDevice && <SelectDevices /> }
-				{ isClearButton && !! value && (
-					<ButtonClear onClear={ () => onChange( '' ) } />
-				) }
-			</div>
+		<ControlWrapper
+			label={ label }
+			isSelectDevice={ isSelectDevice }
+			isClearButton={ isClearButton && !! value }
+			onClear={ () => onChange( '' ) }
+			displayInline={ displayInline }
+		>
 			<div
-				className={ `${ PLUGIN_NAME }-number-control-content${
+				className={ `scblocks-number-control-content${
 					! isSlider ? ' without-slider' : ''
 				}` }
 			>
@@ -53,6 +48,6 @@ export default function NumberControl( {
 					onChange={ ( event ) => onChange( event.target.value ) }
 				/>
 			</div>
-		</div>
+		</ControlWrapper>
 	);
 }
