@@ -51,8 +51,10 @@ export default function Gap( {
 						label={ __( 'Column', 'scblocks' ) }
 						value={ columnGap }
 						units={ [ 'px', '%', 'em', 'rem' ] }
-						isSelectDevice={false}
+						isSelectDevice={ false }
 						onChange={ ( value ) => onChange( 'columnGap', value ) }
+						noMarginBottom
+						isSlider={ false }
 					/>
 				</div>
 				<div className="scblocks-gap-controls-row">
@@ -60,9 +62,11 @@ export default function Gap( {
 						label={ __( 'Row', 'scblocks' ) }
 						value={ rowGap }
 						units={ [ 'px', '%', 'em', 'rem' ] }
-						isSelectDevice={false}
+						isSelectDevice={ false }
 						onClear={ onClear }
 						onChange={ ( value ) => onChange( 'rowGap', value ) }
+						noMarginBottom
+						isSlider={ false }
 					/>
 				</div>
 			</div>

@@ -1,52 +1,42 @@
-
-.#{$pluginName}-number-unit-header {
+.scblocks-number-unit-content {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-}
-.#{$pluginName}-number-unit-header-left {
-	display: flex;
-	align-items: center;
-}
-.#{$pluginName}-number-unit-content {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	column-gap: 8px;
 
 	input[type="range"] {
-		width: 68%;
-		margin-right: 1%;
+		width: 70%;
 	}
 	input[type="number"] {
-		width: 29%;
+		width: 30%;
 	}
 	&.without-slider input[type="number"] {
 		width: 100%;
 	}
-}
-input[type="range"]::-webkit-slider-thumb {
-	cursor: pointer;
-}
-input[type="range"]::-webkit-slider-runnable-track {
-	cursor: pointer;
-}
-input[type="range"]::-moz-range-thumb {
-	background-color: rgb(50, 104, 255);
-	border: 0;
-	cursor: pointer;
-	width: 16px;
-	height: 16px;
-	border-radius: 50px;
-}
-input[type="range"]::-moz-range-progress {
-	background-color: rgb(57, 109, 252);
-	height: 6px;
-	border-radius: 50px;
-}
-input[type="range"]::-moz-range-track {
-	background-color: rgb(240, 240, 240);
-	height: 6px;
-	border-radius: 50px;
-	border: 1px solid rgb(196, 196, 196);
-	cursor: pointer;
+	input[type="range"]::-webkit-slider-thumb {
+		cursor: pointer;
+	}
+	input[type="range"]::-webkit-slider-runnable-track {
+		cursor: pointer;
+	}
+	input[type="range"]::-moz-range-thumb {
+		background-color: rgb(50, 104, 255);
+		border: 0;
+		cursor: pointer;
+		width: 16px;
+		height: 16px;
+		border-radius: 50px;
+	}
+	input[type="range"]::-moz-range-progress {
+		background-color: rgb(57, 109, 252);
+		height: 6px;
+		border-radius: 50px;
+	}
+	input[type="range"]::-moz-range-track {
+		background-color: rgb(240, 240, 240);
+		height: 6px;
+		border-radius: 50px;
+		border: 1px solid rgb(196, 196, 196);
+		cursor: pointer;
+	}
 }

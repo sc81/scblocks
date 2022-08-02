@@ -8,16 +8,10 @@ import { merge } from 'lodash';
 import { useMemo, useState } from '@wordpress/element';
 
 /**
- * ScBlocks dependencies
- */
-import { PLUGIN_NAME } from '@scblocks/constants';
-
-/**
  * Internal dependencies
  */
-import SelectDevices from '../select-devices';
-import ButtonClear from '../button-clear';
 import DropdownUnits from '../dropdown-units';
+import ControlWrapper from '../control-wrapper';
 
 function getDefaultUnitRangeStep() {
 	return {
@@ -78,7 +72,9 @@ export default function NumberUnit( {
 	onChange,
 	isClearButton,
 	onClear,
-	isSlider,
+	isSlider = true,
+	displayInline,
+	noMarginBottom,
 } ) {
 	const number = getNumber( value );
 	const [ unitState, setUnit ] = useState( () =>
@@ -106,25 +102,23 @@ export default function NumberUnit( {
 	}
 
 	return (
-		<div className={ `${ PLUGIN_NAME }-number-unit` }>
-			<div className={ `${ PLUGIN_NAME }-number-unit-header` }>
-				<div className={ `${ PLUGIN_NAME }-number-unit-header-left` }>
-					<span>{ label }</span>
-					{ isSelectDevice && <SelectDevices /> }
-					{ isClearButton && isNumber( number ) && (
-						<ButtonClear onClear={ onClear } />
-					) }
-				</div>
-				<div className={ `${ PLUGIN_NAME }-number-unit-header-right` }>
-					<DropdownUnits
-						units={ units }
-						value={ unit }
-						onChangeUnit={ onChangeUnit }
-					/>
-				</div>
-			</div>
+		<ControlWrapper
+			label={ label }
+			isSelectDevice={ isSelectDevice }
+			isClearButton={ isClearButton && isNumber( number ) }
+			onClear={ onClear }
+			displayInline={ displayInline }
+			noMarginBottom={ noMarginBottom }
+			headerControls={
+				<DropdownUnits
+					units={ units }
+					value={ unit }
+					onChangeUnit={ onChangeUnit }
+				/>
+			}
+		>
 			<div
-				className={ `${ PLUGIN_NAME }-number-unit-content${
+				className={ `scblocks-number-unit-content${
 					! isSlider ? ' without-slider' : ''
 				}` }
 			>
@@ -152,6 +146,6 @@ export default function NumberUnit( {
 					step={ currentUnitRangeStep[ unit ].step }
 				/>
 			</div>
-		</div>
+		</ControlWrapper>
 	);
 }

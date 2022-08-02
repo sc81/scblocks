@@ -110,8 +110,7 @@ export default function BoxShadowControl( { value, onChange } ) {
 						min: -10,
 					},
 				} }
-				isSelectDevice={false}
-				isSlider={true}
+				isSelectDevice={ false }
 			/>
 			<NumberUnit
 				label={ __( 'Vertical', 'scblocks' ) }
@@ -126,24 +125,21 @@ export default function BoxShadowControl( { value, onChange } ) {
 						min: -10,
 					},
 				} }
-				isSelectDevice={false}
-				isSlider={true}
+				isSelectDevice={ false }
 			/>
 			<NumberUnit
 				label={ __( 'Blur', 'scblocks' ) }
 				value={ blur }
 				units={ [ 'px', 'em' ] }
 				onChange={ ( v ) => onChangeValue( v, 'blur' ) }
-				isSelectDevice={false}
-				isSlider={true}
+				isSelectDevice={ false }
 			/>
 			<NumberUnit
 				label={ __( 'Spread', 'scblocks' ) }
 				value={ spread }
 				units={ [ 'px', 'em' ] }
 				onChange={ ( v ) => onChangeValue( v, 'spread' ) }
-				isSelectDevice={false}
-				isSlider={true}
+				isSelectDevice={ false }
 			/>
 			<BaseControl className={ `${ PLUGIN_NAME }-box-shadow-position` }>
 				<BaseControl.VisualLabel>

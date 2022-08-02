@@ -12,10 +12,14 @@ export default function ControlWrapper( {
 	isClearButton = false,
 	onClear,
 	headerControls,
+	noMarginBottom,
 } ) {
-	const additionalClass = displayInline ? 'display-inline' : '';
+	const displayInlineClass = displayInline ? ' display-inline' : '';
+	const noMarginBottomClass = noMarginBottom ? ' no-margin-bottom' : '';
 	return (
-		<div className={ `scblocks-control-wrapper ${ additionalClass }` }>
+		<div
+			className={ `scblocks-control-wrapper${ displayInlineClass }${ noMarginBottomClass }` }
+		>
 			<div className="scblocks-control-wrapper-header">
 				<div className="scblocks-control-wrapper-header-left">
 					<span>{ label }</span>

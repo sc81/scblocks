@@ -200,8 +200,10 @@ export default function FourControls( props ) {
 					value={ top }
 					onChange={ ( value ) => onChange( value, 'top' ) }
 					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
-					isSelectDevice={false}
+					isSelectDevice={ false }
 					unitRangeStep={ unitRangeStep.top }
+					noMarginBottom
+					isSlider={ false }
 				/>
 			</div>
 			<div className="scblocks-four-controls-left-right">
@@ -210,16 +212,20 @@ export default function FourControls( props ) {
 					value={ left }
 					onChange={ ( value ) => onChange( value, 'left' ) }
 					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
-					isSelectDevice={false}
+					isSelectDevice={ false }
 					unitRangeStep={ unitRangeStep.left }
+					noMarginBottom
+					isSlider={ false }
 				/>
 				<NumberUnit
 					label={ __( 'right', 'scblocks' ) }
 					value={ right }
 					onChange={ ( value ) => onChange( value, 'right' ) }
 					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
-					isSelectDevice={false}
+					isSelectDevice={ false }
 					unitRangeStep={ unitRangeStep.right }
+					noMarginBottom
+					isSlider={ false }
 				/>
 			</div>
 			<div className="scblocks-four-controls-bottom">
@@ -228,8 +234,10 @@ export default function FourControls( props ) {
 					value={ bottom }
 					onChange={ ( value ) => onChange( value, 'bottom' ) }
 					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
-					isSelectDevice={false}
+					isSelectDevice={ false }
 					unitRangeStep={ unitRangeStep.bottom }
+					noMarginBottom
+					isSlider={ false }
 				/>
 			</div>
 		</ControlWrapper>

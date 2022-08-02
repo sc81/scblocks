@@ -81,9 +81,10 @@ export default function NumberUnitProperty( props ) {
 	const {
 		propName,
 		units,
-		withoutSelectDevices,
+		isSelectDevice,
 		unitRangeStep,
 		label,
+		isSlider,
 	} = props;
 	const { propValue, onChange } = propertyService( props );
 
@@ -101,13 +102,11 @@ export default function NumberUnitProperty( props ) {
 				value={ propValue }
 				units={ units || propDefaults[ propName ].units }
 				onChange={ onChange }
-				isSelectDevice={
-					withoutSelectDevices ||
-					propDefaults[ propName ].withoutSelectDevices
-				}
+				isSelectDevice={ isSelectDevice }
 				unitRangeStep={ mergedUnitRangeStep }
 				isClearButton={ !! propValue }
 				onClear={ () => onChange() }
+				isSlider={ isSlider }
 			/>
 		</BaseControl>
 	);

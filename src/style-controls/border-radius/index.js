@@ -151,24 +151,28 @@ export default function BorderRadius( {
 					units={ [ 'px', '%' ] }
 					value={ topLeft }
 					onChange={ ( value ) => onChange( 'topLeft', value ) }
-					isSelectDevice={false}
+					isSelectDevice={ false }
 					unitRangeStep={ {
 						'%': {
 							step: 1,
 						},
 					} }
+					noMarginBottom
+					isSlider={ false }
 				/>
 				<NumberUnit
 					label={ __( 'Top right', 'scblocks' ) }
 					units={ [ 'px', '%' ] }
 					value={ topRight }
 					onChange={ ( value ) => onChange( 'topRight', value ) }
-					isSelectDevice={false}
+					isSelectDevice={ false }
 					unitRangeStep={ {
 						'%': {
 							step: 1,
 						},
 					} }
+					noMarginBottom
+					isSlider={ false }
 				/>
 			</div>
 			<div className="scblocks-border-radius-bottom">
@@ -177,24 +181,28 @@ export default function BorderRadius( {
 					units={ [ 'px', '%' ] }
 					value={ bottomLeft }
 					onChange={ ( value ) => onChange( 'bottomLeft', value ) }
-					isSelectDevice={false}
+					isSelectDevice={ false }
 					unitRangeStep={ {
 						'%': {
 							step: 1,
 						},
 					} }
+					noMarginBottom
+					isSlider={ false }
 				/>
 				<NumberUnit
 					label={ __( 'Bottom right', 'scblocks' ) }
 					units={ [ 'px', '%' ] }
 					value={ bottomRight }
 					onChange={ ( value ) => onChange( 'bottomRight', value ) }
-					isSelectDevice={false}
+					isSelectDevice={ false }
 					unitRangeStep={ {
 						'%': {
 							step: 1,
 						},
 					} }
+					noMarginBottom
+					isSlider={ false }
 				/>
 			</div>
 		</ControlWrapper>
