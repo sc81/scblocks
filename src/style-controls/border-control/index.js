@@ -211,9 +211,9 @@ export default function BorderControl( {
 			</div>
 			<ControlWrapper
 				label={ __( 'Width', 'scblocks' ) }
-				displayClearButton={ top || right || bottom || left }
+				isClearButton={ top || right || bottom || left }
 				onClear={ onClear }
-				extraControls={
+				headerControls={
 					<LinkSides
 						isLinked={ isLinked }
 						onClick={ () => setIsLinked( ! isLinked ) }

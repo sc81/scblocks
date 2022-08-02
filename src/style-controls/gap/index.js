@@ -43,7 +43,7 @@ export default function Gap( {
 		<ControlWrapper
 			label={ __( 'Gap', 'scblocks' ) }
 			onClear={ onClear }
-			displayClearButton={ columnGap || rowGap }
+			isClearButton={ columnGap || rowGap }
 		>
 			<div className="scblocks-gap-controls">
 				<div className="scblocks-gap-controls-column">

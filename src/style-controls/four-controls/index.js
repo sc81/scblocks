@@ -185,9 +185,9 @@ export default function FourControls( props ) {
 	return (
 		<ControlWrapper
 			label={ title[ propName ] }
-			displayClearButton={ short || top || right || bottom || left }
+			isClearButton={ short || top || right || bottom || left }
 			onClear={ onClear }
-			extraControls={
+			headerControls={
 				<LinkSides
 					isLinked={ isLinked }
 					onClick={ () => setIsLinked( ! isLinked ) }

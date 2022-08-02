@@ -27,8 +27,8 @@ export default function IconPicker( { icon, onSelect, onClear } ) {
 	return (
 		<ControlWrapper
 			label={ __( 'Icon SVG HTML', 'scblocks' ) }
-			withoutSelectDevices
-			displayClearButton={ !! icon }
+			isSelectDevice={ false }
+			isClearButton={ !! icon }
 			onClear={ onClear }
 		>
 			<TextControl

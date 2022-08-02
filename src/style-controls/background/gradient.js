@@ -54,7 +54,7 @@ export default function Gradient( {
 	return (
 		<ControlWrapper
 			label={ __( 'Gradient', 'scblocks' ) }
-			withoutSelectDevices={ ! showSelectDevice }
+			isSelectDevices={ ! showSelectDevice }
 		>
 			<GradientPicker
 				gradients={ gradients }

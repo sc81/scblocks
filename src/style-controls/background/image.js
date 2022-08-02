@@ -178,7 +178,7 @@ export default function Image( props ) {
 			<ControlWrapper
 				label={ __( 'Image', 'scblocks' ) }
 				displayInline
-				withoutSelectDevices={ ! showSelectDevice }
+				isSelectDevices={ ! showSelectDevice }
 			>
 				<div className="scblocks-inline-buttons">
 					<MediaUploadCheck>

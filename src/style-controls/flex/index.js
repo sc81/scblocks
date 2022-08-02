@@ -43,7 +43,7 @@ export default function Flex( {
 	return (
 		<ControlWrapper
 			label={ __( 'Flex', 'scblocks' ) }
-			displayClearButton={ flexBasis || flexGrow || flexShrink }
+			isClearButton={ flexBasis || flexGrow || flexShrink }
 			onClear={ onClear }
 		>
 			<div className="scblocks-flex-controls">

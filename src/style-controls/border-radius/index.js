@@ -136,11 +136,9 @@ export default function BorderRadius( {
 	return (
 		<ControlWrapper
 			label={ __( 'Border radius', 'scblocks' ) }
-			displayClearButton={
-				topLeft || topRight || bottomLeft || bottomRight
-			}
+			isClearButton={ topLeft || topRight || bottomLeft || bottomRight }
 			onClear={ onClear }
-			extraControls={
+			headerControls={
 				<LinkSides
 					isLinked={ isLinked }
 					onClick={ () => setIsLinked( ! isLinked ) }

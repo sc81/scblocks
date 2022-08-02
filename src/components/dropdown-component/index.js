@@ -20,7 +20,7 @@ export default function DropdownComponent( {
 	onClear,
 	renderContent,
 	onOpen,
-	withoutSelectDevices,
+	isSelectDevice,
 } ) {
 	return (
 		<Dropdown
@@ -30,7 +30,7 @@ export default function DropdownComponent( {
 				<ControlWrapper
 					label={ label }
 					displayInline
-					withoutSelectDevices={ withoutSelectDevices }
+					isSelectDevice={ isSelectDevice }
 				>
 					<div className={ `${ PLUGIN_NAME }-inline-buttons` }>
 						{ isValue && (

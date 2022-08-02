@@ -51,10 +51,10 @@ export default function FontFamily( { value, onChange, onClear } ) {
 	return (
 		<ControlWrapper
 			label={ __( 'Font Family', 'scblocks' ) }
-			withoutSelectDevices
-			displayClearButton={ !! value }
+			isSelectDevice={ false }
+			isClearButton={ !! value }
 			onClear={ onClear }
-			extraControls={
+			headerControls={
 				<DropdownMenu
 					icon="ellipsis"
 					label={ __( 'Choose a font', 'scblocks' ) }

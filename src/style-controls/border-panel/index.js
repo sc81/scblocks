@@ -4,11 +4,12 @@
 import { useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
+import { BaseControl } from '@wordpress/components';
 
 /**
  * ScBlocks dependencies
  */
-import { ControlWrapper, NormalHoverButtons } from '@scblocks/components';
+import { NormalHoverButtons } from '@scblocks/components';
 
 /**
  * Internal dependencies
@@ -34,7 +35,7 @@ export default function BorderPanel( props ) {
 			panelTitle={ __( 'Border', 'scblocks' ) }
 			panelName="border"
 		>
-			<ControlWrapper withoutHeader>
+			<BaseControl>
 				{ hasHoverControls && (
 					<NormalHoverButtons
 						isHover={ isHover }
@@ -62,7 +63,7 @@ export default function BorderPanel( props ) {
 						null,
 						props
 					) }
-			</ControlWrapper>
+			</BaseControl>
 		</StyleControlsPanel>
 	);
 }
