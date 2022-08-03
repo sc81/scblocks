@@ -53,6 +53,7 @@ export default function FontFamily( { value, onChange, onClear } ) {
 			label={ __( 'Font Family', 'scblocks' ) }
 			isSelectDevice={ false }
 			isClearButton={ !! value }
+			isIndicator={ !! value }
 			onClear={ onClear }
 			headerControls={
 				<DropdownMenu

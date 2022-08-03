@@ -8,6 +8,7 @@ import { SelectControl } from '@wordpress/components';
  */
 import { getPropValue, setPropValue } from '@scblocks/css-utils';
 import { ALL_DEVICES } from '@scblocks/constants';
+import { ControlWrapper } from '@scblocks/components';
 
 const propName = 'display';
 
@@ -19,25 +20,30 @@ export default function DisplayFlex( props ) {
 	} );
 
 	return (
-		<SelectControl
+		<ControlWrapper
 			label={ __( 'Display', 'scblocks' ) }
-			value={ propValue }
-			onChange={ ( value ) => {
-				setPropValue( {
-					...props,
-					propName,
-					devices: ALL_DEVICES,
-					value,
-				} );
-			} }
-			options={ [
-				{ label: __( 'Default', 'scblocks' ), value: '' },
-				{ label: __( 'Flex', 'scblocks' ), value: 'flex' },
-				{
-					label: __( 'Inline-Flex', 'scblocks' ),
-					value: 'inline-flex',
-				},
-			] }
-		/>
+			isIndicator={ !! propValue }
+			isSelectDevice={ false }
+		>
+			<SelectControl
+				value={ propValue }
+				onChange={ ( value ) => {
+					setPropValue( {
+						...props,
+						propName,
+						devices: ALL_DEVICES,
+						value,
+					} );
+				} }
+				options={ [
+					{ label: __( 'Default', 'scblocks' ), value: '' },
+					{ label: __( 'Flex', 'scblocks' ), value: 'flex' },
+					{
+						label: __( 'Inline-Flex', 'scblocks' ),
+						value: 'inline-flex',
+					},
+				] }
+			/>
+		</ControlWrapper>
 	);
 }

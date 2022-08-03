@@ -112,7 +112,11 @@ export default function Position( {
 
 	return (
 		<>
-			<ControlWrapper label={ controlLabel } displayInline>
+			<ControlWrapper
+				label={ controlLabel }
+				displayInline
+				isIndicator={ !! position }
+			>
 				<SelectControl
 					label={ controlLabel }
 					hideLabelFromVision

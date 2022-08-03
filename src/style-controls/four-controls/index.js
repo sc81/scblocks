@@ -186,6 +186,7 @@ export default function FourControls( props ) {
 		<ControlWrapper
 			label={ title[ propName ] }
 			isClearButton={ short || top || right || bottom || left }
+			isIndicator={ short || top || right || bottom || left }
 			onClear={ onClear }
 			headerControls={
 				<LinkSides
@@ -204,6 +205,7 @@ export default function FourControls( props ) {
 					unitRangeStep={ unitRangeStep.top }
 					noMarginBottom
 					isSlider={ false }
+					isIndicator={ false }
 				/>
 			</div>
 			<div className="scblocks-four-controls-left-right">
@@ -216,6 +218,7 @@ export default function FourControls( props ) {
 					unitRangeStep={ unitRangeStep.left }
 					noMarginBottom
 					isSlider={ false }
+					isIndicator={ false }
 				/>
 				<NumberUnit
 					label={ __( 'right', 'scblocks' ) }
@@ -226,6 +229,7 @@ export default function FourControls( props ) {
 					unitRangeStep={ unitRangeStep.right }
 					noMarginBottom
 					isSlider={ false }
+					isIndicator={ false }
 				/>
 			</div>
 			<div className="scblocks-four-controls-bottom">
@@ -238,6 +242,7 @@ export default function FourControls( props ) {
 					unitRangeStep={ unitRangeStep.bottom }
 					noMarginBottom
 					isSlider={ false }
+					isIndicator={ false }
 				/>
 			</div>
 		</ControlWrapper>

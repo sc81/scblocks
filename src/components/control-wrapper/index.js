@@ -1,4 +1,8 @@
 /**
+ * WordPress dependencies
+ */
+import { applyFilters } from '@wordpress/hooks';
+/**
  * Internal dependencies
  */
 import SelectDevices from '../select-devices';
@@ -13,16 +17,22 @@ export default function ControlWrapper( {
 	onClear,
 	headerControls,
 	noMarginBottom,
+	isIndicator,
 } ) {
 	const displayInlineClass = displayInline ? ' display-inline' : '';
 	const noMarginBottomClass = noMarginBottom ? ' no-margin-bottom' : '';
+	const labelClassName = applyFilters(
+		'scblocks.controlWrapper.className',
+		'scblocks-control-wrapper-label',
+		isIndicator
+	);
 	return (
 		<div
 			className={ `scblocks-control-wrapper${ displayInlineClass }${ noMarginBottomClass }` }
 		>
 			<div className="scblocks-control-wrapper-header">
 				<div className="scblocks-control-wrapper-header-left">
-					<span>{ label }</span>
+					<span className={ labelClassName }>{ label }</span>
 					{ isSelectDevice && <SelectDevices /> }
 					{ isClearButton && <ButtonClear onClear={ onClear } /> }
 				</div>

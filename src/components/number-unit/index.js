@@ -75,6 +75,7 @@ export default function NumberUnit( {
 	isSlider = true,
 	displayInline,
 	noMarginBottom,
+	isIndicator = true,
 } ) {
 	const number = getNumber( value );
 	const [ unitState, setUnit ] = useState( () =>
@@ -109,6 +110,7 @@ export default function NumberUnit( {
 			onClear={ onClear }
 			displayInline={ displayInline }
 			noMarginBottom={ noMarginBottom }
+			isIndicator={ isIndicator && isNumber( number ) }
 			headerControls={
 				<DropdownUnits
 					units={ units }

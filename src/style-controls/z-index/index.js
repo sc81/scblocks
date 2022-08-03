@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n';
  * ScBlocks dependencies
  */
 import { ALL_DEVICES } from '@scblocks/constants';
-import { propertyService } from '@scblocks/components';
+import { ControlWrapper, propertyService } from '@scblocks/components';
 
 const propName = 'zIndex';
 
@@ -20,12 +20,17 @@ export default function Zindex( props ) {
 	} );
 
 	return (
-		<TextControl
+		<ControlWrapper
 			label={ props.label || __( 'Z-index', 'scblocks' ) }
-			value={ propValue }
-			onChange={ onChange }
-			type="number"
-			autocomplete="off"
-		/>
+			isIndicator={ !! propValue }
+			isSelectDevice={ false }
+		>
+			<TextControl
+				value={ propValue }
+				onChange={ onChange }
+				type="number"
+				autocomplete="off"
+			/>
+		</ControlWrapper>
 	);
 }

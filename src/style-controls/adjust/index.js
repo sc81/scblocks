@@ -55,7 +55,7 @@ export default function Adjust( props ) {
 	const { propValue, onChange } = propertyService( props );
 
 	return (
-		<ControlWrapper label={ props.label }>
+		<ControlWrapper label={ props.label } isIndicator={ !! propValue }>
 			<SelectControl
 				value={ propValue }
 				options={ options[ props.propSuffix ] }

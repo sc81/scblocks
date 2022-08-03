@@ -74,6 +74,7 @@ export default function Size( {
 		<ControlWrapper
 			label={ __( 'Size', 'scblocks' ) }
 			displayInline={ ! isCustom }
+			isIndicator={ !! backgroundSize }
 		>
 			<SelectControl
 				value={ selectValue }

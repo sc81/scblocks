@@ -85,6 +85,7 @@ export default function NumberUnitProperty( props ) {
 		unitRangeStep,
 		label,
 		isSlider,
+		isIndicator,
 	} = props;
 	const { propValue, onChange } = propertyService( props );
 
@@ -107,6 +108,7 @@ export default function NumberUnitProperty( props ) {
 				isClearButton={ !! propValue }
 				onClear={ () => onChange() }
 				isSlider={ isSlider }
+				isIndicator={ isIndicator }
 			/>
 		</BaseControl>
 	);

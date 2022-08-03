@@ -14,6 +14,7 @@ export default function NumberProperty( props ) {
 			min={ props.min }
 			max={ props.max }
 			step={ props.step }
+			isIndicator={ props.isIndicator }
 		/>
 	);
 }

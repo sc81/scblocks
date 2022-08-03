@@ -31,7 +31,11 @@ export default function Repeat( props ) {
 	} );
 
 	return (
-		<ControlWrapper label={ __( 'Repeat', 'scblocks' ) } displayInline>
+		<ControlWrapper
+			label={ __( 'Repeat', 'scblocks' ) }
+			displayInline
+			isIndicator={ !! propValue }
+		>
 			<SelectControl
 				value={ propValue }
 				options={ options }

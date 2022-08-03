@@ -23,7 +23,11 @@ export default function Attachment( props ) {
 	} );
 
 	return (
-		<ControlWrapper label={ __( 'Attachment', 'scblocks' ) } displayInline>
+		<ControlWrapper
+			label={ __( 'Attachment', 'scblocks' ) }
+			displayInline
+			isIndicator={ !! propValue }
+		>
 			<SelectControl
 				value={ propValue }
 				options={ [

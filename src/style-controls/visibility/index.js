@@ -26,7 +26,10 @@ export default function Visibility( props ) {
 	}
 
 	return (
-		<ControlWrapper label={ __( 'Hide element', 'scblocks' ) }>
+		<ControlWrapper
+			label={ __( 'Hide element', 'scblocks' ) }
+			isIndicator={ !! propValue }
+		>
 			<ToggleControl
 				help={
 					propValue

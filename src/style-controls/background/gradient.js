@@ -55,6 +55,7 @@ export default function Gradient( {
 		<ControlWrapper
 			label={ __( 'Gradient', 'scblocks' ) }
 			isSelectDevices={ ! showSelectDevice }
+			isIndicator={ !! gradient }
 		>
 			<GradientPicker
 				gradients={ gradients }

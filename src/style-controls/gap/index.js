@@ -44,6 +44,7 @@ export default function Gap( {
 			label={ __( 'Gap', 'scblocks' ) }
 			onClear={ onClear }
 			isClearButton={ columnGap || rowGap }
+			isIndicator={ columnGap || rowGap }
 		>
 			<div className="scblocks-gap-controls">
 				<div className="scblocks-gap-controls-column">
@@ -55,6 +56,7 @@ export default function Gap( {
 						onChange={ ( value ) => onChange( 'columnGap', value ) }
 						noMarginBottom
 						isSlider={ false }
+						isIndicator={ false }
 					/>
 				</div>
 				<div className="scblocks-gap-controls-row">
@@ -67,6 +69,7 @@ export default function Gap( {
 						onChange={ ( value ) => onChange( 'rowGap', value ) }
 						noMarginBottom
 						isSlider={ false }
+						isIndicator={ false }
 					/>
 				</div>
 			</div>

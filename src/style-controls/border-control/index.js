@@ -196,22 +196,40 @@ export default function BorderControl( {
 					onChange={ onChangeColor }
 					isStacked
 				/>
-				<SelectControl
+				<ControlWrapper
 					label={ __( 'Style', 'scblocks' ) }
-					value={ style }
-					options={ [
-						{ label: __( 'Default', 'scblocks' ), value: '' },
-						{ label: __( 'Solid', 'scblocks' ), value: 'solid' },
-						{ label: __( 'Dotted', 'scblocks' ), value: 'dotted' },
-						{ label: __( 'Dashed', 'scblocks' ), value: 'dashed' },
-						{ label: __( 'Double', 'scblocks' ), value: 'double' },
-					] }
-					onChange={ onChangeStyle }
-				/>
+					isSelectDevice={ false }
+					isIndicator={ !! style }
+				>
+					<SelectControl
+						value={ style }
+						options={ [
+							{ label: __( 'Default', 'scblocks' ), value: '' },
+							{
+								label: __( 'Solid', 'scblocks' ),
+								value: 'solid',
+							},
+							{
+								label: __( 'Dotted', 'scblocks' ),
+								value: 'dotted',
+							},
+							{
+								label: __( 'Dashed', 'scblocks' ),
+								value: 'dashed',
+							},
+							{
+								label: __( 'Double', 'scblocks' ),
+								value: 'double',
+							},
+						] }
+						onChange={ onChangeStyle }
+					/>
+				</ControlWrapper>
 			</div>
 			<ControlWrapper
 				label={ __( 'Width', 'scblocks' ) }
 				isClearButton={ top || right || bottom || left }
+				isIndicator={ top || right || bottom || left }
 				onClear={ onClear }
 				headerControls={
 					<LinkSides
@@ -229,6 +247,7 @@ export default function BorderControl( {
 						isSelectDevice={ false }
 						noMarginBottom
 						isSlider={ false }
+						isIndicator={ false }
 					/>
 				</div>
 				<div className="scblocks-border-control-width-left-right">
@@ -240,6 +259,7 @@ export default function BorderControl( {
 						isSelectDevice={ false }
 						noMarginBottom
 						isSlider={ false }
+						isIndicator={ false }
 					/>
 					<NumberUnit
 						label={ __( 'Right', 'scblocks' ) }
@@ -251,6 +271,7 @@ export default function BorderControl( {
 						isSelectDevice={ false }
 						noMarginBottom
 						isSlider={ false }
+						isIndicator={ false }
 					/>
 				</div>
 				<div className="scblocks-border-control-width-bottom">
@@ -264,6 +285,7 @@ export default function BorderControl( {
 						isSelectDevice={ false }
 						noMarginBottom
 						isSlider={ false }
+						isIndicator={ false }
 					/>
 				</div>
 			</ControlWrapper>

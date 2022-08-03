@@ -11,7 +11,10 @@ import { ControlWrapper } from '@scblocks/components';
 
 export default function TextAlign( { value, onChange } ) {
 	return (
-		<ControlWrapper label={ __( 'Text Align', 'scblocks' ) }>
+		<ControlWrapper
+			label={ __( 'Text Align', 'scblocks' ) }
+			isIndicator={ !! value }
+		>
 			<SelectControl
 				value={ value }
 				options={ [

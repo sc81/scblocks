@@ -16,7 +16,10 @@ export default function FlexWrap( props ) {
 	} );
 
 	return (
-		<ControlWrapper label={ __( 'Flex-Wrap', 'scblocks' ) }>
+		<ControlWrapper
+			label={ __( 'Flex-Wrap', 'scblocks' ) }
+			isIndicator={ !! propValue }
+		>
 			<SelectControl
 				value={ propValue }
 				onChange={ onChange }

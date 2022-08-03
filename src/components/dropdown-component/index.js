@@ -16,11 +16,12 @@ import ControlWrapper from '../control-wrapper';
 
 export default function DropdownComponent( {
 	label,
-	isValue,
+	isClearButton,
 	onClear,
 	renderContent,
 	onOpen,
 	isSelectDevice,
+	isIndicator,
 } ) {
 	return (
 		<Dropdown
@@ -31,9 +32,10 @@ export default function DropdownComponent( {
 					label={ label }
 					displayInline
 					isSelectDevice={ isSelectDevice }
+					isIndicator={ isIndicator }
 				>
 					<div className={ `${ PLUGIN_NAME }-inline-buttons` }>
-						{ isValue && (
+						{ isClearButton && (
 							<Button
 								isSmall
 								isSecondary

@@ -137,6 +137,7 @@ export default function BorderRadius( {
 		<ControlWrapper
 			label={ __( 'Border radius', 'scblocks' ) }
 			isClearButton={ topLeft || topRight || bottomLeft || bottomRight }
+			isIndicator={ topLeft || topRight || bottomLeft || bottomRight }
 			onClear={ onClear }
 			headerControls={
 				<LinkSides
@@ -159,6 +160,7 @@ export default function BorderRadius( {
 					} }
 					noMarginBottom
 					isSlider={ false }
+					isIndicator={ false }
 				/>
 				<NumberUnit
 					label={ __( 'Top right', 'scblocks' ) }
@@ -173,6 +175,7 @@ export default function BorderRadius( {
 					} }
 					noMarginBottom
 					isSlider={ false }
+					isIndicator={ false }
 				/>
 			</div>
 			<div className="scblocks-border-radius-bottom">
@@ -189,6 +192,7 @@ export default function BorderRadius( {
 					} }
 					noMarginBottom
 					isSlider={ false }
+					isIndicator={ false }
 				/>
 				<NumberUnit
 					label={ __( 'Bottom right', 'scblocks' ) }
@@ -203,6 +207,7 @@ export default function BorderRadius( {
 					} }
 					noMarginBottom
 					isSlider={ false }
+					isIndicator={ false }
 				/>
 			</div>
 		</ControlWrapper>
