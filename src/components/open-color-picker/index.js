@@ -13,7 +13,7 @@ import { CORE_EDITOR_STORE_NAME } from '@scblocks/constants';
 /**
  * Internal dependencies
  */
-import ButtonClear from '../button-clear';
+import ControlWrapper from '../control-wrapper';
 
 export default function OpenColorPicker( {
 	value,
@@ -21,6 +21,7 @@ export default function OpenColorPicker( {
 	onChange,
 	label,
 	isStacked,
+	isIndicator = true,
 } ) {
 	const themeColors = useSelect( ( select ) => {
 		return select( CORE_EDITOR_STORE_NAME ).getEditorSettings().colors;
@@ -34,28 +35,27 @@ export default function OpenColorPicker( {
 	const pickerKey = useRef( 1 );
 
 	label = label || __( 'Text color', 'scblocks' );
-	const stacked = isStacked ? ' is-stacked' : '';
 
 	return (
 		<Dropdown
 			className="scblocks-color-picker"
-			contentClassName="components-color-palette__picker"
+			contentClassName="scblocks-color-picker-content"
 			position="top right"
 			renderToggle={ ( { isOpen, onToggle } ) => (
-				<div className={ `scblocks-color-picker-triggers${ stacked }` }>
-					<div className="scblocks-color-picker-label">
-						<span>{ label }</span>
-						{ colors.currentColor && (
-							<ButtonClear
-								onClear={ () => {
-									onChange( '' );
-									if ( isOpen ) {
-										onToggle();
-									}
-								} }
-							/>
-						) }
-					</div>
+				<ControlWrapper
+					label={ label }
+					isClearButton={ !! colors.currentColor }
+					onClear={ () => {
+						onChange( '' );
+						if ( isOpen ) {
+							onToggle();
+						}
+					} }
+					isIndicator={ isIndicator && !! colors.currentColor }
+					isSelectDevice={ false }
+					displayInline={ ! isStacked }
+					widerHeader={ ! isStacked }
+				>
 					<button
 						type="button"
 						aria-expanded={ isOpen }
@@ -85,10 +85,10 @@ export default function OpenColorPicker( {
 							} }
 						/>
 					</button>
-				</div>
+				</ControlWrapper>
 			) }
 			renderContent={ () => (
-				<div className="components-color-picker">
+				<>
 					<ColorPicker
 						key={ pickerKey.current }
 						color={ colors.currentColor }
@@ -103,7 +103,7 @@ export default function OpenColorPicker( {
 							onChange( next );
 						} }
 					/>
-					<div className="components-color-picker__body scblocks-color-picker-body">
+					<div className="scblocks-color-picker-palette">
 						{ applyFilters(
 							'scblocks.colorPicker.palette',
 							<ColorPalette
@@ -123,7 +123,7 @@ export default function OpenColorPicker( {
 							pickerKey
 						) }
 					</div>
-				</div>
+				</>
 			) }
 		/>
 	);

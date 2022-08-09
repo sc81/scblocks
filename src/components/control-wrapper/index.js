@@ -18,9 +18,11 @@ export default function ControlWrapper( {
 	headerControls,
 	noMarginBottom,
 	isIndicator,
+	widerHeader,
 } ) {
 	const displayInlineClass = displayInline ? ' display-inline' : '';
 	const noMarginBottomClass = noMarginBottom ? ' no-margin-bottom' : '';
+	const widerHeaderClass = widerHeader ? ' wider-header' : '';
 	const labelClassName = applyFilters(
 		'scblocks.controlWrapper.className',
 		'scblocks-control-wrapper-label',
@@ -28,7 +30,7 @@ export default function ControlWrapper( {
 	);
 	return (
 		<div
-			className={ `scblocks-control-wrapper${ displayInlineClass }${ noMarginBottomClass }` }
+			className={ `scblocks-control-wrapper${ displayInlineClass }${ noMarginBottomClass }${ widerHeaderClass }` }
 		>
 			<div className="scblocks-control-wrapper-header">
 				<div className="scblocks-control-wrapper-header-left">

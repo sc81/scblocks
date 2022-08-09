@@ -1,25 +1,43 @@
 
 .scblocks-control-wrapper {
 	margin-bottom: 15px;
+	display: flex;
+	flex-direction: column;
 
 	&.no-margin-bottom {
 		margin-bottom: 0;
 	}
 
 	&.display-inline {
-		display: flex;
+		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 10px;
 
-		.#{$pluginName}-control-wrapper-header {
+		.scblocks-control-wrapper-header {
+			flex-basis: 50%;
 			margin-bottom: 0;
+		}
+		.scblocks-control-wrapper-content {
+			flex-basis: 50%;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+		}
+	}
+	&.wider-header {
+		.scblocks-control-wrapper-header {
+			flex-basis: 70%;
+		}
+		.scblocks-control-wrapper-content {
+			flex-basis: 30%;
 		}
 	}
 	.scblocks-control-wrapper-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		flex-basis: 100%;
 		margin-bottom: 6px;
 	}
 	.scblocks-control-wrapper-header-left {
@@ -32,6 +50,6 @@
 		}
 	}
 	.scblocks-control-wrapper-content {
-		min-width: 50%;
+		flex-basis: 100%;
 	}
 }
