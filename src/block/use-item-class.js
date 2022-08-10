@@ -24,7 +24,7 @@ export default function useItemClass( clientId ) {
 			if ( parents.length ) {
 				const name = getBlockName( parents[ 0 ] );
 				if ( name.startsWith( 'scblocks' ) ) {
-					itemClass = getUidClass( name, parents[ 0 ] ) + '-item';
+					itemClass = getUidClass( name, parents[ 0 ], '-item' );
 				}
 			}
 			return itemClass;
