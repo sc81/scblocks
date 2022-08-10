@@ -149,6 +149,10 @@ export default function Inspector( props ) {
 									label: __( 'p', 'scblocks' ),
 									value: 'p',
 								},
+								{
+									label: __( 'div', 'scblocks' ),
+									value: 'div',
+								},
 							] }
 							onChange={ ( value ) =>
 								setAttributes( { tagName: value } )
