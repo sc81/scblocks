@@ -19,6 +19,8 @@ export default function FlexWrap( props ) {
 		<ControlWrapper
 			label={ __( 'Flex-Wrap', 'scblocks' ) }
 			isIndicator={ !! propValue }
+			displayInline
+			widerHeader={ 6 }
 		>
 			<SelectControl
 				value={ propValue }

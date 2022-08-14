@@ -22,7 +22,13 @@ export default function ControlWrapper( {
 } ) {
 	const displayInlineClass = displayInline ? ' display-inline' : '';
 	const noMarginBottomClass = noMarginBottom ? ' no-margin-bottom' : '';
-	const widerHeaderClass = widerHeader ? ' wider-header' : '';
+	let widerHeaderClass = '';
+	if ( widerHeader ) {
+		widerHeaderClass = ' wider-header';
+	}
+	if ( widerHeader === 6 ) {
+		widerHeaderClass = ' wider-header-6';
+	}
 	const labelClassName = applyFilters(
 		'scblocks.controlWrapper.className',
 		'scblocks-control-wrapper-label',

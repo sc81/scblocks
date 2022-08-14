@@ -24,6 +24,8 @@ export default function DisplayFlex( props ) {
 			label={ __( 'Display', 'scblocks' ) }
 			isIndicator={ !! propValue }
 			isSelectDevice={ false }
+			displayInline
+			widerHeader={ 6 }
 		>
 			<SelectControl
 				value={ propValue }

@@ -15,6 +15,7 @@ export default function NumberControl( {
 	isClearButton = true,
 	displayInline,
 	isIndicator = true,
+	widerHeader,
 } ) {
 	return (
 		<ControlWrapper
@@ -24,6 +25,7 @@ export default function NumberControl( {
 			onClear={ () => onChange( '' ) }
 			displayInline={ displayInline }
 			isIndicator={ isIndicator && !! value }
+			widerHeader={ widerHeader }
 		>
 			<div
 				className={ `scblocks-number-control-content${

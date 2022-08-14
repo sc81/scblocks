@@ -21,6 +21,8 @@ export default function Order( props ) {
 			min={ -50 }
 			max={ 50 }
 			isSlider={ false }
+			displayInline
+			widerHeader={ 6 }
 		/>
 	);
 }

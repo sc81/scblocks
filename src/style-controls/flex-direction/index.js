@@ -19,6 +19,8 @@ export default function FlexDirection( props ) {
 		<ControlWrapper
 			label={ __( 'Flex-Direction', 'scblocks' ) }
 			isIndicator={ !! propValue }
+			displayInline
+			widerHeader={ 6 }
 		>
 			<SelectControl
 				value={ propValue }

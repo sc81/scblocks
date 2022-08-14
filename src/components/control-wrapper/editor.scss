@@ -24,11 +24,11 @@
 			justify-content: flex-end;
 			align-items: center;
 
-			.components-base-control{
+			.components-base-control {
 				margin-bottom: 0;
 				width: 100%;
 
-				.components-base-control__field{
+				.components-base-control__field {
 					margin-bottom: 0;
 				}
 			}
@@ -40,6 +40,14 @@
 		}
 		.scblocks-control-wrapper-content {
 			flex-basis: 30%;
+		}
+	}
+	&.wider-header-6 {
+		.scblocks-control-wrapper-header {
+			flex-basis: 60%;
+		}
+		.scblocks-control-wrapper-content {
+			flex-basis: 40%;
 		}
 	}
 	.scblocks-control-wrapper-header {
