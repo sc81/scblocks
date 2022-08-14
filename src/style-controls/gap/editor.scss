@@ -1,8 +1,9 @@
 .scblocks-gap-controls {
 	display: flex;
 	column-gap: 20px;
+	align-items: flex-end;
 }
 .scblocks-gap-controls-column,
 .scblocks-gap-controls-row {
-	flex: auto;
+	flex-basis: 40%;
 }

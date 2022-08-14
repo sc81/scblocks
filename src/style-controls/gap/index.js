@@ -1,6 +1,12 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
-
-import { ControlWrapper, NumberUnit } from '@scblocks/components';
+import { useState } from '@wordpress/element';
+/**
+ * ScBlocks dependencies
+ */
+import { ControlWrapper, LinkSides, NumberUnit } from '@scblocks/components';
 import { getPropertiesValue, setPropsValue } from '@scblocks/css-utils';
 
 export default function Gap( {
@@ -15,13 +21,19 @@ export default function Gap( {
 		selector,
 		props: [ 'columnGap', 'rowGap' ],
 	} );
+	const [ isLinked, setIsLinked ] = useState( columnGap === rowGap );
 
 	function onChange( name, value ) {
-		setValues( {
+		const next = {
 			columnGap,
 			rowGap,
 			[ name ]: value,
-		} );
+		};
+		if ( isLinked ) {
+			next.columnGap = value;
+			next.rowGap = value;
+		}
+		setValues( next );
 	}
 	function onClear() {
 		setValues( {
@@ -59,6 +71,10 @@ export default function Gap( {
 						isIndicator={ false }
 					/>
 				</div>
+				<LinkSides
+					isLinked={ isLinked }
+					onClick={ () => setIsLinked( ! isLinked ) }
+				/>
 				<div className="scblocks-gap-controls-row">
 					<NumberUnit
 						label={ __( 'Row', 'scblocks' ) }
