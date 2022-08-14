@@ -23,6 +23,15 @@
 			display: flex;
 			justify-content: flex-end;
 			align-items: center;
+
+			.components-base-control{
+				margin-bottom: 0;
+				width: 100%;
+
+				.components-base-control__field{
+					margin-bottom: 0;
+				}
+			}
 		}
 	}
 	&.wider-header {

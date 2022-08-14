@@ -14,6 +14,7 @@ export default function FontWeight( { value, onChange } ) {
 			label={ __( 'Font weight', 'scblocks' ) }
 			isIndicator={ !! value }
 			isSelectDevice={ false }
+			displayInline
 		>
 			<SelectControl
 				value={ value }

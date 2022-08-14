@@ -14,6 +14,7 @@ export default function TextDecoration( { value, onChange } ) {
 			label={ __( 'Text Decoration', 'scblocks' ) }
 			isIndicator={ !! value }
 			isSelectDevice={ false }
+			displayInline
 		>
 			<SelectControl
 				value={ value }

@@ -14,6 +14,7 @@ export default function TextTransform( { value, onChange } ) {
 			label={ __( 'Text Transform', 'scblocks' ) }
 			isIndicator={ !! value }
 			isSelectDevice={ false }
+			displayInline
 		>
 			<SelectControl
 				value={ value }

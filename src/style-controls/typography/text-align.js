@@ -14,6 +14,7 @@ export default function TextAlign( { value, onChange } ) {
 		<ControlWrapper
 			label={ __( 'Text Align', 'scblocks' ) }
 			isIndicator={ !! value }
+			displayInline
 		>
 			<SelectControl
 				value={ value }

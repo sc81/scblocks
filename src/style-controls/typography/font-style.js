@@ -14,6 +14,7 @@ export default function FontStyle( { value, onChange } ) {
 			label={ __( 'Font Style', 'scblocks' ) }
 			isIndicator={ !! value }
 			isSelectDevice={ false }
+			displayInline
 		>
 			<SelectControl
 				value={ value }
