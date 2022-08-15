@@ -33,7 +33,7 @@ const flexControls = [
 
 export default function FlexPanel( props ) {
 	const { selectorSettings } = props;
-	const { selector, hasItemsHeading } = selectorSettings.panels.flex;
+	const { selector } = selectorSettings.panels.flex;
 	const {
 		order,
 		flexDirection,
@@ -53,19 +53,10 @@ export default function FlexPanel( props ) {
 			panelTitle={ __( 'Flex', 'scblocks' ) }
 			panelName="flex"
 		>
-			{ flex && <Flex { ...props } selector={ selector } /> }
-			{ alignSelf && <AlignSelf { ...props } selector={ selector } /> }
-			{ order && <Order { ...props } selector={ selector } /> }
-			{ hasItemsHeading && (
-				<div className="scblocks-flex-panel-items-heading">
-					<span></span>
-					<span>{ __( 'Items', 'scblocks' ) }</span>
-					<span></span>
-				</div>
-			) }
 			{ displayFlex && (
 				<DisplayFlex { ...props } selector={ selector } />
 			) }
+			{ flex && <Flex { ...props } selector={ selector } /> }
 			{ gap && <Gap { ...props } selector={ selector } /> }
 			{ flexDirection && (
 				<FlexDirection { ...props } selector={ selector } />
@@ -78,6 +69,8 @@ export default function FlexPanel( props ) {
 			{ alignContent && (
 				<AlignContent { ...props } selector={ selector } />
 			) }
+			{ alignSelf && <AlignSelf { ...props } selector={ selector } /> }
+			{ order && <Order { ...props } selector={ selector } /> }
 		</StyleControlsPanel>
 	);
 }

@@ -63,7 +63,6 @@ export default function getSelectorsSettings() {
 				flex: {
 					selector: BLOCK_SELECTOR.button.main.alias,
 					displayAllProps: true,
-					hasItemsHeading: true,
 				},
 			},
 		},

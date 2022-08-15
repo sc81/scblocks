@@ -108,7 +108,6 @@ export default function getSelectorsSettings() {
 				flex: {
 					selector: BLOCK_SELECTOR.container.content.alias,
 					displayAllProps: true,
-					hasItemsHeading: true,
 				},
 			},
 		},

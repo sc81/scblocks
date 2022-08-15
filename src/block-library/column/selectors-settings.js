@@ -72,7 +72,6 @@ export default function getSelectorsSettings() {
 				flex: {
 					selector: BLOCK_SELECTOR.column.main.alias,
 					displayAllProps: true,
-					hasItemsHeading: true,
 				},
 			},
 		},

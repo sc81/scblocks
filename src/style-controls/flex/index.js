@@ -46,6 +46,7 @@ export default function Flex( {
 			isClearButton={ flexBasis || flexGrow || flexShrink }
 			isIndicator={ flexBasis || flexGrow || flexShrink }
 			onClear={ onClear }
+			noMarginBottom
 		>
 			<div className="scblocks-flex-controls">
 				<TextControl
