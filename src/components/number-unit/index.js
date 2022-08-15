@@ -5,7 +5,7 @@ import { merge } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { useMemo, useState } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -51,13 +51,13 @@ function getNumber( value ) {
 	if ( ! value ) {
 		return '';
 	}
-	return parseFloat( value, 10 );
+	return parseFloat( value, 10 ) || '';
 }
 function isNumber( value ) {
 	return ! ( ! value && 0 !== value );
 }
 function getUnit( value, number, units ) {
-	if ( ! isNumber( number ) ) {
+	if ( ! isNumber( number ) && value !== 'auto' ) {
 		return units[ 0 ];
 	}
 	return value.replace( number + '', '' );
@@ -78,10 +78,7 @@ export default function NumberUnit( {
 	isIndicator = true,
 } ) {
 	const number = getNumber( value );
-	const [ unitState, setUnit ] = useState( () =>
-		getUnit( value, number, units )
-	);
-	const unit = number ? getUnit( value, number, units ) : unitState;
+	const unit = getUnit( value, number, units );
 
 	const currentUnitRangeStep = useMemo( () => {
 		return merge( getDefaultUnitRangeStep(), unitRangeStep );
@@ -98,9 +95,23 @@ export default function NumberUnit( {
 	}
 
 	function onChangeUnit( nextUnit ) {
-		setUnit( nextUnit );
-		onChange();
+		let nextValue;
+
+		switch ( nextUnit ) {
+			case 'auto':
+				nextValue = 'auto';
+				break;
+
+			case 'px':
+				nextValue = '5px';
+				break;
+			default:
+				nextValue = '1' + nextUnit;
+				break;
+		}
+		onChange( nextValue );
 	}
+	const isAutoValue = unit === 'auto';
 
 	return (
 		<ControlWrapper
@@ -121,11 +132,12 @@ export default function NumberUnit( {
 		>
 			<div
 				className={ `scblocks-number-unit-content${
-					! isSlider ? ' without-slider' : ''
+					! isSlider ? ' no-slider' : ''
 				}` }
 			>
-				{ isSlider && (
+				{ isSlider && ! isAutoValue && (
 					<input
+						className="scblocks-number-unit-range"
 						type="range"
 						value={ number }
 						onChange={ ( event ) =>
@@ -136,17 +148,27 @@ export default function NumberUnit( {
 						step={ currentUnitRangeStep[ unit ].step }
 					/>
 				) }
-				<input
-					className="components-range-control__number"
-					type="number"
-					value={ number }
-					onChange={ ( event ) =>
-						onChangeNumber( event.target.value )
-					}
-					min={ currentUnitRangeStep[ unit ].min }
-					max={ currentUnitRangeStep[ unit ].max }
-					step={ currentUnitRangeStep[ unit ].step }
-				/>
+				{ ! isAutoValue && (
+					<input
+						className="scblocks-number-unit-number"
+						type="number"
+						value={ number }
+						onChange={ ( event ) =>
+							onChangeNumber( event.target.value )
+						}
+						min={ currentUnitRangeStep[ unit ].min }
+						max={ currentUnitRangeStep[ unit ].max }
+						step={ currentUnitRangeStep[ unit ].step }
+					/>
+				) }
+				{ isAutoValue && (
+					<input
+						className="scblocks-number-unit-number"
+						type="text"
+						value="auto"
+						disabled
+					/>
+				) }
 			</div>
 		</ControlWrapper>
 	);

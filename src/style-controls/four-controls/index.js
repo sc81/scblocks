@@ -29,6 +29,12 @@ const propLongName = {
 		left: 'paddingLeft',
 	},
 };
+
+const units = {
+	margin: [ 'px', 'em', 'rem', 'vh', 'vw', '%', 'auto' ],
+	padding: [ 'px', 'em', 'rem', 'vh', 'vw', '%' ],
+};
+
 function getUnitRangeStep() {
 	return {
 		px: {
@@ -200,7 +206,7 @@ export default function FourControls( props ) {
 					label={ __( 'top', 'scblocks' ) }
 					value={ top }
 					onChange={ ( value ) => onChange( value, 'top' ) }
-					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
+					units={ units[ propName ] }
 					isSelectDevice={ false }
 					unitRangeStep={ unitRangeStep.top }
 					noMarginBottom
@@ -213,7 +219,7 @@ export default function FourControls( props ) {
 					label={ __( 'left', 'scblocks' ) }
 					value={ left }
 					onChange={ ( value ) => onChange( value, 'left' ) }
-					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
+					units={ units[ propName ] }
 					isSelectDevice={ false }
 					unitRangeStep={ unitRangeStep.left }
 					noMarginBottom
@@ -224,7 +230,7 @@ export default function FourControls( props ) {
 					label={ __( 'right', 'scblocks' ) }
 					value={ right }
 					onChange={ ( value ) => onChange( value, 'right' ) }
-					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
+					units={ units[ propName ] }
 					isSelectDevice={ false }
 					unitRangeStep={ unitRangeStep.right }
 					noMarginBottom
@@ -237,7 +243,7 @@ export default function FourControls( props ) {
 					label={ __( 'bottom', 'scblocks' ) }
 					value={ bottom }
 					onChange={ ( value ) => onChange( value, 'bottom' ) }
-					units={ [ 'px', 'em', 'rem', 'vh', 'vw', '%' ] }
+					units={ units[ propName ] }
 					isSelectDevice={ false }
 					unitRangeStep={ unitRangeStep.bottom }
 					noMarginBottom
