@@ -51,7 +51,7 @@ function getNumber( value ) {
 	if ( ! value ) {
 		return '';
 	}
-	return parseFloat( value, 10 ) || '';
+	return parseFloat( value, 10 ) + '' || '';
 }
 function isNumber( value ) {
 	return ! ( ! value && 0 !== value );
