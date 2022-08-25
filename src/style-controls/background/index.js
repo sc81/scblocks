@@ -85,6 +85,10 @@ export default function Background( props ) {
 					selector={ selector }
 				/>
 			) }
+			{ applyFilters( 'scblocks.backgroundPanel.afterAll', null, {
+				...props,
+				selector,
+			} ) }
 		</StyleControlsPanel>
 	);
 }
