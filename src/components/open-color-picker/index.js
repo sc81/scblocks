@@ -22,6 +22,7 @@ export default function OpenColorPicker( {
 	label,
 	isStacked,
 	isIndicator = true,
+	isSelectDevice = true,
 } ) {
 	const themeColors = useSelect( ( select ) => {
 		return select( CORE_EDITOR_STORE_NAME ).getEditorSettings().colors;
@@ -52,7 +53,7 @@ export default function OpenColorPicker( {
 						}
 					} }
 					isIndicator={ isIndicator && !! colors.currentColor }
-					isSelectDevice={ false }
+					isSelectDevice={ isSelectDevice }
 					displayInline={ ! isStacked }
 					widerHeader={ ! isStacked }
 				>

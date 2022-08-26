@@ -14,12 +14,7 @@ import {
 	ControlWrapper,
 	LinkSides,
 } from '@scblocks/components';
-import {
-	getPropertiesValue,
-	setPropsForVariousDevices,
-	setPropsValue,
-} from '@scblocks/css-utils';
-import { ALL_DEVICES } from '@scblocks/constants';
+import { getPropertiesValue, setPropsValue } from '@scblocks/css-utils';
 
 export default function BorderControl( {
 	attributes,
@@ -34,6 +29,8 @@ export default function BorderControl( {
 		borderRightWidth: right,
 		borderBottomWidth: bottom,
 		borderLeftWidth: left,
+		borderColor: color,
+		borderStyle: style,
 	} = getPropertiesValue( {
 		attributes,
 		devices,
@@ -44,13 +41,9 @@ export default function BorderControl( {
 			'borderRightWidth',
 			'borderBottomWidth',
 			'borderLeftWidth',
+			'borderColor',
+			'borderStyle',
 		],
-	} );
-	const { borderColor: color, borderStyle: style } = getPropertiesValue( {
-		attributes,
-		devices: ALL_DEVICES,
-		selector,
-		props: [ 'borderColor', 'borderStyle' ],
 	} );
 
 	if ( borderWidth ) {
@@ -70,22 +63,19 @@ export default function BorderControl( {
 		}
 	}
 	function onChange( value ) {
-		setPropsForVariousDevices( {
+		setPropsValue( {
 			attributes,
 			setAttributes,
 			selector,
+			devices,
 			props: {
-				[ ALL_DEVICES ]: {
-					borderColor: value.borderColor,
-					borderStyle: value.borderStyle,
-				},
-				[ devices ]: {
-					borderWidth: value.borderWidth,
-					borderTopWidth: value.borderTopWidth,
-					borderRightWidth: value.borderRightWidth,
-					borderBottomWidth: value.borderBottomWidth,
-					borderLeftWidth: value.borderLeftWidth,
-				},
+				borderWidth: value.borderWidth,
+				borderTopWidth: value.borderTopWidth,
+				borderRightWidth: value.borderRightWidth,
+				borderBottomWidth: value.borderBottomWidth,
+				borderLeftWidth: value.borderLeftWidth,
+				borderColor: value.borderColor,
+				borderStyle: value.borderStyle,
 			},
 		} );
 	}

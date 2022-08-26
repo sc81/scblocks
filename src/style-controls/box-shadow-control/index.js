@@ -97,6 +97,7 @@ export default function BoxShadowControl( { value, onChange } ) {
 				value={ color }
 				onChange={ ( v ) => onChangeValue( v, 'color' ) }
 				isIndicator={ false }
+				isSelectDevice={ false }
 			/>
 			<NumberUnit
 				label={ __( 'Horizontal', 'scblocks' ) }

@@ -28,13 +28,14 @@ export default function ColorsPanel( props ) {
 			controls.push(
 				<Color
 					{ ...props }
-					devices={ ALL_DEVICES }
 					key={ index }
 					label={ control.label }
 					propName={ control.propName }
 					selector={
 						isHover ? control.hoverSelector : control.selector
 					}
+					devices={ isHover ? ALL_DEVICES : props.devices }
+					isSelectDevice={ ! isHover }
 				/>
 			);
 		}

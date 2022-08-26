@@ -16,6 +16,7 @@ export default function Color( props ) {
 			label={ props.label || __( 'Color', 'scblocks' ) }
 			value={ propValue }
 			onChange={ onChange }
+			isSelectDevice={ props.isSelectDevice }
 		/>
 	);
 }

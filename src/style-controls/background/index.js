@@ -13,7 +13,7 @@ import { __ } from '@wordpress/i18n';
  * ScBlocks dependencies
  */
 import { getPropValue } from '@scblocks/css-utils';
-import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
+import { DESKTOP_DEVICE } from '@scblocks/constants';
 
 /**
  * Internal dependencies
@@ -65,7 +65,6 @@ export default function Background( props ) {
 		>
 			<Color
 				{ ...props }
-				devices={ ALL_DEVICES }
 				propName={ names.color }
 				selector={ selector }
 			/>
