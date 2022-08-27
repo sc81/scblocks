@@ -127,14 +127,7 @@ class Button_Block {
 	public function initial_css() : array {
 		return apply_filters(
 			'scblocks_button_default_css',
-			array(
-				'.scb-button' => array(
-					'display: inline-flex',
-					'align-items: center',
-					'justify-content: center',
-					'text-decoration: none',
-				),
-			)
+			array()
 		);
 	}
 }
