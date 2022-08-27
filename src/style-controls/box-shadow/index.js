@@ -27,7 +27,6 @@ export default function BoxShadow( props ) {
 			label={ __( 'Box shadow', 'scblocks' ) }
 			isClearButton={ !! propValue }
 			isIndicator={ !! propValue }
-			isSelectDevice={ false }
 			onClear={ ( onClose ) => {
 				onChange();
 				onClose();
