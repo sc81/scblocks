@@ -44,8 +44,9 @@ export default function SelectDevices() {
 
 	return (
 		<DropdownMenu
+			className="scblocks-select-device"
 			icon={ icon }
-			label={ __( 'Select devices', 'scblocks' ) }
+			label={ __( 'Select device', 'scblocks' ) }
 			controls={ icons.map( ( element ) => ( {
 				title: element.title,
 				icon: element.name,
