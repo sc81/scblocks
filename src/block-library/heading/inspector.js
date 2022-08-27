@@ -17,12 +17,8 @@ import {
 	getIconAttrs,
 	setSelectorActivity,
 } from '@scblocks/block';
-import { ALL_DEVICES, STORE_NAME } from '@scblocks/constants';
-import {
-	removeSelectors,
-	setPropsForVariousDevices,
-	setPropValue,
-} from '@scblocks/css-utils';
+import { STORE_NAME } from '@scblocks/constants';
+import { removeSelectors } from '@scblocks/css-utils';
 import { IconPicker } from '@scblocks/components';
 
 export default function Inspector( props ) {
@@ -49,25 +45,8 @@ export default function Inspector( props ) {
 			iconHtml: '',
 			iconName: '',
 		} );
-		const attrs = {
-			css: {},
-		};
-		function setAttrs( next ) {
-			attrs.css = next.css;
-		}
-		setPropsForVariousDevices( {
-			attributes,
-			setAttributes: setAttrs,
-			selector: BLOCK_SELECTOR.heading.main.alias,
-			everyDeviceProps: {
-				display: '',
-				flexDirection: '',
-				alignItems: '',
-				justifyContent: '',
-			},
-		} );
 		removeSelectors( {
-			attributes: attrs,
+			attributes,
 			setAttributes,
 			selectors: [ BLOCK_SELECTOR.heading.icon.alias ],
 		} );
@@ -88,14 +67,7 @@ export default function Inspector( props ) {
 		const iconAttrs = getIconAttrs( name, iconAsString, icons );
 
 		setAttributes( iconAttrs );
-		setPropValue( {
-			attributes,
-			setAttributes,
-			devices: ALL_DEVICES,
-			selector: BLOCK_SELECTOR.heading.main.alias,
-			propName: 'display',
-			value: 'flex',
-		} );
+
 		if ( iconAttrs.iconHtml ) {
 			dispatch( STORE_NAME ).addUsedIcon(
 				iconAttrs.iconId,
