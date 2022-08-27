@@ -15,7 +15,7 @@ import AlignContent from '../align-content';
 import FlexWrap from '../flex-wrap';
 import Flex from '../flex';
 import Gap from '../gap';
-import DisplayFlex from '../display-flex';
+import Display from '../display';
 import StyleControlsPanel from '../style-controls-panel';
 
 const flexControls = [
@@ -28,7 +28,7 @@ const flexControls = [
 	'justifyContent',
 	'gap',
 	'flex',
-	'displayFlex',
+	'display',
 ];
 
 export default function FlexPanel( props ) {
@@ -44,7 +44,7 @@ export default function FlexPanel( props ) {
 		justifyContent,
 		gap,
 		flex,
-		displayFlex,
+		display,
 	} = usePanelActiveControl( selectorSettings, flexControls, 'flex' );
 
 	return (
@@ -53,8 +53,8 @@ export default function FlexPanel( props ) {
 			panelTitle={ __( 'Flex', 'scblocks' ) }
 			panelName="flex"
 		>
-			{ displayFlex && (
-				<DisplayFlex { ...props } selector={ selector } />
+			{ display && (
+				<Display { ...props } selector={ selector } type="flex" />
 			) }
 			{ flex && <Flex { ...props } selector={ selector } /> }
 			{ gap && <Gap { ...props } selector={ selector } /> }

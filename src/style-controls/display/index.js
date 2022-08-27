@@ -3,6 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { SelectControl } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
@@ -11,11 +12,26 @@ import { ControlWrapper } from '@scblocks/components';
 
 const propName = 'display';
 
-export default function DisplayFlex( props ) {
+const opts = [
+	{ label: __( 'Default', 'scblocks' ), value: '' },
+	{ label: 'flex', value: 'flex' },
+	{
+		label: 'inline-flex',
+		value: 'inline-flex',
+	},
+];
+
+export default function Display( props ) {
 	const propValue = getPropValue( {
 		...props,
 		propName,
 	} );
+
+	const options = applyFilters(
+		'scblocks.displayControl.options',
+		opts,
+		props.type
+	);
 
 	return (
 		<ControlWrapper
@@ -34,14 +50,7 @@ export default function DisplayFlex( props ) {
 						value,
 					} );
 				} }
-				options={ [
-					{ label: __( 'Default', 'scblocks' ), value: '' },
-					{ label: __( 'Flex', 'scblocks' ), value: 'flex' },
-					{
-						label: __( 'Inline-Flex', 'scblocks' ),
-						value: 'inline-flex',
-					},
-				] }
+				options={ options }
 			/>
 		</ControlWrapper>
 	);
