@@ -13,8 +13,8 @@ export default function FontWeight( { value, onChange } ) {
 		<ControlWrapper
 			label={ __( 'Font weight', 'scblocks' ) }
 			isIndicator={ !! value }
-			isSelectDevice={ false }
 			displayInline
+			widerHeader={ 6 }
 		>
 			<SelectControl
 				value={ value }

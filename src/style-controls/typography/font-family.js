@@ -51,7 +51,6 @@ export default function FontFamily( { value, onChange, onClear } ) {
 	return (
 		<ControlWrapper
 			label={ __( 'Font Family', 'scblocks' ) }
-			isSelectDevice={ false }
 			isClearButton={ !! value }
 			isIndicator={ !! value }
 			onClear={ onClear }

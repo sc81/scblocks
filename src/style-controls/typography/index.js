@@ -7,7 +7,6 @@ import { __ } from '@wordpress/i18n';
  * ScBlocks dependencies
  */
 import { getPropertiesValue, setPropValue } from '@scblocks/css-utils';
-import { ALL_DEVICES } from '@scblocks/constants';
 /**
  * Internal dependencies
  */
@@ -25,34 +24,22 @@ import StyleControlsPanel from '../style-controls-panel';
 export default function Typography( props ) {
 	const { devices, attributes, setAttributes, selectorSettings } = props;
 	const { selector } = selectorSettings.panels.typography;
-	function onChange( obj ) {
+	function onChange( value, propName ) {
 		setPropValue( {
 			selector,
 			attributes,
 			setAttributes,
-			...obj,
+			devices,
+			propName,
+			value,
 		} );
 	}
-
 	const {
 		textTransform,
 		fontWeight,
 		textDecoration,
 		fontStyle,
 		fontFamily,
-	} = getPropertiesValue( {
-		attributes,
-		devices: ALL_DEVICES,
-		selector,
-		props: [
-			'textTransform',
-			'fontWeight',
-			'textDecoration',
-			'fontStyle',
-			'fontFamily',
-		],
-	} );
-	const {
 		fontSize,
 		lineHeight,
 		letterSpacing,
@@ -61,7 +48,17 @@ export default function Typography( props ) {
 		attributes,
 		devices,
 		selector,
-		props: [ 'fontSize', 'lineHeight', 'letterSpacing', 'textAlign' ],
+		props: [
+			'textTransform',
+			'fontWeight',
+			'textDecoration',
+			'fontStyle',
+			'fontFamily',
+			'fontSize',
+			'lineHeight',
+			'letterSpacing',
+			'textAlign',
+		],
 	} );
 
 	return (
@@ -72,97 +69,43 @@ export default function Typography( props ) {
 		>
 			<TextAlign
 				value={ textAlign }
-				onChange={ ( value ) =>
-					onChange( { value, propName: 'textAlign', devices } )
-				}
+				onChange={ ( value ) => onChange( value, 'textAlign' ) }
 			/>
 			<FontSize
 				value={ fontSize }
-				onChange={ ( value ) =>
-					onChange( { value, propName: 'fontSize', devices } )
-				}
-				onClear={ () =>
-					onChange( { value: '', propName: 'fontSize', devices } )
-				}
+				onChange={ ( value ) => onChange( value, 'fontSize' ) }
+				onClear={ () => onChange( '', 'fontSize' ) }
 			/>
 			<LineHeight
 				value={ lineHeight }
-				onChange={ ( value ) =>
-					onChange( { value, propName: 'lineHeight', devices } )
-				}
-				onClear={ () =>
-					onChange( { value: '', propName: 'lineHeight', devices } )
-				}
+				onChange={ ( value ) => onChange( value, 'lineHeight' ) }
+				onClear={ () => onChange( '', 'lineHeight' ) }
 			/>
 			<LetterSpacing
 				value={ letterSpacing }
-				onChange={ ( value ) =>
-					onChange( { value, propName: 'letterSpacing', devices } )
-				}
-				onClear={ () =>
-					onChange( {
-						value: '',
-						propName: 'letterSpacing',
-						devices,
-					} )
-				}
+				onChange={ ( value ) => onChange( value, 'letterSpacing' ) }
+				onClear={ () => onChange( '', 'letterSpacing' ) }
 			/>
 			<FontFamily
 				value={ fontFamily }
-				onChange={ ( value ) =>
-					onChange( {
-						value,
-						propName: 'fontFamily',
-						devices: ALL_DEVICES,
-					} )
-				}
-				onClear={ () =>
-					onChange( {
-						value: '',
-						propName: 'fontFamily',
-						devices: ALL_DEVICES,
-					} )
-				}
+				onChange={ ( value ) => onChange( value, 'fontFamily' ) }
+				onClear={ () => onChange( '', 'fontFamily' ) }
 			/>
 			<TextTransform
 				value={ textTransform }
-				onChange={ ( value ) =>
-					onChange( {
-						value,
-						propName: 'textTransform',
-						devices: ALL_DEVICES,
-					} )
-				}
+				onChange={ ( value ) => onChange( value, 'textTransform' ) }
 			/>
 			<FontWeight
 				value={ fontWeight }
-				onChange={ ( value ) =>
-					onChange( {
-						value,
-						propName: 'fontWeight',
-						devices: ALL_DEVICES,
-					} )
-				}
+				onChange={ ( value ) => onChange( value, 'fontWeight' ) }
 			/>
 			<TextDecoration
 				value={ textDecoration }
-				onChange={ ( value ) =>
-					onChange( {
-						value,
-						propName: 'textDecoration',
-						devices: ALL_DEVICES,
-					} )
-				}
+				onChange={ ( value ) => onChange( value, 'textDecoration' ) }
 			/>
 			<FontStyle
 				value={ fontStyle }
-				onChange={ ( value ) =>
-					onChange( {
-						value,
-						propName: 'fontStyle',
-						devices: ALL_DEVICES,
-					} )
-				}
+				onChange={ ( value ) => onChange( value, 'fontStyle' ) }
 			/>
 			{ applyFilters( 'scblocks.typographyPanel.afterAll', null, {
 				...props,

@@ -13,8 +13,8 @@ export default function TextDecoration( { value, onChange } ) {
 		<ControlWrapper
 			label={ __( 'Text Decoration', 'scblocks' ) }
 			isIndicator={ !! value }
-			isSelectDevice={ false }
 			displayInline
+			widerHeader={ 6 }
 		>
 			<SelectControl
 				value={ value }

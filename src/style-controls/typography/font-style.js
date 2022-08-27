@@ -13,8 +13,8 @@ export default function FontStyle( { value, onChange } ) {
 		<ControlWrapper
 			label={ __( 'Font Style', 'scblocks' ) }
 			isIndicator={ !! value }
-			isSelectDevice={ false }
 			displayInline
+			widerHeader={ 6 }
 		>
 			<SelectControl
 				value={ value }

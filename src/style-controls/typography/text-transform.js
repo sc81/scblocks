@@ -13,8 +13,8 @@ export default function TextTransform( { value, onChange } ) {
 		<ControlWrapper
 			label={ __( 'Text Transform', 'scblocks' ) }
 			isIndicator={ !! value }
-			isSelectDevice={ false }
 			displayInline
+			widerHeader={ 6 }
 		>
 			<SelectControl
 				value={ value }
