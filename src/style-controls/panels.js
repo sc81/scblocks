@@ -128,11 +128,12 @@ export default function Panels( props ) {
 					onClickPanel={ onClickPanel }
 				/>
 			) }
-			{ isVisiblePanel.shapes &&
-				applyFilters( 'scblocks.stylePanels.shapesPanel', null, props, {
-					onClickPanel,
-					openedPanel,
-				} ) }
+			{ applyFilters( 'scblocks.stylePanels.afterAll', null, props, {
+				onClickPanel,
+				openedPanel,
+				isVisiblePanel,
+				selectorIndex: index,
+			} ) }
 		</>
 	);
 }

@@ -23,10 +23,14 @@ function getUid() {
 	return Math.random().toString( 16 ).substring( 2, 7 );
 }
 
-function shapesPanel( c, props, panelsProps ) {
+function shapesPanel( panels, props, panelProps ) {
 	const { attributes, setAttributes, svgShapes } = props;
 	const { shapeDividers } = attributes;
-	const { openedPanel, onClickPanel } = panelsProps;
+	const { openedPanel, onClickPanel, isVisiblePanel } = panelProps;
+
+	if ( ! isVisiblePanel.shapes ) {
+		return null;
+	}
 
 	function onSelectShape( shape ) {
 		let nextShapes = [];
@@ -82,54 +86,58 @@ function shapesPanel( c, props, panelsProps ) {
 		} );
 	}
 	return (
-		<PanelBody
-			title={ __( 'Shapes', 'scblocks' ) }
-			onToggle={ () => onClickPanel( 'shapes' ) }
-			opened={ openedPanel === 'shapes' }
-		>
-			{ svgShapes &&
-				svgShapes.length &&
-				shapeDividers &&
-				shapeDividers.map( ( shapeDivider, index ) => {
-					const shape = svgShapes.find(
-						( element ) => element.id === shapeDivider.id
-					);
-					return (
-						<PanelBody
-							key={ index }
-							title={
-								<DangerouslyPasteIcon
-									icon={ shape.shape }
-									className="scblocks-panel-title-icon"
+		<>
+			{ panels }
+			<PanelBody
+				title={ __( 'Shapes', 'scblocks' ) }
+				onToggle={ () => onClickPanel( 'shapes' ) }
+				opened={ openedPanel === 'shapes' }
+			>
+				{ svgShapes &&
+					svgShapes.length &&
+					shapeDividers &&
+					shapeDividers.map( ( shapeDivider, index ) => {
+						const shape = svgShapes.find(
+							( element ) => element.id === shapeDivider.id
+						);
+						return (
+							<PanelBody
+								key={ index }
+								title={
+									<DangerouslyPasteIcon
+										icon={ shape.shape }
+										className="scblocks-panel-title-icon"
+									/>
+								}
+								initialOpen={ false }
+							>
+								<ShapeDividerControls
+									{ ...props }
+									shapeSelector={ BLOCK_SELECTOR.container.shape.alias(
+										shapeDivider.uidClass
+									) }
+									shapeSvgSelector={ BLOCK_SELECTOR.container.shapeSvg.alias(
+										shapeDivider.uidClass
+									) }
+									index={ index }
 								/>
-							}
-							initialOpen={ false }
-						>
-							<ShapeDividerControls
-								{ ...props }
-								shapeSelector={ BLOCK_SELECTOR.container.shape.alias(
-									shapeDivider.uidClass
-								) }
-								shapeSvgSelector={ BLOCK_SELECTOR.container.shapeSvg.alias(
-									shapeDivider.uidClass
-								) }
-								index={ index }
-							/>
-						</PanelBody>
-					);
-				} ) }
-			<BaseControl className="scblocks-add-shape-button">
-				<OpenShapeLibrary
-					label={ __( 'Add Shape', 'scblocks' ) }
-					onSelectShape={ onSelectShape }
-				/>
-			</BaseControl>
-		</PanelBody>
+							</PanelBody>
+						);
+					} ) }
+				<BaseControl className="scblocks-add-shape-button">
+					<OpenShapeLibrary
+						label={ __( 'Add Shape', 'scblocks' ) }
+						onSelectShape={ onSelectShape }
+					/>
+				</BaseControl>
+			</PanelBody>
+		</>
 	);
 }
 
 addFilter(
-	'scblocks.stylePanels.shapesPanel',
+	'scblocks.stylePanels.afterAll',
 	'scblocks/stylePanels/shapesPanel',
-	shapesPanel
+	shapesPanel,
+	10
 );
