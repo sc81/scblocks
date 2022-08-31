@@ -42,7 +42,10 @@ export default function Inspector( props ) {
 					<PanelBody opened>
 						<SelectIcon
 							{ ...props }
-							selectorAlias={ BLOCK_SELECTOR.button.icon.alias }
+							iconSelector={ BLOCK_SELECTOR.button.icon.alias }
+							iconSvgSelector={
+								BLOCK_SELECTOR.button.iconSvg.alias
+							}
 							afterRemoveIcon={ afterRemoveIcon }
 						/>
 						{ !! icon && (

@@ -89,7 +89,12 @@ export default function getSelectorsSettings() {
 				space: {
 					selector: BLOCK_SELECTOR.heading.icon.alias,
 					controls: {
-						fontSize: true,
+						width: {
+							selector: BLOCK_SELECTOR.heading.iconSvg.alias,
+						},
+						height: {
+							selector: BLOCK_SELECTOR.heading.iconSvg.alias,
+						},
 						padding: true,
 					},
 				},

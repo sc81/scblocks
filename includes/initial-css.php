@@ -81,7 +81,6 @@ class Initial_Css {
 			'columns'   => $this->columns(),
 			'container' => $this->container(),
 			'heading'   => $this->heading(),
-			'icon'      => $this->icon(),
 		);
 		/**
 		 * Filters default CSS for all blocks.
@@ -184,33 +183,6 @@ class Initial_Css {
 			array(
 				'.scb-heading mark' => array(
 					'background: none',
-				),
-			)
-		);
-	}
-
-	/**
-	 * Default CSS for icon.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return array
-	 */
-	public function icon() : array {
-		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'icon' ) ) {
-			return array();
-		}
-		return apply_filters(
-			'scblocks_icon_default_css',
-			array(
-				'.scb-icon' => array(
-					'display: inline-flex',
-					'line-height: 0',
-				),
-				'.scb-icon svg' => array(
-					'width: 1em',
-					'height: 1em',
-					'fill: currentColor',
 				),
 			)
 		);

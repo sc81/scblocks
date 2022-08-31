@@ -1,7 +1,7 @@
 /**
  * ScBlocks dependencies
  */
-import { removeSelectors } from '@scblocks/css-utils';
+import { removeSelectors, setPropsValue } from '@scblocks/css-utils';
 import { IconPicker } from '@scblocks/components';
 /**
  * Internal dependencies
@@ -12,9 +12,11 @@ export default function SelectIcon( props ) {
 	const {
 		attributes,
 		setAttributes,
+		devices,
 		setSelectorsSettings,
 		selectorsSettings,
-		selectorAlias,
+		iconSelector,
+		iconSvgSelector,
 		afterRemoveIcon = () => {},
 	} = props;
 	const { icon } = attributes;
@@ -26,10 +28,10 @@ export default function SelectIcon( props ) {
 		removeSelectors( {
 			attributes,
 			setAttributes,
-			selectors: [ selectorAlias ],
+			selectors: [ iconSelector, iconSvgSelector ],
 		} );
 		setSelectorsSettings(
-			setSelectorActivity( selectorsSettings, selectorAlias, false )
+			setSelectorActivity( selectorsSettings, iconSelector, false )
 		);
 		afterRemoveIcon();
 	}
@@ -38,10 +40,23 @@ export default function SelectIcon( props ) {
 			onRemoveIcon();
 			return;
 		}
+		// set initial css
+		if ( ! icon ) {
+			setPropsValue( {
+				attributes,
+				setAttributes,
+				devices,
+				selector: iconSvgSelector,
+				props: {
+					width: '20px',
+					height: '20px',
+				},
+			} );
+		}
 		setAttributes( { icon: iconHTML } );
 
 		setSelectorsSettings(
-			setSelectorActivity( selectorsSettings, selectorAlias, true )
+			setSelectorActivity( selectorsSettings, iconSelector, true )
 		);
 	}
 	return (

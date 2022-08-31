@@ -60,11 +60,6 @@ class Blocks_Attrs {
 					'attrs' => $block['attrs'],
 				);
 
-				Plugin::set_is_active_block( $block_name );
-				if ( 'heading' === $block_name || 'button' === $block_name ) {
-					Plugin::set_is_active_block( 'icon' );
-				}
-
 				do_action( 'scblocks_collecting_block_attrs', $block );
 
 				$this->attrs = apply_filters( 'scblocks_blocks_attrs', $this->attrs, $block );

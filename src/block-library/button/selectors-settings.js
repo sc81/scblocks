@@ -75,7 +75,12 @@ export default function getSelectorsSettings() {
 					selector: BLOCK_SELECTOR.button.icon.alias,
 					controls: {
 						padding: true,
-						fontSize: true, // icon size
+						width: {
+							selector: BLOCK_SELECTOR.button.iconSvg.alias,
+						},
+						height: {
+							selector: BLOCK_SELECTOR.button.iconSvg.alias,
+						},
 					},
 				},
 			},

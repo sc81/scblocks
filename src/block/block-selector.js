@@ -16,6 +16,10 @@ export const BLOCK_SELECTOR = {
 			fullSelector: ( uidClass ) => `.${ uidClass } .scb-icon`,
 			alias: 'icon',
 		},
+		iconSvg: {
+			fullSelector: ( uidClass ) => `.${ uidClass } .scb-icon svg`,
+			alias: 'iconSvg',
+		},
 	},
 	buttons: {
 		main: {
@@ -120,6 +124,10 @@ export const BLOCK_SELECTOR = {
 			fullSelector: ( uidClass ) => `.${ uidClass } .scb-icon`,
 			selector: '.scb-icon',
 			alias: 'icon',
+		},
+		iconSvg: {
+			fullSelector: ( uidClass ) => `.${ uidClass } .scb-icon svg`,
+			alias: 'iconSvg',
 		},
 		text: {
 			selector: '.scb-heading-text',

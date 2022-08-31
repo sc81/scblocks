@@ -20,6 +20,9 @@ function get_block_selector() {
 				'icon' => function( $uid_class ) {
 					return ".$uid_class .scb-icon";
 				},
+				'iconSvg' => function( $uid_class ) {
+					return ".$uid_class .scb-icon svg";
+				},
 			),
 			'buttons' => array(
 				'main' => function( $uid_class ) {
@@ -95,6 +98,9 @@ function get_block_selector() {
 				},
 				'icon' => function( $uid_class ) {
 					return ".$uid_class .scb-icon";
+				},
+				'iconSvg' => function( $uid_class ) {
+					return ".$uid_class .scb-icon svg";
 				},
 			),
 		)

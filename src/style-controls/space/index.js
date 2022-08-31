@@ -27,7 +27,6 @@ const spaceProps = [
 	'height',
 	'minHeight',
 	'maxHeight',
-	'fontSize', // icon size
 	'flexGrow',
 	'gap',
 	'flex',
@@ -46,7 +45,6 @@ export default function Space( props ) {
 		height,
 		minHeight,
 		maxHeight,
-		fontSize,
 		flexGrow,
 		gap,
 		flex,
@@ -96,13 +94,6 @@ export default function Space( props ) {
 			panelTitle={ __( 'Space', 'scblocks' ) }
 			panelName="space"
 		>
-			{ fontSize && ( //icon size
-				<NumberUnitProperty
-					{ ...props }
-					selector={ propSelector.fontSize }
-					propName="fontSize"
-				/>
-			) }
 			{ gap && <Gap { ...props } selector={ propSelector.gap } /> }
 			{ flex && <Flex { ...props } selector={ propSelector.flex } /> }
 			{ combinedMaxWidth && <CombinedMaxWidth { ...props } /> }

@@ -70,7 +70,10 @@ export default function Inspector( props ) {
 						/>
 						<SelectIcon
 							{ ...props }
-							selectorAlias={ BLOCK_SELECTOR.heading.icon.alias }
+							iconSelector={ BLOCK_SELECTOR.heading.icon.alias }
+							iconSvgSelector={
+								BLOCK_SELECTOR.heading.iconSvg.alias
+							}
 						/>
 					</PanelBody>,
 					props
