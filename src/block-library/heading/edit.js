@@ -22,11 +22,11 @@ import {
 	BLOCK_CLASSES,
 	GoogleFontsLink,
 	getUidClass,
-	PasteUsedIcon,
 	useSelectorsSettings,
 	useItemClass,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
+import { DangerouslyPasteIcon } from '@scblocks/components';
 
 /**
  * Internal dependencies
@@ -41,7 +41,7 @@ const placeholder = __( 'Heading', 'scblocks' );
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace, clientId, name } = props;
-	const { text, tagName, iconId, htmlClass, htmlId, isDynamic } = attributes;
+	const { text, tagName, icon, htmlClass, htmlId, isDynamic } = attributes;
 
 	const devices = useSelect(
 		( select ) =>
@@ -75,7 +75,7 @@ export default function Edit( props ) {
 					[ BLOCK_CLASSES.heading.main ]: true,
 					[ getUidClass( name, clientId ) ]: true,
 					[ itemClass ]: '' !== itemClass,
-					[ BLOCK_CLASSES.heading.text ]: ! iconId,
+					[ BLOCK_CLASSES.heading.text ]: ! icon,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 				} ),
 			},
@@ -104,7 +104,7 @@ export default function Edit( props ) {
 		setAttributes( { text: value } );
 	}
 
-	const isIcon = !! iconId;
+	const isIcon = !! icon;
 	const Tag = tagName;
 
 	return (
@@ -126,8 +126,8 @@ export default function Edit( props ) {
 			<GoogleFontsLink clientId={ clientId } />
 			{ isIcon && (
 				<Tag { ...blockProps }>
-					<PasteUsedIcon
-						iconId={ iconId }
+					<DangerouslyPasteIcon
+						icon={ icon }
 						className={ BLOCK_CLASSES.heading.icon }
 					/>
 					{ !! dynamicContent && (

@@ -34,7 +34,6 @@ class Options {
 				'css_print_method'            => 'file',
 				'force_regenerate_css_files'  => '0',
 				'reusable_blocks_update_time' => '0',
-				'used_icons_post_id'          => '',
 				'wide_content_max_width'      => '1240px',
 				'content_max_width'           => '610px',
 				'google_fonts'                => array(),
@@ -169,7 +168,6 @@ class Options {
 				'css_print_method'            => 'sanitize_text_field',
 				'force_regenerate_css_files'  => 'sanitize_text_field',
 				'reusable_blocks_update_time' => 'sanitize_text_field',
-				'used_icons_post_id'          => 'sanitize_text_field',
 				'wide_content_max_width'      => 'sanitize_text_field',
 				'content_max_width'           => 'sanitize_text_field',
 			)

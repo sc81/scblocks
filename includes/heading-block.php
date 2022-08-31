@@ -74,7 +74,7 @@ class Heading_Block {
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
-		if ( empty( $attributes['iconId'] ) ) {
+		if ( empty( $attributes['icon'] ) ) {
 			$class_names[] = 'scb-heading-text';
 		}
 
@@ -107,10 +107,8 @@ class Heading_Block {
 		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
 		$text = apply_filters( 'scblocks_heading_dynamic_content', $text, $attributes );
 
-		if ( ! empty( $attributes['iconId'] ) ) {
-			$icons   = Plugin::used_icons();
-			$icon    = isset( $icons[ $attributes['iconId'] ] ) ? $icons[ $attributes['iconId'] ] : '';
-			$output .= '<span class="scb-icon">' . $icon . '</span>';
+		if ( ! empty( $attributes['icon'] ) && is_string( $attributes['icon'] ) ) {
+			$output .= '<span class="scb-icon">' . Icons::sanitize( $attributes['icon'] ) . '</span>';
 
 			$output .= '<span class="scb-heading-text">' . $text . '</span>';
 		} else {

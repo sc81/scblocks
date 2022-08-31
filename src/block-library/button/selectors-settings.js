@@ -83,8 +83,8 @@ export default function getSelectorsSettings() {
 	];
 }
 
-function toggleIconControls( settings, { attributes: { iconId } } ) {
-	if ( iconId ) {
+function toggleIconControls( settings, { attributes: { icon } } ) {
+	if ( icon ) {
 		return setSelectorActivity(
 			settings,
 			BLOCK_SELECTOR.button.icon.alias,

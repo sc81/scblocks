@@ -109,8 +109,7 @@ class Update_Blocks_Metadata {
 	 * @return array
 	 */
 	public function set_uid_class_on_save( array $data, array $postarr ) : array {
-		if ( empty( $data['post_content'] ) ||
-		Icons::POST_TYPE_NAME === $data['post_type'] ) {
+		if ( empty( $data['post_content'] ) ) {
 			return $data;
 		}
 		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );

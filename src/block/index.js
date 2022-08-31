@@ -10,9 +10,6 @@ export { default as composeCss } from './compose-css';
 export { default as useBlockMemo } from './use-block-memo';
 export { default as useDynamicCss } from './use-dynamic-css';
 export { default as getUidClass } from './get-uid-class';
-export { default as PasteUsedIcon } from './paste-used-icon';
-export { default as getUidForIcon } from './get-uid-for-icon';
-export { default as getIconAttrs } from './get-icon-attrs';
 export { default as URLPicker } from './url-picker';
 export { default as AlignmentToolbar } from './alignment-toolbar';
 export {
@@ -24,3 +21,4 @@ export {
 	addSelectorSettings,
 } from './use-selectors-settings';
 export { default as useItemClass } from './use-item-class';
+export { default as SelectIcon } from './select-icon';

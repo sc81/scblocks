@@ -33,15 +33,7 @@ export const SHARED_ATTRIBUTES = {
 		},
 	},
 	icon: {
-		iconName: {
-			type: 'string',
-			default: '',
-		},
-		iconId: {
-			type: 'string',
-			default: '',
-		},
-		iconHtml: {
+		icon: {
 			type: 'string',
 			default: '',
 		},

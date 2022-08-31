@@ -24,12 +24,12 @@ import {
 	useBlockMemo,
 	BLOCK_CLASSES,
 	getUidClass,
-	PasteUsedIcon,
 	URLPicker,
 	useSelectorsSettings,
 	useItemClass,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
+import { DangerouslyPasteIcon } from '@scblocks/components';
 
 /**
  * Internal dependencies
@@ -44,7 +44,7 @@ export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
 	const {
 		text,
-		iconId,
+		icon,
 		url,
 		withoutText,
 		htmlClass,
@@ -105,7 +105,7 @@ export default function Edit( props ) {
 				[ BLOCK_CLASSES.button.main ]: true,
 				[ getUidClass( name, clientId ) ]: true,
 				[ itemClass ]: '' !== itemClass,
-				[ BLOCK_CLASSES.button.text ]: ! iconId,
+				[ BLOCK_CLASSES.button.text ]: ! icon,
 				[ `${ htmlClass }` ]: '' !== htmlClass,
 			} ),
 			href: url,
@@ -128,7 +128,7 @@ export default function Edit( props ) {
 	}
 
 	const Tag = htmlAttributes.href ? 'a' : 'span';
-	const isIcon = !! iconId;
+	const isIcon = !! icon;
 
 	return (
 		<>
@@ -154,8 +154,8 @@ export default function Edit( props ) {
 			{ /* eslint-disable  jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */ }
 			{ isIcon && (
 				<Tag { ...blockProps } onClick={ ( e ) => e.preventDefault() }>
-					<PasteUsedIcon
-						iconId={ iconId }
+					<DangerouslyPasteIcon
+						icon={ icon }
 						className={ BLOCK_CLASSES.button.icon }
 					/>
 					{ !! dynamicContent && (

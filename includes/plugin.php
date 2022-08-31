@@ -36,12 +36,25 @@ class Plugin {
 	private static $active_blocks = array();
 
 	/**
-	 * An array of used icons by posts or null.
+	 * An array of allowed SVG elements and attributes.
 	 *
 	 * @since 1.3.0
 	 * @var null|array
 	 */
-	private static $used_icons_by_posts;
+	private static $svg_allowed_html;
+
+	/**
+	 * Get an array of allowed SVG elements and attributes.
+	 *
+	 * @since 1.3.0
+	 * @return array
+	 */
+	public static function get_svg_allowed_html():array {
+		if ( self::$svg_allowed_html === null ) {
+			self::$svg_allowed_html = Icons::get_allowed_html();
+		}
+		return self::$svg_allowed_html;
+	}
 
 	/**
 	 * Gets defaults for option.
@@ -204,21 +217,6 @@ class Plugin {
 	 */
 	public static function compare_microtimes( string $num1, string $num2 ) : bool {
 		return bccomp( $num1, $num2, 9 ) === 1;
-	}
-
-	/**
-	 * Get icons used by posts.
-	 *
-	 * @since 1.3.0
-	 * @return array
-	 */
-	public static function used_icons() : array {
-		if ( is_null( self::$used_icons_by_posts ) ) {
-			$icons = new Icons();
-
-			self::$used_icons_by_posts = $icons->extract_id_and_content( $icons->used_by_posts() );
-		}
-		return self::$used_icons_by_posts;
 	}
 
 	/**

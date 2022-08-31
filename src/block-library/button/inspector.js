@@ -5,7 +5,6 @@ import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { useSelect, dispatch, select } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
@@ -14,81 +13,24 @@ import {
 	BLOCK_SELECTOR,
 	IdClassesControls,
 	ControlsManager,
-	getIconAttrs,
-	setSelectorActivity,
+	SelectIcon,
 } from '@scblocks/block';
-import { removeSelectors } from '@scblocks/css-utils';
-import { IconPicker } from '@scblocks/components';
-import { STORE_NAME } from '@scblocks/constants';
 
 export default function Inspector( props ) {
+	const { attributes, setAttributes } = props;
 	const {
-		attributes,
-		setAttributes,
-		setSelectorsSettings,
-		selectorsSettings,
-	} = props;
-	const {
-		iconId,
+		icon,
 		withoutText,
 		ariaLabel,
 		target,
 		relNoFollow,
 		relSponsored,
 	} = attributes;
-	const icon = useSelect(
-		( store ) => {
-			const icons = store( STORE_NAME ).usedIcons();
-			if ( icons && icons[ iconId ] ) {
-				return icons[ iconId ];
-			}
-			return '';
-		},
-		[ iconId ]
-	);
 
-	function onClearIcon() {
-		setSelectorsSettings(
-			setSelectorActivity(
-				selectorsSettings,
-				BLOCK_SELECTOR.button.icon.alias,
-				false
-			)
-		);
+	function afterRemoveIcon() {
 		setAttributes( {
-			iconId: '',
-			iconHtml: '',
-			iconName: '',
 			withoutText: false,
-			ariaLabel: '',
 		} );
-		removeSelectors( {
-			attributes,
-			setAttributes,
-			selectors: [ BLOCK_SELECTOR.button.icon.alias ],
-		} );
-	}
-	function onSelectIcon( name, iconAsString ) {
-		if ( ! iconAsString ) {
-			onClearIcon();
-			return;
-		}
-		setSelectorsSettings(
-			setSelectorActivity(
-				selectorsSettings,
-				BLOCK_SELECTOR.button.icon.alias,
-				true
-			)
-		);
-		const icons = select( STORE_NAME ).usedIcons();
-		const iconAttrs = getIconAttrs( name, iconAsString, icons );
-		setAttributes( iconAttrs );
-		if ( iconAttrs.iconHtml ) {
-			dispatch( STORE_NAME ).addUsedIcon(
-				iconAttrs.iconId,
-				iconAsString
-			);
-		}
 	}
 
 	return (
@@ -98,10 +40,10 @@ export default function Inspector( props ) {
 				mainControls={ applyFilters(
 					'scblocks.button.mainControls',
 					<PanelBody opened>
-						<IconPicker
-							icon={ icon }
-							onSelect={ onSelectIcon }
-							onClear={ onClearIcon }
+						<SelectIcon
+							{ ...props }
+							selectorAlias={ BLOCK_SELECTOR.button.icon.alias }
+							afterRemoveIcon={ afterRemoveIcon }
 						/>
 						{ !! icon && (
 							<ToggleControl

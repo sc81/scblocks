@@ -7,24 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Icons {
 	/**
-	 * @since 1.3.0
-	 * @var string
-	 */
-	const POST_TYPE_NAME = 'scblocks_svg';
-
-	/**
-	 * @since 1.3.0
-	 * @var array
-	 */
-	const BLOCKS_WITH_ICON = array( 'scblocks/heading', 'scblocks/button' );
-
-	/**
-	 * @since 1.3.0
-	 * @var string
-	 */
-	const USED_ICONS_POST_ID_OPTION_NAME = 'used_icons_post_id';
-
-	/**
 	 * Register actions
 	 *
 	 * @since 1.3.0
@@ -33,8 +15,6 @@ class Icons {
 	 */
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-		add_action( 'init', array( $this, 'register_post' ) );
-		add_action( 'wp_insert_post_data', array( $this, 'update_icons_data' ), 10, 2 );
 	}
 
 	/**
@@ -62,24 +42,6 @@ class Icons {
 	}
 
 	/**
-	 * Register post.
-	 *
-	 * @since 1.3.0
-	 * @return void
-	 */
-	public function register_post() {
-		register_post_type(
-			self::POST_TYPE_NAME,
-			array(
-				'show_ui'      => false,
-				'show_in_menu' => false,
-				'show_in_rest' => true,
-				'supports'     => array(),
-			)
-		);
-	}
-
-	/**
 	 * Get icons for the admin area.
 	 *
 	 * @since 1.3.0
@@ -100,268 +62,283 @@ class Icons {
 
 				return rest_ensure_response( wp_json_encode( DASHICONS ) );
 
-			case 3:
-				return rest_ensure_response( $this->extract_id_and_content( $this->used_by_posts() ) );
-
 			default:
 				return new \WP_Error( 'no_icons', 'Invalid id', array( 'status' => 404 ) );
 		}
 
 	}
+
 	/**
-	 * Update icons data.
+	 * Sanitize icon HTML.
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param array $data An array of slashed, sanitized, and processed post data.
-	 * @param array $postarr An array of sanitized (and slashed) but otherwise unmodified post data.
-	 *
-	 * @return array
-	 */
-	public function update_icons_data( array $data, array $postarr ) : array {
-		if ( wp_is_post_autosave( $postarr['ID'] ) ||
-			wp_is_post_revision( $postarr['ID'] ) ||
-			! current_user_can( 'edit_post', $postarr['ID'] ) ||
-			! $data['post_content'] ||
-			self::POST_TYPE_NAME === $data['post_type'] ) {
-			return $data;
-		}
-		$blocks = parse_blocks( wp_unslash( $data['post_content'] ) );
-
-		$is_updated = $this->update_used_by_posts( $blocks );
-		if ( ! $is_updated ) {
-			return $data;
-		}
-		$this->remove_redundant_attrs( $blocks );
-
-		$data['post_content'] = wp_slash( serialize_blocks( $blocks ) );
-
-		return $data;
-	}
-	/**
-	 * Update a post that includes the icons used by the posts.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param array $blocks Array of parsed block objects.
-	 *
-	 * @return bool Whether the post has been updated or not
-	 */
-	public function update_used_by_posts( array $blocks ) : bool {
-		if ( empty( $blocks ) ) {
-			return false;
-		}
-
-		$icons = $this->build_icons( $blocks );
-
-		$used_icons_post_id = Plugin::option( self::USED_ICONS_POST_ID_OPTION_NAME );
-
-		$is_updated = false;
-		if ( ! $used_icons_post_id ) {
-			$args = array(
-				'post_type'    => self::POST_TYPE_NAME,
-				'post_content' => $icons,
-				'post_name'    => self::USED_ICONS_POST_ID_OPTION_NAME,
-			);
-			$id   = wp_insert_post( $args );
-			if ( ! ! $id && ! is_wp_error( $id ) ) {
-				$options = Plugin::options();
-				$options[ self::USED_ICONS_POST_ID_OPTION_NAME ] = (string) $id;
-				Plugin::update_options( $options );
-				$is_updated = true;
-			}
-		} else {
-			$id = wp_update_post(
-				array(
-					'ID'           => $used_icons_post_id,
-					'post_content' => $icons,
-				)
-			);
-			if ( ! ! $id && ! is_wp_error( $id ) ) {
-				$is_updated = true;
-			}
-		}
-		return $is_updated;
-	}
-
-	/**
-	 * Remove redundant icon attributes.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param array $blocks
-	 *
-	 * @return void
-	 */
-	public function remove_redundant_attrs( array &$blocks ) {
-		foreach ( $blocks as $index => $block ) {
-			if ( isset( $block['blockName'] ) &&
-			in_array( $block['blockName'], self::BLOCKS_WITH_ICON, true ) &&
-			isset( $block['attrs'] ) ) {
-				unset( $blocks[ $index ]['attrs']['iconHtml'] );
-				unset( $blocks[ $index ]['attrs']['iconName'] );
-			}
-			if ( ! empty( $block['innerBlocks'] ) ) {
-				$this->remove_redundant_attrs( $blocks[ $index ]['innerBlocks'] );
-			}
-		}
-	}
-
-	/**
-	 * Get icons data from block attributes.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param array $blocks
-	 * @param array $icons
-	 *
-	 * @return array
-	 */
-	public function get_icons_data_from_blocks( array $blocks, array $icons = array() ) : array {
-		foreach ( $blocks as $block ) {
-			if ( isset( $block['blockName'] ) &&
-			in_array( $block['blockName'], self::BLOCKS_WITH_ICON, true ) &&
-			isset( $block['attrs'] ) &&
-			isset( $block['attrs']['iconName'] ) &&
-			isset( $block['attrs']['iconHtml'] ) &&
-			isset( $block['attrs']['iconId'] ) &&
-			! $this->is_icon_with_id( $block['attrs']['iconId'], $icons ) ) {
-				$icons[] = array(
-					'name' => $block['attrs']['iconName'],
-					'html' => $block['attrs']['iconHtml'],
-					'id'   => $block['attrs']['iconId'],
-				);
-			}
-			if ( ! empty( $block['innerBlocks'] ) ) {
-				$icons = $this->get_icons_data_from_blocks( $block['innerBlocks'], $icons );
-			}
-		}
-		return $icons;
-	}
-
-	/**
-	 * Get data from icon blocks.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param array $blocks
-	 * @param array $icons
-	 *
-	 * @return array
-	 */
-	public function get_data_from_icon_blocks( array $blocks, array $icons = array() ) : array {
-		foreach ( $blocks as $block ) {
-				$icons[] = array(
-					'id'   => $block['attrs']['id'],
-					'name' => $block['attrs']['name'],
-					'html' => $block['innerHTML'],
-				);
-		}
-		return $icons;
-	}
-
-	/**
-	 * Return an array of icons used by posts.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @return array Array of parsed block objects.
-	 */
-	public function used_by_posts() : array {
-		$post_id = Plugin::option( self::USED_ICONS_POST_ID_OPTION_NAME );
-		if ( ! $post_id ) {
-			return array();
-		}
-		$post = get_post( (int) $post_id );
-		if ( ! $post || ! $post->post_content ) {
-			return array();
-		}
-		return parse_blocks( $post->post_content );
-	}
-
-	/**
-	 * Extract the ID and HTML code of the icons.
-	 *
-	 * @param array $icons
-	 *
-	 * @return array Icons data [ [ 'id' => 'html' ] ]
-	 */
-	public function extract_id_and_content( array $icons ) : array {
-		$prepared = array();
-		foreach ( $icons as $icon ) {
-			if ( isset( $icon['attrs'] ) &&
-			isset( $icon['attrs']['id'] ) &&
-			isset( $icon['innerHTML'] ) ) {
-				$prepared[ $icon['attrs']['id'] ] = $icon['innerHTML'];
-			}
-		}
-		return $prepared;
-	}
-
-	/**
-	 * Checks if an icon set contains an icon with the specified ID.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param string $id Icon ID
-	 * @param array $icons Icons to check.
-	 *
-	 * @return bool
-	 */
-	public function is_icon_with_id( string $id, array $icons ) : bool {
-		foreach ( $icons as $icon ) {
-			if ( $icon['id'] === $id ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Build HTML markup for icons.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param array $blocks
+	 * @param string $icon
 	 *
 	 * @return string
 	 */
-	public function build_icons( array $blocks ) : string {
-		$used_icons = $this->get_data_from_icon_blocks( $this->used_by_posts() );
-		$post_icons = $this->get_icons_data_from_blocks( $blocks );
+	public static function sanitize( string $icon ):string {
+		return wp_kses( $icon, Plugin::get_svg_allowed_html() );
+	}
 
-		$icons_data = array_merge( $used_icons, $post_icons );
-
-		$ids   = array();
-		$icons = '';
-		foreach ( $icons_data as $icon ) {
-			if ( ! in_array( $icon['id'], $ids, true ) ) {
-				$ids[]  = $icon['id'];
-				$icons .= $this->do_block( $icon['name'], $icon['id'], $icon['html'] );
+	/**
+	 * Get an array of allowed SVG elements and attributes.
+	 *
+	 * @return array
+	 */
+	public static function get_allowed_html():array {
+		$allowed = array();
+		foreach ( self::ALLOWED_TAGS as $tag ) {
+			foreach ( self::ALLOWED_ATTRIBUTES as $attribute ) {
+				$allowed[ $tag ][ $attribute ] = true;
 			}
 		}
-		return $icons;
+		return $allowed;
 	}
-	/**
-	 * Wrap content with comment delimiters and serialize all attributes.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param string $icon_name
-	 * @param string $icon_id
-	 * @param string $content
-	 *
-	 * @return string
-	 */
-	public function do_block( string $icon_name, string $icon_id, string $content ) : string {
-		$block = array(
-			'blockName'    => 'scblocks/used-icon',
-			'attrs'        => array(
-				'name' => $icon_name,
-				'id'   => $icon_id,
-			),
-			'innerContent' => array( $content ),
-		);
-		return serialize_block( $block );
-	}
+
+	const ALLOWED_TAGS = array(
+		'svg',
+		'altglyph',
+		'altglyphdef',
+		'altglyphitem',
+		'animatecolor',
+		'animatemotion',
+		'animatetransform',
+		'circle',
+		'clippath',
+		'defs',
+		'desc',
+		'ellipse',
+		'filter',
+		'font',
+		'g',
+		'glyph',
+		'glyphref',
+		'hkern',
+		'image',
+		'line',
+		'lineargradient',
+		'marker',
+		'mask',
+		'metadata',
+		'mpath',
+		'path',
+		'pattern',
+		'polygon',
+		'polyline',
+		'radialgradient',
+		'rect',
+		'stop',
+		'switch',
+		'symbol',
+		'text',
+		'textpath',
+		'title',
+		'tref',
+		'tspan',
+		'view',
+		'vkern',
+		// SVG Filters
+		'feBlend',
+		'feColorMatrix',
+		'feComponentTransfer',
+		'feComposite',
+		'feConvolveMatrix',
+		'feDiffuseLighting',
+		'feDisplacementMap',
+		'feDistantLight',
+		'feFlood',
+		'feFuncA',
+		'feFuncB',
+		'feFuncG',
+		'feFuncR',
+		'feGaussianBlur',
+		'feMerge',
+		'feMergeNode',
+		'feMorphology',
+		'feOffset',
+		'fePointLight',
+		'feSpecularLighting',
+		'feSpotLight',
+		'feTile',
+		'feTurbulence',
+	);
+
+	const ALLOWED_ATTRIBUTES = array(
+		'accent-height',
+		'accumulate',
+		'additivive',
+		'alignment-baseline',
+		'ascent',
+		'attributename',
+		'attributetype',
+		'azimuth',
+		'basefrequency',
+		'baseline-shift',
+		'begin',
+		'bias',
+		'by',
+		'class',
+		'clip',
+		'clip-path',
+		'clip-rule',
+		'color',
+		'color-interpolation',
+		'color-interpolation-filters',
+		'color-profile',
+		'color-rendering',
+		'cx',
+		'cy',
+		'd',
+		'dx',
+		'dy',
+		'diffuseconstant',
+		'direction',
+		'display',
+		'divisor',
+		'dur',
+		'edgemode',
+		'elevation',
+		'end',
+		'fill',
+		'fill-opacity',
+		'fill-rule',
+		'filter',
+		'flood-color',
+		'flood-opacity',
+		'font-family',
+		'font-size',
+		'font-size-adjust',
+		'font-stretch',
+		'font-style',
+		'font-variant',
+		'font-weight',
+		'fx',
+		'fy',
+		'g1',
+		'g2',
+		'glyph-name',
+		'glyphref',
+		'gradientunits',
+		'gradienttransform',
+		'height',
+		'href',
+		'id',
+		'image-rendering',
+		'in',
+		'in2',
+		'k',
+		'k1',
+		'k2',
+		'k3',
+		'k4',
+		'kerning',
+		'keypoints',
+		'keysplines',
+		'keytimes',
+		'lang',
+		'lengthadjust',
+		'letter-spacing',
+		'kernelmatrix',
+		'kernelunitlength',
+		'lighting-color',
+		'local',
+		'marker-end',
+		'marker-mid',
+		'marker-start',
+		'markerheight',
+		'markerunits',
+		'markerwidth',
+		'maskcontentunits',
+		'maskunits',
+		'max',
+		'mask',
+		'media',
+		'method',
+		'mode',
+		'min',
+		'name',
+		'numoctaves',
+		'offset',
+		'operator',
+		'opacity',
+		'order',
+		'orient',
+		'orientation',
+		'origin',
+		'overflow',
+		'paint-order',
+		'path',
+		'pathlength',
+		'patterncontentunits',
+		'patterntransform',
+		'patternunits',
+		'points',
+		'preservealpha',
+		'preserveaspectratio',
+		'r',
+		'rx',
+		'ry',
+		'radius',
+		'refx',
+		'refy',
+		'repeatcount',
+		'repeatdur',
+		'restart',
+		'result',
+		'rotate',
+		'scale',
+		'seed',
+		'shape-rendering',
+		'specularconstant',
+		'specularexponent',
+		'spreadmethod',
+		'stddeviation',
+		'stitchtiles',
+		'stop-color',
+		'stop-opacity',
+		'stroke-dasharray',
+		'stroke-dashoffset',
+		'stroke-linecap',
+		'stroke-linejoin',
+		'stroke-miterlimit',
+		'stroke-opacity',
+		'stroke',
+		'stroke-width',
+		'style',
+		'surfacescale',
+		'tabindex',
+		'targetx',
+		'targety',
+		'transform',
+		'text-anchor',
+		'text-decoration',
+		'text-rendering',
+		'textlength',
+		'type',
+		'u1',
+		'u2',
+		'unicode',
+		'values',
+		'viewbox',
+		'visibility',
+		'vert-adv-y',
+		'vert-origin-x',
+		'vert-origin-y',
+		'width',
+		'word-spacing',
+		'wrap',
+		'writing-mode',
+		'xchannelselector',
+		'ychannelselector',
+		'x',
+		'x1',
+		'x2',
+		'xmlns',
+		'y',
+		'y1',
+		'y2',
+		'z',
+		'zoomandpan',
+	);
 }

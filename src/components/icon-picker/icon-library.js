@@ -32,10 +32,8 @@ function getIcon( iconPath, { dashicons, fontAwesome }, getAsString ) {
 		case DASHICON_NAME: {
 			if ( getAsString ) {
 				let icon =
-					'<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">';
-				icon += `<path d="${
-					dashicons[ iconPathParts[ 2 ] ]
-				}"></path>`;
+					'<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">';
+				icon += `<path d="${ dashicons[ iconPathParts[ 2 ] ] }"/>`;
 				icon += '</svg>';
 				return icon;
 			}
@@ -48,8 +46,8 @@ function getIcon( iconPath, { dashicons, fontAwesome }, getAsString ) {
 				const parts = iconAttr.split( '|', 2 );
 				const viewBox = parts[ 0 ];
 				const d = parts[ 1 ];
-				let icon = `<svg viewBox="${ viewBox }" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">`;
-				icon += `<path d="${ d }"></path>`;
+				let icon = `<svg viewBox="${ viewBox }" xmlns="http://www.w3.org/2000/svg">`;
+				icon += `<path d="${ d }"/>`;
 				icon += '</svg>';
 				return icon;
 			}

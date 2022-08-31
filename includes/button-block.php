@@ -60,7 +60,7 @@ class Button_Block {
 		if ( ! empty( $attributes['htmlClass'] ) ) {
 			$class_names[] = $attributes['htmlClass'];
 		}
-		if ( empty( $attributes['iconId'] ) ) {
+		if ( empty( $attributes['icon'] ) ) {
 			$class_names[] = 'scb-button-text';
 		}
 		$rel_attr = array();
@@ -99,10 +99,8 @@ class Button_Block {
 		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
 		$text = apply_filters( 'scblocks_button_dynamic_content', $text, $attributes );
 
-		if ( ! empty( $attributes['iconId'] ) ) {
-			$icons   = Plugin::used_icons();
-			$icon    = isset( $icons[ $attributes['iconId'] ] ) ? $icons[ $attributes['iconId'] ] : '';
-			$output .= '<span class="scb-icon">' . $icon . '</span>';
+		if ( ! empty( $attributes['icon'] ) && is_string( $attributes['icon'] ) ) {
+			$output .= '<span class="scb-icon">' . Icons::sanitize( $attributes['icon'] ) . '</span>';
 			if ( ! ! $text && empty( $attributes['withoutText'] ) ) {
 				$output .= '<span class="scb-button-text">' . $text . '</span>';
 			}

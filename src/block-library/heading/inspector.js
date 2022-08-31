@@ -5,7 +5,6 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { useSelect, dispatch, select } from '@wordpress/data';
 
 /**
  * ScBlocks dependencies
@@ -14,74 +13,13 @@ import {
 	BLOCK_SELECTOR,
 	IdClassesControls,
 	ControlsManager,
-	getIconAttrs,
-	setSelectorActivity,
+	SelectIcon,
 } from '@scblocks/block';
-import { STORE_NAME } from '@scblocks/constants';
-import { removeSelectors } from '@scblocks/css-utils';
-import { IconPicker } from '@scblocks/components';
 
 export default function Inspector( props ) {
-	const {
-		attributes,
-		setAttributes,
-		setSelectorsSettings,
-		selectorsSettings,
-	} = props;
-	const { tagName, iconId } = attributes;
-	const icon = useSelect(
-		( store ) => {
-			const icons = store( STORE_NAME ).usedIcons();
-			if ( icons && icons[ iconId ] ) {
-				return icons[ iconId ];
-			}
-			return '';
-		},
-		[ iconId ]
-	);
-	function onRemoveIcon() {
-		setAttributes( {
-			iconId: '',
-			iconHtml: '',
-			iconName: '',
-		} );
-		removeSelectors( {
-			attributes,
-			setAttributes,
-			selectors: [ BLOCK_SELECTOR.heading.icon.alias ],
-		} );
-		setSelectorsSettings(
-			setSelectorActivity(
-				selectorsSettings,
-				BLOCK_SELECTOR.heading.icon.alias,
-				false
-			)
-		);
-	}
-	function onSelectIcon( name, iconAsString ) {
-		if ( ! iconAsString ) {
-			onRemoveIcon();
-			return;
-		}
-		const icons = select( STORE_NAME ).usedIcons();
-		const iconAttrs = getIconAttrs( name, iconAsString, icons );
+	const { attributes, setAttributes } = props;
+	const { tagName } = attributes;
 
-		setAttributes( iconAttrs );
-
-		if ( iconAttrs.iconHtml ) {
-			dispatch( STORE_NAME ).addUsedIcon(
-				iconAttrs.iconId,
-				iconAsString
-			);
-		}
-		setSelectorsSettings(
-			setSelectorActivity(
-				selectorsSettings,
-				BLOCK_SELECTOR.heading.icon.alias,
-				true
-			)
-		);
-	}
 	return (
 		<InspectorControls>
 			<ControlsManager
@@ -130,10 +68,9 @@ export default function Inspector( props ) {
 								setAttributes( { tagName: value } )
 							}
 						/>
-						<IconPicker
-							icon={ icon }
-							onSelect={ onSelectIcon }
-							onClear={ onRemoveIcon }
+						<SelectIcon
+							{ ...props }
+							selectorAlias={ BLOCK_SELECTOR.heading.icon.alias }
 						/>
 					</PanelBody>,
 					props
