@@ -24,7 +24,7 @@ class Css {
 	 * @since 1.3.0
 	 * @var array
 	 */
-	private $state = array( 'allDevices' => array() );
+	private $state;
 
 	/**
 	 * Block name.
@@ -58,9 +58,33 @@ class Css {
 	 */
 	private $css = '';
 
+	private $device;
+
+	private static $selector_priority = array();
+
+	public static function set_selectors_priority( string $block_name, array $value ) {
+		if ( isset( self::$selector_priority[ $block_name ] ) ) {
+			self::$selector_priority[ $block_name ] = array_merge( self::$selector_priority[ $block_name ], $value );
+		} else {
+			self::$selector_priority[ $block_name ] = $value;
+		}
+	}
+
+	public static function get_selectors_priority():array {
+		return self::$selector_priority;
+	}
+
 	public function __construct() {
 		$this->blocks_selectors = get_block_selector();
 		$this->media_query      = self::get_media_query();
+		$this->init_state();
+	}
+
+	private function init_state() {
+		$this->state = array( 'allDevices' => '' );
+		foreach ( $this->media_query as $media ) {
+			$this->state[ $media['name'] ] = '';
+		}
 	}
 
 	/**
@@ -75,9 +99,9 @@ class Css {
 			'scblocks_media_query',
 			array(
 				array(
-					'name'                => 'desktop',
-					'value'               => '',
-					'mergeWithAllDevices' => true,
+					'name'   => 'desktop',
+					'value'  => '',
+					'isBase' => true,
 				),
 				array(
 					'name'  => 'tablet',
@@ -105,27 +129,25 @@ class Css {
 			}
 			$this->block_name      = $block['name'];
 			$this->block_uid_class = $block['attrs']['uidClass'];
-			$this->state           = array( 'allDevices' => array() );
 
 			foreach ( $block['attrs']['css'] as $device => $selectors ) {
-				$this->build_selectors_state( $selectors, $device );
+				$this->device = $device;
+				$this->create_state( $selectors );
 			}
-			$this->css .= $this->convert_to_string();
 		}
+		$this->css .= $this->convert_to_string();
 		return $this->css;
 	}
 
 	/**
-	 * Get media query name to merge with allDevices.
-	 *
 	 * @since 1.3.0
 	 *
 	 * @param array $media_query
 	 * @return string
 	 */
-	private function mq_name_to_merge( array $media_query ) : string {
+	private function base_media_name( array $media_query ) : string {
 		foreach ( $media_query as $media ) {
-			if ( isset( $media['mergeWithAllDevices'] ) ) {
+			if ( isset( $media['isBase'] ) ) {
 				return $media['name'];
 			}
 		}
@@ -140,63 +162,20 @@ class Css {
 	 * @return string CSS.
 	 */
 	private function convert_to_string() : string {
-		$css              = '';
-		$mq_name_to_merge = $this->mq_name_to_merge( $this->media_query );
+		$css             = $this->state['allDevices'];
+		$base_media_name = $this->base_media_name( $this->media_query );
 
-		if ( $mq_name_to_merge ) {
-			$selectors = isset( $this->state[ $mq_name_to_merge ] ) ? $this->state[ $mq_name_to_merge ] : array();
-
-			$this->state[ $mq_name_to_merge ] = $this->merge_selectors( $selectors, $this->state['allDevices'] );
-		}
 		foreach ( $this->media_query as $media ) {
-			if ( ! isset( $this->state[ $media['name'] ] ) ) {
+			if ( empty( $this->state[ $media['name'] ] ) ) {
 				continue;
 			}
-			if ( $mq_name_to_merge === $media['name'] ) {
-				$css .= $this->compose_selectors( $this->state[ $media['name'] ] );
+			if ( $base_media_name === $media['name'] ) {
+				$css .= $this->state[ $media['name'] ];
 			} else {
-				$css .= '@media ' . $media['value'] . '{' . $this->compose_selectors( $this->state[ $media['name'] ] ) . '}';
+				$css .= '@media ' . $media['value'] . '{' . $this->state[ $media['name'] ] . '}';
 			}
 		}
 		return $css;
-	}
-
-	/**
-	 * Compose selectors.
-	 *
-	 * @param array $selectors
-	 *
-	 * @return string
-	 */
-	private function compose_selectors( array $selectors ) : string {
-		$css = '';
-		foreach ( $selectors as $selector => $value ) {
-			$css .= $selector . '{' . $value . '}';
-		}
-		return $css;
-	}
-
-	/**
-	 * Merge two sets of selectors.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @param array $selectors
-	 * @param array $extra_selectors
-	 *
-	 * @return array
-	 */
-	private function merge_selectors( array $selectors, array $extra_selectors ) : array {
-		$next = array();
-		foreach ( $selectors as $selector => $value ) {
-			if ( isset( $extra_selectors[ $selector ] ) ) {
-				$next[ $selector ] = $value . $extra_selectors[ $selector ];
-				unset( $extra_selectors[ $selector ] );
-			} else {
-				$next[ $selector ] = $value;
-			}
-		}
-		return array_merge( $next, $extra_selectors );
 	}
 
 	/**
@@ -205,15 +184,23 @@ class Css {
 	 * @since 1.3.0
 	 *
 	 * @param array $selectors Array of selectors.
-	 * @param string $device Device name.
 	 * @return void
 	 */
-	private function build_selectors_state( array $selectors, string $device ) {
-		foreach ( $selectors as $selector_alias => $css_props ) {
-			$selector = $this->element_final_selector( $selector_alias );
-			if ( $selector ) {
-				$this->state[ $device ][ $selector ] = $this->compose_props( $css_props );
-			}
+	private function create_state( array $selectors ) {
+		$aliases = array_keys( $selectors );
+		if ( self::$selector_priority && isset( self::$selector_priority[ $this->block_name ] ) ) {
+			usort(
+				$aliases,
+				function ( $a, $b ) {
+					return ( self::$selector_priority[ $this->block_name ][ $a ] ?? 10 ) - ( self::$selector_priority[ $this->block_name ][ $b ] ?? 10 );
+				}
+			);
+		}
+		foreach ( $aliases as $alias ) {
+			$selector = $this->element_final_selector( $alias );
+			$props    = $this->compose_props( $selectors[ $alias ] );
+
+			$this->state[ $this->device ] .= $selector . '{' . $props . '}';
 		}
 	}
 

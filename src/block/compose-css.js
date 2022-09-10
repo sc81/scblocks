@@ -11,7 +11,7 @@ import { ALL_DEVICES } from '@scblocks/constants';
  */
 import { BLOCK_SELECTOR } from './block-selector';
 
-/* global scblocksMediaQuery */
+/* global scblocksMediaQuery, scblocksSelectorsPriority */
 
 function standardizeName( name ) {
 	return name.replace( /[A-Z]/g, ( e ) => '-' + e.toLowerCase() );
@@ -65,23 +65,34 @@ function shapeFinalSelector( selectorAlias, uidClass ) {
 	);
 }
 
-function composeSelectors( selectors, blockName, uidClass ) {
-	let css = '',
-		finalSelector;
-	for ( const selectorAlias in selectors ) {
-		if ( isShapeAlias( selectorAlias ) ) {
-			finalSelector = shapeFinalSelector( selectorAlias, uidClass );
-		} else {
-			finalSelector = getBlockFullSelector(
-				blockName,
-				selectorAlias,
-				uidClass
-			);
-		}
-		css += `.editor-styles-wrapper ${ finalSelector }{${ composePropValue(
-			selectors[ selectorAlias ]
-		) }}`;
+function getElementSelector( blockName, selectorAlias, uidClass ) {
+	if ( isShapeAlias( selectorAlias ) ) {
+		return shapeFinalSelector( selectorAlias, uidClass );
 	}
+	return getBlockFullSelector( blockName, selectorAlias, uidClass );
+}
+
+function composeSelectors( selectors, blockName, uidClass ) {
+	let css = '';
+	const aliases = Object.keys( selectors );
+	if ( scblocksSelectorsPriority[ blockName ] ) {
+		aliases.sort( ( a, b ) => {
+			return (
+				( scblocksSelectorsPriority[ blockName ][ a ] || 10 ) -
+				( scblocksSelectorsPriority[ blockName ][ b ] || 10 )
+			);
+		} );
+	}
+	aliases.forEach( ( alias ) => {
+		const elementSelector = getElementSelector(
+			blockName,
+			alias,
+			uidClass
+		);
+		css += `.editor-styles-wrapper ${ elementSelector }{${ composePropValue(
+			selectors[ alias ]
+		) }}`;
+	} );
 	return css;
 }
 export default function composeCss( {
@@ -90,7 +101,7 @@ export default function composeCss( {
 	uidClass,
 	device: currentDevice,
 } ) {
-	const css = defaultCss();
+	const css = initCssState();
 
 	for ( const device in cssState ) {
 		css[ device ] += composeSelectors(
@@ -115,7 +126,7 @@ function buildMediaQueryCss( cssState, currentDevice ) {
 	return css;
 }
 
-function defaultCss() {
+function initCssState() {
 	const css = {
 		[ ALL_DEVICES ]: '',
 	};

@@ -136,6 +136,12 @@ class Block_Assets {
 			'scblocksMediaQuery',
 			Css::get_media_query()
 		);
+
+		wp_localize_script(
+			'scblocks',
+			'scblocksSelectorsPriority',
+			Css::get_selectors_priority()
+		);
 	}
 	/**
 	 * Enqueue frontend assets.
