@@ -18,14 +18,8 @@ import {
 
 export default function Inspector( props ) {
 	const { attributes, setAttributes } = props;
-	const {
-		icon,
-		withoutText,
-		ariaLabel,
-		target,
-		relNoFollow,
-		relSponsored,
-	} = attributes;
+	const { icon, withoutText, ariaLabel, target, relNoFollow, relSponsored } =
+		attributes;
 
 	function afterRemoveIcon() {
 		setAttributes( {

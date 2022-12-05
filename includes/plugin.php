@@ -50,7 +50,7 @@ class Plugin {
 	 * @return array
 	 */
 	public static function get_svg_allowed_html():array {
-		if ( self::$svg_allowed_html === null ) {
+		if ( is_null( self::$svg_allowed_html ) ) {
 			self::$svg_allowed_html = Icons::get_allowed_html();
 		}
 		return self::$svg_allowed_html;

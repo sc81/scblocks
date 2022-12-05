@@ -39,36 +39,27 @@ import ShapeDividers from './shape-dividers';
 import ToolbarControls from './toolbar-controls';
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId, name } = props;
-	const {
-		htmlClass,
-		htmlId,
-		isDynamic,
-		align,
-		useThemeContentWidth,
-	} = attributes;
-	const {
-		devices,
-		innerBlockCount,
-		svgShapes,
-		isRegisteredAlignWide,
-	} = useSelect(
-		( select ) => {
-			const { getBlockCount, getSettings } = select(
-				CORE_BLOCK_EDITOR_STORE_NAME
-			);
-			return {
-				innerBlockCount: getBlockCount( clientId ),
-				devices: select( CORE_EDIT_POST_STORE_NAME )
-					.__experimentalGetPreviewDeviceType()
-					.toLowerCase(),
-				svgShapes: attributes.shapeDividers
-					? select( STORE_NAME ).getSvgShapes()
-					: undefined,
-				isRegisteredAlignWide: getSettings().alignWide,
-			};
-		},
-		[ clientId, attributes.shapeDividers ]
-	);
+	const { htmlClass, htmlId, isDynamic, align, useThemeContentWidth } =
+		attributes;
+	const { devices, innerBlockCount, svgShapes, isRegisteredAlignWide } =
+		useSelect(
+			( select ) => {
+				const { getBlockCount, getSettings } = select(
+					CORE_BLOCK_EDITOR_STORE_NAME
+				);
+				return {
+					innerBlockCount: getBlockCount( clientId ),
+					devices: select( CORE_EDIT_POST_STORE_NAME )
+						.__experimentalGetPreviewDeviceType()
+						.toLowerCase(),
+					svgShapes: attributes.shapeDividers
+						? select( STORE_NAME ).getSvgShapes()
+						: undefined,
+					isRegisteredAlignWide: getSettings().alignWide,
+				};
+			},
+			[ clientId, attributes.shapeDividers ]
+		);
 
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
@@ -99,8 +90,8 @@ export default function Edit( props ) {
 					[ itemClass ]: '' !== itemClass,
 					[ `${ htmlClass }` ]: '' !== htmlClass,
 					[ `align-${ align }` ]: ! isRegisteredAlignWide && !! align,
-					[ BLOCK_CLASSES.container
-						.contentWidth ]: useThemeContentWidth,
+					[ BLOCK_CLASSES.container.contentWidth ]:
+						useThemeContentWidth,
 				} ),
 				'data-align': align ? align : undefined,
 			},

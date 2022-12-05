@@ -36,9 +36,8 @@ export default function SelectDevices() {
 			).__experimentalGetPreviewDeviceType(),
 		[]
 	);
-	const {
-		__experimentalSetPreviewDeviceType: setPreviewDeviceType,
-	} = useDispatch( CORE_EDIT_POST_STORE_NAME );
+	const { __experimentalSetPreviewDeviceType: setPreviewDeviceType } =
+		useDispatch( CORE_EDIT_POST_STORE_NAME );
 
 	const icon = icons.find( ( e ) => device === e.value ).name;
 

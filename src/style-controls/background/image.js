@@ -29,13 +29,8 @@ import Repeat from './repeat';
 import Attachment from './attachment';
 
 export default function Image( props ) {
-	const {
-		attributes,
-		setAttributes,
-		devices,
-		selector,
-		showSelectDevice,
-	} = props;
+	const { attributes, setAttributes, devices, selector, showSelectDevice } =
+		props;
 	const { bgImage = {}, backgroundImageIds } = attributes;
 
 	const idFromDeprecatedAttr = backgroundImageIds

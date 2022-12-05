@@ -52,9 +52,8 @@ export default function GoogleFonts() {
 			method: 'POST',
 			data: {
 				options: {
-					[ OPTION_NAME ]: select( STORE_NAME ).getOption(
-						OPTION_NAME
-					),
+					[ OPTION_NAME ]:
+						select( STORE_NAME ).getOption( OPTION_NAME ),
 				},
 			},
 		} )

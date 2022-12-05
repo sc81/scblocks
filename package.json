@@ -6,15 +6,14 @@
 	"author": "sc81",
 	"license": "GPL-2.0",
 	"dependencies": {
-		"@wordpress/icons": "^2.4.0",
-		"classnames": "2.2.6",
-		"dompurify": "^2.4.0",
-		"immer": "^9.0.1"
+		"@wordpress/icons": "^9.13.0",
+		"classnames": "^2.3.2",
+		"dompurify": "^2.4.1",
+		"immer": "^9.0.16"
 	},
 	"devDependencies": {
-		"@testing-library/react": "^10.4.7",
-		"@wordpress/components": "^10.0.3",
-		"@wordpress/scripts": "^12.6.1"
+		"@wordpress/components": "^22.1.0",
+		"@wordpress/scripts": "^24.6.0"
 	},
 	"scripts": {
 		"setup": "composer install && npm ci && npm run build",
@@ -27,14 +26,6 @@
 		"lint-js": "wp-scripts lint-js",
 		"lint-js:fix": "npm run lint-js -- --fix",
 		"lint-php": "composer phpcs",
-		"lint-php:fix": "composer phpcbf",
-		"lint-md-docs": "wp-scripts lint-md-docs",
-		"lint-md-js": "wp-scripts lint-md-js",
-		"test:unit": "wp-scripts test-unit-js",
-		"test:unit:help": "wp-scripts test-unit-js --help",
-		"test:unit:watch": "wp-scripts test-unit-js --watch",
-		"test:unit:debug": "wp-scripts --inspect-brk test-unit-js --runInBand --no-cache",
-		"test-unit-php": "composer phpunit",
-		"test-unit-php:watch": "composer phpunit-watch"
+		"lint-php:fix": "composer phpcbf"
 	}
 }

@@ -53,8 +53,8 @@ const deprecated = [
 						className: classnames( {
 							[ BLOCK_CLASSES.container.main ]: true,
 							[ uidClass ]: true,
-							[ BLOCK_CLASSES.container
-								.rootContainer ]: isRootContainer,
+							[ BLOCK_CLASSES.container.rootContainer ]:
+								isRootContainer,
 							[ `${ htmlClass }` ]: '' !== htmlClass,
 						} ),
 					},
