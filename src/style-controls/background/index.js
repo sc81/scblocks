@@ -27,10 +27,11 @@ import Image from './image';
 import Gradient from './gradient';
 import Color from '../color';
 import StyleControlsPanel from '../style-controls-panel';
+import { getSelector } from '../utils';
 
 export default function Background( props ) {
 	const { attributes, selectorSettings, devices } = props;
-	const { selector } = selectorSettings.panels.background;
+	const selector = getSelector( 'background', selectorSettings );
 	const { bgImage = {} } = attributes;
 	const currentDevice = applyFilters(
 		'scblocks.backgroundControl.device',

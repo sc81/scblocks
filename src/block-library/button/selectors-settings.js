@@ -14,12 +14,10 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Button', 'scblocks' ),
 			id: BLOCK_SELECTOR.button.main.alias,
+			selector: BLOCK_SELECTOR.button.main.alias,
+			hoverSelector: BLOCK_SELECTOR.button.mainHover.alias,
 			panels: {
 				colors: {
-					usedSelectors: [
-						BLOCK_SELECTOR.button.main.alias,
-						BLOCK_SELECTOR.button.mainHover.alias,
-					],
 					hasHoverControls: true,
 					controls: [
 						{
@@ -45,23 +43,17 @@ export default function getSelectorsSettings() {
 						},
 					],
 				},
-				typography: {
-					selector: BLOCK_SELECTOR.button.main.alias,
-				},
+				typography: {},
 				border: {
 					hasHoverControls: true,
-					selector: BLOCK_SELECTOR.button.main.alias,
-					hoverSelector: BLOCK_SELECTOR.button.mainHover.alias,
 				},
 				space: {
-					selector: BLOCK_SELECTOR.button.main.alias,
 					controls: {
 						padding: true,
 						margin: true,
 					},
 				},
 				flex: {
-					selector: BLOCK_SELECTOR.button.main.alias,
 					displayAllProps: true,
 				},
 			},
@@ -70,9 +62,9 @@ export default function getSelectorsSettings() {
 			label: __( 'Icon', 'scblocks' ),
 			id: BLOCK_SELECTOR.button.icon.alias,
 			isActive: false,
+			selector: BLOCK_SELECTOR.button.icon.alias,
 			panels: {
 				space: {
-					selector: BLOCK_SELECTOR.button.icon.alias,
 					controls: {
 						padding: true,
 						width: {

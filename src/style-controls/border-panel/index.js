@@ -18,14 +18,15 @@ import BoxShadow from '../box-shadow';
 import BorderControl from '../border-control';
 import BorderRadius from '../border-radius';
 import StyleControlsPanel from '../style-controls-panel';
+import { getHoverSelector, getSelector } from '../utils';
 
 export default function BorderPanel( props ) {
 	const { selectorSettings } = props;
 	const [ isHover, setIsHover ] = useState( false );
 
 	const selector = isHover
-		? selectorSettings.panels.border.hoverSelector
-		: selectorSettings.panels.border.selector;
+		? getHoverSelector( 'border', selectorSettings )
+		: getSelector( 'border', selectorSettings );
 
 	const hasHoverControls = selectorSettings.panels.border.hasHoverControls;
 

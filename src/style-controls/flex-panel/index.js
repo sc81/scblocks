@@ -17,6 +17,7 @@ import Flex from '../flex';
 import Gap from '../gap';
 import Display from '../display';
 import StyleControlsPanel from '../style-controls-panel';
+import { getSelector } from '../utils';
 
 const flexControls = [
 	'order',
@@ -33,7 +34,7 @@ const flexControls = [
 
 export default function FlexPanel( props ) {
 	const { selectorSettings } = props;
-	const { selector } = selectorSettings.panels.flex;
+	const selector = getSelector( 'flex', selectorSettings );
 	const {
 		order,
 		flexDirection,

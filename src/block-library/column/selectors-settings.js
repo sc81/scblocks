@@ -13,16 +13,10 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Column', 'scblocks' ),
 			id: BLOCK_SELECTOR.column.main.alias,
+			selector: BLOCK_SELECTOR.column.main.alias,
 			panels: {
-				typography: {
-					selector: BLOCK_SELECTOR.column.main.alias,
-				},
+				typography: {},
 				colors: {
-					usedSelectors: [
-						BLOCK_SELECTOR.column.main.alias,
-						BLOCK_SELECTOR.column.link.alias,
-						BLOCK_SELECTOR.column.linkHover.alias,
-					],
 					hasHoverControls: true,
 					controls: [
 						{
@@ -49,14 +43,9 @@ export default function getSelectorsSettings() {
 						},
 					],
 				},
-				background: {
-					selector: BLOCK_SELECTOR.column.main.alias,
-				},
-				border: {
-					selector: BLOCK_SELECTOR.column.main.alias,
-				},
+				background: {},
+				border: {},
 				space: {
-					selector: BLOCK_SELECTOR.column.main.alias,
 					controls: {
 						margin: true,
 						padding: true,
@@ -64,13 +53,11 @@ export default function getSelectorsSettings() {
 					},
 				},
 				position: {
-					selector: BLOCK_SELECTOR.column.main.alias,
 					controls: {
 						zIndex: true,
 					},
 				},
 				flex: {
-					selector: BLOCK_SELECTOR.column.main.alias,
 					displayAllProps: true,
 				},
 			},

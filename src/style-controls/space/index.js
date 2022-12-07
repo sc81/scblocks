@@ -11,7 +11,7 @@ import { applyFilters } from '@wordpress/hooks';
 import usePanelActiveControl from '../use-panel-active-control';
 import NumberUnitProperty from '../number-unit-property';
 import FourControls from '../four-controls';
-import { getControlSelector } from '../utils';
+import { getControlSelector, getSelector } from '../utils';
 import NumberProperty from '../number-property';
 import Gap from '../gap';
 import Flex from '../flex';
@@ -35,7 +35,7 @@ const spaceProps = [
 
 export default function Space( props ) {
 	const { selectorSettings } = props;
-	const { selector } = selectorSettings.panels.space;
+	const selector = getSelector( 'space', selectorSettings );
 	const {
 		margin,
 		padding,

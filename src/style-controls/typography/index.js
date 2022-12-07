@@ -20,10 +20,11 @@ import LineHeight from './line-height';
 import LetterSpacing from './letter-spacing';
 import TextAlign from './text-align';
 import StyleControlsPanel from '../style-controls-panel';
+import { getSelector } from '../utils';
 
 export default function Typography( props ) {
 	const { devices, attributes, setAttributes, selectorSettings } = props;
-	const { selector } = selectorSettings.panels.typography;
+	const selector = getSelector( 'typography', selectorSettings );
 	function onChange( value, propName ) {
 		setPropValue( {
 			selector,

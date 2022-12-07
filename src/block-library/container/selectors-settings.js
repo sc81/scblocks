@@ -13,13 +13,9 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Container', 'scblocks' ),
 			id: BLOCK_SELECTOR.container.main.alias,
+			selector: BLOCK_SELECTOR.container.main.alias,
 			panels: {
 				colors: {
-					usedSelectors: [
-						BLOCK_SELECTOR.container.main.alias,
-						BLOCK_SELECTOR.container.link.alias,
-						BLOCK_SELECTOR.container.linkHover.alias,
-					],
 					hasHoverControls: true,
 					controls: [
 						{
@@ -46,22 +42,10 @@ export default function getSelectorsSettings() {
 						},
 					],
 				},
-				typography: {
-					selector: BLOCK_SELECTOR.container.main.alias,
-				},
-				background: {
-					selector: BLOCK_SELECTOR.container.main.alias,
-				},
-				border: {
-					selector: BLOCK_SELECTOR.container.main.alias,
-				},
+				typography: {},
+				background: {},
+				border: {},
 				space: {
-					selector: BLOCK_SELECTOR.container.main.alias,
-					usedSelectors: [
-						BLOCK_SELECTOR.container.content.alias,
-						BLOCK_SELECTOR.container.mainStronger.alias,
-						BLOCK_SELECTOR.container.main.alias,
-					],
 					controls: {
 						margin: true,
 						padding: {
@@ -85,11 +69,6 @@ export default function getSelectorsSettings() {
 					},
 				},
 				position: {
-					selector: BLOCK_SELECTOR.container.main.alias,
-					usedSelectors: [
-						BLOCK_SELECTOR.container.main.alias,
-						BLOCK_SELECTOR.container.content.alias,
-					],
 					controls: {
 						combinedZindex: [
 							{

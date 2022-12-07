@@ -15,7 +15,7 @@ import Order from '../order';
 import FlexDirection from '../flex-direction';
 import AlignItems from '../align-items';
 import JustifyContent from '../justify-content';
-import { getControlSelector } from '../utils';
+import { getControlSelector, getSelector } from '../utils';
 import JustifySelf from '../justify-self';
 import JustifyItems from '../justify-items';
 import AlignSelf from '../align-self';
@@ -41,7 +41,7 @@ const positionProps = [
 
 export default function PositionPanel( props ) {
 	const { selectorSettings } = props;
-	const { selector } = selectorSettings.panels.position;
+	const selector = getSelector( 'position', selectorSettings );
 	const {
 		zIndex,
 		combinedZindex,

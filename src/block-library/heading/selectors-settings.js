@@ -14,6 +14,7 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Heading', 'scblocks' ),
 			id: BLOCK_SELECTOR.heading.main.alias,
+			selector: BLOCK_SELECTOR.heading.main.alias,
 			panels: {
 				colors: {
 					usedSelectors: [
@@ -54,21 +55,15 @@ export default function getSelectorsSettings() {
 						},
 					],
 				},
-				typography: {
-					selector: BLOCK_SELECTOR.heading.main.alias,
-				},
-				border: {
-					selector: BLOCK_SELECTOR.heading.main.alias,
-				},
+				typography: {},
+				border: {},
 				space: {
-					selector: BLOCK_SELECTOR.heading.main.alias,
 					controls: {
 						padding: true,
 						margin: true,
 					},
 				},
 				flex: {
-					selector: BLOCK_SELECTOR.heading.main.alias,
 					displayAllProps: true,
 				},
 			},
@@ -76,6 +71,7 @@ export default function getSelectorsSettings() {
 		{
 			label: __( 'Icon', 'scblocks' ),
 			id: BLOCK_SELECTOR.heading.icon.alias,
+			selector: BLOCK_SELECTOR.heading.icon.alias,
 			panels: {
 				colors: {
 					controls: [
@@ -87,7 +83,6 @@ export default function getSelectorsSettings() {
 					],
 				},
 				space: {
-					selector: BLOCK_SELECTOR.heading.icon.alias,
 					controls: {
 						width: {
 							selector: BLOCK_SELECTOR.heading.iconSvg.alias,

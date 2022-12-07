@@ -9,10 +9,6 @@ import { produce } from 'immer';
 import { useState, useRef } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
-export function getSelectorIndex( settings, id ) {
-	return settings.findIndex( ( elm ) => elm.id === id );
-}
-
 export function setSelectorActivity( settings, id, isActive ) {
 	return produce( settings, ( draft ) => {
 		const index = draft.findIndex( ( elm ) => elm.id === id );
@@ -32,21 +28,6 @@ export function setSelectorPanelActivity(
 		if ( index > -1 ) {
 			draft[ index ][ panelName ].isActive = isActive;
 		}
-	} );
-}
-
-export function setSelectorPanels( settings, id, nextPanels ) {
-	return produce( settings, ( draft ) => {
-		const index = draft.findIndex( ( elm ) => elm.id === id );
-		if ( index > -1 ) {
-			draft[ index ].panels = nextPanels;
-		}
-	} );
-}
-
-export function addSelectorSettings( settings, selectorSettings ) {
-	return produce( settings, ( draft ) => {
-		draft.push( selectorSettings );
 	} );
 }
 
