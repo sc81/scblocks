@@ -38,7 +38,7 @@ function isShapeAlias( selectorAlias ) {
 
 function getBlockFullSelector( blockName, alias, uidClass ) {
 	if ( BLOCK_SELECTOR[ blockName ] && BLOCK_SELECTOR[ blockName ][ alias ] ) {
-		return BLOCK_SELECTOR[ blockName ][ alias ].fullSelector( uidClass );
+		return BLOCK_SELECTOR[ blockName ][ alias ].blockSelector( uidClass );
 	}
 	return applyFilters(
 		'scblocks.composeCss.blockSelector',
@@ -59,7 +59,7 @@ function shapeFinalSelector( selectorAlias, uidClass ) {
 		) } svg`;
 		tempAlias = 'shapeSvg';
 	}
-	return BLOCK_SELECTOR.container[ tempAlias ].fullSelector(
+	return BLOCK_SELECTOR.container[ tempAlias ].blockSelector(
 		uidClass,
 		shapeClass
 	);
