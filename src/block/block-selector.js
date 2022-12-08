@@ -1,4 +1,4 @@
-export const BLOCK_SELECTOR = {
+export const SELEKTORY = {
 	button: {
 		main: {
 			blockSelector: ( uidClass ) => `.${ uidClass }`,

@@ -13,11 +13,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import {
-	BLOCK_CLASSES,
-	BLOCK_SELECTOR,
-	SHARED_ATTRIBUTES,
-} from '@scblocks/block';
+import { BLOCK_CLASSES, SELEKTORY, SHARED_ATTRIBUTES } from '@scblocks/block';
 import { DangerouslyPasteIcon } from '@scblocks/components';
 
 const placeholder = __( 'Button', 'scblocks' );
@@ -38,7 +34,7 @@ const deprecated = [
 			text: {
 				type: 'string',
 				source: 'html',
-				selector: BLOCK_SELECTOR.button.text.selector,
+				selector: SELEKTORY.button.text.selector,
 			},
 			target: {
 				type: 'boolean',
@@ -55,7 +51,7 @@ const deprecated = [
 			icon: {
 				type: 'string',
 				source: 'html',
-				selector: BLOCK_SELECTOR.button.icon.selector,
+				selector: SELEKTORY.button.icon.selector,
 				default: '',
 			},
 			withoutText: {

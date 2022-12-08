@@ -1,6 +1,6 @@
 export { SHARED_ATTRIBUTES } from './shared-attributes';
 export { BLOCK_CLASSES } from './block-classes';
-export { BLOCK_SELECTOR } from './block-selector';
+export { SELEKTORY } from './block-selector';
 
 export { default as GoogleFontsLink } from './google-fonts-link';
 export { default as IdClassesControls } from './id-classes-controls';

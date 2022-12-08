@@ -12,11 +12,7 @@ import { applyFilters } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import {
-	BLOCK_CLASSES,
-	BLOCK_SELECTOR,
-	SHARED_ATTRIBUTES,
-} from '@scblocks/block';
+import { BLOCK_CLASSES, SELEKTORY, SHARED_ATTRIBUTES } from '@scblocks/block';
 import { DangerouslyPasteIcon } from '@scblocks/components';
 
 const deprecated = [
@@ -31,13 +27,13 @@ const deprecated = [
 			text: {
 				type: 'string',
 				source: 'html',
-				selector: BLOCK_SELECTOR.heading.text.selector,
+				selector: SELEKTORY.heading.text.selector,
 				default: '',
 			},
 			icon: {
 				type: 'string',
 				source: 'html',
-				selector: BLOCK_SELECTOR.heading.icon.selector,
+				selector: SELEKTORY.heading.icon.selector,
 				default: '',
 			},
 			...SHARED_ATTRIBUTES.googleFonts,

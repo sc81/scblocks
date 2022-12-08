@@ -6,14 +6,14 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR } from '@scblocks/block';
+import { SELEKTORY } from '@scblocks/block';
 
 export default function getSelectorsSettings() {
 	return [
 		{
 			label: __( 'Column', 'scblocks' ),
-			id: BLOCK_SELECTOR.column.main.alias,
-			selector: BLOCK_SELECTOR.column.main.alias,
+			id: SELEKTORY.column.main.alias,
+			selector: SELEKTORY.column.main.alias,
 			panels: {
 				typography: {},
 				colors: {
@@ -22,24 +22,23 @@ export default function getSelectorsSettings() {
 						{
 							label: __( 'Text color', 'scblocks' ),
 							propName: 'color',
-							selector: BLOCK_SELECTOR.column.main.alias,
+							selector: SELEKTORY.column.main.alias,
 						},
 						{
 							label: __( 'Background color', 'scblocks' ),
 							propName: 'backgroundColor',
-							selector: BLOCK_SELECTOR.column.main.alias,
+							selector: SELEKTORY.column.main.alias,
 						},
 						{
 							label: __( 'Border color', 'scblocks' ),
 							propName: 'borderColor',
-							selector: BLOCK_SELECTOR.column.main.alias,
+							selector: SELEKTORY.column.main.alias,
 						},
 						{
 							label: __( 'Link color', 'scblocks' ),
 							propName: 'color',
-							selector: BLOCK_SELECTOR.column.link.alias,
-							hoverSelector:
-								BLOCK_SELECTOR.column.linkHover.alias,
+							selector: SELEKTORY.column.link.alias,
+							hoverSelector: SELEKTORY.column.linkHover.alias,
 						},
 					],
 				},

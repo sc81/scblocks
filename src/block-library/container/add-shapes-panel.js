@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR } from '@scblocks/block';
+import { SELEKTORY } from '@scblocks/block';
 import { DangerouslyPasteIcon } from '@scblocks/components';
 import { setPropsForVariousSelectors } from '@scblocks/css-utils';
 import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
@@ -55,13 +55,13 @@ function shapesPanel( panels, props, panelProps ) {
 			setAttributes: setAttrs,
 			devices: ALL_DEVICES,
 			props: {
-				[ BLOCK_SELECTOR.container.main.alias ]: {
+				[ SELEKTORY.container.main.alias ]: {
 					position: 'relative',
 				},
-				[ BLOCK_SELECTOR.container.content.alias ]: {
+				[ SELEKTORY.container.content.alias ]: {
 					position: 'relative',
 				},
-				[ BLOCK_SELECTOR.container.shapeSvg.alias( shapeUidClass ) ]: {
+				[ SELEKTORY.container.shapeSvg.alias( shapeUidClass ) ]: {
 					position: 'relative',
 				},
 			},
@@ -71,13 +71,13 @@ function shapesPanel( panels, props, panelProps ) {
 			setAttributes,
 			devices: DESKTOP_DEVICE,
 			props: {
-				[ BLOCK_SELECTOR.container.shapeSvg.alias( shapeUidClass ) ]: {
+				[ SELEKTORY.container.shapeSvg.alias( shapeUidClass ) ]: {
 					height: '100px',
 					left: '50%',
 					transform: 'translateX(-50%)',
 					minWidth: '100%',
 				},
-				[ BLOCK_SELECTOR.container.shape.alias( shapeUidClass ) ]: {
+				[ SELEKTORY.container.shape.alias( shapeUidClass ) ]: {
 					left: '0',
 					right: '0',
 					bottom: '-1px',
@@ -113,10 +113,10 @@ function shapesPanel( panels, props, panelProps ) {
 							>
 								<ShapeDividerControls
 									{ ...props }
-									shapeSelector={ BLOCK_SELECTOR.container.shape.alias(
+									shapeSelector={ SELEKTORY.container.shape.alias(
 										shapeDivider.uidClass
 									) }
-									shapeSvgSelector={ BLOCK_SELECTOR.container.shapeSvg.alias(
+									shapeSvgSelector={ SELEKTORY.container.shapeSvg.alias(
 										shapeDivider.uidClass
 									) }
 									index={ index }

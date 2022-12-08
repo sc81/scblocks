@@ -7,51 +7,49 @@ import { addFilter } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR, setSelectorActivity } from '@scblocks/block';
+import { SELEKTORY, setSelectorActivity } from '@scblocks/block';
 
 export default function getSelectorsSettings() {
 	return [
 		{
 			label: __( 'Heading', 'scblocks' ),
-			id: BLOCK_SELECTOR.heading.main.alias,
-			selector: BLOCK_SELECTOR.heading.main.alias,
+			id: SELEKTORY.heading.main.alias,
+			selector: SELEKTORY.heading.main.alias,
 			panels: {
 				colors: {
 					usedSelectors: [
-						BLOCK_SELECTOR.heading.main.alias,
-						BLOCK_SELECTOR.heading.link.alias,
-						BLOCK_SELECTOR.heading.linkHover.alias,
-						BLOCK_SELECTOR.heading.highlightText.alias,
+						SELEKTORY.heading.main.alias,
+						SELEKTORY.heading.link.alias,
+						SELEKTORY.heading.linkHover.alias,
+						SELEKTORY.heading.highlightText.alias,
 					],
 					hasHoverControls: true,
 					controls: [
 						{
 							label: __( 'Text color', 'scblocks' ),
 							propName: 'color',
-							selector: BLOCK_SELECTOR.heading.main.alias,
+							selector: SELEKTORY.heading.main.alias,
 						},
 						{
 							label: __( 'Background color', 'scblocks' ),
 							propName: 'backgroundColor',
-							selector: BLOCK_SELECTOR.heading.main.alias,
+							selector: SELEKTORY.heading.main.alias,
 						},
 						{
 							label: __( 'Border color', 'scblocks' ),
 							propName: 'borderColor',
-							selector: BLOCK_SELECTOR.heading.main.alias,
+							selector: SELEKTORY.heading.main.alias,
 						},
 						{
 							label: __( 'Link color', 'scblocks' ),
 							propName: 'color',
-							selector: BLOCK_SELECTOR.heading.link.alias,
-							hoverSelector:
-								BLOCK_SELECTOR.heading.linkHover.alias,
+							selector: SELEKTORY.heading.link.alias,
+							hoverSelector: SELEKTORY.heading.linkHover.alias,
 						},
 						{
 							label: __( 'Highlight text', 'scblocks' ),
 							propName: 'color',
-							selector:
-								BLOCK_SELECTOR.heading.highlightText.alias,
+							selector: SELEKTORY.heading.highlightText.alias,
 						},
 					],
 				},
@@ -70,25 +68,25 @@ export default function getSelectorsSettings() {
 		},
 		{
 			label: __( 'Icon', 'scblocks' ),
-			id: BLOCK_SELECTOR.heading.icon.alias,
-			selector: BLOCK_SELECTOR.heading.icon.alias,
+			id: SELEKTORY.heading.icon.alias,
+			selector: SELEKTORY.heading.icon.alias,
 			panels: {
 				colors: {
 					controls: [
 						{
 							label: __( 'Icon color', 'scblocks' ),
 							propName: 'color',
-							selector: BLOCK_SELECTOR.heading.icon.alias,
+							selector: SELEKTORY.heading.icon.alias,
 						},
 					],
 				},
 				space: {
 					controls: {
 						width: {
-							selector: BLOCK_SELECTOR.heading.iconSvg.alias,
+							selector: SELEKTORY.heading.iconSvg.alias,
 						},
 						height: {
-							selector: BLOCK_SELECTOR.heading.iconSvg.alias,
+							selector: SELEKTORY.heading.iconSvg.alias,
 						},
 						padding: true,
 					},
@@ -101,15 +99,11 @@ function toggleIconControls( settings, { attributes: { icon } } ) {
 	if ( icon ) {
 		return setSelectorActivity(
 			settings,
-			BLOCK_SELECTOR.heading.icon.alias,
+			SELEKTORY.heading.icon.alias,
 			true
 		);
 	}
-	return setSelectorActivity(
-		settings,
-		BLOCK_SELECTOR.heading.icon.alias,
-		false
-	);
+	return setSelectorActivity( settings, SELEKTORY.heading.icon.alias, false );
 }
 addFilter(
 	'scblocks.heading.selectorsSettings',

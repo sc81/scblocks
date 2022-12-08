@@ -7,15 +7,15 @@ import { addFilter } from '@wordpress/hooks';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR, setSelectorActivity } from '@scblocks/block';
+import { SELEKTORY, setSelectorActivity } from '@scblocks/block';
 
 export default function getSelectorsSettings() {
 	return [
 		{
 			label: __( 'Button', 'scblocks' ),
-			id: BLOCK_SELECTOR.button.main.alias,
-			selector: BLOCK_SELECTOR.button.main.alias,
-			hoverSelector: BLOCK_SELECTOR.button.mainHover.alias,
+			id: SELEKTORY.button.main.alias,
+			selector: SELEKTORY.button.main.alias,
+			hoverSelector: SELEKTORY.button.mainHover.alias,
 			panels: {
 				colors: {
 					hasHoverControls: true,
@@ -23,23 +23,20 @@ export default function getSelectorsSettings() {
 						{
 							label: __( 'Text color', 'scblocks' ),
 							propName: 'color',
-							selector: BLOCK_SELECTOR.button.main.alias,
-							hoverSelector:
-								BLOCK_SELECTOR.button.mainHover.alias,
+							selector: SELEKTORY.button.main.alias,
+							hoverSelector: SELEKTORY.button.mainHover.alias,
 						},
 						{
 							label: __( 'Background color', 'scblocks' ),
 							propName: 'backgroundColor',
-							selector: BLOCK_SELECTOR.button.main.alias,
-							hoverSelector:
-								BLOCK_SELECTOR.button.mainHover.alias,
+							selector: SELEKTORY.button.main.alias,
+							hoverSelector: SELEKTORY.button.mainHover.alias,
 						},
 						{
 							label: __( 'Border color', 'scblocks' ),
 							propName: 'borderColor',
-							selector: BLOCK_SELECTOR.button.main.alias,
-							hoverSelector:
-								BLOCK_SELECTOR.button.mainHover.alias,
+							selector: SELEKTORY.button.main.alias,
+							hoverSelector: SELEKTORY.button.mainHover.alias,
 						},
 					],
 				},
@@ -60,18 +57,18 @@ export default function getSelectorsSettings() {
 		},
 		{
 			label: __( 'Icon', 'scblocks' ),
-			id: BLOCK_SELECTOR.button.icon.alias,
+			id: SELEKTORY.button.icon.alias,
 			isActive: false,
-			selector: BLOCK_SELECTOR.button.icon.alias,
+			selector: SELEKTORY.button.icon.alias,
 			panels: {
 				space: {
 					controls: {
 						padding: true,
 						width: {
-							selector: BLOCK_SELECTOR.button.iconSvg.alias,
+							selector: SELEKTORY.button.iconSvg.alias,
 						},
 						height: {
-							selector: BLOCK_SELECTOR.button.iconSvg.alias,
+							selector: SELEKTORY.button.iconSvg.alias,
 						},
 					},
 				},
@@ -84,15 +81,11 @@ function toggleIconControls( settings, { attributes: { icon } } ) {
 	if ( icon ) {
 		return setSelectorActivity(
 			settings,
-			BLOCK_SELECTOR.button.icon.alias,
+			SELEKTORY.button.icon.alias,
 			true
 		);
 	}
-	return setSelectorActivity(
-		settings,
-		BLOCK_SELECTOR.button.icon.alias,
-		false
-	);
+	return setSelectorActivity( settings, SELEKTORY.button.icon.alias, false );
 }
 
 addFilter(

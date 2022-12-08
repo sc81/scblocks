@@ -6,14 +6,14 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR } from '@scblocks/block';
+import { SELEKTORY } from '@scblocks/block';
 
 export default function getSelectorsSettings() {
 	return [
 		{
 			label: __( 'Container', 'scblocks' ),
-			id: BLOCK_SELECTOR.container.main.alias,
-			selector: BLOCK_SELECTOR.container.main.alias,
+			id: SELEKTORY.container.main.alias,
+			selector: SELEKTORY.container.main.alias,
 			panels: {
 				colors: {
 					hasHoverControls: true,
@@ -21,24 +21,23 @@ export default function getSelectorsSettings() {
 						{
 							label: __( 'Text color', 'scblocks' ),
 							propName: 'color',
-							selector: BLOCK_SELECTOR.container.main.alias,
+							selector: SELEKTORY.container.main.alias,
 						},
 						{
 							label: __( 'Background color', 'scblocks' ),
 							propName: 'backgroundColor',
-							selector: BLOCK_SELECTOR.container.main.alias,
+							selector: SELEKTORY.container.main.alias,
 						},
 						{
 							label: __( 'Border color', 'scblocks' ),
 							propName: 'borderColor',
-							selector: BLOCK_SELECTOR.container.main.alias,
+							selector: SELEKTORY.container.main.alias,
 						},
 						{
 							label: __( 'Link color', 'scblocks' ),
 							propName: 'color',
-							selector: BLOCK_SELECTOR.container.link.alias,
-							hoverSelector:
-								BLOCK_SELECTOR.container.linkHover.alias,
+							selector: SELEKTORY.container.link.alias,
+							hoverSelector: SELEKTORY.container.linkHover.alias,
 						},
 					],
 				},
@@ -49,22 +48,21 @@ export default function getSelectorsSettings() {
 					controls: {
 						margin: true,
 						padding: {
-							selector: BLOCK_SELECTOR.container.content.alias,
+							selector: SELEKTORY.container.content.alias,
 						},
 						combinedMaxWidth: [
 							{
 								label: __( 'Container max-width', 'scblocks' ),
 								selector:
-									BLOCK_SELECTOR.container.mainStronger.alias,
+									SELEKTORY.container.mainStronger.alias,
 							},
 							{
 								label: __( 'Content max-width', 'scblocks' ),
-								selector:
-									BLOCK_SELECTOR.container.content.alias,
+								selector: SELEKTORY.container.content.alias,
 							},
 						],
 						minHeight: {
-							selector: BLOCK_SELECTOR.container.content.alias,
+							selector: SELEKTORY.container.content.alias,
 						},
 					},
 				},
@@ -73,19 +71,18 @@ export default function getSelectorsSettings() {
 						combinedZindex: [
 							{
 								label: __( 'Container z-index', 'scblocks' ),
-								selector: BLOCK_SELECTOR.container.main.alias,
+								selector: SELEKTORY.container.main.alias,
 							},
 							{
 								label: __( 'Content z-index', 'scblocks' ),
-								selector:
-									BLOCK_SELECTOR.container.content.alias,
+								selector: SELEKTORY.container.content.alias,
 							},
 						],
 					},
 				},
 				shapes: {},
 				flex: {
-					selector: BLOCK_SELECTOR.container.content.alias,
+					selector: SELEKTORY.container.content.alias,
 					displayAllProps: true,
 				},
 			},

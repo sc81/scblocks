@@ -9,7 +9,7 @@ import { ALL_DEVICES } from '@scblocks/constants';
 /**
  * Internal dependencies
  */
-import { BLOCK_SELECTOR } from './block-selector';
+import { SELEKTORY } from './block-selector';
 
 /* global scblocksMediaQuery, scblocksSelectorsPriority */
 
@@ -37,8 +37,8 @@ function isShapeAlias( selectorAlias ) {
 }
 
 function getBlockFullSelector( blockName, alias, uidClass ) {
-	if ( BLOCK_SELECTOR[ blockName ] && BLOCK_SELECTOR[ blockName ][ alias ] ) {
-		return BLOCK_SELECTOR[ blockName ][ alias ].blockSelector( uidClass );
+	if ( SELEKTORY[ blockName ] && SELEKTORY[ blockName ][ alias ] ) {
+		return SELEKTORY[ blockName ][ alias ].blockSelector( uidClass );
 	}
 	return applyFilters(
 		'scblocks.composeCss.blockSelector',
@@ -59,7 +59,7 @@ function shapeFinalSelector( selectorAlias, uidClass ) {
 		) } svg`;
 		tempAlias = 'shapeSvg';
 	}
-	return BLOCK_SELECTOR.container[ tempAlias ].blockSelector(
+	return SELEKTORY.container[ tempAlias ].blockSelector(
 		uidClass,
 		shapeClass
 	);

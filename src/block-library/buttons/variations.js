@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR } from '@scblocks/block';
+import { SELEKTORY } from '@scblocks/block';
 import { DESKTOP_DEVICE, ALL_DEVICES } from '@scblocks/constants';
 
 /**
@@ -20,15 +20,13 @@ function getButton() {
 		{
 			css: {
 				[ ALL_DEVICES ]: {
-					[ BLOCK_SELECTOR.button.main.alias ]: [
+					[ SELEKTORY.button.main.alias ]: [
 						'color:#ffffff',
 						'backgroundColor:#007cba',
 					],
 				},
 				[ DESKTOP_DEVICE ]: {
-					[ BLOCK_SELECTOR.button.main.alias ]: [
-						'padding:12px 20px',
-					],
+					[ SELEKTORY.button.main.alias ]: [ 'padding:12px 20px' ],
 				},
 			},
 		},

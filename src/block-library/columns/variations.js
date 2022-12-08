@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * ScBlocks dependencies
  */
-import { BLOCK_SELECTOR } from '@scblocks/block';
+import { SELEKTORY } from '@scblocks/block';
 import { DESKTOP_DEVICE } from '@scblocks/constants';
 
 /**
@@ -21,7 +21,7 @@ function getColumnState( width ) {
 		{
 			css: {
 				[ DESKTOP_DEVICE ]: {
-					[ BLOCK_SELECTOR.column.main.alias ]: [
+					[ SELEKTORY.column.main.alias ]: [
 						`flexBasis:${ width }%`,
 					],
 				},

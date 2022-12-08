@@ -27,7 +27,7 @@ import {
 	setPropValue,
 } from '@scblocks/css-utils';
 import { ALL_DEVICES, DESKTOP_DEVICE } from '@scblocks/constants';
-import { BLOCK_SELECTOR } from '@scblocks/block';
+import { SELEKTORY } from '@scblocks/block';
 
 /**
  * Internal dependencies
@@ -142,10 +142,10 @@ export default function ShapeDividerControls( {
 				setAttributes: setAttrs,
 				devices: ALL_DEVICES,
 				props: {
-					[ BLOCK_SELECTOR.container.main.alias ]: {
+					[ SELEKTORY.container.main.alias ]: {
 						position: '',
 					},
-					[ BLOCK_SELECTOR.container.content.alias ]: {
+					[ SELEKTORY.container.content.alias ]: {
 						position: '',
 					},
 				},

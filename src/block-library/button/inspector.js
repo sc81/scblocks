@@ -10,7 +10,7 @@ import { applyFilters } from '@wordpress/hooks';
  * ScBlocks dependencies
  */
 import {
-	BLOCK_SELECTOR,
+	SELEKTORY,
 	IdClassesControls,
 	ControlsManager,
 	SelectIcon,
@@ -36,10 +36,8 @@ export default function Inspector( props ) {
 					<PanelBody opened>
 						<SelectIcon
 							{ ...props }
-							iconSelector={ BLOCK_SELECTOR.button.icon.alias }
-							iconSvgSelector={
-								BLOCK_SELECTOR.button.iconSvg.alias
-							}
+							iconSelector={ SELEKTORY.button.icon.alias }
+							iconSvgSelector={ SELEKTORY.button.iconSvg.alias }
 							afterRemoveIcon={ afterRemoveIcon }
 						/>
 						{ !! icon && (
