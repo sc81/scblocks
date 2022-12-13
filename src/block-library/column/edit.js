@@ -25,6 +25,7 @@ import {
 	getUidClass,
 	useSelectorsSettings,
 	useItemClass,
+	Inspector,
 } from '@scblocks/block';
 import {
 	CORE_EDIT_POST_STORE_NAME,
@@ -35,7 +36,6 @@ import {
  * Internal dependencies
  */
 import getSelectorsSettings from './selectors-settings';
-import Inspector from './inspector';
 
 export default function Edit( props ) {
 	const { attributes, clientId, setAttributes, name } = props;

@@ -27,6 +27,7 @@ import {
 	URLPicker,
 	useSelectorsSettings,
 	useItemClass,
+	Inspector,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 import { DangerouslyPasteIcon } from '@scblocks/components';
@@ -35,7 +36,7 @@ import { DangerouslyPasteIcon } from '@scblocks/components';
  * Internal dependencies
  */
 import getSelectorsSettings from './selectors-settings';
-import Inspector from './inspector';
+import './inspector-controls';
 
 const allowedFormats = [];
 const placeholder = __( 'Button', 'scblocks' );

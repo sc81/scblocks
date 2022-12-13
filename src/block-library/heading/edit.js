@@ -24,6 +24,7 @@ import {
 	getUidClass,
 	useSelectorsSettings,
 	useItemClass,
+	Inspector,
 } from '@scblocks/block';
 import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 import { DangerouslyPasteIcon } from '@scblocks/components';
@@ -33,7 +34,7 @@ import { DangerouslyPasteIcon } from '@scblocks/components';
  */
 import './markformat';
 import getSelectorsSettings from './selectors-settings';
-import Inspector from './inspector';
+import './inspector-controls';
 import './block-controls';
 import { HEADING_BLOCK_NAME } from './utils';
 

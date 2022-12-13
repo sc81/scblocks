@@ -1,34 +1,33 @@
 /**
  * WordPress dependencies
  */
-import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
+import { InspectorControls } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
- * ScBlocks dependencies
+ * Internal dependencies
  */
-import { IdClassesControls, ControlsManager } from '@scblocks/block';
+import ControlsManager from '../controls-manager';
+import IdClassesControls from '../id-classes-controls';
 
 export default function Inspector( props ) {
-	const { attributes, setAttributes } = props;
-
+	const { isSelected, name } = props;
+	if ( ! isSelected ) return null;
+	const blockName = name.replace( '/', '.' );
 	return (
 		<InspectorControls>
 			<ControlsManager
 				{ ...props }
 				mainControls={ applyFilters(
-					'scblocks.column.mainControls',
+					`${ blockName }.mainControls`,
 					null,
 					props
 				) }
 				htmlAttrsControls={ applyFilters(
-					'scblocks.column.htmlAttrControls',
+					`${ blockName }.htmlAttrControls`,
 					<PanelBody opened>
-						<IdClassesControls
-							attributes={ attributes }
-							setAttributes={ setAttributes }
-						/>
+						<IdClassesControls { ...props } />
 					</PanelBody>,
 					props
 				) }
