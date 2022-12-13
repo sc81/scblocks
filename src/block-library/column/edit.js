@@ -18,19 +18,8 @@ import { useEffect } from '@wordpress/element';
 /**
  * ScBlocks dependencies
  */
-import {
-	useDynamicCss,
-	useBlockMemo,
-	BLOCK_CLASSES,
-	getUidClass,
-	useSelectorsSettings,
-	useItemClass,
-	Inspector,
-} from '@scblocks/block';
-import {
-	CORE_EDIT_POST_STORE_NAME,
-	CORE_BLOCK_EDITOR_STORE_NAME,
-} from '@scblocks/constants';
+import { BLOCK_CLASSES, Inspector, useRequiredProps } from '@scblocks/block';
+import { CORE_BLOCK_EDITOR_STORE_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
@@ -38,36 +27,22 @@ import {
 import getSelectorsSettings from './selectors-settings';
 
 export default function Edit( props ) {
-	const { attributes, clientId, setAttributes, name } = props;
+	const { attributes, clientId, setAttributes } = props;
 	const { htmlId, htmlClass, isDynamic } = attributes;
-	const { devices, hasChildBlocks } = useSelect(
-		( store ) => {
-			return {
-				devices: store( CORE_EDIT_POST_STORE_NAME )
-					.__experimentalGetPreviewDeviceType()
-					.toLowerCase(),
-				hasChildBlocks: store(
-					CORE_BLOCK_EDITOR_STORE_NAME
-				).getBlockCount( clientId ),
-			};
-		},
+	const hasChildBlocks = useSelect(
+		( store ) =>
+			store( CORE_BLOCK_EDITOR_STORE_NAME ).getBlockCount( clientId ),
 		[ clientId ]
 	);
+
+	const requiredProps = useRequiredProps( props, getSelectorsSettings );
+	const { style, itemClass, uidClass } = requiredProps;
+
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
 			setAttributes( { isDynamic: true } );
 		}
 	}, [] );
-
-	const [ selectorsSettings, setSelectorsSettings ] = useSelectorsSettings(
-		getSelectorsSettings,
-		'column',
-		props
-	);
-	const blockMemo = useBlockMemo( attributes, selectorsSettings );
-	const style = useDynamicCss( props, devices );
-
-	const itemClass = useItemClass( clientId );
 
 	const blockProps = useBlockProps(
 		applyFilters(
@@ -76,9 +51,9 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.column.main ]: true,
-					[ getUidClass( name, clientId ) ]: true,
-					[ itemClass ]: '' !== itemClass,
-					[ `${ htmlClass }` ]: '' !== htmlClass,
+					[ uidClass ]: true,
+					[ itemClass ]: !! itemClass,
+					[ htmlClass ]: !! htmlClass,
 				} ),
 			},
 			attributes
@@ -94,13 +69,7 @@ export default function Edit( props ) {
 	return (
 		<>
 			<style>{ style }</style>
-			<Inspector
-				{ ...props }
-				blockMemo={ blockMemo }
-				devices={ devices }
-				selectorsSettings={ selectorsSettings }
-				setSelectorsSettings={ setSelectorsSettings }
-			/>
+			<Inspector { ...props } { ...requiredProps } />
 			<div { ...innerBlocksProps } />
 		</>
 	);

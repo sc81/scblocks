@@ -37,7 +37,7 @@ export function useSelectorsSettings( getSettings, blockName, blockProps ) {
 	if ( ! isSet.current ) {
 		isSet.current = true;
 		initialSettings = applyFilters(
-			`scblocks.${ blockName }.selectorsSettings`,
+			`${ blockName.replace( '/', '.' ) }.selectorsSettings`,
 			getSettings(),
 			blockProps
 		);

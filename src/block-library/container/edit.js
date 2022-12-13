@@ -15,21 +15,13 @@ import { applyFilters } from '@wordpress/hooks';
  * ScBlocks dependencies
  */
 import {
-	useDynamicCss,
-	useBlockMemo,
 	BLOCK_CLASSES,
 	VariationsPicker,
 	GoogleFontsLink,
-	getUidClass,
-	useSelectorsSettings,
-	useItemClass,
 	Inspector,
+	useRequiredProps,
 } from '@scblocks/block';
-import {
-	CORE_EDIT_POST_STORE_NAME,
-	CORE_BLOCK_EDITOR_STORE_NAME,
-	STORE_NAME,
-} from '@scblocks/constants';
+import { CORE_BLOCK_EDITOR_STORE_NAME, STORE_NAME } from '@scblocks/constants';
 
 /**
  * Internal dependencies
@@ -40,28 +32,24 @@ import ShapeDividers from './shape-dividers';
 import ToolbarControls from './toolbar-controls';
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, clientId, name } = props;
+	const { attributes, setAttributes, clientId } = props;
 	const { htmlClass, htmlId, isDynamic, align, useThemeContentWidth } =
 		attributes;
-	const { devices, innerBlockCount, svgShapes, isRegisteredAlignWide } =
-		useSelect(
-			( select ) => {
-				const { getBlockCount, getSettings } = select(
-					CORE_BLOCK_EDITOR_STORE_NAME
-				);
-				return {
-					innerBlockCount: getBlockCount( clientId ),
-					devices: select( CORE_EDIT_POST_STORE_NAME )
-						.__experimentalGetPreviewDeviceType()
-						.toLowerCase(),
-					svgShapes: attributes.shapeDividers
-						? select( STORE_NAME ).getSvgShapes()
-						: undefined,
-					isRegisteredAlignWide: getSettings().alignWide,
-				};
-			},
-			[ clientId, attributes.shapeDividers ]
-		);
+	const { innerBlockCount, svgShapes, isRegisteredAlignWide } = useSelect(
+		( select ) => {
+			const { getBlockCount, getSettings } = select(
+				CORE_BLOCK_EDITOR_STORE_NAME
+			);
+			return {
+				innerBlockCount: getBlockCount( clientId ),
+				svgShapes: attributes.shapeDividers
+					? select( STORE_NAME ).getSvgShapes()
+					: undefined,
+				isRegisteredAlignWide: getSettings().alignWide,
+			};
+		},
+		[ clientId, attributes.shapeDividers ]
+	);
 
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
@@ -69,17 +57,8 @@ export default function Edit( props ) {
 		}
 	}, [ isDynamic, setAttributes ] );
 
-	const [ selectorsSettings, setSelectorsSettings ] = useSelectorsSettings(
-		getSelectorsSettings,
-		'container',
-		props
-	);
-
-	const style = useDynamicCss( props, devices );
-
-	const blockMemo = useBlockMemo( attributes, selectorsSettings );
-
-	const itemClass = useItemClass( clientId );
+	const requiredProps = useRequiredProps( props, getSelectorsSettings );
+	const { style, devices, itemClass, uidClass } = requiredProps;
 
 	const blockProps = useBlockProps(
 		applyFilters(
@@ -88,9 +67,9 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.container.main ]: true,
-					[ getUidClass( name, clientId ) ]: true,
-					[ itemClass ]: '' !== itemClass,
-					[ `${ htmlClass }` ]: '' !== htmlClass,
+					[ uidClass ]: true,
+					[ itemClass ]: !! itemClass,
+					[ htmlClass ]: !! htmlClass,
 					[ `align-${ align }` ]: ! isRegisteredAlignWide && !! align,
 					[ BLOCK_CLASSES.container.contentWidth ]:
 						useThemeContentWidth,
@@ -116,10 +95,7 @@ export default function Edit( props ) {
 			<GoogleFontsLink clientId={ clientId } />
 			<Inspector
 				{ ...props }
-				devices={ devices }
-				blockMemo={ blockMemo }
-				selectorsSettings={ selectorsSettings }
-				setSelectorsSettings={ setSelectorsSettings }
+				{ ...requiredProps }
 				svgShapes={ svgShapes }
 			/>
 			<div { ...blockProps }>

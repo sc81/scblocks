@@ -20,3 +20,4 @@ export {
 export { default as useItemClass } from './use-item-class';
 export { default as SelectIcon } from './select-icon';
 export { default as Inspector } from './inspector.js';
+export { default as useRequiredProps } from './use-required-props';

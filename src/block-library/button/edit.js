@@ -6,7 +6,6 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import {
 	RichText,
@@ -20,16 +19,11 @@ import { applyFilters } from '@wordpress/hooks';
  * ScBlocks dependencies
  */
 import {
-	useDynamicCss,
-	useBlockMemo,
 	BLOCK_CLASSES,
-	getUidClass,
 	URLPicker,
-	useSelectorsSettings,
-	useItemClass,
 	Inspector,
+	useRequiredProps,
 } from '@scblocks/block';
-import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 import { DangerouslyPasteIcon } from '@scblocks/components';
 
 /**
@@ -42,7 +36,7 @@ const allowedFormats = [];
 const placeholder = __( 'Button', 'scblocks' );
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, clientId, name } = props;
+	const { attributes, setAttributes } = props;
 	const {
 		text,
 		icon,
@@ -58,21 +52,8 @@ export default function Edit( props ) {
 		dynamicUrl,
 	} = attributes;
 
-	const devices = useSelect(
-		( select ) =>
-			select( CORE_EDIT_POST_STORE_NAME )
-				.__experimentalGetPreviewDeviceType()
-				.toLowerCase(),
-		[]
-	);
-	const [ selectorsSettings, setSelectorsSettings ] = useSelectorsSettings(
-		getSelectorsSettings,
-		'button',
-		props
-	);
-	const blockMemo = useBlockMemo( attributes, selectorsSettings );
-
-	const style = useDynamicCss( props, devices );
+	const requiredProps = useRequiredProps( props, getSelectorsSettings );
+	const { style, devices, itemClass, uidClass } = requiredProps;
 
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
@@ -96,18 +77,16 @@ export default function Edit( props ) {
 	const rel =
 		relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined;
 
-	const itemClass = useItemClass( clientId );
-
 	const htmlAttributes = applyFilters(
 		'scblocks.button.htmlAttributes',
 		{
 			id: !! htmlId ? htmlId : undefined,
 			className: classnames( {
 				[ BLOCK_CLASSES.button.main ]: true,
-				[ getUidClass( name, clientId ) ]: true,
-				[ itemClass ]: '' !== itemClass,
 				[ BLOCK_CLASSES.button.text ]: ! icon,
-				[ `${ htmlClass }` ]: '' !== htmlClass,
+				[ uidClass ]: true,
+				[ itemClass ]: !! itemClass,
+				[ htmlClass ]: !! htmlClass,
 			} ),
 			href: url,
 			target: target ? '_blank' : undefined,
@@ -144,13 +123,7 @@ export default function Edit( props ) {
 					<URLPicker { ...props } />
 				</BlockControls>
 			) }
-			<Inspector
-				{ ...props }
-				devices={ devices }
-				blockMemo={ blockMemo }
-				selectorsSettings={ selectorsSettings }
-				setSelectorsSettings={ setSelectorsSettings }
-			/>
+			<Inspector { ...props } { ...requiredProps } />
 			<style>{ style }</style>
 			{ /* eslint-disable  jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */ }
 			{ isIcon && (

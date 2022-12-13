@@ -7,7 +7,6 @@ import classnames from 'classnames';
  * WordPress dependencies
  */
 import { RichText, useBlockProps } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
 import { useEffect } from '@wordpress/element';
@@ -17,16 +16,11 @@ import { applyFilters } from '@wordpress/hooks';
  * ScBlocks dependencies
  */
 import {
-	useDynamicCss,
-	useBlockMemo,
 	BLOCK_CLASSES,
 	GoogleFontsLink,
-	getUidClass,
-	useSelectorsSettings,
-	useItemClass,
 	Inspector,
+	useRequiredProps,
 } from '@scblocks/block';
-import { CORE_EDIT_POST_STORE_NAME } from '@scblocks/constants';
 import { DangerouslyPasteIcon } from '@scblocks/components';
 
 /**
@@ -41,31 +35,17 @@ import { HEADING_BLOCK_NAME } from './utils';
 const placeholder = __( 'Heading', 'scblocks' );
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, onReplace, clientId, name } = props;
+	const { attributes, setAttributes, onReplace, clientId } = props;
 	const { text, tagName, icon, htmlClass, htmlId, isDynamic } = attributes;
 
-	const devices = useSelect(
-		( select ) =>
-			select( CORE_EDIT_POST_STORE_NAME )
-				.__experimentalGetPreviewDeviceType()
-				.toLowerCase(),
-		[]
-	);
-	const [ selectorsSettings, setSelectorsSettings ] = useSelectorsSettings(
-		getSelectorsSettings,
-		'heading',
-		props
-	);
-	const blockMemo = useBlockMemo( attributes, selectorsSettings );
-	const style = useDynamicCss( props, devices );
+	const requiredProps = useRequiredProps( props, getSelectorsSettings );
+	const { style, devices, itemClass, uidClass } = requiredProps;
 
 	useEffect( () => {
 		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
 			setAttributes( { isDynamic: true } );
 		}
 	}, [ isDynamic, setAttributes ] );
-
-	const itemClass = useItemClass( clientId );
 
 	const blockProps = useBlockProps(
 		applyFilters(
@@ -74,10 +54,10 @@ export default function Edit( props ) {
 				id: !! htmlId ? htmlId : undefined,
 				className: classnames( {
 					[ BLOCK_CLASSES.heading.main ]: true,
-					[ getUidClass( name, clientId ) ]: true,
-					[ itemClass ]: '' !== itemClass,
 					[ BLOCK_CLASSES.heading.text ]: ! icon,
-					[ `${ htmlClass }` ]: '' !== htmlClass,
+					[ uidClass ]: true,
+					[ itemClass ]: !! itemClass,
+					[ htmlClass ]: !! htmlClass,
 				} ),
 			},
 			attributes
@@ -117,13 +97,7 @@ export default function Edit( props ) {
 				devices
 			) }
 			<style>{ style }</style>
-			<Inspector
-				{ ...props }
-				devices={ devices }
-				blockMemo={ blockMemo }
-				selectorsSettings={ selectorsSettings }
-				setSelectorsSettings={ setSelectorsSettings }
-			/>
+			<Inspector { ...props } { ...requiredProps } />
 			<GoogleFontsLink clientId={ clientId } />
 			{ isIcon && (
 				<Tag { ...blockProps }>
