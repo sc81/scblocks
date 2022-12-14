@@ -8,7 +8,6 @@ import classnames from 'classnames';
  */
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
@@ -32,9 +31,8 @@ import ShapeDividers from './shape-dividers';
 import ToolbarControls from './toolbar-controls';
 
 export default function Edit( props ) {
-	const { attributes, setAttributes, clientId } = props;
-	const { htmlClass, htmlId, isDynamic, align, useThemeContentWidth } =
-		attributes;
+	const { attributes, clientId } = props;
+	const { htmlClass, htmlId, align, useThemeContentWidth } = attributes;
 	const { innerBlockCount, svgShapes, isRegisteredAlignWide } = useSelect(
 		( select ) => {
 			const { getBlockCount, getSettings } = select(
@@ -50,12 +48,6 @@ export default function Edit( props ) {
 		},
 		[ clientId, attributes.shapeDividers ]
 	);
-
-	useEffect( () => {
-		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
-			setAttributes( { isDynamic: true } );
-		}
-	}, [ isDynamic, setAttributes ] );
 
 	const requiredProps = useRequiredProps( props, getSelectorsSettings );
 	const { style, devices, itemClass, uidClass } = requiredProps;

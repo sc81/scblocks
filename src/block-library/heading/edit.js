@@ -9,7 +9,6 @@ import classnames from 'classnames';
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
-import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
@@ -36,16 +35,10 @@ const placeholder = __( 'Heading', 'scblocks' );
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, onReplace, clientId } = props;
-	const { text, tagName, icon, htmlClass, htmlId, isDynamic } = attributes;
+	const { text, tagName, icon, htmlClass, htmlId } = attributes;
 
 	const requiredProps = useRequiredProps( props, getSelectorsSettings );
 	const { style, devices, itemClass, uidClass } = requiredProps;
-
-	useEffect( () => {
-		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
-			setAttributes( { isDynamic: true } );
-		}
-	}, [ isDynamic, setAttributes ] );
 
 	const blockProps = useBlockProps(
 		applyFilters(

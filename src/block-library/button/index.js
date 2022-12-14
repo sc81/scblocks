@@ -57,9 +57,6 @@ export const settings = {
 			type: 'string',
 			default: '',
 		},
-		isDynamic: {
-			type: 'boolean',
-		},
 		...SHARED_ATTRIBUTES.icon,
 		...SHARED_ATTRIBUTES.label,
 	},

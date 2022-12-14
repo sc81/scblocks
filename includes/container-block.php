@@ -62,9 +62,6 @@ class Container_Block {
 	 * @return string
 	 */
 	public function render( array $attributes, string $content ) : string {
-		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
-			return $content;
-		}
 		$output      = '';
 		$class_names = array(
 			'scb-container',

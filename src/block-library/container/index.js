@@ -45,9 +45,6 @@ export const settings = {
 		shapeDividers: {
 			type: 'array',
 		},
-		isDynamic: {
-			type: 'boolean',
-		},
 		bgImage: {
 			type: 'object',
 			default: '',

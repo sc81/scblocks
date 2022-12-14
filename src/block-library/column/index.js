@@ -35,9 +35,6 @@ export const settings = {
 			type: 'string',
 			default: 'div',
 		},
-		isDynamic: {
-			type: 'boolean',
-		},
 		bgImage: {
 			type: 'object',
 			default: '',

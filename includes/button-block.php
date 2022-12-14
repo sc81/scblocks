@@ -45,9 +45,6 @@ class Button_Block {
 	 * @return string
 	 */
 	public function render( array $attributes, string $content ) : string {
-		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
-			return $content;
-		}
 		$class_names = array(
 			'scb-button',
 		);

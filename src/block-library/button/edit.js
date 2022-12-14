@@ -12,7 +12,6 @@ import {
 	useBlockProps,
 	BlockControls,
 } from '@wordpress/block-editor';
-import { useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
@@ -48,18 +47,11 @@ export default function Edit( props ) {
 		target,
 		htmlId,
 		ariaLabel,
-		isDynamic,
 		dynamicUrl,
 	} = attributes;
 
 	const requiredProps = useRequiredProps( props, getSelectorsSettings );
 	const { style, devices, itemClass, uidClass } = requiredProps;
-
-	useEffect( () => {
-		if ( typeof isDynamic === 'undefined' || ! isDynamic ) {
-			setAttributes( { isDynamic: true } );
-		}
-	}, [ isDynamic, setAttributes ] );
 
 	const relAttributes = [];
 
