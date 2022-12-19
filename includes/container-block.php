@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Container_Block {
 
+	const NAME = 'scblocks/container';
+
 	/**
 	 * Allowed tag names.
 	 *
@@ -46,7 +48,7 @@ class Container_Block {
 	 */
 	public function register() {
 		register_block_type(
-			'scblocks/container',
+			self::NAME,
 			array(
 				'render_callback' => array( $this, 'render' ),
 			)
@@ -62,31 +64,7 @@ class Container_Block {
 	 * @return string
 	 */
 	public function render( array $attributes, string $content ) : string {
-		$output      = '';
-		$class_names = array(
-			'scb-container',
-		);
-		if ( ! empty( $attributes['uidClass'] ) ) {
-			$class_names[] = $attributes['uidClass'];
-		}
-		if ( ! empty( $attributes['itemClass'] ) ) {
-			$class_names[] = $attributes['itemClass'];
-		}
-		if ( ! empty( $attributes['align'] ) ) {
-			if ( $this->is_set_align_wide() ) {
-				$class_names[] = 'align' . $attributes['align'];
-			} else {
-				$class_names[] = 'align-' . $attributes['align'];
-			}
-		}
-		if ( ! empty( $attributes['useThemeContentWidth'] ) ) {
-			$class_names[] = 'scb-content-width';
-		}
-		if ( ! empty( $attributes['htmlClass'] ) ) {
-			$class_names[] = $attributes['htmlClass'];
-		}
-
-		$tag = empty( $attributes['tag'] ) ? 'div' : $attributes['tag'];
+		$tag = empty( $attributes['tag'] ) || ! is_string( $attributes['tag'] ) ? 'div' : $attributes['tag'];
 
 		$tag_name = apply_filters( 'scblocks_container_tagname', $tag, $attributes );
 
@@ -100,15 +78,22 @@ class Container_Block {
 		}
 
 		$html_attr = new Html_Attributes(
-			'container',
-			array(
-				'id'    => isset( $attributes['htmlId'] ) ? $attributes['htmlId'] : null,
-				'class' => implode( ' ', $class_names ),
-			),
+			self::NAME,
 			$attributes
 		);
 
-		$output .= sprintf(
+		if ( ! empty( $attributes['align'] ) ) {
+			if ( $this->is_set_align_wide() ) {
+				$html_attr->extra_classes[] = 'align' . $attributes['align'];
+			} else {
+				$html_attr->extra_classes[] = 'align-' . $attributes['align'];
+			}
+		}
+		if ( ! empty( $attributes['useThemeContentWidth'] ) ) {
+			$html_attr->extra_classes[] = 'scb-content-width';
+		}
+
+		$output = sprintf(
 			'<%1$s %2$s>',
 			$tag_name,
 			$html_attr->build()

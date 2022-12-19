@@ -11,6 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.3.0
  */
 class Button_Block {
+
+	const NAME = 'scblocks/button';
+
 	/**
 	 * Register actions
 	 *
@@ -29,7 +32,7 @@ class Button_Block {
 	 */
 	public function register() {
 		register_block_type(
-			'scblocks/button',
+			self::NAME,
 			array(
 				'render_callback' => array( $this, 'render' ),
 			)
@@ -44,22 +47,7 @@ class Button_Block {
 	 * @param string  $content The inner blocks.
 	 * @return string
 	 */
-	public function render( array $attributes, string $content ) : string {
-		$class_names = array(
-			'scb-button',
-		);
-		if ( ! empty( $attributes['uidClass'] ) ) {
-			$class_names[] = $attributes['uidClass'];
-		}
-		if ( ! empty( $attributes['itemClass'] ) ) {
-			$class_names[] = $attributes['itemClass'];
-		}
-		if ( ! empty( $attributes['htmlClass'] ) ) {
-			$class_names[] = $attributes['htmlClass'];
-		}
-		if ( empty( $attributes['icon'] ) ) {
-			$class_names[] = 'scb-button-text';
-		}
+	public function render( array $attributes ) : string {
 		$rel_attr = array();
 		if ( ! empty( $attributes['relNoFollow'] ) ) {
 			$rel_attr[] = 'nofollow';
@@ -71,18 +59,20 @@ class Button_Block {
 		if ( ! empty( $attributes['relSponsored'] ) ) {
 			$rel_attr[] = 'sponsored';
 		}
-		$html_attr    = new Html_Attributes(
-			'button',
+		$html_attr = new Html_Attributes(
+			self::NAME,
+			$attributes,
 			array(
-				'class'      => implode( ' ', $class_names ),
-				'id'         => ! empty( $attributes['htmlId'] ) ? $attributes['htmlId'] : null,
-				'href'       => ! empty( $attributes['url'] ) ? $attributes['url'] : null,
+				'href'       => ! empty( $attributes['url'] ) && is_string( $attributes['url'] ) ? $attributes['url'] : null,
 				'target'     => ! empty( $attributes['target'] ) ? '_blank' : null,
-				'aria-label' => ! empty( $attributes['ariaLabel'] ) ? $attributes['ariaLabel'] : null,
+				'aria-label' => ! empty( $attributes['ariaLabel'] ) && is_string( $attributes['ariaLabel'] ) ? $attributes['ariaLabel'] : null,
 				'rel'        => ! empty( $rel_attr ) ? implode( ' ', $rel_attr ) : null,
-			),
-			$attributes
+			)
 		);
+		if ( empty( $attributes['icon'] ) ) {
+			$html_attr->extra_classes[] = 'scb-button-text';
+		}
+
 		$sprint_attrs = $html_attr->build();
 
 		$tag_name = empty( $html_attr->parsed['href'] ) ? 'span' : 'a';
@@ -94,7 +84,7 @@ class Button_Block {
 		);
 
 		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
-		$text = apply_filters( 'scblocks_button_dynamic_content', $text, $attributes );
+		$text = wp_kses_post( apply_filters( 'scblocks_button_dynamic_content', $text, $attributes ) );
 
 		if ( ! empty( $attributes['icon'] ) && is_string( $attributes['icon'] ) ) {
 			$output .= '<span class="scb-icon">' . Icons::sanitize( $attributes['icon'] ) . '</span>';

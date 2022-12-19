@@ -11,6 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.2.0
  */
 class Column_Block {
+
+	const NAME = 'scblocks/column';
+
 	/**
 	 * Register actions
 	 *
@@ -29,7 +32,7 @@ class Column_Block {
 	 */
 	public function register() {
 		register_block_type(
-			'scblocks/column',
+			self::NAME,
 			array(
 				'render_callback' => array( $this, 'render' ),
 			)
@@ -45,30 +48,12 @@ class Column_Block {
 	 * @return string
 	 */
 	public function render( array $attributes, string $content ) : string {
-		$output      = '';
-		$class_names = array(
-			'scb-column',
-		);
-		if ( ! empty( $attributes['uidClass'] ) ) {
-			$class_names[] = $attributes['uidClass'];
-		}
-		if ( ! empty( $attributes['itemClass'] ) ) {
-			$class_names[] = $attributes['itemClass'];
-		}
-		if ( ! empty( $attributes['htmlClass'] ) ) {
-			$class_names[] = $attributes['htmlClass'];
-		}
-
 		$html_attr = new Html_Attributes(
-			'column',
-			array(
-				'id'    => isset( $attributes['htmlId'] ) ? $attributes['htmlId'] : null,
-				'class' => implode( ' ', $class_names ),
-			),
+			self::NAME,
 			$attributes
 		);
 
-		$output .= sprintf(
+		$output  = sprintf(
 			'<div %s>',
 			$html_attr->build()
 		);

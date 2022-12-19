@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Heading_Block {
 
+	const NAME = 'scblocks/heading';
+
 	/**
 	 * @var array
 	 */
@@ -43,7 +45,7 @@ class Heading_Block {
 	 */
 	public function register() {
 		register_block_type(
-			'scblocks/heading',
+			self::NAME,
 			array(
 				'render_callback' => array( $this, 'render' ),
 			)
@@ -58,33 +60,18 @@ class Heading_Block {
 	 * @param string  $content The inner blocks.
 	 * @return string
 	 */
-	public function render( array $attributes, string $content ) : string {
-		$class_names = array(
-			'scb-heading',
-		);
-		if ( ! empty( $attributes['uidClass'] ) ) {
-			$class_names[] = $attributes['uidClass'];
-		}
-		if ( ! empty( $attributes['itemClass'] ) ) {
-			$class_names[] = $attributes['itemClass'];
-		}
-		if ( ! empty( $attributes['htmlClass'] ) ) {
-			$class_names[] = $attributes['htmlClass'];
-		}
-		if ( empty( $attributes['icon'] ) ) {
-			$class_names[] = 'scb-heading-text';
-		}
-
+	public function render( array $attributes ) : string {
 		$html_attr = new Html_Attributes(
-			'heading',
-			array(
-				'id'    => ! empty( $attributes['htmlId'] ) ? $attributes['htmlId'] : null,
-				'class' => implode( ' ', $class_names ),
-			),
+			self::NAME,
 			$attributes
 		);
-		$tag_name  = empty( $attributes['tagName'] ) ? 'h2' : $attributes['tagName'];
-		$tag_name  = apply_filters( 'scblocks_heading_tag', $tag_name, $attributes );
+
+		if ( empty( $attributes['icon'] ) ) {
+			$html_attr->extra_classes[] = 'scb-heading-text';
+		}
+
+		$tag_name = empty( $attributes['tagName'] ) ? 'h2' : $attributes['tagName'];
+		$tag_name = apply_filters( 'scblocks_heading_tag', $tag_name, $attributes );
 
 		$allowed_tags = apply_filters(
 			'scblocks_heading_allowed_tags',
@@ -102,7 +89,7 @@ class Heading_Block {
 		);
 
 		$text = isset( $attributes['text'] ) ? $attributes['text'] : '';
-		$text = apply_filters( 'scblocks_heading_dynamic_content', $text, $attributes );
+		$text = wp_kses_post( apply_filters( 'scblocks_heading_dynamic_content', $text, $attributes ) );
 
 		if ( ! empty( $attributes['icon'] ) && is_string( $attributes['icon'] ) ) {
 			$output .= '<span class="scb-icon">' . Icons::sanitize( $attributes['icon'] ) . '</span>';

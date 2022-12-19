@@ -21,12 +21,12 @@ class Html_Attributes {
 	public $context;
 
 	/**
-	 * Raw HTML attributes.
+	 * HTML attributes.
 	 *
 	 * @since 1.2.0
 	 * @var array
 	 */
-	public $raw;
+	public $attributes;
 
 	/**
 	 * Block attributes.
@@ -44,35 +44,38 @@ class Html_Attributes {
 	 */
 	public $parsed;
 
+	public $extra_classes = array();
+
 	/**
 	 * Constructor
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param string $context         The context to build filter.
-	 * @param array $raw_attrs        Raw HTML attributes.
+	 * @param string $block_name      Block name.
+	 * @param array $attributes       HTML attributes.
 	 * @param array $block_attributes Block attributes.
 	 */
-	public function __construct( string $context, array $raw_attrs = array(), array $block_attributes = array() ) {
-		$this->context          = $context;
-		$this->raw              = $raw_attrs;
+	public function __construct( string $block_name, array $block_attributes = array(), array $attributes = array() ) {
+		$this->block_name       = $block_name;
+		$this->context          = str_replace( '/', '_', $block_name );
+		$this->attributes       = $attributes;
 		$this->block_attributes = $block_attributes;
 	}
 	/**
 	 * Build list of attributes into a string and apply contextual filter on string.
 	 *
-	 * The contextual filter is of the form `scblocks_attr_{context}_output`.
+	 * The contextual filter is of the form `scblocks_attr_{context}`.
 	 *
 	 * @since 1.2.0
 	 *
 	 * @return string String of HTML attributes and values.
 	 */
 	public function build() : string {
-		$this->parse();
+		$merged       = array_merge( $this->main(), $this->attributes );
+		$this->parsed = apply_filters( "{$this->context}_html_attrs", $merged, $this->block_attributes, $this->context );
 
 		$output = '';
 
-		// Cycle through attributes, build tag attribute string.
 		foreach ( $this->parsed as $key => $value ) {
 
 			if ( ! $value ) {
@@ -86,26 +89,28 @@ class Html_Attributes {
 			}
 		}
 
-		$output = apply_filters( "scblocks_attr_{$this->context}_output", $output, $this->raw, $this->block_attributes, $this->context );
-
 		return trim( $output );
 	}
 
-	/**
-	 * Merge array of attributes with defaults, and apply contextual filter on array.
-	 *
-	 * The contextual filter is of the form `scblocks_attr_{context}`.
-	 *
-	 * @since 1.2.0
-	 */
-	public function parse() {
-		$defaults = array(
-			'class' => sanitize_html_class( $this->context ),
+	public function main():array {
+		$class_names = array(
+			str_replace( 'scblocks/', 'scb-', $this->block_name ),
 		);
 
-		$attributes = wp_parse_args( $this->raw, $defaults );
+		if ( ! empty( $this->block_attributes['uidClass'] ) && is_string( $this->block_attributes['uidClass'] ) ) {
+			$class_names[] = $this->block_attributes['uidClass'];
+		}
+		if ( ! empty( $this->block_attributes['itemClass'] ) && is_string( $this->block_attributes['itemClass'] ) ) {
+			$class_names[] = $this->block_attributes['itemClass'];
+		}
+		if ( ! empty( $this->block_attributes['htmlClass'] ) && is_string( $this->block_attributes['htmlClass'] ) ) {
+			$class_names[] = $this->block_attributes['htmlClass'];
+		}
+		array_push( $class_names, ...$this->extra_classes );
+		return array(
+			'id'    => ! empty( $this->block_attributes['htmlId'] ) && is_string( $this->block_attributes['htmlId'] ) ? $this->block_attributes['htmlId'] : null,
+			'class' => implode( ' ', $class_names ),
+		);
 
-		// Contextual filter.
-		$this->parsed = apply_filters( "scblocks_attr_{$this->context}", $attributes, $this->block_attributes, $this->context );
 	}
 }
