@@ -53,7 +53,7 @@ class Blocks_Attrs {
 				continue;
 			}
 			if ( strpos( $block['blockName'], Plugin::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
-				$block_name = explode( '/', $block['blockName'] )[1];
+				$block_name = $this->get_block_name( $block['blockName'] );
 
 				$this->attrs[] = array(
 					'name'  => $block_name,
@@ -84,5 +84,16 @@ class Blocks_Attrs {
 				$this->extract( $block['innerBlocks'] );
 			}
 		}
+	}
+
+	public function get_block_name( string $name ):string {
+		$name = explode( '/', $name )[1];
+		return preg_replace_callback(
+			'/-[a-z]/',
+			function( $match ) {
+				return strtoupper( substr( $match[0], 1 ) );
+			},
+			$name
+		);
 	}
 }
