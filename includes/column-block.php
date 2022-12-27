@@ -69,16 +69,12 @@ class Column_Block {
 	 *
 	 * @return array
 	 */
-	public function initial_css() : array {
-		$css = apply_filters(
-			'scblocks_column_default_css',
-			array(
-				'.scb-column' => array(
-					'overflow-wrap: break-word',
-					'word-break: break-word',
-				),
-			)
+	public static function initial_css() : array {
+		return array(
+			'.scb-column' => array(
+				'overflow-wrap: break-word',
+				'word-break: break-word',
+			),
 		);
-		return $css;
 	}
 }

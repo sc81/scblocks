@@ -106,4 +106,12 @@ class Heading_Block {
 
 		return $output;
 	}
+
+	public static function initial_css():array {
+		return array(
+			'.scb-heading mark' => array(
+				'background: none',
+			),
+		);
+	}
 }

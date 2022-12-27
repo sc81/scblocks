@@ -75,12 +75,9 @@ class Initial_Css {
 	 */
 	public function get() : string {
 		$css_array = array(
-			'button'    => $this->button(),
-			'buttons'   => $this->buttons(),
-			'column'    => $this->column(),
-			'columns'   => $this->columns(),
-			'container' => $this->container(),
-			'heading'   => $this->heading(),
+			Column_Block::NAME    => $this->column(),
+			Container_Block::NAME => $this->container(),
+			Heading_Block::NAME   => $this->heading(),
 		);
 		/**
 		 * Filters default CSS for all blocks.
@@ -97,48 +94,7 @@ class Initial_Css {
 
 		return $this->build( $css_array );
 	}
-	/**
-	 * Default CSS for Button Block.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return array
-	 */
-	public function button() : array {
-		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'button' ) ) {
-			return array();
-		}
-		$button = new Button_Block();
-		return $button->initial_css();
-	}
-	/**
-	 * Default CSS for Buttons Block.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return array
-	 */
-	public function buttons() : array {
-		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'buttons' ) ) {
-			return array();
-		}
-		$buttons = new Buttons_Block();
-		return $buttons->initial_css();
-	}
-	/**
-	 * Default CSS for Columns Block.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return array
-	 */
-	public function columns() : array {
-		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'columns' ) ) {
-			return array();
-		}
-		$columns = new Columns_Block();
-		return $columns->initial_css();
-	}
+
 	/**
 	 * Default CSS for Column Block.
 	 *
@@ -147,11 +103,10 @@ class Initial_Css {
 	 * @return array
 	 */
 	public function column() : array {
-		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'column' ) ) {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( Column_Block::NAME ) ) {
 			return array();
 		}
-		$column = new Column_Block();
-		return $column->initial_css();
+		return Column_Block::initial_css();
 	}
 	/**
 	 * Default CSS for Container Block.
@@ -161,11 +116,10 @@ class Initial_Css {
 	 * @return array
 	 */
 	public function container() : array {
-		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'container' ) ) {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( Container_Block::NAME ) ) {
 			return array();
 		}
-		$container = new Container_Block();
-		return $container->initial_css();
+		return Container_Block::initial_css();
 	}
 	/**
 	 * Default CSS for Heading Block.
@@ -175,16 +129,9 @@ class Initial_Css {
 	 * @return array
 	 */
 	public function heading() : array {
-		if ( ! $this->take_all_css && ! Plugin::is_active_block( 'heading' ) ) {
+		if ( ! $this->take_all_css && ! Plugin::is_active_block( Heading_Block::NAME ) ) {
 			return array();
 		}
-		return apply_filters(
-			'scblocks_heading_default_css',
-			array(
-				'.scb-heading mark' => array(
-					'background: none',
-				),
-			)
-		);
+		return Heading_Block::initial_css();
 	}
 }

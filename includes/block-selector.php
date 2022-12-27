@@ -10,7 +10,7 @@ function get_block_selector() {
 	return apply_filters(
 		'scblocks_block_selector',
 		array(
-			'button' => array(
+			Button_Block::NAME => array(
 				'main' => function( $uid_class ) {
 					return ".$uid_class,.$uid_class:visited";
 				},
@@ -38,7 +38,7 @@ function get_block_selector() {
 					return ".$uid_class .scb-icon";
 				},
 			),
-			'column' => array(
+			Column_Block::NAME => array(
 				'main' => function( $uid_class ) {
 					return ".$uid_class";
 				},
@@ -57,7 +57,7 @@ function get_block_selector() {
 					return ".$uid_class > .scb-column";
 				},
 			),
-			'container' => array(
+			Container_Block::NAME => array(
 				'main' => function( $uid_class ) {
 					return ".$uid_class";
 				},
@@ -83,7 +83,7 @@ function get_block_selector() {
 					return ".$uid_class > .scb-shapes .$shape_class";
 				},
 			),
-			'heading' => array(
+			Heading_Block::NAME => array(
 				'main' => function( $uid_class ) {
 					return ".$uid_class";
 				},

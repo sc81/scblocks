@@ -53,10 +53,10 @@ class Blocks_Attrs {
 				continue;
 			}
 			if ( strpos( $block['blockName'], Plugin::BLOCK_NAMESPACE ) === 0 && isset( $block['attrs'] ) ) {
-				$block_name = $this->get_block_name( $block['blockName'] );
+				//$block_name = $this->get_block_name( $block['blockName'] );
 
 				$this->attrs[] = array(
-					'name'  => $block_name,
+					'name'  => $block['blockName'],
 					'attrs' => $block['attrs'],
 				);
 

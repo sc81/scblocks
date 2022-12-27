@@ -101,18 +101,4 @@ class Button_Block {
 
 		return $output;
 	}
-
-	/**
-	 * Default CSS.
-	 *
-	 * @since 1.3.0
-	 *
-	 * @return array
-	 */
-	public function initial_css() : array {
-		return apply_filters(
-			'scblocks_button_default_css',
-			array()
-		);
-	}
 }
