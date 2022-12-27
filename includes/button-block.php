@@ -101,4 +101,21 @@ class Button_Block {
 
 		return $output;
 	}
+
+	public static function selectors():array {
+		return array(
+			'main' => function( $uid_class ) {
+				return ".$uid_class,.$uid_class:visited";
+			},
+			'mainHover' => function( $uid_class ) {
+				return ".$uid_class:hover";
+			},
+			'icon' => function( $uid_class ) {
+				return ".$uid_class .scb-icon";
+			},
+			'iconSvg' => function( $uid_class ) {
+				return ".$uid_class .scb-icon svg";
+			},
+		);
+	}
 }

@@ -75,9 +75,21 @@ class Css {
 	}
 
 	public function __construct() {
-		$this->blocks_selectors = get_block_selector();
+		$this->blocks_selectors = self::get_block_selector();
 		$this->media_query      = self::get_media_query();
 		$this->init_state();
+	}
+
+	public static function get_block_selector():array {
+		return apply_filters(
+			'scblocks_block_selector',
+			array(
+				Button_Block::NAME    => Button_Block::selectors(),
+				Column_Block::NAME    => Column_Block::selectors(),
+				Container_Block::NAME => Container_Block::selectors(),
+				Heading_Block::NAME   => Heading_Block::selectors(),
+			)
+		);
 	}
 
 	private function init_state() {

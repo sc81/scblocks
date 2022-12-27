@@ -175,4 +175,33 @@ class Container_Block {
 	public function is_set_align_wide() : bool {
 		return (bool) get_theme_support( 'align-wide' );
 	}
+
+	public static function selectors():array {
+		return array(
+			'main' => function( $uid_class ) {
+				return ".$uid_class";
+			},
+			'mainStronger' => function( $uid_class ) {
+				return ".scb-container.$uid_class";
+			},
+			'content' => function( $uid_class ) {
+				return ".$uid_class > .scb-container-content";
+			},
+			'link' => function( $uid_class ) {
+				return ".$uid_class a";
+			},
+			'linkHover' => function( $uid_class ) {
+				return ".$uid_class a:hover";
+			},
+			'shapes' => function( $uid_class ) {
+				return ".$uid_class > .scb-shapes";
+			},
+			'shape' => function( $uid_class, $shape_class ) {
+				return ".$uid_class > .scb-shapes .$shape_class";
+			},
+			'shapeSvg' => function( $uid_class, $shape_class ) {
+				return ".$uid_class > .scb-shapes .$shape_class";
+			},
+		);
+	}
 }

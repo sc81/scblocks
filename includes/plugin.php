@@ -250,7 +250,6 @@ class Plugin {
 	 */
 	private function load_files() {
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/initial-css.php';
-		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-selector.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-assets.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/fonts.php';
 		include_once SCBLOCKS_PLUGIN_DIR . 'includes/block-css.php';

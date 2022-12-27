@@ -77,4 +77,18 @@ class Column_Block {
 			),
 		);
 	}
+
+	public static function selectors():array {
+		return array(
+			'main' => function( $uid_class ) {
+				return ".$uid_class";
+			},
+			'link' => function( $uid_class ) {
+				return ".$uid_class a";
+			},
+			'linkHover' => function( $uid_class ) {
+				return ".$uid_class a:hover";
+			},
+		);
+	}
 }
