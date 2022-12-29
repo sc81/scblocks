@@ -49,7 +49,8 @@ export default function Edit( props ) {
 					[ htmlClass ]: !! htmlClass,
 				} ),
 			},
-			attributes
+			props,
+			{ uidClass, itemClass }
 		)
 	);
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
