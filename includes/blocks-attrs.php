@@ -58,6 +58,7 @@ class Blocks_Attrs {
 					'name'  => $block['blockName'],
 					'attrs' => $block['attrs'],
 				);
+				Plugin::set_is_active_block( $block['blockName'] );
 
 				do_action( 'scblocks_collecting_block_attrs', $block );
 
