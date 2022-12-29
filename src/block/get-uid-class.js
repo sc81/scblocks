@@ -8,7 +8,7 @@
  */
 export default function getUidClass( blockName, clientId, suffix = '' ) {
 	blockName = blockName.replace( 'scblocks/', 'scb-' );
-	return `${ blockName }${ clientId
+	return `${ blockName }-${ clientId
 		.substring( 2, 9 )
 		.replace( '-', '' ) }${ suffix }`;
 }
