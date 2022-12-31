@@ -68,7 +68,8 @@ export default function Edit( props ) {
 				} ),
 				'data-align': align ? align : undefined,
 			},
-			attributes
+			props,
+			{ uidClass, itemClass }
 		)
 	);
 	const innerBlocksProps = useInnerBlocksProps(
