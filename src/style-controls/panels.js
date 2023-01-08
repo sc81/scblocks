@@ -44,8 +44,7 @@ export default function Panels( props ) {
 
 	const [ openedPanel, setOpenedPanel ] = useState( () => {
 		return (
-			getLastActivePanel( blockMemo ).controlsPanel[ selectorId ] ||
-			Object.keys( selectorsSettings[ index ].panels )[ 0 ]
+			getLastActivePanel( blockMemo ).controlsPanel[ selectorId ] || ''
 		);
 	} );
 

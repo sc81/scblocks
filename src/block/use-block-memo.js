@@ -17,7 +17,7 @@ export default function useBlockMemo( attributes, selectorsSettings ) {
 
 		const obj = {
 			tabPanel: 'style',
-			selectorPanel: selectorsSettings[ 0 ].id,
+			selectorPanel: '',
 			controlsPanel: {},
 		};
 		selectorsSettings.forEach( ( elm ) => {
