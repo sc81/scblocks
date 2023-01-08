@@ -46,6 +46,8 @@ class Html_Attributes {
 
 	public $extra_classes = array();
 
+	public $block_name;
+
 	/**
 	 * Constructor
 	 *
