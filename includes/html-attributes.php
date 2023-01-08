@@ -80,7 +80,7 @@ class Html_Attributes {
 
 		foreach ( $this->parsed as $key => $value ) {
 
-			if ( ! $value ) {
+			if ( ! $value && '0' !== $value ) {
 				continue;
 			}
 
