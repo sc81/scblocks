@@ -48,6 +48,10 @@ class Html_Attributes {
 
 	public $block_name;
 
+	public $print_uid_class = true;
+
+	public $print_item_class = true;
+
 	/**
 	 * Constructor
 	 *
@@ -99,10 +103,14 @@ class Html_Attributes {
 			str_replace( 'scblocks/', 'scb-', $this->block_name ),
 		);
 
-		if ( ! empty( $this->block_attributes['uidClass'] ) && is_string( $this->block_attributes['uidClass'] ) ) {
+		if ( ! empty( $this->block_attributes['uidClass'] ) &&
+		is_string( $this->block_attributes['uidClass'] ) &&
+		$this->print_uid_class ) {
 			$class_names[] = $this->block_attributes['uidClass'];
 		}
-		if ( ! empty( $this->block_attributes['itemClass'] ) && is_string( $this->block_attributes['itemClass'] ) ) {
+		if ( ! empty( $this->block_attributes['itemClass'] ) &&
+		is_string( $this->block_attributes['itemClass'] ) &&
+		$this->print_item_class ) {
 			$class_names[] = $this->block_attributes['itemClass'];
 		}
 		if ( ! empty( $this->block_attributes['htmlClass'] ) && is_string( $this->block_attributes['htmlClass'] ) ) {
